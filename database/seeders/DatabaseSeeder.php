@@ -32,10 +32,14 @@ class DatabaseSeeder extends Seeder
             ClinicSeeder::class,
             SponsorTypeSeeder::class,
             SponsorsSeeder::class,
-            ClinicAttendanceTypeSeeder::class,
+            // ClinicAttendanceTypeSeeder::class,
             FacilitySeeder::class,
+            ServiceAttendanceTypeSeeder::class,
             ServicesSeeder::class,
             // ServiceFeeSeeder::class,
+            ServicePointSeeder::class,
+            ServiceMDCSSeeder::class,
+           
         ]);
         
         \App\Models\Patient::factory(200)->create();

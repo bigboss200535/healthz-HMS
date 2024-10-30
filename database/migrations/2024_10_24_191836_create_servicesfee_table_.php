@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('service_fee_id', 50);
             $table->string('service_id', 100);
             $table->string('service', 100);
-            $table->string('service_type_id', 100);
+            $table->string('service_type_code', 100);
             $table->decimal('cash_amount', 10,2)->default('0.00');
             $table->decimal('private_insurance_amount', 10,2)->default('0.00');
             $table->decimal('cooperate_amount', 10,2)->default('0.00');

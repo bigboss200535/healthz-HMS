@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ServicesSeeder extends Seeder
+class ServiceAttendanceTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +15,8 @@ class ServicesSeeder extends Seeder
      */
     public function run()
     {
-        $data_one = database_path('seeders/seeds/03_services.sql');
-        $sql_one = file_get_contents($data_one);
+        $data = database_path('seeders/seeds/01_attendance_type.sql');
+        $sql_one = file_get_contents($data);
         DB::unprepared($sql_one); 
-
     }
 }

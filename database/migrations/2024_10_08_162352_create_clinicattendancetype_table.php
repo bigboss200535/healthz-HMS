@@ -16,11 +16,14 @@ return new class extends Migration
         Schema::create('service_attendance_type', function (Blueprint $table) {
             $table->string('attendance_type_id', 50);
             $table->string('attendance_type',150); 
+            $table->string('status_code',50)->nullable(); 
             $table->string('gender_id',50)->nullable(); 
             $table->string('age_id',50)->nullable();   
-            $table->string('child_code_id',50)->nullable();
-            $table->string('adult_code_id',50)->nullable(); 
-            $table->string('clinic_code',50)->nullable();   
+            $table->string('child_code',50)->nullable();
+            $table->string('adult_code',50)->nullable(); 
+            $table->string('clinic_code',50)->nullable();  
+            $table->string('type_code',50)->nullable();  
+            $table->string('patient_type',50)->nullable();   
             $table->string('user_id',50)->nullable();               
             $table->string('added_id', 50)->nullable();
             $table->string('added_by', 100)->nullable();

@@ -23,10 +23,10 @@ class ClinicSeeder extends Seeder
         $age = Age::inRandomOrder()->first(); 
 
         $service = Clinic::create([
-            'clinic_id' => '01',
+            'clinic_id' => 'C01',
             'clinic' => 'General',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -34,10 +34,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '02',
+            'clinic_id' => 'C02',
             'clinic' => 'Direct Service',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -45,10 +45,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '03',
+            'clinic_id' => 'C03',
             'clinic' => 'Antenatal',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -56,10 +56,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '04',
+            'clinic_id' => 'C04',
             'clinic' => 'Postnatal',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -67,10 +67,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '05',
+            'clinic_id' => 'C05',
             'clinic' => 'In-patient',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -78,10 +78,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '06',
+            'clinic_id' => 'C06',
             'clinic' => 'Physiotherapy',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -89,10 +89,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '07',
+            'clinic_id' => 'C07',
             'clinic' => 'Eye',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -100,10 +100,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '08',
+            'clinic_id' => 'C08',
             'clinic' => 'Paediatric',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -111,10 +111,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '09',
+            'clinic_id' => 'C09',
             'clinic' => 'Gynaecology',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -122,10 +122,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '10',
+            'clinic_id' => 'C10',
             'clinic' => 'ENT',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -133,10 +133,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '11',
+            'clinic_id' => 'C11',
             'clinic' => 'Dental',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -144,10 +144,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '12',
+            'clinic_id' => 'C12',
             'clinic' => 'Medical',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -155,10 +155,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '17',
+            'clinic_id' => 'C13',
             'clinic' => 'Diabetic',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -166,10 +166,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '13',
-            'clinic' => 'Emergency',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            'clinic_id' => 'C14',
+            'clinic' => 'Casualty',
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -177,10 +177,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '14',
+            'clinic_id' => 'C15',
             'clinic' => 'Psychiatric',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -188,10 +188,10 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '15',
+            'clinic_id' => 'C16',
             'clinic' => 'Maternity',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -199,26 +199,27 @@ class ClinicSeeder extends Seeder
         ]);
 
         $service = Clinic::create([
-            'clinic_id' => '16',
+            'clinic_id' => 'C17',
             'clinic' => 'Direct Pharmacy',
-            'gender_id' => $gender->gender_id,
-            'age_id' => $age->age_id,
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
             'archived' => 'No',
         ]);
 
-        // $service = Clinic::create([
-        //     'clinic_id' => '17',
-        //     'clinic' => 'Direct Pharmacy',
-        //     'gender_id' => $gender->gender_id,
-        //     'age_id' => $age->age_id,
-        //     'user_id' => $user->user_id,
-        //     'added_date' => now(),
-        //     'status' => 'Active',
-        //     'archived' => 'No',
-        // ]);
+        $service = Clinic::create([
+            'clinic_id' => 'C18',
+            'clinic' => 'Art',
+            // 'gender_id' => $gender->gender_id,
+            // 'age_id' => $age->age_id,
+            'user_id' => $user->user_id,
+            'added_date' => now(),
+            'status' => 'Active',
+            'archived' => 'No',
+        ]);
 
     }
 }
+
