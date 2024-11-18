@@ -129,11 +129,11 @@
                     <div class="d-flex">
                       <div class="flex-shrink-0 me-3">
                         <div class="avatar">
-                          <img src="{{ asset('img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle">
+                          <!-- <img src="{{ asset('img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle"> -->
                         </div>
                       </div>
                       <div class="flex-grow-1">
-                        <h6 class="mb-1">Congratulation Lettie 🎉</h6>
+                        <h6 class="mb-1">Congratulation Lettie</h6>
                         <p class="mb-0">Won the monthly best seller gold badge</p>
                         <small class="text-muted">1h ago</small>
                       </div>
@@ -147,7 +147,7 @@
                     <div class="d-flex">
                       <div class="flex-shrink-0 me-3">
                         <div class="avatar">
-                          <span class="avatar-initial rounded-circle bg-label-danger">CF</span>
+                          <!-- <span class="avatar-initial rounded-circle bg-label-danger">CF</span> -->
                         </div>
                       </div>
                       <div class="flex-grow-1">
@@ -165,11 +165,11 @@
                     <div class="d-flex">
                       <div class="flex-shrink-0 me-3">
                         <div class="avatar">
-                          <span class="avatar-initial rounded-circle bg-label-success"><i class="bx bx-cart"></i></span>
+                          <!-- <span class="avatar-initial rounded-circle bg-label-success"><i class="bx bx-cart"></i></span> -->
                         </div>
                       </div>
                       <div class="flex-grow-1">
-                        <h6 class="mb-1">Whoo! You have new order 🛒 </h6>
+                        <h6 class="mb-1">Whoo! You have new order  </h6>
                         <p class="mb-0">ACME Inc. made new order $1,154</p>
                         <small class="text-muted">1 day ago</small>
                       </div>

@@ -21,6 +21,7 @@ use App\Models\PatientSponsor;
 use App\Models\PatNumber;
 use App\Models\ServiceRequest;
 use App\Models\Sponsors;
+use App\Models\SponsorType;
 use App\Models\YearlyCount;
 use Carbon\Carbon;
 
@@ -62,6 +63,8 @@ class PatientController extends Controller
             'patient_info.telephone', 
             DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
             ->get();
+
+        // $pat_spon = SponsorType::where('archived', 'No')->where('status', '=', 'Active')->get();
 
         return view('patient.create', compact('title', 'religion', 'gender', 'region', 'relation', 'patients'));
     }

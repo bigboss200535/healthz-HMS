@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EpisodeGenerate;
 use App\Models\Patient;
 use App\Models\ServiceAttendancetype;
 use App\Models\ServicePoints;
@@ -37,6 +38,7 @@ class ServiceRequestController extends Controller
 
     public function store(Request $request)
     {
+
          $request->validate([
             'p_id' => 'required|string|max:255',
             'clinics' => 'required|string|max:255',
@@ -48,8 +50,10 @@ class ServiceRequestController extends Controller
             'user_id' => 'nullable|string|max:255',
             'episode_id' => 'nullable|string|max:255',
             'p_age' => 'nullable|string|max:255',
-            'attendance_date' => 'nullable',
+            'attendance_date' => 'required|date',
         ]);
+
+        DB::select('CALL GetEpisodeId(?, ?, ?, ?)', [$request->p_id, 'PAT123456', 'CLAIMCODE123', $request->attendance_date]);
 
         $service_equest = ServiceRequest::create([
             'patient_id' => $request->p_id,
@@ -62,14 +66,14 @@ class ServiceRequestController extends Controller
             'episode_id' => $request->episode_id,
             'pat_age' => $request->p_age,
             'attendance_time' => $request->attendance_date,
+            'attendance_date' => $request->attendance_date,
             'user_id' => Auth::check() ? Auth::id() : null,   
-            
         ]);
 
         return response()->json([
             'success' => true,
             'result' => 'Saved Successfully',
-            'data' => $service_equest,
+            // 'data' => $service_equest,
         ]);
     
     }

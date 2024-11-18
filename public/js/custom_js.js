@@ -1,3 +1,25 @@
+// ---------------------- TOGGLE BETWEEN SPONSORS ----------------------------
+document.addEventListener('DOMContentLoaded', function () {
+    const sponsorTypeSelect = document.getElementById('sponsor_type');
+    const sponsorshipDetails = document.querySelectorAll('.sponsorship_details_settings');
+
+    // Hide sponsorship details if "Cash" is selected
+    function toggleSponsorshipDetails() {
+        if (sponsorTypeSelect.value === '1001') { // Assuming "1001" is for "Cash"
+            sponsorshipDetails.forEach(detail => detail.style.display = 'none');
+        } else {
+            sponsorshipDetails.forEach(detail => detail.style.display = 'block');
+        }
+    }
+
+    // Initialize based on the default selection
+    toggleSponsorshipDetails();
+
+    // Event listener for dropdown change
+    sponsorTypeSelect.addEventListener('change', toggleSponsorshipDetails);
+});
+
+// ----------------CALCULATE AGE----------------------------
 document.addEventListener('DOMContentLoaded', function() {
   var birthDateInput = document.getElementById('birth_date');
   birthDateInput.addEventListener('input', function() {
@@ -146,3 +168,64 @@ function isValidDate(date) {
       });
     });
   });
+
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get references to the input fields
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    const statusInput = document.getElementById('status');
+    
+    // Helper function to check if a date is today or in the future
+    function isInRange(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Normalize to remove time part
+      return date >= today;
+    }
+    
+    // Function to update the status based on the date range
+    function updateStatus() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Normalize to remove time part
+
+      const startDate = new Date(startDateInput.value);
+      const endDate = new Date(endDateInput.value);
+      
+      // Check if both dates are valid and in the future
+      if (startDate && endDate && isInRange(startDate) && isInRange(endDate)) {
+        statusInput.value = 'Active';
+      } else {
+        statusInput.value = 'Inactive';
+      }
+    }
+
+    // Event listener for the start_date change
+    startDateInput.addEventListener('change', function () {
+      const startDate = new Date(startDateInput.value);
+      if (startDateInput.value) {
+        // Set end_date to start_date + 1 year
+        const endDate = new Date(startDate);
+        endDate.setFullYear(startDate.getFullYear() + 1);
+        endDateInput.value = endDate.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+      }
+      // Update status
+      updateStatus();
+    });
+
+    // Event listener for the end_date change
+    endDateInput.addEventListener('change', function () {
+      const endDate = new Date(endDateInput.value);
+      if (endDateInput.value) {
+        // Set start_date to end_date - 1 year
+        const startDate = new Date(endDate);
+        startDate.setFullYear(endDate.getFullYear() - 1);
+        startDateInput.value = startDate.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+      }
+      // Update status
+      updateStatus();
+    });
+
+    // Initial validation when the page loads
+    updateStatus();
+  });
+

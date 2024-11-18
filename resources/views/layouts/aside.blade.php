@@ -76,44 +76,194 @@
             <div class="text-truncate" data-i18n="List">List</div>
           </a>
         </li>
+        <li class="menu-item">
+          <!-- <a href="{{ url('patient/search') }}" class="menu-link"> -->
+          <a href="{{ route('patients.index') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Sponsors</div>
+          </a>
+        </li>
       </ul>
     </li>
   <!-- -----------------------------------products------------------------------------------------- -->
   <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-store"></i>
-        <div class="text-truncate" data-i18n="Users">Products</div>
+        <div class="text-truncate" data-i18n="Users">Nurses</div>
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Category</div>
+            <div class="text-truncate" data-i18n="List">Vital Signs</div>
           </a>
         </li>
          <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Product</div>
+            <div class="text-truncate" data-i18n="List">Notes</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Add Product</div>
+            <div class="text-truncate" data-i18n="List">24 Hour Report</div>
           </a>
         </li>
         <li class="menu-item">
          <a href="#" class="menu-link">
-          <div class="text-truncate" data-i18n="list">Pricing</div>
+          <div class="text-truncate" data-i18n="list">Medications</div>
          </a>
         </li>
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-store"></i>
+        <div class="text-truncate" data-i18n="Users">In-Patient</div>
+         <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Consultations</div>
+          </a>
+        </li>
+         <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Surgery</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Discharges</div>
+          </a>
+        </li>
         <!-- <li class="menu-item">
-         <a href="" class="menu-link">
-          <div class="text-truncate" data-i18n="list">Price setup</div>
+         <a href="#" class="menu-link">
+          <div class="text-truncate" data-i18n="list">Medications</div>
          </a>
         </li> -->
       </ul>
     </li>
-<!-- ---------------------------------------sett--------------------------------------------- -->
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-store"></i>
+        <div class="text-truncate" data-i18n="Users">Out-Patient</div>
+         <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Consultations</div>
+          </a>
+        </li>
+         <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Surgery</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Discharges</div>
+          </a>
+        </li>
+        <!-- <li class="menu-item">
+         <a href="#" class="menu-link">
+          <div class="text-truncate" data-i18n="list">Medications</div>
+         </a>
+        </li> -->
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-store"></i>
+        <div class="text-truncate" data-i18n="Users">Investigations</div>
+         <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Laboratory</div>
+          </a>
+        </li>
+         <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Imaging</div>
+          </a>
+        </li>
+        <!-- <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Discharges</div>
+          </a>
+        </li> -->
+        <!-- <li class="menu-item">
+         <a href="#" class="menu-link">
+          <div class="text-truncate" data-i18n="list">Medications</div>
+         </a>
+        </li> -->
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-store"></i>
+        <div class="text-truncate" data-i18n="Users">Revenue</div>
+         <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Patient Bill</div>
+          </a>
+        </li>
+         <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Invoices</div>
+          </a>
+        </li>
+        <!-- <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Discharges</div>
+          </a>
+        </li> -->
+        <!-- <li class="menu-item">
+         <a href="#" class="menu-link">
+          <div class="text-truncate" data-i18n="list">Medications</div>
+         </a>
+        </li> -->
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-store"></i>
+        <div class="text-truncate" data-i18n="Users">Stores / Pharmacy</div>
+         <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
+      </a>
+      <ul class="menu-sub">
+        <!-- <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Item Setup</div>
+          </a>
+        </li> -->
+         <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Dispensing</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Return Medication</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Return Medication</div>
+          </a>
+        </li>
+        <!-- <li class="menu-item">
+         <a href="#" class="menu-link">
+          <div class="text-truncate" data-i18n="list">Medications</div>
+         </a>
+        </li> -->
+      </ul>
+    </li>
  
 <!-- ---------------------------------------sett--------------------------------------------- -->
 <!-- -----------------------------------leads------------------------------------------------- -->
@@ -131,17 +281,22 @@
         </li> -->
          <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Contacts</div>
+            <div class="text-truncate" data-i18n="List">Private</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Emails</div>
+            <div class="text-truncate" data-i18n="List">NHIS</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="List">SMS</div>
+            <div class="text-truncate" data-i18n="List">Cash</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Co-operate</div>
           </a>
         </li>
       </ul>

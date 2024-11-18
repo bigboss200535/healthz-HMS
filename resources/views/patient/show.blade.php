@@ -36,7 +36,7 @@
         <li class="nav-item">
           <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#nav_medications" aria-controls="navs-justified-messages" aria-selected="false">
             <span class="d-none d-sm-block">
-              <i class="tf-icons bx bx-message-square bx-sm me-1_5 align-text-bottom"></i> Medications
+              <i class="tf-icons bx bx-message-square bx-sm me-1_5 align-text-bottom"></i> Appointments
             </span>
             <i class="bx bx-message-square bx-sm d-sm-none"></i>
           </button>
@@ -51,7 +51,7 @@
                 <table class="table">
                    <tr>
                         <td colspan="2">
-                          <h5 class="text-dark"><b">BIO-INFORMATION</b></h5>
+                          <h5 class="text-dark"><b>BIO-INFORMATION</b></h5>
                         </td>
                       </tr>
                     <tr>
@@ -69,7 +69,7 @@
                     
                    <tr>
                        <td colspan="2">
-                          <h5 class="text-primary"><b>CONTACT</b></h5>
+                          <h5 class="text-dark"><b>CONTACT</b></h5>
                        </td>
                     </tr>
                       <tr>
@@ -86,7 +86,7 @@
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <h5 class="text-primary"><b>EMERGENCY CONTACT PERSON</b></h5>
+                          <h5 class="text-dark"><b>EMERGENCY CONTACT PERSON</b></h5>
                         </td>
                       </tr>
                       <tr>
@@ -301,10 +301,10 @@
                       <a></a>
                     @endif
                   <a href="#" class="btn btn-warning">
-                    Edit 
+                    Edit Patient Details
                   </a>
                   <a href="#" class="btn btn-primary" data-bs-toggle='modal' data-bs-target="#addattendance">
-                    Add visit
+                    Add New Visit
                   </a>
                 </td>
             </tr>
@@ -346,7 +346,7 @@
                             <tr>
                                 <td>{{ $counter++ }}</td>
                                 <td><a href="#">{{ $services->episode_id}}</a></td>
-                                <td>{{ $services->episode_id}}</td>
+                                <td>{{ $services->attendance_date}}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -406,25 +406,14 @@
         <form id="save_service_fee" class="row g-6" onsubmit="return false">
           @csrf
           <div id="success_diplay" class="container mt-6"></div>
-          <div class="col-12 col-md-12">
+          <div class="col-12 col-md-12" hidden>
             <label class="form-label" for="credit_amount">Fullname</label>
-            <input type="text" id="fullname" name="fullname" class="form-control" value="{{ $patients->fullname }}" disabled/>
+            <input type="text" id="fullname" name="fullname" class="form-control" value="{{ strtoupper($patients->fullname) }}" disabled/>
           </div>
           <input type="text" name="p_id" id="p_id" value="{{ $patients->patient_id }}" hidden>
             <input type="text" name="p_age" id="p_age" value="{{ $patients->age }}" hidden>
             <input type="text" name="episode_id" id="episode_id" value="{{ $episode }}" hidden>
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="credit_amount">Attendance Date</label>
-            <input type="date" id="attendance_date" name="attendance_date" class="form-control" />
-          </div>
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="pat_type">Attendance Type</label>
-                <select name="pat_type" id="pat_type" class="form-control">
-                  <option selected disabled>-Select-</option>
-                  <option value="1">New</option>
-                  <option value="0">Old</option>
-                </select>
-          </div>
+          
           <div class="col-12 col-md-6">
             <label class="form-label" for="clinics">Service Clinic</label>
              <select name="clinics" id="clinics" class="form-control">
@@ -442,23 +431,34 @@
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="credit_amount">Credit Fee</label>
-            <input type="number" id="credit_amount" name="credit_amount" class="form-control" placeholder="0.00" />
+            <input type="number" id="credit_amount" name="credit_amount" class="form-control" value="20.01" placeholder="0.00" disabled/>
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="cash_amount">Cash Fee</label>
-            <input type="number" id="cash_amount" name="cash_amount" class="form-control" placeholder="0.00"/>
+            <input type="number" id="cash_amount" name="cash_amount" class="form-control" value="19.00" placeholder="0.00" disabled/>
           </div>
           <div class="col-12 col-md-6" hidden>
             <label class="form-label" for="gdrg_code">Service G-DRG</label>
             <input type="text" id="gdrg_code" name="gdrg_code" class="form-control"/>
           </div>
-          
+          <div class="col-12 col-md-6">
+            <label class="form-label" for="credit_amount">Attendance Date</label>
+            <input type="date" id="attendance_date" name="attendance_date" class="form-control" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label" for="pat_type">Attendance Type</label>
+                <select name="pat_type" id="pat_type" class="form-control">
+                  <option selected disabled>-Select-</option>
+                  <option value="1">New</option>
+                  <option value="0">Old</option>
+                </select>
+          </div>
           <div class="col-12">
             <div class="form-check form-switch my-2 ms-2">
             </div>
           </div>
           <div class="col-12 text-center">
-            <button type="submit" class="btn btn-info me-3">Get CC</button>
+            <!-- <button type="submit" class="btn btn-info me-3">Get CC</button> -->
             <button type="submit" class="btn btn-primary me-3">Submit</button>
             <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
           </div>

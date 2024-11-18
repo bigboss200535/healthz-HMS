@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Claim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+
 
 class Claims extends Controller
 {
@@ -59,6 +61,11 @@ class Claims extends Controller
             }else{
                  Log::info('Claims generation in progress');
             }
+    }
+
+    public function xml_claims_generation()
+    {
+        $claims = Claim::with('patient', 'consultation', 'prescriptions')->get();
     }
 
 }

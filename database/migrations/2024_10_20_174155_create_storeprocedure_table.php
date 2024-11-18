@@ -62,6 +62,41 @@ return new class extends Migration
                 patient_info.patient_id = patient_nos.patient_id;
              END;'
         );
+
+        DB::unprepared(
+            'CREATE PROCEDURE IF NOT EXISTS GetEpisodeId(
+        IN in_patient_id VARCHAR(50),
+        IN in_pat_number VARCHAR(50),
+        IN in_claims_code VARCHAR(10),
+        IN in_request_date DATE
+            )
+            BEGIN
+                DECLARE episode_exists INT DEFAULT 0;
+
+                -- Check if an episode exists for the given criteria
+                SELECT COUNT(*) INTO episode_exists 
+                FROM episodes
+                WHERE patient_id = in_patient_id 
+                AND pat_no = in_pat_number 
+                AND attendance_date = in_request_date
+                AND (in_claims_code IS NULL OR claims_code = in_claims_code);
+
+                -- If episode exists, return the details; otherwise, return nothing
+                IF episode_exists > 0 THEN
+                    SELECT episode_id, patient_id, pat_no, attendance_date
+                    FROM episodes
+                    WHERE patient_id = in_patient_id 
+                    AND pat_no = in_pat_number 
+                    AND attendance_date = in_request_date
+                    AND (in_claims_code IS NULL OR claims_code = in_claims_code)
+                    LIMIT 1;
+                ELSE
+                    SELECT NULL AS episode_id, NULL AS patient_id, NULL AS pat_no, NULL AS attendance_date;
+                END IF;
+            END;'
+                );
+        // usage DB::select('CALL GetEpisodeId(?, ?, ?, ?)', [123, 'PAT123456', 'CLAIMCODE123', '2024-11-11']);
+
     }
 
     /**
@@ -71,6 +106,10 @@ return new class extends Migration
      */
     public function down()
     {
+        DB::unprepared(
+            'DROP PROCEDURE IF EXISTS GetEpisodeId;'
+        ); 
+
         DB::unprepared(
             'DROP PROCEDURE IF EXISTS GetUsers;'
         );

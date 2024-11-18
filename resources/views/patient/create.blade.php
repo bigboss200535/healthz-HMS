@@ -193,6 +193,26 @@
               <input type="text" class="form-control" id="e_telephone" name="e_telephone" placeholder="Telephone" autocomplete="off">
             </div>
           </div>
+          <div class="row mb 3">
+                <h5 class="card-tile mb-0"><b>Clinic #</b></h5>
+          </div>
+          <br>
+          <div class="row mb-3">
+            <div class="col">
+              <label class="form-label" for="e_fullname">Clinic</label>
+              <select name="opd_clinic" id="opd_clinic" class="form-control">
+                <option value="" selected disabled>-Select Clinic-</option>
+              </select>
+            </div>
+            <div class="col">
+              <label class="form-label" for="e_relationship">OPD #</label>
+              <input type="text" class="form-control" id="opd_number" name="opd_number">
+            </div>
+            <div class="col">
+              <label class="form-label" for="e_telephone">Telephone</label>
+              <input type="text" class="form-control" id="e_telephone" name="e_telephone" placeholder="Telephone" autocomplete="off">
+            </div>
+          </div>
           <!-- <br> -->
           <!-- <div class="row mb 3">
                 <h5 class="card-tile mb-0">Emergency Contact</h5>
@@ -209,19 +229,19 @@
           <br>
         <div class="mb-3 col ecommerce-select2-dropdown">
             <label class="form-label mb-1" for="sponsor_type">Sponsor Type</label>
-             <select name="sponsor_type" id="sponsor_type" class="form-control sponsorship_type">
+             <select name="sponsor_type" id="sponsor_type" class="form-control sponsor_type">
               <option disable selected>-Select sponsor-</option>
-               <option value="1001">Cash</option> 
+              <option value="1001">Cash</option> 
               <option value="20001">Public NHIS</option>
               <option value="3000">Co-operate Company</option>
               <option value="4004">Private Insurance</option>
             </select>
           </div>
-          <div class="row mb 3">
+          <div class="row mb 3 sponsorship_details_settings" >
                 <h5 class="card-tile mb-0"><b>Sponsorship Details</b></h5>
           </div>
           <br>
-          <div class="mb-3 col ecommerce-select2-dropdown">
+          <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings" >
             <label class="form-label mb-1" for="sponsor_name">Sponsor Name </label>
             <select id="sponsor_name" name="sponsor_name" class="select2 form-select sponsor_name">
               <option value="" disabled selected>-Select-</option>
@@ -229,28 +249,28 @@
               <option value="Aacacia">Acacia</option>
             </select>
           </div>
-          <div class="mb-3 col ecommerce-select2-dropdown">
+          <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1" for="member_no">Membership Number</label>
              <input type="text" name="member_no" id="member_no" class="form-control" >
           </div>
-          <div class="mb-3 col ecommerce-select2-dropdown">
+          <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1" for="dependant">Dependant</label>
              <select class="form-control" class="form-control" id="dependant" name="dependant">
               <option value="NO" selected>NO</option>
               <option value="YES">YES</option>
              </select>
           </div>
-          <div class="mb-3 col ecommerce-select2-dropdown">
+          <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="start_date">
               <span>Start Date</span></label>
             <input type="date" name="start_date" id="start_date" class="form-control">
           </div>
-          <div class="mb-3 col ecommerce-select2-dropdown">
+          <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="end_date">
               <span>End Date</span></label>
             <input type="date" name="end_date" id="end_date" class="form-control">
           </div>
-          <div class="mb-3 col ecommerce-select2-dropdown">
+          <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="status">
               <span>Card Status</span></label>
             <input type="text" name="status" id="status" class="form-control" disabled>
@@ -265,8 +285,8 @@
   </form>
   </div>
 </div>
-<br>
-      <div class="app-ecommerce-category">
+<!-- <br> -->
+      <!-- <div class="app-ecommerce-category">
                   <div class="card">
                     <div class="card-datatable table-responsive">
                       <div style="margin:15px">
@@ -300,7 +320,7 @@
                             <td>{{ $pat->age }}</td>
                             <td>{{ $pat->telephone }}</td>
                             <td> @if($pat->default_sponsor === '0001')
-                                      <span class="badge bg-label-info me-1">Cash & Carry</span>
+                                      <span class="badge bg-label-info me-1"> Cash</span>
                                     @elseif ($pat->default_sponsor === '2001')
                                       <span class="badge bg-label-danger me-1">Private Insurance</span>
                                     @elseif ($pat->default_sponsor === '3001')
@@ -319,12 +339,12 @@
                                                   <a class="dropdown-item"  href="#">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                   </a>
-                                                  <a class="dropdown-item" href="{{ route('patient.show', ['patient_id' => $pat->patient_id]) }}">
+                                                  <a class="dropdown-item" href="#">
                                                     <i class="bx bx-lock-alt me-1"></i> Details 
                                                   </a>
-                                                  <!-- <a class="dropdown-item" href="javascript:void(0);">
+                                                   <a class="dropdown-item" href="javascript:void(0);">
                                                       <i class="bx bx-trash me-1"></i> Delete
-                                                  </a> -->
+                                                  </a> 
                                             </div>
                                   </div>
                             </td>
@@ -347,7 +367,7 @@
                       </table>
                     </div>
                   </div>   
-             </div>
+             </div> -->
 </div>   
           <!-- add Modal -->
           <div class="modal fade" id="mdoal_form" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">

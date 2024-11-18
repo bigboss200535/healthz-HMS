@@ -29,8 +29,8 @@
                           @foreach($patient_list as $patient)
                           <tr> 
                               <td align="center">{{ $counter++ }}</td>
-                              <td><span class="fw-medium">{{ $patient->fullname }}</span></td>
-                              <td><span class="fw-medium">{{ $patient->gender }}</span></td>
+                              <td><a href="{{ $patient->patient_id }}">{{ $patient->fullname }}</a></td>
+                              <td>{{ $patient->gender }}</span></td>
                               <td>{{ $patient->email }}</td>
                               <td>{{$patient->age }}</td>
                               <td>{{$patient->telephone }}</td>
@@ -53,12 +53,12 @@
                                                   <a class="dropdown-item"  href="#">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                   </a>
+                                                  <a class="dropdown-item" href="javascript:void(0);">
+                                                      <i class="bx bx-trash me-1"></i> Delete
+                                                  </a>
                                                   <a class="dropdown-item" href="{{ route('patients.show', ['patient' => $patient->patient_id]) }}">
                                                     <i class="bx bx-lock-alt me-1"></i> More 
                                                   </a>
-                                                  <!-- <a class="dropdown-item" href="javascript:void(0);">
-                                                      <i class="bx bx-trash me-1"></i> Delete
-                                                  </a> -->
                                             </div>
                                   </div>
                               </td>
