@@ -7,6 +7,36 @@ use Illuminate\Http\Request;
 class ClaimsController extends Controller
 {
   
+    public function index()
+            {
+        
+            }
+        
+            public function create()
+            {
+        
+            }
+        
+            public function edit()
+            {
+        
+            }
+        
+            public function store()
+            {
+        
+            }
+        
+            public function show()
+            {
+        
+            }
+        
+            public function destroy()
+            {
+        
+            }
+            
     public function generate_vetting_claims()
     {
         $lock = Cache::lock('generate_claims', 360);
@@ -102,34 +132,6 @@ class ClaimsController extends Controller
 
                     return response()->json($jsonData);
             }
-            public function index()
-            {
-        
-            }
-        
-            public function create()
-            {
-        
-            }
-        
-            public function edit()
-            {
-        
-            }
-        
-            public function store()
-            {
-        
-            }
-        
-            public function show()
-            {
-        
-            }
-        
-            public function destroy()
-            {
-        
-            }
+            
 
 }
