@@ -151,7 +151,7 @@
                         <div class="card-body">
                           <div align="center">
                               <a href="{{ route('patients.create') }}" class="btn btn-primary">Register New Patient</a>
-                              <a href="/service" class="btn btn-primary">Register Attendance</a>
+                              <!-- <a href="/service" class="btn btn-primary">Register Attendance</a> -->
                               <a href="/appointments" class="btn btn-primary">Appointments</a>
                               <a href="#" class="btn btn-primary">Walk-In Services</a>
                           </div>
