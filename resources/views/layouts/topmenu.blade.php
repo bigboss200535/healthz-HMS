@@ -205,7 +205,7 @@
                     </div>
                     <div class="flex-grow-1">
                       <span class="fw-medium d-block">{{ Auth::user()->fullname }}</span>
-                      <small class="text-muted">{{ Auth::user()->role }}</small>
+                      <small class="text-muted">{{ Auth::user()->role_id }}</small>
                     </div>
                   </div>
                 </a>
@@ -214,7 +214,7 @@
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url('/profile-details')}}">
+                <a class="dropdown-item" href="{{ url('/profile')}}">
                   <i class="bx bx-user me-2"></i>
                   <span class="align-middle">My Profile</span>
                 </a>

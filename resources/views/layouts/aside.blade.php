@@ -41,7 +41,7 @@
       <i class="bx bx-chevron-left bx-sm align-middle"></i>
     </a>
   </div>
-  <!--------------------------Hme------------------------------------>
+  <!--------------------------Home------------------------------------>
   <div class="menu-inner-shadow"></div>
   <ul class="menu-inner py-1">
     <li class="menu-item">
@@ -74,7 +74,6 @@
           </a>
         </li>
         <li class="menu-item">
-          <!-- <a href="{{ url('patient/search') }}" class="menu-link"> -->
           <a href="{{ route('patients.index') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Sponsors</div>
           </a>
@@ -83,7 +82,7 @@
     </li>
     @endif
   <!-----------nurses------------------------>
-  @if(Auth::user()->role_id == 'R1')
+  @if(Auth::user()->role_id == 'R1' ||Auth::user()->role_id == 'R2')
   <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-store"></i>
