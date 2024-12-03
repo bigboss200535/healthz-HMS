@@ -156,7 +156,7 @@ $(document).ready(function(){
               type: "GET",
               headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+                      },
               data: {search_patient: search_term},  // Send the search term
               success: function(response) {
                   // Clear existing table data

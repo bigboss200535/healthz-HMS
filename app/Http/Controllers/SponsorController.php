@@ -27,4 +27,30 @@ class SponsorController extends Controller
         return view('patient.create', compact('title','religion','gender', 'region', 'relation'));
     
     }
+
+
+    public function create()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function store()
+    {
+
+    }
+
+    public function show()
+    {
+
+    }
+
+    public function destroy()
+    {
+
+    }
 }

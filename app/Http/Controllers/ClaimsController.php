@@ -37,6 +37,11 @@ class ClaimsController extends Controller
         
     }
 
+    public function search()
+    {
+        
+    }
+
     public function generate_vetting_claims()
     {
         $lock = Cache::lock('generate_claims', 360);

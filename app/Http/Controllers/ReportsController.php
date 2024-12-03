@@ -10,8 +10,6 @@ class ReportsController extends Controller
    public function index()
    {
     $current_hour = Carbon::now()->format('H');
-    
-    return view('reports.index');
-    // return view('dashboard', compact('greeting'));
+      return view('reports.index');
    }
 }
