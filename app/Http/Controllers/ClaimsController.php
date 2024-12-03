@@ -8,35 +8,35 @@ class ClaimsController extends Controller
 {
   
     public function index()
-            {
+    {
+        return view('claims.index'); 
         
-            }
+    }
         
-            public function create()
-            {
+    public function create()
+    {
         
-            }
+    }
         
-            public function edit()
-            {
+    public function edit()
+    {
         
-            }
+    }
         
-            public function store()
-            {
+    public function store()
+    {
+    }
         
-            }
+    public function show()
+    {
         
-            public function show()
-            {
+    }
         
-            }
+    public function destroy()
+    {
         
-            public function destroy()
-            {
-        
-            }
-            
+    }
+
     public function generate_vetting_claims()
     {
         $lock = Cache::lock('generate_claims', 360);
@@ -96,8 +96,8 @@ class ClaimsController extends Controller
             return $xml->asXML();
             }
 
-            public function json_claims_generation()
-            {
+    public function json_claims_generation()
+    {
                 $claims = Claim::with('patient', 'consultation', 'prescriptions')->get();
 
                     $jsonData = [];
@@ -131,7 +131,7 @@ class ClaimsController extends Controller
                     }
 
                     return response()->json($jsonData);
-            }
+    }
             
 
 }
