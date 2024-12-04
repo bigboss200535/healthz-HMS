@@ -1,0 +1,34 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Stores;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class Store extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $data = Stores::create([
+            'store_id' => '0012',
+            'store' => 'Stores',
+            'added_date' => now(),
+            'status' => 'Active',
+            'archived' => 'No',
+        ]);
+        
+        $data = Stores::create([
+            'store_id' => '0015',
+            'title' => 'Pharmacy',
+            'added_date' => now(),
+            'status' => 'Active',
+            'archived' => 'No',
+        ]);
+    }
+}

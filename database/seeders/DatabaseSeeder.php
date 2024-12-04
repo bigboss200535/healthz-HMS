@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             ServiceMDCSSeeder::class,
             ConsultingRoomSeeder::class,
             // NhiaPrescriptionLevels::class,
+            Store::class,
            
         ]);
         

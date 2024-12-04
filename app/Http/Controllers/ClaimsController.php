@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Claim;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use SimpleXMLElement;
+
 
 class ClaimsController extends Controller
 {
   
     public function index()
     {
+        
         return view('claims.index'); 
         
     }

@@ -142,12 +142,11 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 // -------------------------------------------------------------------------------------------------------------------------------
 
-// search patient at patient search
-$(document).ready(function(){
+
+$(document).ready(function() {
   // Trigger search when the search button is clicked
   $('#search_item').on('click', function() {
-      var search_term = $('#search_patient').val();  
-      // Get the search input value
+      var search_term = $('#search_patient').val();  // Get the search input value
       
       if (search_term.trim() != '') {
           
@@ -156,34 +155,37 @@ $(document).ready(function(){
               type: "GET",
               headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                      },
+              },
               data: {search_patient: search_term},  // Send the search term
               success: function(response) {
-                  // Clear existing table data
-                  $('#patient_search tbody').empty();
+                 
+                  $('#patient_searches tbody').empty(); // Clear existing table data
 
                   // If there are results, populate the table
                   if (response.length > 0) {
                       response.forEach(function(patient, index) {
+                          // Assuming birth_date is available, calculate age
+                          var age = calculateAge(patient.birth_date);  // You need to define this function
+                        
                           // Create a new table row for each patient
                           var row = '<tr>' +
-                              '<td>' + (index + 1) + '</td>' +
-                              '<td>' + patient.name + '</td>' +
-                              '<td>' + patient.opd_number + '</td>' +
-                              '<td>' + patient.gender + '</td>' +
-                              '<td>' + patient.age + '</td>' +
-                              '<td>' + patient.telephone + '</td>' +
-                              '<td>' + patient.added_date + '</td>' +
-                              '<td>' + patient.status + '</td>' +
-                              '<td><button class="btn btn-info">View</button></td>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + patient.fullname + '</td>' +  // Use fullname
+                                '<td>' + patient.opd_number + '</td>' +  // Use patient_id for OPD #
+                                '<td>' + (patient.gender_id === '3' ? 'Male' : 'Female') + '</td>' +  // Gender ID mapping
+                                '<td>' + age + '</td>' +  // Age calculation
+                                '<td>' + patient.telephone + '</td>' +
+                                '<td>' + patient.register_date + '</td>' +  // Using register_date as Added Date
+                                '<td>' + patient.status + '</td>' +
+                                '<td><a class="dropdown-item" href="{{ route("patients.show",' + patient.patient_id+') }}"> ...</a></td>' + // Action button
                               '</tr>';
 
                           // Append the row to the table body
-                          $('#patient_search tbody').append(row);
+                          $('#patient_searches tbody').append(row);
                       });
                   } else {
                       // If no results, display a message
-                      $('#patient_search tbody').append('<tr><td colspan="9" class="text-center">No patients found</td></tr>');
+                      $('#patient_searches tbody').append('<tr><td colspan="9" class="text-center">No patients found</td></tr>');
                   }
               },
               error: function(xhr, status, error) {
@@ -197,14 +199,26 @@ $(document).ready(function(){
       }
   });
 
-  // Clear the search field when the "Clear" button is clicked
-  $('#clear_search').on('click', function(e){
-       e.preventDefault(); // Prevent default link behavior
-      $('#search_patient').val('');  // Clear the input field
-      $('#patient_search tbody').empty();  // Clear the table body
-  });
-
+  // Function to calculate the age based on birth_date
+  function calculateAge(birthDate) {
+      var birth = new Date(birthDate);
+      var today = new Date();
+      var age = today.getFullYear() - birth.getFullYear();
+      var m = today.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+          age--;
+      }
+      return age;
+  }
 });
+ // Clear the search field when the "Clear" button is clicked
+ $('#clear_search').on('click', function(e){
+  e.preventDefault(); // Prevent default link behavior
+ $('#search_patient').val('');  // Clear the input field
+ $('#patient_search tbody').empty();  // Clear the table body
+});
+
+// });
 
 
 

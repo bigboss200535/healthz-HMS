@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Elibyy\TCPDF\Facades\TCPDF;
+use Illuminate\Support\Facades\Auth;
+
 
 class ReportsController extends Controller
 {
