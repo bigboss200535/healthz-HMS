@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('stores', function (Blueprint $table) {
-            $table->string('store_id', 50);
-            $table->string('store', 50)->nullable();
-            $table->string('is_pharmacy', 50)->nullable();
-            $table->string('is_ward', 50)->nullable();
-            $table->string('is_store', 50)->nullable();
+        Schema::create('product_presentation', function (Blueprint $table) {
+            $table->string('pp_id', 10)->nullable();
+            $table->string('presentation', 50)->nullable();
+            $table->string('type_code', 50)->nullable()->default('1');
+            $table->string('is_active', 50)->nullable()->default('Yes');
+            // $table->string('facility_id', 50)->nullable();
+            $table->string('user_id', 10)->nullable();
             $table->string('facility_id', 50)->nullable();
-            $table->string('user_id', 100)->nullable();
             $table->string('added_id', 100)->nullable();
             $table->timestamp('added_date')->nullable();
             $table->string('updated_by', 100)->nullable();
@@ -29,9 +29,9 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            $table->primary('store_id');
-            $table->foreign('facility_id')->references('facility_id')->on('facility');           
+            $table->primary('pp_id');
             $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('facility_id')->references('facility_id')->on('facility');
         });
     }
 
@@ -42,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stores');
+        Schema::dropIfExists('product_presentation');
     }
 };

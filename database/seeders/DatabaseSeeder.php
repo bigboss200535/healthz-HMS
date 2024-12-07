@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ConsultingRoom;
+use App\Models\Product;
 use App\Models\SponsorType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
             UserRoles::class,
             UserSeeder::class,
             GenderSeeder::class,
-            HealthFacilitySeeder::class,
+            // HealthFacilitySeeder::class,
             TitleSeeder::class,
             ReligionSeeder::class,
             RelationSeeder::class,
@@ -43,7 +44,9 @@ class DatabaseSeeder extends Seeder
             ServiceMDCSSeeder::class,
             ConsultingRoomSeeder::class,
             // NhiaPrescriptionLevels::class,
+            NhisDrugs::class,
             Store::class,
+            Products::class,
            
         ]);
         

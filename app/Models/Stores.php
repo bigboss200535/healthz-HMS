@@ -20,6 +20,19 @@ class Stores extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    
+    protected $fillable = [
+        'store_id',
+        'store',
+        'is_pharmacy',
+        'user_id',
+        'added_id',
+        'added_date',
+        'udpated_by',
+        'status',
+        'archived',
+        'archived_id',
+        'archived_by',
+        'archived_date'
+    ];
 }
 

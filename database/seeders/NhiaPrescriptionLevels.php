@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\HealthFacilityLevels;
+// use App\Models\NhiaPrescriptionLevels;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
