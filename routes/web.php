@@ -9,7 +9,9 @@ use App\Http\Controllers\CodeGenerationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\PDFReportController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportsController;
+use App\Models\Product;
 use App\Models\ServiceRequest;
 use Illuminate\Support\Facades\Route;
 use illuminate\Http\Request;
@@ -47,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('sponsors', SponsorController::class); 
     Route::resource('services', ServiceRequestController::class);
     Route::resource('patients', PatientController::class);
+    Route::resource('products', ProductController::class);
     Route::get('/patient/search', [PatientController::class, 'search'])->name('patient.search');
 
     Route::prefix('reports')->group(function () {
