@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('services', ServiceRequestController::class);
     Route::resource('patients', PatientController::class);
     Route::get('/patient/search', [PatientController::class, 'search'])->name('patient.search');
+    Route::get('/consultation', [ConsultationController::class, 'index'])->name('consultation.index');
 
     Route::prefix('reports')->group(function () {
         Route::get('users/{user_id}', [ReportsController::class, 'users']);
