@@ -311,12 +311,12 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="#" class="menu-link">
+          <a href="{{ url('/users') }}" class="menu-link">
             <div class="text-truncate" data-i18n="Basic">Manage Users</div>
           </a>
         </li>
         <li class="menu-item">
-          <a href="cards-advance.html" class="menu-link">
+          <a href="#" class="menu-link">
             <div class="text-truncate" data-i18n="Advance">Roles & Permissions</div>
           </a>
         </li>
@@ -325,13 +325,13 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
-        <div class="text-truncate" data-i18n="Cards">Item</div>
+        <div class="text-truncate" data-i18n="Cards">Items</div>
         <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span>
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="{{ url('/products') }}" class="menu-link">
-            <div class="text-truncate" data-i18n="Basic">Products</div>
+            <div class="text-truncate" data-i18n="Basic">Item Setup</div>
           </a>
         </li>
       </ul>

@@ -17,7 +17,7 @@ class Store extends Seeder
     {
         $data = Stores::create([
             'store_id' => '0012',
-            'store' => 'Main Store',
+            'store' => 'MAIN STORE',
             'added_date' => now(),
             'status' => 'Active',
             'archived' => 'No',
@@ -25,7 +25,15 @@ class Store extends Seeder
 
         $data = Stores::create([
             'store_id' => '0015',
-            'store' => 'Pharmacy',
+            'store' => 'DISPENSARY',
+            'added_date' => now(),
+            'status' => 'Active',
+            'archived' => 'No',
+        ]);
+
+        $data = Stores::create([
+            'store_id' => '0017',
+            'store' => 'PHARMACY TWO',
             'added_date' => now(),
             'status' => 'Active',
             'archived' => 'No',

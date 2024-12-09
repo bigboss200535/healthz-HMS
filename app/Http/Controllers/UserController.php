@@ -9,8 +9,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('archived', 'No')->where('status', '=','Active')->get();
-        return view('profile.index', compact('users'));
+        $user = User::where('users.archived', 'No')->where('users.status', '=','Active')
+        ->rightJoin('user_roles', 'users.role_id', '=', 'user_roles.role_id')
+        ->select('users.*','user_roles.*')
+        ->get();
+        return view('users.index', compact('user'));
     }
 
     public function create()
@@ -31,17 +34,17 @@ class UserController extends Controller
         ]); 
     }
 
-    public function show()
+    public function show($id)
     {
 
     }
 
-    public function edit()
+    public function edit($id)
     {
 
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $request->user()->fill($request->validated());
 
@@ -53,7 +56,7 @@ class UserController extends Controller
         // return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, $id)
     {
 
         // $request->validateWithBag('userDeletion', [
