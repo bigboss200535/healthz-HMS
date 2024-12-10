@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ServiceFeeSeeder extends Seeder
+class ICD10GroupSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +15,8 @@ class ServiceFeeSeeder extends Seeder
      */
     public function run()
     {
-        $data_one = database_path('seeders/seeds/04_service_fee.sql');
+        $data_one = database_path('seeders/seeds/icd10_groups.sql');
         $sql_one = file_get_contents($data_one);
-        DB::unprepared($sql_one); 
+        DB::unprepared($sql_one);
     }
 }

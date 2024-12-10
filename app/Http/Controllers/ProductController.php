@@ -22,7 +22,7 @@ class ProductController extends Controller
         ->rightjoin('stores', 'stores.store_id', '=', 'products.store_id')
         ->where('products.archived', 'No')
         ->select('products.*','product_type.*', 'stores.*')
-        ->orderBy('products.added_date', 'asc')
+        ->orderBy('products.product_name', 'asc')
         // ->lockForUpdate() 
         ->get();
 

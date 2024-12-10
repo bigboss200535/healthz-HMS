@@ -134,11 +134,11 @@
             <div class="text-truncate" data-i18n="List">Discharges</div>
           </a>
         </li>
-        <!-- <li class="menu-item">
+        <li class="menu-item">
          <a href="#" class="menu-link">
           <div class="text-truncate" data-i18n="list">Medications</div>
          </a>
-        </li> -->
+        </li>
       </ul>
     </li>
     <li class="menu-item">
@@ -191,11 +191,6 @@
           <a href="#" class="menu-link">
             <div class="text-truncate" data-i18n="List">Discharges</div>
           </a>
-        </li> -->
-        <!-- <li class="menu-item">
-         <a href="#" class="menu-link">
-          <div class="text-truncate" data-i18n="list">Medications</div>
-         </a>
         </li> -->
       </ul>
     </li>
@@ -307,7 +302,7 @@
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
         <div class="text-truncate" data-i18n="Cards">Users</div>
-        <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span>
+        <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
@@ -325,8 +320,8 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
-        <div class="text-truncate" data-i18n="Cards">Items</div>
-        <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span>
+        <div class="text-truncate" data-i18n="Cards">Items / Prices</div>
+        <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
@@ -340,7 +335,7 @@
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
         <div class="text-truncate" data-i18n="Cards">Service Setup</div>
-        <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span>
+        <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
@@ -362,7 +357,7 @@
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
         <div class="text-truncate" data-i18n="Cards">Payables</div>
-        <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span>
+        <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
@@ -381,18 +376,23 @@
 <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
-        <div class="text-truncate" data-i18n="Cards">Items</div>
-        <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span>
+        <div class="text-truncate" data-i18n="Cards">Diagnosis</div>
+        <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Basic">Item Category</div>
+          <a href="{{ url('/diagnosis')}}" class="menu-link">
+            <div class="text-truncate" data-i18n="Basic">Diagnosis setup</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Advance">Items</div>
+            <div class="text-truncate" data-i18n="Advance">Complains</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="Advance">NHIA Services</div>
           </a>
         </li>
       </ul>

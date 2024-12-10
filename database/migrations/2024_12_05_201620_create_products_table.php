@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('default_method', 50)->nullable();
             $table->string('prescription_qty', 10)->nullable();
             $table->string('store_id', 50)->nullable();
-            $table->string('product_class', 50)->nullable();
+            $table->string('product_class_id', 50)->nullable();
             $table->string('manufacturer', 50)->nullable();
             $table->string('nhis_id', 50)->nullable();
             $table->string('nhis_cover', 50)->nullable()->default('No');
@@ -57,7 +57,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('store_id')->references('store_id')->on('stores');
-            // $table->foreign('nhis_id')->references('nhis_id')->on('nhis_drugs');
+            // $table->foreign('product_class_id')->references('product_class_id')->on('product_class');
              $table->foreign('product_type_id')->references('product_type_id')->on('product_type');
         });
     }
