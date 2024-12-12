@@ -9,24 +9,24 @@ class UserController extends Controller
 {
     public function index()
     {
-        // $user = User::where('users.archived', 'No')->where('users.status', '=','Active')
-        // ->rightJoin('user_roles', 'users.role_id', '=', 'user_roles.role_id')
-        // ->select('users.*','user_roles.*')
-        // ->get();
+        $user = User::where('users.archived', 'No')->where('users.status', '=','Active')
+        ->rightJoin('user_roles', 'users.role_id', '=', 'user_roles.role_id')
+        ->select('users.*','user_roles.*')
+        ->get();
         // return view('users.index', compact('user'));
-        $user = [];
+        // $user = [];
 
     // Use chunkById to process users in chunks
-    User::where('users.archived', 'No')
-        ->where('users.status', '=', 'Active')
-        ->rightJoin('user_roles', 'users.role_id', '=', 'user_roles.role_id')
-        ->select('users.*', 'user_roles.*')
-        ->chunk(20, function ($userChunk) use (&$user) {
-            // Add each chunk to the $users array (accumulate data in smaller pieces)
-            foreach ($userChunk as $users) {
-                $user[] = $users; // This stores each user record (you can process them as needed)
-            }
-        });
+    // User::where('users.archived', 'No')
+    //     ->where('users.status', '=', 'Active')
+    //     ->rightJoin('user_roles', 'users.role_id', '=', 'user_roles.role_id')
+    //     ->select('users.*', 'user_roles.*')
+    //     ->chunk(20, function ($userChunk) use (&$user) {
+    //         // Add each chunk to the $users array (accumulate data in smaller pieces)
+    //         foreach ($userChunk as $users) {
+    //             $user[] = $users; // This stores each user record (you can process them as needed)
+    //         }
+    //     });
 
          return view('users.index', compact('user'));
     }
