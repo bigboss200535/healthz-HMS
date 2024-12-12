@@ -37,10 +37,12 @@ class AuthenticatedSessionController extends Controller
 
             LoginLog::create([
                 'user_id' => Auth::id(),
+                'logname' => 'login',
                 'user_ip' => $request->ip(),
                 'user_pc' => $request->userAgent(),
                 'login_date' => now(),
                 'login_time' => now(),
+                'session_id' => session()->getId(), 
                 'status' => true, // Login success
             ]);
 
@@ -50,9 +52,11 @@ class AuthenticatedSessionController extends Controller
             LoginLog::create([
                 'user_id' => null, // No user authenticated for failed login
                 'user_ip' => $request->ip(),
+                'logname' => 'login',
                 'user_pc' => $request->userAgent(),
                 'login_date' => now(),
                 'login_time' => now(),
+                'session_id' => session()->getId(), 
                 'status' => false, // Login failed
             ]);
 
@@ -68,6 +72,19 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        if (Auth::check()) {
+            LoginLog::create([
+                'user_id' => Auth::id(), 
+                'user_ip' => $request->ip(),
+                'logname' => 'logout',
+                'user_pc' => $request->userAgent(),
+                'login_date' => now(),
+                'login_time' => now(),
+                'session_id' => session()->getId(), 
+                'status' => false, // Login failed
+            ]);
+        }
+
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
