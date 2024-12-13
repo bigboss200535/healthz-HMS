@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('service_id', 100);
             $table->string('service', 100);
             $table->string('service_type_code', 100);
-            $table->decimal('cash_amount', 10,2)->default('0.00');
-            $table->decimal('private_amount', 10,2)->default('0.00');
-            $table->decimal('company_amount', 10,2)->default('0.00');
-            $table->decimal('foreigners_amount', 10,2)->default('0.00');
-            $table->decimal('nhis_adult', 10,2)->default('0.00');
-            $table->decimal('nhis_child', 10,2)->default('0.00');
+            $table->float('cash_amount')->nullable();
+            $table->float('private_amount')->nullable();
+            $table->float('company_amount')->nullable();
+            $table->float('foreigners_amount')->nullable();
+            $table->float('nhis_adult', 8,2)->nullable();
+            $table->float('nhis_child')->nullable();
             $table->string('allow_nhis', 100)->nullable();
             $table->string('gdrg_adult', 100)->nullable();
             $table->string('gdrg_child', 100)->nullable();
