@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             FacilitySeeder::class,
             ServiceAttendanceTypeSeeder::class,
             ServicesSeeder::class,
-            // ServiceFeeSeeder::class, check excel data
+            ServiceFeeSeeder::class, //check excel data
             ServicePointSeeder::class,
             ServiceMDCSSeeder::class,
             ConsultingRoomSeeder::class,
