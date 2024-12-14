@@ -13,6 +13,7 @@ class UserController extends Controller
         $user = User::where('users.archived', 'No')->where('users.status', '=','Active')
         ->rightJoin('user_roles', 'users.role_id', '=', 'user_roles.role_id')
         ->select('users.*','user_roles.*')
+        ->orderBy('users.user_fullname', 'asc')
         ->get();
         // return view('users.index', compact('user'));
         // $user = [];

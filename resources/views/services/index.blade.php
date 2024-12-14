@@ -16,9 +16,9 @@
                             <th>Sn</th>
                             <th>Service</th>
                             <th>Service Type</th>
-                            <th>Allow Nhis</th>
-                            <th class="text-nowrap text-sm-end">Editable &nbsp;</th>
-                            <th class="text-nowrap text-sm-end">Expirable</th>
+                            <th>Nhis Cover</th>
+                            <th>Topup &nbsp;</th>
+                            <th>Editable</th>
                             <th>Status</th>
                             <th class="text-lg-center">Actions</th>
                           </tr>
@@ -33,14 +33,8 @@
                               <td>{{ $services->service }}</td>
                               <td>{{ $services->service_name }}</td>
                               <td>{{ $services->allow_nhis }}</td>
-                              <td>{{$services->editable}}                   </td>
-                              <td class="text-nowrap text-sm-end" style="padding-right: 10px;">
-                                @if($services->editable === 'Yes')
-                                <span class="badge bg-label-info me-1">Yes</span>
-                                @elseif ($services->editable === 'No')
-                                <span class="badge bg-label-danger me-1">No</span>
-                                @endif
-                              </td>
+                              <td>{{ $services->allow_topup }}</td>
+                              <td>{{ $services->editable }}</td>
                               <td class="text-nowrap text-sm-end" align="left">
                                 @if($services->status === 'Active')
                                 <span class="badge bg-label-info me-1">Active</span>
@@ -69,11 +63,11 @@
                         <tfoot>
                         <tr>
                             <th>Sn</th>
-                            <th>Product</th>
-                            <th>Categories</th>
-                            <th>Barcode</th>
-                            <th class="text-nowrap text-sm-end">Stocked &nbsp;</th>
-                            <th class="text-nowrap text-sm-end">Expirable </th>
+                            <th>Service</th>
+                            <th>Service Type</th>
+                            <th>Nhis Cover</th>
+                            <th>Topup &nbsp;</th>
+                            <th>Editable</th>
                             <th>Status</th>
                             <th class="text-lg-center">Actions</th>
                           </tr>

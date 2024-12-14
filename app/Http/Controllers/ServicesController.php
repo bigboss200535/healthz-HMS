@@ -13,6 +13,7 @@ class ServicesController extends Controller
         $services_fees = Services::where('services_fee.archived', 'No')
             ->where('services_fee.status', '=','Active')
             ->rightjoin('services', 'services.service_id', '=', 'services_fee.service_id')
+            ->orderBy('services.service_name', 'asc')
             ->get();
 
         // $total_all = Product::where('archived', '=', 'No')->count();

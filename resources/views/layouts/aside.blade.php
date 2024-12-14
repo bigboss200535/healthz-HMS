@@ -60,7 +60,7 @@
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-user"></i>
         <div class="text-truncate" data-i18n="Users">Patient</div>
-         <span class="badge badge-center rounded-pill bg-success ms-auto">4</span>
+         <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
       <ul class="menu-sub">
       <li class="menu-item">
@@ -85,7 +85,7 @@
   @if(Auth::user()->role_id == 'R1' ||Auth::user()->role_id == 'R2')
   <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-store"></i>
+        <i class="menu-icon tf-icons bx bx-injection"></i>
         <div class="text-truncate" data-i18n="Users">Nurses</div>
       </a>
       <ul class="menu-sub">
@@ -114,7 +114,7 @@
     @endif
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-store"></i>
+        <i class="menu-icon tf-icons bx bx-hotel"></i>
         <div class="text-truncate" data-i18n="Users">In-Patient</div>
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
@@ -143,7 +143,7 @@
     </li>
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-store"></i>
+        <i class="menu-icon tf-icons bx bx-male-female"></i>
         <div class="text-truncate" data-i18n="Users">Out-Patient</div>
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
@@ -172,7 +172,7 @@
     </li>
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-store"></i>
+        <i class="menu-icon tf-icons bx bx-vial"></i>
         <div class="text-truncate" data-i18n="Users">Investigations</div>
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
@@ -196,7 +196,7 @@
     </li>
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-store"></i>
+        <i class="menu-icon tf-icons bx bx-credit-card-alt"></i>
         <div class="text-truncate" data-i18n="Users">Revenue</div>
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
@@ -225,7 +225,7 @@
     </li>
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-store"></i>
+        <i class="menu-icon tf-icons bx bx-band-aid"></i>
         <div class="text-truncate" data-i18n="Users">Stores / Pharmacy</div>
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
@@ -262,7 +262,7 @@
 <!-- -----------------------------------leads------------------------------------------------- -->
 <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-cart-alt"></i>
+        <i class="menu-icon tf-icons bx bx-credit-card"></i>
         <div class="text-truncate" data-i18n="Users">Claims</div>
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
@@ -296,7 +296,7 @@
     <!-- Cards -->
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <i class="menu-icon tf-icons bx bx-cog"></i>
         <div class="text-truncate" data-i18n="Cards">Users</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
@@ -315,7 +315,7 @@
     </li>
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <i class="menu-icon tf-icons bx bx-cog"></i>
         <div class="text-truncate" data-i18n="Cards">Items / Prices</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
@@ -329,7 +329,7 @@
     </li>
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <i class="menu-icon tf-icons bx bx-cog"></i>
         <div class="text-truncate" data-i18n="Cards">Service Setup</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
@@ -351,7 +351,7 @@
 <!-- --------------------------------------/-tax--------------------------------------------- -->
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <i class="menu-icon tf-icons bx bx-cog"></i>
         <div class="text-truncate" data-i18n="Cards">Payables</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
@@ -371,7 +371,7 @@
 <!-- --------------------------------------/-tax--------------------------------------------- -->
 <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <i class="menu-icon tf-icons bx bx-cog"></i>
         <div class="text-truncate" data-i18n="Cards">Diagnosis</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
@@ -398,7 +398,7 @@
 <li class="menu-header small text-uppercase"><span class="menu-header-text" data-i18n="Components">Reports</span></li>
 <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
         <div class="text-truncate" data-i18n="Cards">Administration</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
