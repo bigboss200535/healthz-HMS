@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('patient_attendance_request', function (Blueprint $table) {
+        Schema::create('patient_attendance', function (Blueprint $table) {
             $table->string('patient_id', 50);
             $table->string('opd_number', 50)->nullable();
             $table->date('attendance_date')->nullable();

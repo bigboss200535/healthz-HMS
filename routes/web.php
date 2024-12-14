@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\PatientVisitsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ClaimsController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\UserController;
@@ -72,7 +73,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/services/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);
     Route::get('/services/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);
     Route::post('/services/patient_service', [ServiceRequestController::class, 'store']);
-    Route::get('/services/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve']);    
+    Route::get('/services/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve']); 
+    
+    Route::prefix('consultations')->group(function () {
+        Route::get('/opd-consultation', [ConsultationController::class, 'index']);
+        Route::get('all', [ReportsController::class, 'index']);
+        Route::get('patient', [ReportsController::class, 'patient']);
+    });
 });
 
 require __DIR__.'/auth.php';
