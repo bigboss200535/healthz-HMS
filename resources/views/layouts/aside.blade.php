@@ -80,14 +80,14 @@ R12
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
       <ul class="menu-sub">
-      <li class="menu-item">
+      <!-- <li class="menu-item">
           <a href="{{ route('patients.create') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Add </div>
           </a>
-        </li>
+        </li> -->
          <li class="menu-item">
           <a href="{{ route('patients.index') }}" class="menu-link">
-            <div class="text-truncate" data-i18n="List">List</div>
+            <div class="text-truncate" data-i18n="List">Search</div>
           </a>
         </li>
         <li class="menu-item">
@@ -166,7 +166,7 @@ R12
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="#" class="menu-link">
+          <a href="{{ url('consultations/opd-consultation') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Consultations</div>
           </a>
         </li>
@@ -285,12 +285,12 @@ R12
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{ url('/claims')}}" class="menu-link">
+          <a href="{{ url('/claims/nhis-management') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">NHIS</div>
           </a>
         </li>
          <li class="menu-item">
-          <a href="#" class="menu-link">
+          <a href="{{ url('/claims/private-management') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Private</div>
           </a>
         </li>

@@ -4,21 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Models\ConsultingRoom;
 use App\Models\Patient;
+use App\Models\PatientAttendance;
 use App\Models\Stores;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ConsultationController extends Controller
 {
     
-    public function index($user_id)
+    public function index()
     {
-          $con_room = ConsultingRoom::where('Archived', 'No')->get();
-          $store = Stores::where('archived', 'No')->where('is_pharmacy', '=', 'Yes')->get();
+
+      $pat_req = PatientAttendance::where('patient_attendance.archived', 'No')
+        ->rightJoin('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
+        ->RightJoin('gender', 'patient_info.gender_id', 'gender.gender_id')       
+        ->orderBy('patient_attendance.attendance_id', 'asc')
+
+        ->select('patient_attendance.*', 'patient_info.*', 'gender.gender',  DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as pat_ages'))
+        ->get();
+
+
+
+      // $patients = DB::table('patient_info')
+      // ->where('patient_info.patient_id', $patient_id)
+      // ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
+      // ->join('title', 'patient_info.title_id', '=', 'title.title_id')
+      // ->select('patient_info.patient_id', 'title.title', 'patient_info.fullname',  'gender.gender', 
+      // 'patient_info.birth_date', 'patient_info.email','patient_info.address',  'patient_info.added_date', 
+      // 'patient_info.telephone', 
+      // DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
+      // ->orderBy('patient_info.added_date', 'asc') 
+      // ->first();
+
+          // $con_room = ConsultingRoom::where('Archived', 'No')->get();
+          // $store = Stores::where('archived', 'No')->where('is_pharmacy', '=', 'Yes')->get();
           // $outcome = 
           // $patient = 
-          $patient_list = Patient::where('Archived', 'No')->get();
+          // $patient_list = Patient::where('Archived', 'No')->get();
           // if (Auth::user()->role_id==='R10'|| Auth::user()->role_id==='R11')
           // {
           //   $user = User::where(Auth::user()->user_id)->get(); //log in doctor
@@ -28,7 +52,7 @@ class ConsultationController extends Controller
           //   $user = User::where(Auth::user()->role_id)->get();// all doctors
           // }
 
-          return view('consultation.index', compact('users','con_room'));  
+          return view('consultation.index', compact('pat_req'));  
     }
 
     public function create()

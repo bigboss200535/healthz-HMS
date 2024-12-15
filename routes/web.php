@@ -6,7 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\PatientVisitsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\ClaimsController;
+use App\Http\Controllers\ClaimsPrivateController;
+use App\Http\Controllers\ClaimsNhisController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\SponsorController;
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('patients', PatientController::class);
     Route::resource('products', ProductController::class);
     Route::resource('diagnosis', DiagnosisController::class);
-    Route::resource('claims', ClaimsController::class);
+    // Route::resource('claims', ClaimsController::class);
     // Route::get('/patient/search', [PatientController::class, 'search'])->name('patient.search');
     // Route::get('/consultation', [ConsultationController::class, 'index'])->name('consultation.index');
     Route::get('/patient/search', [PatientController::class, 'search'])->name('patient.search');
@@ -63,11 +64,6 @@ Route::middleware('auth')->group(function () {
         Route::get('all', [ReportsController::class, 'index']);
         Route::get('patient', [ReportsController::class, 'patient']);
     });
-    // Route::get('patient/create/', [PatientController::class, 'create'])->name('patient.create');
-    // Route::get('patient/search/', [ PatientController::class, 'index'])->name('patient.index');
-    // Route::get('patient/modify/{patient_id}', [PatientController::class, 'edit'])->name('patient.create');
-    // Route::get('patient/visits/{patient_id}', [PatientVisitsController::class, 'index'])->name('attendance.index');
-    // Route::get('patients/details/{patient_id}', [PatientController::class, 'show'])->name('patient.show');
 
     Route::get('patient/attendance/{patient_id}', [PatientVisitsController::class, 'show'])->name('attendance.show');
     Route::get('/services/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);
@@ -75,7 +71,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/services/patient_service', [ServiceRequestController::class, 'store']);
     Route::get('/services/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve']); 
     
-    Route::prefix('consultations')->group(function () {
+    Route::prefix('claims')->group(function () {
+        Route::resource('/private-management', ClaimsPrivateController::class);
+        // Route::get('/company-management', [ClaimsController::class, 'index']);
+        Route::resource('/nhis-management', ClaimsNhisController::class);
+        // Route::get('/cash-management', [ClaimsController::class, 'index']);
+    });
+
+    Route::prefix('claims')->group(function () {
         Route::get('/opd-consultation', [ConsultationController::class, 'index']);
         Route::get('all', [ReportsController::class, 'index']);
         Route::get('patient', [ReportsController::class, 'patient']);

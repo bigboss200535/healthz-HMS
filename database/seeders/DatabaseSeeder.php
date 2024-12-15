@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserRoles::class,
             UserSeeder::class,
+            PatientStatusSeeder::class,
             GenderSeeder::class,
             HealthFacilitySeeder::class,
             TitleSeeder::class,
@@ -50,7 +51,6 @@ class DatabaseSeeder extends Seeder
             Products::class,
             DiagnosisSeeder::class,
             ProductClassSeeder::class,
-           
         ]);
         
         \App\Models\Patient::factory(500)->create();

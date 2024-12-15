@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Log;
 use SimpleXMLElement;
 
 
-class ClaimsController extends Controller
+class ClaimsNhisController extends Controller
 {
   
     public function index()
     {
         
-        return view('claims.index'); 
+        return view('claims-nhis.index'); 
         
     }
         

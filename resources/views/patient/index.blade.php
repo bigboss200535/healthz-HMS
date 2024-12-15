@@ -5,6 +5,12 @@
                   </h4>
                   <div class="card">
                     <div class="card-body">
+                      <div class="col-lg-12">
+                        <!-- <button class="btn btn-warning">Create Patient</button> -->
+                        <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
+                      </div>
+                      <br>
+
                         <h3>Actions</h3>
                           <div class="card">
                             <!-- <div class="card-body"> -->
