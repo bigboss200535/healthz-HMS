@@ -316,7 +316,14 @@ R12
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="List">List</div>
+            <div class="text-truncate" data-i18n="List">Sms</div>
+          </a>
+        </li>
+      </ul>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{ url('notifications/all')}}" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Notifications</div>
           </a>
         </li>
       </ul>

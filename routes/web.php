@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -89,6 +90,12 @@ Route::middleware('auth')->group(function () {
     //     Route::get('all', [ReportsController::class, 'index']);
     //     Route::get('patient', [ReportsController::class, 'patient']);
     // });
+
+     Route::prefix('notifications')->group(function () {
+        Route::get('/all', [NotificationController::class, 'index']);
+        // Route::get('all', [ReportsController::class, 'index']);
+        // Route::get('patient', [ReportsController::class, 'patient']);
+    });
 });
 
 require __DIR__.'/auth.php';
