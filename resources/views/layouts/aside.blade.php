@@ -166,7 +166,7 @@ R12
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{ url('consultations/opd-consultation') }}" class="menu-link">
+          <a href="{{ url('consultation/opd-consultation') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Consultations</div>
           </a>
         </li>
