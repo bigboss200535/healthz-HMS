@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('age_groups', function (Blueprint $table) {
             $table->id();
-            $table->timestam÷ps();
+            // $table->timestam÷ps();
         });
     }
 

@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Sponsors;
 
 class ClaimsPrivateController extends Controller
 {
     public function index()
     {
+        $insurance_companies = Sponsors::where('sponsor_type_id', '=', 'PI03')
+        ->where('archived', 'No')
+        ->get();
         
-        return view('claims-private.index'); 
+        return view('claims-private.index', compact('insurance_companies')); 
         
     }
         

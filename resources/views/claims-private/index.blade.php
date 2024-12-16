@@ -29,9 +29,11 @@
             <div class="col">
               <label class="form-label" for="end_date">Company <a style="color: red;">*</a></label>
               <select  class="form-control" id="report_type" name="report_type">
-                <option selected disabled>-Select-</option>
-                <!--  -->
-                <!-- <option value="user_logs">User Logs</option> -->
+                <option disabled>-Select-</option>
+                <option value="All" selected>All</option>
+                @foreach($insurance_companies as $companies)                                        
+                  <option value="{{ $companies->sponsor_id }}">{{ $companies->sponsor_name }}</option>
+                 @endforeach
               </select>
             </div>
             <div class="col">
