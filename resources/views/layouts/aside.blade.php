@@ -7,13 +7,11 @@
  R5 - HOSPITAL ADMINISTRATOR
  R6 - HOSPITAL MANAGER
  R7 - ACCOUNTS OFFICER
-R8 - ACCOUNTANT
-R9 - NURSE
-R10 - DOCTOR ASSISTANT
-R11 - 
-R12
-
-  
+ R8 - ACCOUNTANT
+ R9 - NURSE
+ R10 - DOCTOR ASSISTANT
+ R11 - 
+ R12
   -->
 <aside x-data="{ open: false }" id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo ">

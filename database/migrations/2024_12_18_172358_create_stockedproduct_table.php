@@ -13,10 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('age_groups', function (Blueprint $table) {
-            $table->string('age_group_id', 50)->nullable();
-            $table->text('age_group')->nullable();
-            $table->string('user_id', 50)->nullable();
+        Schema::create('stocked_product', function (Blueprint $table) {
+            $table->int('stocked_id', 50);
+            $table->string('product_id', 50);
+            $table->float('unit_price')->nullable();
+            $table->decimal('stock_level', 10)->nullable();
+            $table->date('expiry_date')->nullable();
+            $table->string('batch', 50)->nullable();
+            $table->string('store_id', 50)->nullable();
+            $table->string('user_id', 10)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('added_id', 100)->nullable();
             $table->timestamp('added_date')->nullable();
@@ -26,9 +31,10 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            $table->primary('age_group_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
+            $table->foreign('store_id')->references('store_id')->on('stores');
+            $table->foreign('product_id')->references('product_id')->on('products');
         });
     }
 
@@ -39,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('age_groups');
+        Schema::dropIfExists('stocked_product');
     }
 };

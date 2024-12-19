@@ -9,9 +9,8 @@ class NotificationController extends Controller
 {
     public function index()
     {
+
         $notifications = Notification::orderBy('added_date', 'desc')->get();
         return view('notifications.index', compact('notifications')); 
     }
-
-
 }
