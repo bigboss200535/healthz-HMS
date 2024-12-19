@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('admission_beds', function (Blueprint $table) {
             $table->string('bed_id',50);
             $table->string('bed_number',150); 
+            $table->string('bed_status', 50)->default('Non-Operational');
             $table->string('ward_id',150); 
-            $table->string('bed_condition',150);//free or occupaid 
-            $table->string('bed_type',150);//real or virtual 
-            $table->string('admission_record',150);
-            $table->string('admission_opd_no',150);
+            $table->string('bed_condition',150)->default('Free');//free or occupaid 
+            $table->string('bed_type',150)->default('Real');//real or virtual 
+            $table->string('admission_record',150)->nullable();
+            $table->string('admission_opd_no',150)->nullable();
             $table->string('facility_id', 50)->nullable(); 
             $table->string('user_id',50);        
             $table->string('added_id', 50)->nullable();

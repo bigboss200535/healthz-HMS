@@ -15,9 +15,18 @@ return new class extends Migration
     {
         Schema::create('wards', function (Blueprint $table) {
             $table->string('ward_id');
-            $table->string('ward_name');
-            table->string('bed_number');
-            table->string('ward_name');
+            $table->string('ward_name')->nullable();
+            $table->string('ward_status')->nullable();
+            $table->string('ward_gender')->nullable();
+            $table->string('bed_number')->nullable();
+            $table->string('gender_id')->nullable();
+            $table->string('age_id')->nullable();
+            $table->string('initial_bed_state')->nullable();
+            $table->string('ward_type')->nullable();
+            $table->string('rb_total')->nullable();
+            $table->string('vb_total')->nullable();
+            $table->string('arb_total')->nullable();
+            $table->string('avb_total')->nullable();
             // $table->timestamps();
             $table->string('user_id', 10)->nullable();
             $table->string('facility_id', 50)->nullable();
