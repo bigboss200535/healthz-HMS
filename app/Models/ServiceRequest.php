@@ -14,7 +14,6 @@ class ServiceRequest extends Model
     protected $keyType = 'string';
     public $incrementing= false;
 
-
     protected $fillable = [
         'patient_id',
         'pat_age',

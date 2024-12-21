@@ -157,7 +157,7 @@ $(document).ready(function() {
             data: { search_patient: search_term },
             success: function(response) {
                 // Clear the DataTable before appending new data
-                var table = $('#patient_list').DataTable();
+                var table = $('#patient_search_list').DataTable();
                 table.clear();
 
                 if (response.length > 0) {
@@ -174,14 +174,14 @@ $(document).ready(function() {
                         }
 
                         var row = [
-                            index + 1, // S/N
-                            '<a href="/patients/' + patient.patient_id + '">' + patient.fullname + '</a>', // Name
+                            index + 1, // serial no
+                            '<a href="/patients/' + patient.patient_id + '">' + patient.fullname + '</a>', // fullName
                             patient.opd_number, // OPD #
                             (patient.gender_id === '3' ? 'Male' : 'Female'), // Gender
                             age, // Age
                             patient.telephone, // Telephone
                             new Date(patient.register_date).toLocaleDateString('en-GB'), // Added Date
-                            '', // Status
+                            patient.status, // Status
                             '<div class="dropdown" align="center">' +
                                 '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">' +
                                     '<i class="bx bx-dots-vertical-rounded"></i>' +
@@ -200,7 +200,7 @@ $(document).ready(function() {
                 } else {
                     // If no results, display a message
                     table.row.add([
-                        '', '', '', '', '', '', '', 'No patients found', ''
+                        '', 'No Data Available', '', '', '', '', '', '', ''
                     ]).draw();
                 }
             },
@@ -215,20 +215,20 @@ $(document).ready(function() {
 });
 
 // Initialize DataTable
-$(document).ready(function() {
-    $('#patient_list').DataTable({
-        "paging": true,        // Enable pagination
-        // "searching": true,     // Enable search bar
-        // "ordering": true,      // Enable column sorting
-        "info": true,          // Show info (total records)
-        // "autoWidth": false,    // Disable automatic width calculation
-        "responsive": true,    // Make the table responsive
-        "columnDefs": [{
-            "targets": -1, // Target the last column (Action column)
-            "orderable": false // Disable sorting on the Action column
-        }]
-    });
-});
+// $(document).ready(function() {
+//     $('#patient_list').DataTable({
+//         "paging": true,        // Enable pagination
+//         // "searching": true,     // Enable search bar
+//         // "ordering": true,      // Enable column sorting
+//         "info": true,          // Show info (total records)
+//         // "autoWidth": false,    // Disable automatic width calculation
+//         "responsive": true,    // Make the table responsive
+//         // "columnDefs": [{
+//         //     "targets": -1, // Target the last column (Action column)
+//         //     "orderable": false // Disable sorting on the Action column
+//         // }]
+//     });
+// });
 
 // Age calculation function
 function calculateAge(birthDate) {

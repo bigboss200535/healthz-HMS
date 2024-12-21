@@ -110,6 +110,7 @@
         $('#product_list').DataTable();
         $('#patient_list').DataTable();
         $('#patient_services').DataTable();
+        $('#patient_search_list').DataTable();
         $('#patient_searches').DataTable();
         $('.sponsor_name').select2();
         $('.sponsorship_type').select2();

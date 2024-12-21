@@ -241,26 +241,15 @@ class PatientController extends Controller
             ->where('is_active', 'Yes')
             ->get();
 
-        // $clinic_attendance = ServicePoints::select('service_point_id', 'service_points', 'gender_id', 'age_id')
-        // ->where('archived', 'No')
-        // ->where('is_active', 'Yes')
-        // ->when($patients->gender_id, function ($query) use ($patients) {
-        //     $query->where('gender_id', $patients->gender_id);
-        // })
-        // ->when($ages, function ($query) use ($ages) {
-        //     $query->where('age_id', $ages->age_id);
-        // })
-        // ->get();
-
-        $request_episode = ServiceRequest::count();
-        $new_number = $request_episode + 1;
-        $episode = str_pad($new_number, 6, '0', STR_PAD_LEFT);
+        // $request_episode = ServiceRequest::count();
+        // $new_number = $request_episode + 1;
+        // $episode = str_pad($new_number, 6, '0', STR_PAD_LEFT);
 
         $service_request = ServiceRequest::where('archived','No')
-        // ->where('patient_id', $patient)
+        ->where('patient_id', $patient->patient_id)
         ->get();
 
-        return view('patient.show', compact('patients', 'sponsor', 'clinic_attendance', 'service_request', 'episode'));
+        return view('patient.show', compact('patients', 'sponsor', 'clinic_attendance', 'service_request'));
         
     }
 

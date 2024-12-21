@@ -123,8 +123,8 @@
                 </tr>
               </thead>
               <tbody>
-              @php
-                    $counter = 1;
+                     @php
+                       $counter = 1;
                      @endphp
                      @foreach($sponsor as $pat_sponsor)
                 <tr>
@@ -294,18 +294,10 @@
               <td>{{ $patients->user_fullname}}</td>
             </tr>
             <tr>
-              <td colspan="2">
-                    @if($pat_sponsor->sponsor_id === '000')
-                            <a href="#" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target="#claims_check_code">Get C.C</a>
-                    @else
-                      <a></a>
-                    @endif
-                  <a href="#" class="btn btn-warning">
-                   <i class="fas fas-edit"></i> Edit
-                  </a>
-                  <a href="#" class="btn btn-primary" data-bs-toggle='modal' data-bs-target="#addattendance">
-                    Create Visit
-                  </a>
+                 <td colspan="2">
+                    <a href="#" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target="#claims_check_code">Get C.C</a>
+                    <a href="#" class="btn btn-warning"><i class="fas fas-edit"></i> Edit</a>
+                    <a href="#" class="btn btn-primary" data-bs-toggle='modal' data-bs-target="#addattendance">Create Visit</a>
                 </td>
             </tr>
            </table>
@@ -412,7 +404,7 @@
           </div>
           <input type="text" name="p_id" id="p_id" value="{{ $patients->patient_id }}" hidden>
             <input type="text" name="p_age" id="p_age" value="{{ $patients->age }}" hidden>
-            <input type="text" name="episode_id" id="episode_id" value="{{ $episode }}" hidden>
+            <input type="text" name="episode_id" id="episode_id" value="" hidden>
           
           <div class="col-12 col-md-6">
             <label class="form-label" for="clinics">Service Clinic</label>
@@ -484,7 +476,7 @@
           <div class="col-12 col-md-6">
             <label class="form-label" for="credit_amount">Member #</label>
             <input type="text" name="card_type" id="card_type" hidden value="NHISCARD">
-            <input type="text" id="member_no" name="member_no" class="form-control" placeholder="12345678" value="{{$pat_sponsor->member_no}}"/>
+            <input type="text" id="member_no" name="member_no" class="form-control" placeholder="12345678" value=""/>
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="cash_amount">Claims Check Code (CCC) <a href="#" style="color: red;">*</a></label>
@@ -521,5 +513,4 @@
   </div>
 </div>
 <!--/ service_request Modal -->
-
 </x-app-layout>

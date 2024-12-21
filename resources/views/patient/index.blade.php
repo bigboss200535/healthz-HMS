@@ -7,7 +7,7 @@
                     <div class="card-body">
                       <div class="col-lg-12">
                         <!-- <button class="btn btn-warning">Create Patient</button> -->
-                        <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
+                        
                       </div>
                       <br>
 
@@ -25,6 +25,7 @@
                                       <td>
                                           <button class="btn btn-primary" name="search_item" id="search_item">Search</button>
                                           <a href="#" class="btn btn-info" id="clear_search">Clear</a>
+                                          <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
                                       </td>
                                       <td></td>
                                       
@@ -41,7 +42,7 @@
                       <div class="col" style="padding-left:20px;"> 
                       <h4 class="mb-1 mt-3">Patient Search data</h4>
                       </div>
-                      <table class="datatables-customers table border-top" id="patient_list">
+                      <table class="datatables-customers table border-top" id="patient_search_list">
                           <thead>
                               <tr>
                                   <th>S/N</th>
