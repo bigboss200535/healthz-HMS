@@ -116,7 +116,11 @@
           <p>
             <div>
               <h5>Sponsors</h5>
+                <div class="pull-right">
+                    <a href="#" class="btn btn-info pull-right" id="clear_search">Add Sponsor</a>
+                </div>
             </div>
+              
             <table class="table table-hover" id="data_table">
               <thead>
                 <tr>

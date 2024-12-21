@@ -24,7 +24,7 @@
                                     <tr>
                                       <td>
                                           <button class="btn btn-primary" name="search_item" id="search_item">Search</button>
-                                          <a href="#" class="btn btn-info" id="clear_search">Clear</a>
+                                             <a href="#" class="btn btn-info" id="clear_search">Clear</a>
                                           <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
                                       </td>
                                       <td></td>

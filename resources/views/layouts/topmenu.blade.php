@@ -43,8 +43,6 @@
             </ul>
           </li>
           <!-- Language ------------------------------------------------------------------------------------>
-          <!-- Quick links  -->
-          <!-- Quick links -->
 
           <!-- -Notification------------------------------------------------------------------------------------->
           <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
@@ -141,7 +139,7 @@
                     </div>
                     <div class="flex-grow-1">
                       <span class="fw-medium d-block">{{ Auth::user()->firstname }}</span>
-                      <small class="text-muted">{{ Auth::user()->role_id }}</small>
+                      <small class="text-muted">{{ Auth::user()->othername }}</small>
                     </div>
                   </div>
                 </a>
@@ -179,8 +177,8 @@
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <i class="bx bx-power-off me-2"></i>
-                      <span class="align-middle" :href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                        Log Out
+                       <span class="align-middle" :href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                         Log Out
                        </span>
                   </form>
                 </a>

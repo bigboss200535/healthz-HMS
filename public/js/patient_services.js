@@ -188,12 +188,11 @@ $(document).ready(function() {
                                 '</button>' +
                                 '<div class="dropdown-menu">' +
                                     '<a class="dropdown-item" href="/patients/' + patient.patient_id + '">' +
-                                        '<i class="bx bx-lock-alt me-1"></i> More' +
+                                        '<i class="bx bx-detail me-1"></i> More' +
                                     '</a>' +
                                 '</div>' +
                             '</div>' // Action
                         ];
-
                         // Add the row to the DataTable
                         table.row.add(row).draw();
                     });
