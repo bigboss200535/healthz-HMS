@@ -30,7 +30,7 @@ class ServiceRequestController extends Controller
 
     public function create(Request $request, $clinic_id)
     {
-        $clinic_id = '000';
+        // $clinic_id = '000';
         $service = ServicePoints::select('service_point_id','service_points','gender_id', 'age_id')
         // ->where('gender_id', $patients->gender_id)
         // ->where('age_id', $ages->age_id)

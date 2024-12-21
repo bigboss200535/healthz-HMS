@@ -5,12 +5,10 @@
                   </h4>
                   <div class="card">
                     <div class="card-body">
-                      <div class="col-lg-12">
-                        <!-- <button class="btn btn-warning">Create Patient</button> -->
-                        
-                      </div>
+                      <!-- <div class="col-lg-12">
+                        <button class="btn btn-warning">Create Patient</button> 
+                      </div>-->
                       <br>
-
                         <h3>Actions</h3>
                           <div class="card">
                             <!-- <div class="card-body"> -->
@@ -18,7 +16,10 @@
                                   <table class="table table-responsive" style="color:aqua">
                                     <tr>
                                       <td colspan="2">
-                                         <input type="text" id="search_patient" name="search_patient" class="form-control col-lg-12" maxlength="30" placeholder="Member #/OPD #/ Telephone #/ Name ">
+                                        <label for="search_patient"> Member #/OPD #/ Telephone #/ Firstname / Othername</label>
+                                        <i class="bx bx-scan"></i>
+                                         <input type="text" id="search_patient" name="search_patient" class="form-control col-lg-12" 
+                                         maxlength="30" min="3" placeholder="Member #/OPD #/ Telephone #/ Firstname / Othername"  autocomplete="off">
                                       </td>
                                     </tr>
                                     <tr>
@@ -26,6 +27,7 @@
                                           <button class="btn btn-primary" name="search_item" id="search_item">Search</button>
                                              <a href="#" class="btn btn-info" id="clear_search">Clear</a>
                                           <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
+                                          <a href="#" class="btn btn-success">Advance Search</a>
                                       </td>
                                       <td></td>
                                       

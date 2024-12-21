@@ -433,14 +433,12 @@ class PatientController extends Controller
             ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
             ->join('title', 'patient_info.title_id', '=', 'title.title_id')
             ->select('patient_info.patient_id', 'title.title', 'patient_info.fullname',  'gender.gender', 
-            'patient_info.birth_date', 'patient_info.email','patient_info.address',  'patient_info.added_date', 
-            'patient_info.telephone', 
-            DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
+                'patient_info.birth_date', 'patient_info.email','patient_info.address',  'patient_info.added_date', 
+                'patient_info.telephone', DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
             ->orderBy('patient_info.added_date', 'asc') 
             ->first();
 
             // return view('patient.show', compact('patients'));
-
      }
      
     public function request_ccc(Request $request)
@@ -491,7 +489,5 @@ class PatientController extends Controller
         }
     }
 
-    
-
-        
+      
 }

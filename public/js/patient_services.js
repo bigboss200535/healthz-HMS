@@ -213,22 +213,6 @@ $(document).ready(function() {
     }
 });
 
-// Initialize DataTable
-// $(document).ready(function() {
-//     $('#patient_list').DataTable({
-//         "paging": true,        // Enable pagination
-//         // "searching": true,     // Enable search bar
-//         // "ordering": true,      // Enable column sorting
-//         "info": true,          // Show info (total records)
-//         // "autoWidth": false,    // Disable automatic width calculation
-//         "responsive": true,    // Make the table responsive
-//         // "columnDefs": [{
-//         //     "targets": -1, // Target the last column (Action column)
-//         //     "orderable": false // Disable sorting on the Action column
-//         // }]
-//     });
-// });
-
 // Age calculation function
 function calculateAge(birthDate) {
     const birth = new Date(birthDate);
@@ -247,7 +231,7 @@ function calculateAge(birthDate) {
  $('#clear_search').on('click', function(e){
   e.preventDefault(); // Prevent default link behavior
  $('#search_patient').val('');  // Clear the input field
- $('#patient_search tbody').empty();  // Clear the table body
+ $('#patient_search_list tbody').refresh();  // Clear the table body
 });
 
 // });
