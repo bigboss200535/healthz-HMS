@@ -19,8 +19,8 @@
         <li class="nav-item">
             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#nav_sponsor" aria-controls="navs-justified-profile" aria-selected="false">
               <span class="d-none d-sm-block">
-                <i class="tf-icons bx bx-message-square bx-sm me-1_5 align-text-bottom"></i> 
-                Patient Sponsor
+                <i class="tf-icons bx bx-money-withdraw bx-sm me-1_5 align-text-bottom"></i> 
+                Sponsor
               </span>
               <i class="bx bx-user bx-sm d-sm-none"></i>
             </button>
@@ -28,7 +28,7 @@
         <li class="nav-item">
           <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#nav_attendance" aria-controls="navs-justified-messages" aria-selected="false">
             <span class="d-none d-sm-block">
-              <i class="tf-icons bx bx-message-square bx-sm me-1_5 align-text-bottom"></i> Attendance History
+              <i class="tf-icons bx bx-timer bx-sm me-1_5 align-text-bottom"></i> Attendance
             </span>
             <i class="bx bx-message-square bx-sm d-sm-none"></i>
           </button>
@@ -36,7 +36,15 @@
         <li class="nav-item">
           <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#nav_medications" aria-controls="navs-justified-messages" aria-selected="false">
             <span class="d-none d-sm-block">
-              <i class="tf-icons bx bx-message-square bx-sm me-1_5 align-text-bottom"></i> Appointments
+              <i class="tf-icons bx bx-time bx-sm me-1_5 align-text-bottom"></i> Appointments
+            </span>
+            <i class="bx bx-message-square bx-sm d-sm-none"></i>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#nav_claims_code" aria-controls="navs-justified-messages" aria-selected="false">
+            <span class="d-none d-sm-block">
+              <i class="tf-icons bx bx-layer bx-sm me-1_5 align-text-bottom"></i> Claims Code
             </span>
             <i class="bx bx-message-square bx-sm d-sm-none"></i>
           </button>
@@ -251,6 +259,41 @@
           </p>
         </div>
        
+        <div class="tab-pane fade" id="nav_claims_code" role="tabpanel">
+        <p>
+            <div>
+              <h5>Claims Code History</h5>
+            </div>
+            <table class="table table-hover" id="claims_code_list">
+              <thead>
+                <tr>
+                  <th>S/N</th>
+                  <th>Type</th>
+                  <th>Member #</th>
+                  <th>Effect Date</th>
+                  <th>Expiry Date</th>
+                  <th># Status</th>
+                  <th>Active?</th>
+                  <th></th>
+                </tr>
+              </thead>
+             
+              <tfoot>
+                <tr>
+                  <th>S/N</th>
+                  <th>Type</th>
+                  <th>Member #</th>
+                  <th>Effect Date</th>
+                  <th>Expiry Date</th>
+                  <th># Status</th>
+                  <th>Active?</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
+          </p>
+        </div>
+       
       </div>
     </div>
   </div>
@@ -295,9 +338,9 @@
             </tr>
             <tr>
                  <td colspan="2">
-                    <a href="#" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target="#claims_check_code">Get C.C</a>
-                    <a href="#" class="btn btn-warning"><i class="fas fas-edit"></i> Edit</a>
-                    <a href="#" class="btn btn-primary" data-bs-toggle='modal' data-bs-target="#addattendance">Create Visit</a>
+                    <a href="#" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target="#claims_check_code"><i class="bx bx-plus"></i> C.C</a>
+                    <a href="#" class="btn btn-warning"><i class="bx bx-pencil"></i> Edit</a>
+                    <a href="#" class="btn btn-primary" data-bs-toggle='modal' data-bs-target="#addattendance"><i class="bx bx-plus"></i> Visit</a>
                 </td>
             </tr>
            </table>

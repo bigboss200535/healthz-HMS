@@ -34,6 +34,7 @@ return new class extends Migration
             $table->primary('kins_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
+            $table->foreign('patient_id')->references('patient_id')->on('patient_info');
         });
     }
 

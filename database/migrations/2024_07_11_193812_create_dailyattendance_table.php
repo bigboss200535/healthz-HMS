@@ -54,6 +54,7 @@ return new class extends Migration
             $table->foreign('age_id')->references('age_id')->on('ages');
             $table->foreign('gender_id')->references('gender_id')->on('gender');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
+            $table->foreign('patient_id')->references('patient_id')->on('patient_info');
         });
     }
 

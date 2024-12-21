@@ -32,6 +32,7 @@ return new class extends Migration
             // $table->primary('episode_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
+            
         });
     }
 

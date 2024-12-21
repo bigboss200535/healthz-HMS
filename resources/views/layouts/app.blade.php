@@ -106,6 +106,8 @@
      $(document).ready( function () {
         $('#app_list').DataTable();
         $('#employee_details').DataTable();
+        $('#claims_code_list').DataTable();
+        
         $('#data_table').DataTable();
         $('#product_list').DataTable();
         $('#patient_list').DataTable();
