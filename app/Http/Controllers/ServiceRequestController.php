@@ -34,64 +34,62 @@ class ServiceRequestController extends Controller
         $service = ServicePoints::select('service_point_id','service_points','gender_id', 'age_id')
         // ->where('gender_id', $patients->gender_id)
         // ->where('age_id', $ages->age_id)
-         ->where('archived', 'No')
-         ->where('is_active', 'Yes')
-        ->get();
+          ->where('archived', 'No')
+          ->where('is_active', 'Yes')
+          ->get();
     }
 
     public function store(Request $request)
     {
+            $request->validate([
+                'p_id' => 'required|string|max:255',
+                'opd_id' => 'nullable|string|max:255',
+                'pat_age' => 'nullable|string|max:255',
+                'pat_age_full' => 'nullable|string|max:255',
+                'clinics' => 'required|string|max:255',
+                'gender_id' => 'nullable|string|max:255',
+                'service' => 'nullable|string|max:255',
+                'attendance_type' => 'nullable|string|max:255',
+                'attendance_date' => 'required|date',
+                'service_type' => 'required|string|max:255',
+                'credit_amount' => 'nullable|numeric|min:0',
+                'cash_amount' => 'nullable|numeric|min:0',
+                'gdrg_code' => 'nullable|string|max:255',
+                'pat_type' => 'required|string|max:255',
+                'user_id' => 'nullable|string|max:255',
+                'episode_id' => 'nullable|string|max:255',
+                'p_age' => 'nullable|string|max:255',
+                'attendance_date' => 'required|date',
+            ]);
 
-         $request->validate([
-            'p_id' => 'required|string|max:255',
-            'opd_id' => 'nullable|string|max:255',
-            'pat_age' => 'nullable|string|max:255',
-            'pat_age_full' => 'nullable|string|max:255',
-            'clinics' => 'required|string|max:255',
-            'gender_id' => 'nullable|string|max:255',
-            'service' => 'nullable|string|max:255',
-            'attendance_type' => 'nullable|string|max:255',
-            'attendance_date' => 'required|date',
-            'service_type' => 'required|string|max:255',
-            'credit_amount' => 'nullable|numeric|min:0',
-            'cash_amount' => 'nullable|numeric|min:0',
-            'gdrg_code' => 'nullable|string|max:255',
-            'pat_type' => 'required|string|max:255',
-            'user_id' => 'nullable|string|max:255',
-            'episode_id' => 'nullable|string|max:255',
-            'p_age' => 'nullable|string|max:255',
-            'attendance_date' => 'required|date',
-        ]);
+            DB::select('CALL GetEpisodeId(?, ?, ?, ?)', [$request->p_id, 'PAT123456', 'CLAIMCODE123', $request->attendance_date]);
+            $patient = Patient::find($request->p_id);
+            $age_in_full = $this->get_age_full($patient->birth_date);
 
-        DB::select('CALL GetEpisodeId(?, ?, ?, ?)', [$request->p_id, 'PAT123456', 'CLAIMCODE123', $request->attendance_date]);
+            $service_equest = ServiceRequest::create([
+                'patient_id' => $request->p_id,
+                'opd_id' => $request->p_id,
+                'clinic_code' => $request->clinics,
+                'service_type' => $request->service_type,
+                'credit_amount' => $request->credit_amount ?? 0, 
+                'amount_payable' => $request->credit_amount ?? 0, 
+                'topup_code' => $request->credit_amount ?? 0, //Yes or no topup bill
+                'cash_amount' => $request->cash_amount ?? 0,   //amount payable if topup or no topup  
+                'gdrg_code' => $request->gdrg_code,
+                'reg_type' => $request->pat_type,
+                'episode_id' => $request->episode_id,
+                'pat_age' => $request->p_age,
+                'attendance_time' => $request->attendance_date,
+                'age_in_full' => $age_in_full,
+                'attendance_date' => $request->attendance_date,
+                'user_id' => Auth::check() ? Auth::id() : null,   
+            ]);
 
-        $patient = Patient::find($request->p_id);
-        $age_in_full = $this->get_age_full($patient->birth_date);
-
-        $service_equest = ServiceRequest::create([
-            'patient_id' => $request->p_id,
-            'opd_id' => $request->p_id,
-            'clinic_code' => $request->clinics,
-            'service_type' => $request->service_type,
-            'credit_amount' => $request->credit_amount ?? 0, 
-            'amount_payable' => $request->credit_amount ?? 0, 
-            'topup_code' => $request->credit_amount ?? 0, //Yes or no topup bill
-            'cash_amount' => $request->cash_amount ?? 0,   //amount payable if topup or no topup  
-            'gdrg_code' => $request->gdrg_code,
-            'reg_type' => $request->pat_type,
-            'episode_id' => $request->episode_id,
-            'pat_age' => $request->p_age,
-            'attendance_time' => $request->attendance_date,
-            'age_in_full' => $age_in_full,
-            'attendance_date' => $request->attendance_date,
-            'user_id' => Auth::check() ? Auth::id() : null,   
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'result' => 'Saved Successfully',
-            // 'data' => $service_equest,
-        ]);
+            return response()->json([
+                'success' => true,
+                'result' => 'Saved Successfully',
+                // 'data' => $service_equest,
+            ]);
     
     }
 
@@ -120,8 +118,8 @@ class ServiceRequestController extends Controller
     public function getspecialties(Request $request, $clinic_id)
     {
         $clinic_attendance = ServicePoints::select('service_point_id','service_points','attendance_type_id', 'clinic_id')
-         ->where('service_point_id', $clinic_id)
-        ->first();
+           ->where('service_point_id', $clinic_id)
+           ->first();
 
         if (!$clinic_attendance) {
             return response()->json([
@@ -131,14 +129,13 @@ class ServiceRequestController extends Controller
         }
 
         $at_clinic = ServiceAttendancetype::where('attendance_type_id', $clinic_attendance->attendance_type_id)
-        ->where('archived', 'No')
-        ->get();
+             ->where('archived', 'No')
+             ->get();
 
         return response()->json([
             'success' => true,
             'result' => $at_clinic
         ]);
-        
     }
    
     private function get_age_full($birthdate)
@@ -316,6 +313,14 @@ class ServiceRequestController extends Controller
         ]);
     }
 
+    }
+
+    public function get_episode_no($patient_id)
+    {
+        $patient_status = Patient::where('death_status', '=', 'No')
+        ->where('patient_id', $patient_id)
+        ->first();
+        
     }
 
 }

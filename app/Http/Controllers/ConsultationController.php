@@ -21,7 +21,6 @@ class ConsultationController extends Controller
         ->rightJoin('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
         ->RightJoin('gender', 'patient_info.gender_id', 'gender.gender_id')       
         ->orderBy('patient_attendance.attendance_id', 'asc')
-
         ->select('patient_attendance.*', 'patient_info.*', 'gender.gender',  DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as pat_ages'))
         ->get();
 

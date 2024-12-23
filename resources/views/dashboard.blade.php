@@ -119,8 +119,8 @@
                         <div class="card-body">
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
-                              <img src="{{ asset('img/icons/unicons/chart-success.png') }}" alt="chart success"
-                                class="rounded" /> 
+                              <!-- <i class="bx bx-hotel"></i> -->
+                              <img src="{{ asset('img/icons/unicons/chart-success.png') }}" alt="chart success" class="rounded" /> 
                               </div>
                           </div>
                           <span class="fw-medium d-block mb-1">Out Patient</span>

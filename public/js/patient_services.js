@@ -180,8 +180,8 @@ $(document).ready(function() {
                             (patient.gender_id === '3' ? 'Male' : 'Female'), // Gender
                             age, // Age
                             patient.telephone, // Telephone
-                            new Date(patient.register_date).toLocaleDateString('en-GB'), // Added Date
-                            patient.status, // Status
+                            new Date(patient.birth_date).toLocaleDateString('en-GB'), // birth Date
+                            new Date(patient.register_date).toLocaleDateString('en-GB'),
                             '<div class="dropdown" align="center">' +
                                 '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">' +
                                     '<i class="bx bx-dots-vertical-rounded"></i>' +

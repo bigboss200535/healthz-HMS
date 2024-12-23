@@ -53,8 +53,8 @@
                                   <th>Gender</th>
                                   <th>Age</th>
                                   <th>Telephone</th>
+                                  <th>Birth Date</th>
                                   <th>Added Date</th>
-                                  <th>Status</th>
                                   <th>Action</th>
                               </tr>
                           </thead>
@@ -69,8 +69,8 @@
                                   <th>Gender</th>
                                   <th>Age</th>
                                   <th>Telephone</th>
+                                  <th>Birth Date</th>
                                   <th>Added Date</th>
-                                  <th>Status</th>
                                   <th>Action</th>
                               </tr>
                           </tfoot>

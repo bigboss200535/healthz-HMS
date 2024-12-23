@@ -202,6 +202,9 @@
               <label class="form-label" for="e_fullname">Clinic</label>
               <select name="opd_clinic" id="opd_clinic" class="form-control">
                 <option value="" selected disabled>-Select Clinic-</option>
+                @foreach($clinic as $clinics)                                        
+                  <option value="{{ $clinics->clinic_id }}">{{ $clinics->clinic }}</option>
+                 @endforeach
               </select>
             </div>
             <div class="col">

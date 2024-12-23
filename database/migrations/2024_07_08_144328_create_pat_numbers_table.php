@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
-            $table->foreign('clinic_id')->references('clinic_id')->on('clinics');
+            // $table->foreign('clinic_id')->references('clinic_id')->on('clinics');
         });
     }
 
