@@ -78,8 +78,8 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('consultation')->group(function () {
-        Route::get('/opd-consultation', [ConsultationController::class, 'index']);
-        Route::get('/ipd-consultation', [ReportsController::class, 'index']);
+        Route::get('/opd-consultation', [ConsultationController::class, 'opd_consult']);
+        Route::get('/ipd-consultation', [ConsultationController::class, 'ipd-consult']);
         // Route::get('patient', [ReportsController::class, 'patient']);
     });
 

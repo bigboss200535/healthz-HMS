@@ -79,4 +79,19 @@ class ConsultationController extends Controller
 
     }
     
+    public function opd_consult()
+    {
+          // $outcome = 
+          $con_room = ConsultingRoom::where('Archived', 'No')->get();
+          $patient_list = Patient::where('Archived', 'No')->get();
+
+       return view('consultation.opd_consult'); 
+    }
+
+
+    public function ipd_consult()
+    {
+
+    }
+    
 }
