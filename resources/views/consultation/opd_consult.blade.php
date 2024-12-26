@@ -7,11 +7,11 @@
           <!-- <p class="text-muted">Generate Report using criteria</p> -->
         </div>
         <div class="d-flex align-content-center flex-wrap gap-3">
-            <!-- <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdoal_form" >Search Patient</button> -->
-            <!-- <button class="btn btn-primary">Go to Registered Patients</button> -->
-            <!-- <a href="{{ url('patient/search') }}" class="btn btn-primary">Search Patient</a> -->
-            <!-- <a href="#" class="btn btn-primary">Add Attendance</a> -->
-            <!-- <button type="submit" class="btn btn-primary">Patient Sponsorship</button> -->
+            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdoal_form" >Search Patient</button>
+            <button class="btn btn-primary">Go to Registered Patients</button>
+            <a href="{{ url('patient/search') }}" class="btn btn-primary">Search Patient</a>
+            <a href="#" class="btn btn-primary">Add Attendance</a>
+            <button type="submit" class="btn btn-primary">Patient Sponsorship</button>
         </div>
       </div>
   <div class="row">
