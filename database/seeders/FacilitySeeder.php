@@ -18,7 +18,7 @@ class FacilitySeeder extends Seeder
     {
         $user = User::inRandomOrder()->first(); 
 
-        $service = Facility::create([
+        $facility = Facility::create([
             'facility_id' => 'FAC000001',
             'facility_name' => 'MATER DEI HOSPITAL',
             'nhis_api' => 'Claim Check Code',

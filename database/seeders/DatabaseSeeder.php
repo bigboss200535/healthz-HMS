@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ConsultingRoom;
+use App\Models\Nationality;
 // use App\Models\Product;
 // use App\Models\SponsorType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -51,12 +52,15 @@ class DatabaseSeeder extends Seeder
             Products::class,
             DiagnosisSeeder::class,
             ProductClassSeeder::class,
+            NationalitySeeder::class,
         ]);
         
         \App\Models\Patient::factory(7000)->create();
         \App\Models\PatientSponsor::factory(2000)->create();
         \App\Models\PatNumber::factory(4500)->create();
         \App\Models\User::factory(50)->create();
+       
         \App\Models\PatientAttendance::factory(100)->create();
+        // \App\Models\Admissions::factory(100)->create();
     }
 }

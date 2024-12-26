@@ -13,21 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('wards', function (Blueprint $table) {
-            $table->string('ward_id');
-            $table->string('ward_name')->nullable();
-            $table->string('ward_status')->nullable();
-            $table->string('ward_gender')->nullable();
-            $table->string('bed_number')->nullable();
-            $table->string('gender_id')->nullable();
-            $table->string('age_id')->nullable();
-            $table->string('initial_bed_state')->nullable();
-            $table->string('ward_type')->nullable();
-            $table->string('rb_total')->nullable();
-            $table->string('vb_total')->nullable();
-            $table->string('arb_total')->nullable();
-            $table->string('avb_total')->nullable();
-            $table->string('user_id', 10)->nullable();
+        Schema::create('nationality', function (Blueprint $table) {
+            $table->string('nationality_id')->primary();
+            $table->string('nationality')->nullable();
+            $table->string('user_id', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('added_id', 100)->nullable();
             $table->timestamp('added_date')->nullable();
@@ -37,7 +26,7 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            $table->primary('ward_id');
+            // $table->primary('nationality_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
         });
@@ -50,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wards');
+        Schema::dropIfExists('nationality');
     }
 };

@@ -17,7 +17,7 @@ return new class extends Migration
     {
        Schema::create('patient_info', function (Blueprint $table) {
             $table->string('patient_id', 50);
-            $table->string('title_id', 50);
+            $table->string('title', 50);
             $table->string('firstname', 100);
             $table->string('middlename', 100);
             $table->string('lastname', 100);
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('occupation', 100)->nullable();
             $table->string('education', 100)->nullable();
             $table->string('religion_id', 50)->nullable();
-            $table->string('nationality', 100)->nullable();
+            $table->string('nationality_id', 50)->nullable();
             $table->string('old_folder', 100)->nullable();
             $table->string('death_status', 100)->default('No');
             $table->date('death_status_date', 100)->nullable();
@@ -65,6 +65,7 @@ return new class extends Migration
             $table->foreign('religion_id')->references('religion_id')->on('religion');
             $table->foreign('gender_id')->references('gender_id')->on('gender');
             $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('nationality_id')->references('nationality_id')->on('nationality');
 
         });
     }

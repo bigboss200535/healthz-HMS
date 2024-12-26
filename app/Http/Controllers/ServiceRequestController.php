@@ -14,7 +14,9 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+
 
 
 class ServiceRequestController extends Controller
@@ -171,9 +173,8 @@ class ServiceRequestController extends Controller
     public function gettarrifs($service_id, Request $request)
     {
         $patients = DB::table('patient_info')
-        ->where('patient_id', $request->input('pat_id'))
-            ->select('patient_id', 'fullname', 'birth_date', 'telephone', 'gender_id',
-                DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age'))
+            ->where('patient_id', $request->input('pat_id'))
+            ->select('patient_id', 'fullname', 'birth_date', 'telephone', 'gender_id', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age'))
             ->first();
 
         // Fetch service code in one query
@@ -255,7 +256,7 @@ class ServiceRequestController extends Controller
         return str_pad($new_number, 6, '0', STR_PAD_LEFT);
     }
 
-    public function claims_code()
+    public function claims_code($request)
     {
         $stored_data = DB::table('facility')->where('archived', 'No')->select('ccc_type','nhia_url', 'nhia_key', 'nhia_secret')->first();
         // $apiUrl = Http::get("https://elig.nhia.gov.gh:5000/api/hmis/genCCC");
