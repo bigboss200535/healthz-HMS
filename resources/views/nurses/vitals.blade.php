@@ -31,55 +31,23 @@
                     <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-notes" role="tabpanel">
                       <p>
-                            <ul class="timeline mb-0">
-                                <li class="timeline-item timeline-item-transparent">
-                                  <span class="timeline-point timeline-point-primary"></span>
-                                  <div class="timeline-event">
-                                    <div class="timeline-header mb-3">
-                                      <h6 class="mb-0">NURSE: MOHAMMED ALHASSAN </h6>
-                                      <small class="text-muted">25/12/2024   11:59AM</small>
-                                    </div>
-                                    <p class="mb-2" style="color: #000000;">
-                                      Invoices have been paid to the company 
-                                      I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                      I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                      <a href="#"><i class="bx bx-edit"></i></a>
-                                    </p>
-                                  </div>
-                                </li>
-                                <li class="timeline-item timeline-item-transparent">
-                                  <span class="timeline-point timeline-point-primary"></span>
-                                  <div class="timeline-event">
-                                    <div class="timeline-header mb-3">
-                                      <h6 class="mb-0">NURSE: MOHAMMED ALHASSAN </h6>
-                                      <small class="text-muted">25/12/2024   11:59AM</small>
-                                    </div>
-                                    <p class="mb-2" style="color: #000000;">
-                                      Invoices have been paid to the company 
-                                      I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                      I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                      <a href="#"><i class="bx bx-edit"></i></a>
-                                    </p>
-                                  </div>
-                                </li>
-                                <li class="timeline-item timeline-item-transparent">
-                                  <span class="timeline-point timeline-point-primary"></span>
-                                  <div class="timeline-event">
-                                    <div class="timeline-header mb-3">
-                                      <h6 class="mb-0">NURSE: MOHAMMED ALHASSAN </h6>
-                                      <small class="text-muted">25/12/2024   11:59AM</small>
-                                    </div>
-                                    <p class="mb-2" style="color: #000000;">
-                                      Invoices have been paid to the company 
-                                      I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                      I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                      <a href="#"><i class="bx bx-edit"></i></a>
-                                    </p>
-                                    
-                                  </div>
-                                </li>
-                          </ul>
-                    </p>
+                        <div class="col-3">
+                          <label class="form-label" for="firstname">Temperature <a style="color: red;">*</a></label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" value="" placeholder="Firstname" autocomplete="off">
+                            <div class="col">
+                          <label class="form-label" for="firstname">Temperature <a style="color: red;">*</a></label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" value="" placeholder="Firstname" autocomplete="off">
+                         </div> 
+                         </div> 
+                         <div class="col-3">
+                          <label class="form-label" for="firstname">Temperature <a style="color: red;">*</a></label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" value="" placeholder="Firstname" autocomplete="off">
+                         </div>
+                         <div class="col-3">
+                          <label class="form-label" for="firstname">Temperature <a style="color: red;">*</a></label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" value="" placeholder="Firstname" autocomplete="off">
+                         </div>    
+                      </p>
                   </div>
                   <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                     <p>

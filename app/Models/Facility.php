@@ -36,6 +36,13 @@ class Facility extends Model
         'archived_date'
     ];
 
+    protected $casts = [
+        'nhia_url' => 'encrypted',
+        'nhia_key' => 'encrypted',
+        'nhia_secret' => 'encrypted',
+    ];
+
+
     public function setApiApiUrlAttribute($value)
     {
         $this->attributes['nhia_key'] = base64_encode($value);

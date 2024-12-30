@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('patient_opd')->nullable();
             $table->string('ward_id', 50)->nullable();
             $table->string('bed_id', 50)->nullable();
-            $table->timestamp('admission_date', 10)->nullable();
-            $table->timestamp('discharge_date', 10)->nullable();
+            $table->timestamp('admission_date')->nullable();
+            $table->timestamp('discharge_date')->nullable();
             $table->string('discharge_status')->nullable();
             $table->string('ward_transfer')->nullable();
             $table->string('doctor_id', 50)->nullable();

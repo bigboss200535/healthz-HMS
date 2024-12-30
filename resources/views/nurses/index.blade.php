@@ -30,6 +30,24 @@
                     </ul>
                     <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-notes" role="tabpanel">
+                    <p>
+                        <label for="notes_date">Notes Date</label>
+                        <input type="date" class="form-control" name="notes_date" id="notes_date">
+                      </p>
+                    <p>
+                        <label for="notes_time">Notes Time</label>
+                        <input type="time" class="form-control" name="notes_time" id="notes_time">
+                      </p>
+                      <p>
+                        <label for="nurses_notes">Notes</label>
+                        <textarea name="nurses_notes" id="nurses_notes" class="form-control"  style="resize:none" rows="7"></textarea>
+                      </p>
+                      <p>
+                          <a href="#" class="btn btn-primary">Submit</a>
+                      </p>
+                      <br>
+                      <!-- <hr> -->
+                      <label><b>PREVIOUS NOTES</b></label>
                       <p>
                             <ul class="timeline mb-0">
                                 <li class="timeline-item timeline-item-transparent">
@@ -44,6 +62,7 @@
                                       I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
                                       I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
                                       <a href="#"><i class="bx bx-edit"></i></a>
+                                      <a href="#" style="color:red"><i class="bx bx-trash"></i></a>
                                     </p>
                                   </div>
                                 </li>

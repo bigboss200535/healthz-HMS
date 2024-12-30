@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('facility', function (Blueprint $table) {
             $table->string('facility_id', 50);
             $table->string('facility_name', 150)->nullable();
-            $table->string('nhis_api', 150)->nullable();
-            $table->string('nhia_url', 150)->nullable();
-            $table->string('nhia_key', 150)->nullable();
-            $table->string('nhia_secret', 150)->nullable();
+            $table->string('nhis_api', 1024)->nullable();
+            $table->string('nhia_url', 1024)->nullable();
+            $table->string('nhia_key', 1024)->nullable();
+            $table->string('nhia_secret', 1024)->nullable();
             $table->string('nhia_desc', 150)->nullable();
             $table->string('user_id', 50)->nullable();
             $table->string('ccc_type', 50)->nullable();

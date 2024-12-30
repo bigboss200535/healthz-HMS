@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('system_apis', function (Blueprint $table) {
             $table->string('api_id', 50);
-            $table->string('api_name', 100);
-            $table->string('api_url', 200)->nullable();
-            $table->string('api_key', 100);
-            $table->string('api_secret', 100)->nullable();
+            $table->string('api_name', 100)->nullable();
+            $table->text('api_url')->nullable();
+            $table->text('api_key')->nullable();
+            $table->string('api_secret', 500)->nullable();
             $table->string('api_type', 100)->nullable();
             $table->string('descriptions', 100)->nullable();
             $table->string('facility_id', 50)->nullable();
