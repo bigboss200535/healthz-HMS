@@ -99,7 +99,7 @@
                           </div>
                         </div>
                       </div>
-                  <div class="app-ecommerce-category">
+                  <!-- <div class="app-ecommerce-category"> -->
              
              </div>
           </div>
