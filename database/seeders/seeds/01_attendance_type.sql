@@ -1,6 +1,6 @@
 INSERT INTO service_attendance_type (attendance_type_id, attendance_type, status_code, 
 gender_id, age_id, child_code, patient_type, clinic_id, adult_code, type_code) 
-VALUES
+VALUES 
 	('AT1', 'GENERAL CONSULTATION', '2', '1', '3', '03260', '1', 'C01', '03260', '1'),
 	('AT2', 'DIRECT SERVCE', '2', '1', '3', '768', '2', 'C02', '768', '2'),
 	('AT3', 'ANTENATAL', '2', '3', '2', '03687', '1', 'C03', '03687', '3'),

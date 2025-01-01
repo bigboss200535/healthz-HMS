@@ -511,7 +511,7 @@ INSERT INTO `products` (`product_id`, `product_name`, `default_method`, `prescri
 	('P000510', 'AUGMENTIN 625MG TABLET', '', '', '0012', '', '', '', 'Yes', 'No', '', 'STOCK', '', '', '', '1', '2', '1', '108.18', '1', '1', '1', '14', '1', '5', 'No', 'Yes'),
 	('P000511', 'AUGMENTIN ', '', '', '0012', '', '', '', 'Yes', 'No', '', 'STOCK', '', '', '', '1', '2', '1', '45.05', '60', '1', '1', '14', '1', '6', 'Yes', 'Yes'),
 	('P000512', 'WELTEK- FULJOINT  CAPSULE ', '', '', '0012', '', '', '', 'Yes', 'No', '', 'STOCK', '', '', '', '1', '2', '1', '84.03', '2', '1', '1', '30', '1', '6', 'No', 'Yes'),
-	('P000513', '...ZINNAT 250MG TABLET.....', 'oral', '1', '0012', 'ANTIBACTERIAL PREPARATIONS', 'GENERIC', '', 'Yes', 'No', 'Drug', 'STOCK', 'Tablet - Loose', 'TAB', 'Tab(s)', '1', '3', '1', '13.20', '60', '1', '1', '10', '1', '6', 'Yes', 'Yes'),
+	('P000513', 'ZINNAT 250MG TABLET', 'oral', '1', '0012', 'ANTIBACTERIAL PREPARATIONS', 'GENERIC', '', 'Yes', 'No', 'Drug', 'STOCK', 'Tablet - Loose', 'TAB', 'Tab(s)', '1', '3', '1', '13.20', '60', '1', '1', '10', '1', '6', 'Yes', 'Yes'),
 	('P000514', 'ZINCOVIT SYRUP', '', '', '0012', '', '', '', 'Yes', 'No', '', 'STOCK', '', '', '', '1', '3', '1', '29.89', '9', '1', '200', '200', '1', '5', 'No', 'No'),
 	('P000515', 'STUGERON 25MG TABLET', '', '', '0012', '', '', '', 'Yes', 'No', '', 'STOCK', '', '', '', '1', '2', '1', '0.60', '1', '1', '1', '1', '1', '5', 'No', 'Yes'),
 	('P000516', 'DROTAVERIN (NOSPA) 40MG TABLET', '', '', '0012', '', '', '', 'Yes', 'No', '', 'STOCK', '', '', '', '1', '2', '1', '0.54', '1', '1', '1', '1', '1', '5', 'No', 'Yes'),

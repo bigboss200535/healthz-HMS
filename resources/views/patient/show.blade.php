@@ -326,7 +326,7 @@
             </tr>
             <tr>
               <td><b>Blood Group</b>:</td>
-              <td>O-</td>
+              <td><span class="badge bg-label-danger me-1">O-</span></td>
             </tr>
             <tr>
               <td><b>Sickling</b>:</td>

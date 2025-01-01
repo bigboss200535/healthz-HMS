@@ -1,7 +1,7 @@
 -- comemnt
 
 INSERT INTO `services_fee` (`service_fee_id`, `service_id`, `service`, `gender_id`, `patient_type`, `age_id`, `service_type_code`, `cash_amount`, `private_amount`, `company_amount`, `foreigners_amount`, `allow_nhis`, `nhis_adult`, `nhis_child`, `gdrg_adult`, `gdrg_child`, `editable`, `allow_topup`, `topup_amount`, `delivery_mode`) VALUES
-	('03321', '0001', '(ESR) ERYTHROCYTE SEDIMENTATION RATE', '1', '1', '3', '11', '40.00', '30.00', '9.75', '30.00', 'Yes', '9.75', '9.75', 'INVE42D', 'INVE42D', 'No', 'No', '0', 'INTERNAL'),
+	('03321', '0001', 'ERYTHROCYTE SEDIMENTATION RATE', '1', '1', '3', '11', '40.00', '30.00', '9.75', '30.00', 'Yes', '9.75', '9.75', 'INVE42D', 'INVE42D', 'No', 'No', '0', 'INTERNAL'),
 	('03677', '0001', '2 HOUR POST PRANDIAL BLOOD GLUCOSE', '1', '1', '3', '11', '15.00', '19.00', '23.41', '19.00', 'Yes', '23.41', '23.41', 'INVE01D', 'INVE01D', 'No', 'No', '0', 'INTERNAL'),
 	('03326', '0001', '24 HR URINE FOR PROTEIN', '1', '1', '3', '11', '30.00', '36.00', '17.33', '36.00', 'No', '17.33', '17.33', 'INVE02D', 'INVE02D', 'No', 'No', '0', 'INTERNAL'),
 	('04854', '0001', '2HRPP -GLUCOSE', '1', '1', '3', '11', '20.00', '24.00', '956.35', '24.00', 'Yes', '0.00', '0.00', 'ASUR21A', '', 'No', 'No', '0', 'INTERNAL'),

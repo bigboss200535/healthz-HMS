@@ -356,13 +356,18 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-cog"></i>
-        <div class="text-truncate" data-i18n="Cards">Items / Prices</div>
+        <div class="text-truncate" data-i18n="Cards">Products </div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="{{ url('/products') }}" class="menu-link">
-            <div class="text-truncate" data-i18n="Basic">Item Setup</div>
+            <div class="text-truncate" data-i18n="Basic">Product Setup</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{ url('/products') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="Basic">Product Prices</div>
           </a>
         </li>
       </ul>
@@ -370,7 +375,7 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-cog"></i>
-        <div class="text-truncate" data-i18n="Cards">Service Setup</div>
+        <div class="text-truncate" data-i18n="Cards">Services</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
@@ -402,18 +407,18 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-cog"></i>
-        <div class="text-truncate" data-i18n="Cards">Payables</div>
+        <div class="text-truncate" data-i18n="Cards">Facility Setup</div>
         <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Basic">PAYE</div>
+            <div class="text-truncate" data-i18n="Basic">NHIS Setup</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Advance">SSNIT</div>
+            <div class="text-truncate" data-i18n="Advance">Facility Setup</div>
           </a>
         </li>
       </ul>
