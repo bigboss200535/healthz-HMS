@@ -14,9 +14,7 @@ class ClaimsNhisController extends Controller
   
     public function index()
     {
-        
         return view('claims-nhis.index'); 
-        
     }
         
     public function create()

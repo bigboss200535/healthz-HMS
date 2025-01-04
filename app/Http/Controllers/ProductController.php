@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductController extends Controller
@@ -17,16 +18,18 @@ class ProductController extends Controller
         $total_drugs = Product::where('product_type_id', '=', '1')->count();
         $total_consumable = Product::where('product_type_id', '=', '2')->count();
         $total_others = Product::where('product_type_id', '=', '3')->count();
+        $presentation = DB::table('product_presentation')->where('archived', 'No')->orderBy('presentation', 'asc')->get();
+        $store = DB::table('stores')->where('archived', 'No')->where('status', 'Active')->where('is_store', '1')->orderBy('store', 'asc')->get();
 
         $item = Product::rightJoin('product_type', 'product_type.product_type_id', '=', 'products.product_type_id')
-        ->rightjoin('stores', 'stores.store_id', '=', 'products.store_id')
-        ->where('products.archived', 'No')
-        ->select('products.*','product_type.*', 'stores.*')
-        ->orderBy('products.product_name', 'asc')
-        // ->lockForUpdate() 
-        ->get();
+            ->rightjoin('stores', 'stores.store_id', '=', 'products.store_id')
+            ->where('products.archived', 'No')
+            ->select('products.*','product_type.*', 'stores.*')
+            ->orderBy('products.product_name', 'asc')
+            // ->lockForUpdate() 
+            ->get();
 
-        return view('product.index', compact('item', 'total_drugs', 'total_consumable', 'total_others', 'total_all'));
+        return view('product.index', compact('item', 'total_drugs', 'total_consumable', 'total_others', 'total_all', 'presentation', 'store'));
     }
 
     public function create()
@@ -34,11 +37,11 @@ class ProductController extends Controller
         // $category = Category::where('archived', 'No')->where('status', '=','Active')->get();
 
         $products = Product::rightJoin('product_category', 'product_category.category_id', '=', 'product.category_id')
-        ->where('product.archived', 'No')
-        ->where('product.is_new', '1')
-        ->select('product.product_id','product.product_name','product.added_date','product.status' ,'product.stocked','product.expirable','product_category.category_id as pro_id', 'product_category.category_name as category')
-        ->orderBy('product.added_date', 'asc') 
-        ->paginate(5);
+            ->where('product.archived', 'No')
+            ->where('product.is_new', '1')
+            ->select('product.product_id','product.product_name','product.added_date','product.status' ,'product.stocked','product.expirable','product_category.category_id as pro_id', 'product_category.category_name as category')
+            ->orderBy('product.added_date', 'asc') 
+            ->paginate(5);
 
         $product = Product::rightJoin('product_category', 'product_category.category_id', '=', 'product.category_id')
         ->where('product.archived', 'No')

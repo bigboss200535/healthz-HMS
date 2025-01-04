@@ -14,6 +14,7 @@
             <button type="submit" class="btn btn-primary">Patient Sponsorship</button>
         </div>
       </div>
+      
   <div class="row">
    <div class="col-12 col-lg-8">
       <div class="card mb-4">
@@ -47,9 +48,11 @@
     </div>
     <div class="col-12 col-lg-4">
       <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-tile mb-0"><b>Waiting List</b></h5>
+        </div>
         <div class="card-body">
-            <img src="{{ asset('img/undraw/login.svg') }}" alt="" height="157px">
-            <br>
+            
         </div>
       </div>
     </div>

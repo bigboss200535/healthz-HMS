@@ -10,11 +10,10 @@ class ClaimsPrivateController extends Controller
     public function index()
     {
         $insurance_companies = Sponsors::where('sponsor_type_id', '=', 'PI03')
-        ->where('archived', 'No')
-        ->get();
+            ->where('archived', 'No')
+            ->get();
         
-        return view('claims-private.index', compact('insurance_companies')); 
-        
+        return view('claims-private.index', compact('insurance_companies'));  
     }
         
     public function create()

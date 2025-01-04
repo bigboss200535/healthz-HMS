@@ -14,7 +14,7 @@
                                 <h4 class="mb-0 me-2">{{ number_format($total_all) }}</h4>
                                 <!-- <small class="text-success">(+29%)</small> -->
                               </div>
-                              <p class="mb-0">All <br>Products </p>
+                              <p class="mb-0">All Products </p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-primary">
@@ -35,7 +35,7 @@
                                 <h4 class="mb-0 me-2">{{ number_format($total_drugs) }}</h4>
                                 <!-- <small class="text-success">(+18%)</small> -->
                               </div>
-                              <p class="mb-0">Total <br> Drugs</p>
+                              <p class="mb-0">Total Drugs</p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-danger">
@@ -56,7 +56,7 @@
                                 <h4 class="mb-0 me-2">{{ number_format($total_consumable) }}</h4>
                                 <!-- <small class="text-danger">(-14%)</small> -->
                               </div>
-                              <p class="mb-0">Total <br>Consumables</p>
+                              <p class="mb-0">Total Consumables</p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-success">
@@ -77,7 +77,7 @@
                                 <h4 class="mb-0 me-2">{{ number_format( $total_others) }}</h4>
                                 <!-- <small class="text-success">(+42%)</small> -->
                               </div>
-                              <p class="mb-0"><br> Others </p>
+                              <p class="mb-0">Others </p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-warning">
@@ -109,21 +109,37 @@
                               <div class="row mb-3">
                                 <div class="col">
                                   <label class="form-label" for="first_name">Product Class <a style="color: red;">*</a></label>
-                                  <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" autocomplete="off">
+                                  <select name="gender" id="gender" class="form-control">
+                                    <option disabled selected>-Select-</option>
+                                     
+                                  </select>
                                 </div>
                                 <div class="col">
-                                  <label class="form-label" for="other_name">Default Route</label>
-                                  <input type="text" class="form-control" id="other_name" name="other_name" placeholder="Othername" autocomplete="off">
+                                  <label class="form-label" for="other_name">Product Route</label>
+                                  <select name="gender" id="gender" class="form-control">
+                                    <option disabled selected>-Select-</option>
+                                     
+                                  </select>
                                 </div>
                               </div>
                               <div class="row mb-3">
                                 <div class="col">
                                   <label class="form-label" for="u_pass_word">Presentation <a style="color: red;">*</a></label>
-                                  <input type="text" class="form-control" id="u_pass_word" name="u_pass_word">
+                                  <select name="gender" id="gender" class="form-control">
+                                    <option disabled selected>-Select-</option>
+                                        @foreach($presentation as $present)                                        
+                                            <option value="{{ $present->pp_id}}">{{ $present->presentation }}</option>
+                                        @endforeach
+                                  </select>
                                 </div>
                                 <div class="col">
                                   <label class="form-label" for="confirm_pass">Store <a style="color: red;">*</a></label>
-                                  <input type="text" class="form-control" id="confirm_pass" name="confirm_pass" placeholder="*****">
+                                  <select name="gender" id="gender" class="form-control">
+                                    <option disabled selected>-Select-</option>
+                                        @foreach($store as $stores)                                        
+                                            <option value="{{ $stores->store_id}}">{{ $stores->store }}</option>
+                                        @endforeach
+                                  </select>
                                 </div>
                               </div>   
                               <div class="row mb-3">
@@ -136,21 +152,45 @@
                                 </div>
                                 <div class="col">
                                   <label class="form-label" for="u_email">Stockable </label>
-                                  <input type="text" class="form-control" id="u_email" name="u_email" placeholder="example@demo.com">
+                                  <select name="gender" id="gender" class="form-control">
+                                    <option disabled selected>-Select-</option>
+                                     
+                                  </select>
                                 </div>
                               </div>   
                               <div class="row mb-3">
                                 <div class="col">
                                   <label class="form-label" for="u_telephone">Unit Cost <a style="color: red;">*</a></label>
-                                  <input type="text" class="form-control" id="u_telephone" name="u_telephone" placeholder="Telephone">
+                                  <input type="text" class="form-control" id="u_telephone" name="u_telephone" placeholder="0.00">
                                 </div>
                                 <div class="col">
                                   <label class="form-label" for="user_role">Enable NHIS <a style="color: red;">*</a></label>
-                                  <select name="user_role" id="user_role" class="form-control">
-                                    
+                                  <select name="gender" id="gender" class="form-control">
+                                    <option disabled selected>-Select-</option>
+                                     
                                   </select>
                                 </div>
                               </div>  
+                              <div class="row mb-3">
+                                <div class="col">
+                                  <label class="form-label" for="u_telephone">Least Prescripe Qty <a style="color: red;">*</a></label>
+                                  <input type="text" class="form-control" id="u_telephone" name="u_telephone" placeholder="1">
+                                </div>
+                                <div class="col">
+                                  <label class="form-label" for="user_role">Available Unit Qty <a style="color: red;">*</a></label>
+                                  <input type="text" class="form-control" id="u_telephone" name="u_telephone" placeholder="">
+                                </div>
+                              </div>  
+                              <div class="row mb-3">
+                                <div class="col">
+                                  <label class="form-label" for="u_telephone">G-DRG <a style="color: red;">*</a></label>
+                                  <input type="text" class="form-control" id="u_telephone" name="u_telephone" placeholder="1">
+                                </div>
+                                <div class="col">
+                                  <label class="form-label" for="user_role">Manufacturer <a style="color: red;">*</a></label>
+                                  <input type="text" class="form-control" id="u_telephone" name="u_telephone" placeholder="">
+                                </div>
+                              </div>
                               <div class="row mb-3">
                                 <div class="col">
                                   <label class="form-label" for="u_block">Block Status <a style="color: red;">*</a></label>

@@ -16,26 +16,22 @@ class ConsultationController extends Controller
     
     public function index()
     {
-
       $pat_req = PatientAttendance::where('patient_attendance.archived', 'No')
         ->rightJoin('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
         ->RightJoin('gender', 'patient_info.gender_id', 'gender.gender_id')       
         ->orderBy('patient_attendance.attendance_id', 'asc')
         ->select('patient_attendance.*', 'patient_info.*', 'gender.gender',  DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as pat_ages'))
-        ->get();
-
-
+        ->get();  
 
       // $patients = DB::table('patient_info')
-      // ->where('patient_info.patient_id', $patient_id)
-      // ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
-      // ->join('title', 'patient_info.title_id', '=', 'title.title_id')
-      // ->select('patient_info.patient_id', 'title.title', 'patient_info.fullname',  'gender.gender', 
-      // 'patient_info.birth_date', 'patient_info.email','patient_info.address',  'patient_info.added_date', 
-      // 'patient_info.telephone', 
-      // DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
-      // ->orderBy('patient_info.added_date', 'asc') 
-      // ->first();
+      //     ->where('patient_info.patient_id', $patient_id)
+      //     ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
+      //     ->join('title', 'patient_info.title_id', '=', 'title.title_id')
+      //     ->select('patient_info.patient_id', 'title.title', 'patient_info.fullname',  'gender.gender', 
+      //         'patient_info.birth_date', 'patient_info.email','patient_info.address',  'patient_info.added_date', 
+      //         'patient_info.telephone', DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
+      //     ->orderBy('patient_info.added_date', 'asc') 
+      //     ->first();
 
           // $con_room = ConsultingRoom::where('Archived', 'No')->get();
           // $store = Stores::where('archived', 'No')->where('is_pharmacy', '=', 'Yes')->get();
