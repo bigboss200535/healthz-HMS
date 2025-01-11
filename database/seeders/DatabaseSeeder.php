@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
             NationalitySeeder::class,
         ]);
         
-        \App\Models\Patient::factory(750)->create();
+        \App\Models\Patient::factory(2000)->create();
         \App\Models\PatientSponsor::factory(200)->create();
         \App\Models\PatNumber::factory(450)->create();
         \App\Models\User::factory(50)->create();

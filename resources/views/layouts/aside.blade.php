@@ -169,7 +169,7 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{ url('consultation/opd-consultation') }}" class="menu-link">
+          <a href="{{ url('consultation/consult') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Consultations</div>
           </a>
         </li>
@@ -417,7 +417,7 @@
           </a>
         </li>
         <li class="menu-item">
-          <a href="#" class="menu-link">
+          <a href="{{ url('/healthfacilitysetup') }}" class="menu-link">
             <div class="text-truncate" data-i18n="Advance">Facility Setup</div>
           </a>
         </li>
@@ -557,7 +557,7 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{ url('/consultation/opd-consultation') }}" class="menu-link">
+          <a href="{{ url('/consultation/c') }}" class="menu-link">
             <div class="text-truncate" data-i18n="Basic">Consultations</div>
           </a>
         </li>

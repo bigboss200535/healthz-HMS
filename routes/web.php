@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServicesFeeController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('diagnosis', DiagnosisController::class);
     Route::resource('clinics', ClinicController::class);
+    Route::resource('healthfacilitysetup', FacilityController::class);
     
 
     Route::get('/patient/search', [PatientController::class, 'search'])->name('patient.search');
@@ -69,7 +71,7 @@ Route::middleware('auth')->group(function () {
         // Route::get('/patient', [ReportsController::class, 'patient']);
     });
 
-    Route::get('patient/attendance/{patient_id}', [PatientVisitsController::class, 'show'])->name('attendance.show');
+    // Route::get('patient/attendance/{patient_id}', [PatientVisitsController::class, 'show'])->name('attendance.show');
     Route::get('/services/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);
     Route::get('/services/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);
     Route::post('/services/patient_service', [ServiceRequestController::class, 'store']);
@@ -85,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('consultation')->group(function () {
         Route::get('/opd-consultation', [ConsultationController::class, 'opd_consult']);
         Route::get('/ipd-consultation', [ConsultationController::class, 'ipd-consult']);
+        Route::get('/consult', [ConsultationController::class, 'consult']);
         // Route::get('patient', [ReportsController::class, 'patient']);
     });
 
