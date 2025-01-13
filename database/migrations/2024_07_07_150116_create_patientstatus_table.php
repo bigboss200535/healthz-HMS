@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('patient_statuses', function (Blueprint $table) {
-            $table->string('patient_status', 50);//1,2,3
+            $table->string('patient_status', 50)->primary();//1,2,3
             $table->string('status_patient', 50)->nullable(); //all, out, in
             $table->string('user_id', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
@@ -26,7 +26,6 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            $table->primary('patient_status');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
         });

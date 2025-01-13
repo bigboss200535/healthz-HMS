@@ -1,6 +1,6 @@
 <x-app-layout>
 <div class="container-xxl flex-grow-1 container-p-y">    
-          <div class="app-ecommerce">
+       <div class="app-ecommerce">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div class="d-flex flex-column justify-content-center">
           <h4 class="mb-1 mt-3">Patient Registration</h4>
@@ -293,6 +293,7 @@
   </div>
 </div>
 </div>   
+
           <!-- add Modal -->
           <div class="modal fade" id="mdoal_form" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
           <div class="modal-dialog modal-lg modal-simple modal-edit-user">

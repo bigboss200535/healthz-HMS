@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_roles', function (Blueprint $table) {
-            $table->string('role_id', 50);
+            $table->string('role_id', 50)->primary();
             $table->string('role_name', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('added_id', 100)->nullable();
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            $table->primary('role_id');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
         });
     }

@@ -19,7 +19,7 @@ class HealthFacilitySeeder extends Seeder
         $user = User::inRandomOrder()->first(); 
 
         $clinic = HealthFacilityLevels::create([
-            'h_f_id' => '1',
+            'health_facility_level_id' => '1',
             'levels' => 'Clinic',
             'user_id' => $user->user_id,
             'added_date' => now(),
@@ -28,7 +28,7 @@ class HealthFacilitySeeder extends Seeder
         ]);
 
         $clinic = HealthFacilityLevels::create([
-            'h_f_id' => '2',
+            'health_facility_level_id' => '2',
             'levels' => 'Diagnostic Centre',
             'user_id' => $user->user_id,
             'added_date' => now(),
@@ -37,7 +37,7 @@ class HealthFacilitySeeder extends Seeder
         ]);
 
         $clinic = HealthFacilityLevels::create([
-            'h_f_id' => '3',
+            'health_facility_level_id' => '3',
             'levels' => 'Health Centre',
             'user_id' => $user->user_id,
             'added_date' => now(),
@@ -46,7 +46,7 @@ class HealthFacilitySeeder extends Seeder
         ]);
 
         $clinic = HealthFacilityLevels::create([
-            'h_f_id' => '4',
+            'health_facility_level_id' => '4',
             'levels' => 'Primary',
             'user_id' => $user->user_id,
             'added_date' => now(),
@@ -55,7 +55,7 @@ class HealthFacilitySeeder extends Seeder
         ]);
 
         $clinic = HealthFacilityLevels::create([
-            'h_f_id' => '5',
+            'health_facility_level_id' => '5',
             'levels' => 'Secondary',
             'user_id' => $user->user_id,
             'added_date' => now(),
@@ -64,7 +64,7 @@ class HealthFacilitySeeder extends Seeder
         ]);
 
         $clinic = HealthFacilityLevels::create([
-            'h_f_id' => '6',
+            'health_facility_level_id' => '6',
             'levels' => 'Tertiary',
             'user_id' => $user->user_id,
             'added_date' => now(),

@@ -52,7 +52,7 @@ class ConsultingRoomSeeder extends Seeder
         
         $room = ConsultingRoom::create([
             'consulting_room_id' => '4',
-            'consulting_room' => 'CONSULTING ROOM 3',
+            'consulting_room' => 'CONSULTING ROOM 4',
             'clinic_code' => $clinic->clinic_id,
             'user_id' => $user_id = User::first()->user_id,
             'added_date' => now(),

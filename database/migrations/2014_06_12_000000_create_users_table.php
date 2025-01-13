@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('user_id', 50);
+            $table->uuid('user_id', 50)->primary();
             $table->string('username', 150);
             $table->string('password', 100);
             $table->string('oldpassword', 100);
@@ -43,7 +43,6 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            $table->primary('user_id');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('role_id')->references('role_id')->on('user_roles');
         });

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('wards', function (Blueprint $table) {
-            $table->string('ward_id');
+            $table->string('ward_id')->primary();
             $table->string('ward_name')->nullable();
             $table->string('ward_status')->nullable();
             $table->string('ward_gender')->nullable();
@@ -37,7 +37,6 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            $table->primary('ward_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
         });

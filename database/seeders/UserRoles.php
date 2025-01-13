@@ -18,7 +18,6 @@ class UserRoles extends Seeder
 
     public function run()
     {
-
         $titledata = UserRole::create([
             'role_id' => 'R1',
             'role_name' => 'Developer',

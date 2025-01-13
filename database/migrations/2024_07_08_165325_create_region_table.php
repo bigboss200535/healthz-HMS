@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('region', function (Blueprint $table) {
-            $table->string('region_id',50);
+            $table->string('region_id',50)->primary();
             $table->string('region',150); 
             $table->string('facility_id', 50)->nullable();
             $table->string('user_id',50);        
@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('archived', 100)->default('No');
             $table->date('archived_date')->nullable();
             $table->string('archived_by', 100)->nullable();
-            $table->primary('region_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
         });

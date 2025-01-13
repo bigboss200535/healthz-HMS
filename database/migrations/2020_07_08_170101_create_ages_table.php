@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ages', function (Blueprint $table) {
-            $table->string('age_id',50);
+            $table->string('age_id',50)->primary();
             $table->string('age_description',150); 
             $table->string('min_age',150); 
             $table->string('max_age',150); 
@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('archived', 100)->default('No');
             $table->date('archived_date')->nullable();
             $table->string('archived_by', 100)->nullable();
-            $table->primary('age_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
         });

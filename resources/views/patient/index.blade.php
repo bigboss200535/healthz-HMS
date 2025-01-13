@@ -3,13 +3,19 @@
                   <h4 class="py-3 mb-4">
                     <span class="text-muted fw-light">Patients /</span> Search
                   </h4>
+                  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                      <div class="d-flex flex-column justify-content-center">
+                      </div>
+                      <div class="d-flex align-content-center flex-wrap gap-3">
+                        <!-- <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdoal_form" >Search Patient</button> -->
+                        <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
+                        <a href="#" class="btn btn-primary">Patient Sponsors</a>
+                        <a href="#" class="btn btn-success">Advance Search</a>
+                      </div>
+                    </div>
                   <div class="card">
                     <div class="card-body">
-                      <!-- <div class="col-lg-12">
-                        <button class="btn btn-warning">Create Patient</button> 
-                      </div>-->
-                      <br>
-                        <h3>Actions</h3>
+                        <h3>Patient Search</h3>
                           <div class="card">
                             <!-- <div class="card-body"> -->
                               <div align="center" class="col-lg-12">
@@ -26,11 +32,11 @@
                                       <td>
                                           <button class="btn btn-primary" name="search_item" id="search_item">Search</button>
                                              <a href="#" class="btn btn-info" id="clear_search">Clear</a>
-                                          <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
-                                          <a href="#" class="btn btn-success">Advance Search</a>
+                                          <!-- <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a> -->
                                       </td>
-                                      <td></td>
-                                      
+                                      <td>
+
+                                      </td>
                                     </tr>
                                   </table>
                               </div>
@@ -75,7 +81,6 @@
                               </tr>
                           </tfoot>
                       </table>
-
                     </div>
             </div>
           </div>
