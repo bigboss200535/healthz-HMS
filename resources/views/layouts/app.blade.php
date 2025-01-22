@@ -100,6 +100,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>  
     <script src="{{ asset('js/custom_js.js') }}"></script>
     <script src="{{ asset('js/patient_services.js') }}"></script>
+    <script src="{{ asset('js/patient_details.js') }}"></script>
   </body>
 </html>
 <script type="text/javascript">
@@ -155,124 +156,6 @@
           });
         }
       });
-    });
-
-
-    $(document).on('click', '.patient_edit_btn', function() {
-      var patient_id = $(this).data('id');
-
-      $.ajax({
-        url: '/patients/' + patient_id + '/edit',
-        type: 'GET',
-        success: function(response) {
-              $('#patient_id').val(response.patient.patient_id)[0];
-              // $('#product_name').val(response.product.product_name)[0];
-              // $('#category').val(response.product.category_id).trigger('change');
-              // $('#product_description').val(response.product.description);
-              // $('#manufacturer').val(response.product.manufacturer);
-              // $('#expirable').val(response.product.expirable);
-              // $('#stockable').val(response.product.stocked);
-              // $('#sales_type').val(response.product.sales_type);
-              // $('#status').val(response.product.status);
-          
-        },
-        error: function(xhr, status, error) {
-          toastr.error('Error fetching data! Try again.');
-        }
-      });
-    });
-
-
-    $('#patient_info').on('submit', function(e) {
-      e.preventDefault();
-
-         // Collect form data
-          var pat_id = $('#pat_id').val();
-          var title = $('#title').val();
-          var firstname = $('#firstname').val();
-          var middlename = $('#middlename').val();
-          var lastname = $('#lastname').val();
-          var birth_date = $('#birth_date').val();
-          var gender = $('#gender').val();
-          var occupation = $('#occupation').val();
-          var education = $('#education').val();
-          var religion = $('#religion').val();
-          var nationality = $('#nationality').val();
-          var old_folder = $('#old_folder').val();
-          var telephone = $('#telephone').val();
-          var work_telephone = $('#work_telephone').val();
-          var email = $('#email').val();
-          var address = $('#address').val();
-          var town = $('#town').val();
-          var region = $('#region').val();
-          var contact_persion = $('#contact_persion').val();
-          var contact_telephone = $('#contact_telephone').val();
-          var contact_relationship = $('#contact_relationship').val();
-          var sponsor_type = $('#sponsor_type').val();
-          var sponsor_name = $('#sponsor_name').val();
-          var member_no = $('#member_no').val();
-          var dependant = $('#dependant').val();
-          var start_date = $('#start_date').val();
-          var end_date = $('#end_date').val();
-
-          var url = pat_id ? '/patients/' + pat_id : '/patients';
-          var method = pat_id ? 'PUT' : 'POST';
-
-      // Client-side validation
-      if(firstname.length < 3) {
-          toastr.warning('First name must be at least 3 characters long');
-        return;
-      }
-
-      if (lastname.length < 3) {
-        toastr.warning('Lastname is must be at least 3 characters long');
-        return;
-      }
-
-      // Check if pat_id has a value before update
-      if (pat_id && method === 'PUT') {
-        $.ajax({
-          url: pat_id ? '/patients/' + pat_id : '/patients',
-          type: method,
-          data: $(this).serialize(),
-          success: function(response) {
-            toastr.success('Patients saved successfully!');
-            // $("#product_list").load(location.href + " #product_list");
-                $('#patient_info')[0].reset();
-                $('#pat_id').val('');
-          },
-          error: function(xhr, status, error) {
-            toastr.error('Error updating Patient Information! Try again.');
-          }
-        });
-      } else {
-          $.ajax({
-            url: '/patients',
-            type: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-              var result = JSON.parse(response);
-                if (result.code === 201) {
-                  // $("#product_list").load(location.href + " #product_list");
-                  $('#patient_info')[0].reset();
-                  Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: result.message + ' OPD Number: ' + result.opd_number
-                      });
-                } else if (result.code === 200) {
-                  Swal.fire({
-                      icon: 'warning',
-                      title: 'Warning',
-                      text: 'Same data is available in the system'
-                    });
-                }    
-            },
-            error: function(xhr, status, error) {
-              toastr.error('Error saving data! Try again.');
-            }
-        });
-      }
     });
  </script>
  <!-- <script>

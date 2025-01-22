@@ -71,7 +71,7 @@
       }
     });
   });
-
+// clinic dropdown dynamically
   $(document).on('change', '#clinics', function() {
     var clinic_id = $(this).val();
 
@@ -96,6 +96,32 @@
             toastr.error('Error fetching data! Try again.'); // Display error message if AJAX request fails
         }
     });
+});
+
+// -------GENERATE OPD NUMBER-----------------------------------------------------------------
+
+$(document).on('change', '#folder_clinic', function() {
+  
+  var opd_type = $('#opd_type').val();
+  var folder_clinic = $('#folder_clinic').val();
+
+  $('#opd_number').val('');
+
+  $.ajax({
+      url: '/patient/new-opd-number/'+folder_clinic,
+      type: 'GET',
+      data: {opd_type:opd_type, folder_clinic:folder_clinic},
+      success: function(response) {
+          if (response.success) {
+              $('#opd_number').val(response.result);
+          } else {
+              toastr.error(response.message || 'Failed to generate OPD number!');
+          }
+      },
+      error: function(xhr, status, error) {
+          toastr.error('Error Generating OPD data! Try again.'); // Display error message if AJAX request fails
+      }
+  });
 });
 // -------------------------------------------------------------------------
 $(document).on('change', '#service_type', function() {
@@ -143,90 +169,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // -------------------------------------------------------------------------------------------------------------------------------
 
 
-$(document).ready(function() {
-  $('#search_item').on('click', function() {
-    var search_term = $('#search_patient').val();  // Get the search input value
 
-    if (search_term.trim() !== '') {
-        $.ajax({
-            url: '/patient/search',
-            type: "GET",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: { search_patient: search_term },
-            success: function(response) {
-                // Clear the DataTable before appending new data
-                var table = $('#patient_search_list').DataTable();
-                table.clear();
-
-                if (response.length > 0) {
-                    response.forEach(function(patient, index) {
-                        var age = calculateAge(patient.birth_date); // Calculate age
-
-                        // Determine the status badge color based on sponsor type
-                        var badgeClass = '';
-                        switch (patient.sponsor_type_id) {
-                            case 'PI03': badgeClass = 'bg-label-info'; break;
-                            case 'N002': badgeClass = 'bg-label-danger'; break;
-                            case 'PC04': badgeClass = 'bg-label-primary'; break;
-                            default: badgeClass = '';
-                        }
-
-                        var row = [
-                            index + 1, // serial no
-                            '<a href="/patients/' + patient.patient_id + '">' + patient.fullname + '</a>', // fullName
-                            patient.opd_number, // OPD #
-                            (patient.gender_id === '3' ? 'Male' : 'Female'), // Gender
-                            age, // Age
-                            patient.telephone, // Telephone
-                            new Date(patient.birth_date).toLocaleDateString('en-GB'), // birth Date
-                            new Date(patient.register_date).toLocaleDateString('en-GB'),
-                            '<div class="dropdown" align="center">' +
-                                '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">' +
-                                    '<i class="bx bx-dots-vertical-rounded"></i>' +
-                                '</button>' +
-                                '<div class="dropdown-menu">' +
-                                    '<a class="dropdown-item" href="/patients/' + patient.patient_id + '">' +
-                                        '<i class="bx bx-detail me-1"></i> More' +
-                                    '</a>' +
-                                '</div>' +
-                            '</div>' // Action
-                        ];
-                        // Add the row to the DataTable
-                        table.row.add(row).draw();
-                    });
-                } else {
-                    // If no results, display a message
-                    table.row.add([
-                        '', 'No Data Available', '', '', '', '', '', '', ''
-                    ]).draw();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-                alert('There was an error processing your request. Please try again.');
-            }
-        });
-    } else {
-        alert('Please enter a search term');
-    }
-});
-
-// Age calculation function
-function calculateAge(birthDate) {
-    const birth = new Date(birthDate);
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const month = today.getMonth();
-    const day = today.getDate();
-    if (month < birth.getMonth() || (month === birth.getMonth() && day < birth.getDate())) {
-        age--;
-    }
-    return age;
-}
-  
-});
  // Clear the search field when the "Clear" button is clicked
  $('#clear_search').on('click', function(e){
   e.preventDefault(); // Prevent default link behavior

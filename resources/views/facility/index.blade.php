@@ -88,11 +88,11 @@
                               <div class="row mb-3">
                                 <div class="col">
                                   <label class="form-label" for="u_block">CCC Api Key </label>
-                                    <input type="password" class="form-control" value="{{ $facility_details->nhia_key  }}">
+                                    <input type="text" class="form-control" value="{{ $facility_details->nhia_key  }}">
                                 </div>
                                 <div class="col">
                                   <label class="form-label" for="status">CCC Api Secret </label>
-                                    <input type="password" class="form-control" value="{{ $facility_details->nhia_secret }}">
+                                    <input type="text" class="form-control" value="{{ $facility_details->nhia_secret }}">
                                 </div>
                               </div>    
                                   <div class="d-flex align-content-center flex-wrap gap-3">

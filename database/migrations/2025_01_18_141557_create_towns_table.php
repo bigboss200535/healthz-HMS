@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-       Schema::create('patient_nos', function (Blueprint $table) {
-            $table->string('patient_id', 50);
-            $table->string('opd_number', 50);
-            $table->string('clinic_id', 100)->nullable();
-            $table->date('registration_date')->nullable();
-            $table->timestamp('registration_time')->nullable();
-            $table->string('year')->nullable();
-            $table->string('month')->nullable();
-            $table->string('user_id', 100)->nullable();
+        Schema::create('towns', function (Blueprint $table) {
+            $table->id('town_id');
+            $table->string('towns', 150);
+            $table->string('user_id', 10)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('added_id', 100)->nullable();
             $table->timestamp('added_date')->nullable();
@@ -32,9 +27,7 @@ return new class extends Migration
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
             $table->foreign('user_id')->references('user_id')->on('users');
-            $table->foreign('patient_id')->references('patient_id')->on('patient_info');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
-            // $table->foreign('clinic_id')->references('clinic_id')->on('clinics');
         });
     }
 
@@ -45,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('patient_nos');
+        Schema::dropIfExists('towns');
     }
 };

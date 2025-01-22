@@ -63,9 +63,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('clinics', ClinicController::class);
     Route::resource('healthfacilitysetup', FacilityController::class);
     
-
-    Route::get('/patient/search', [PatientController::class, 'search'])->name('patient.search');
-
+    // Route::get('/patient/new-opd-number/{service_point_id}', [PatientController::class, 'generate_opd_number'])->name('patient.generate_opd_number');
+    // Route::get('/patient/search', [PatientController::class, 'search'])->name('patient.search');
+    Route::prefix('patient')->group(function () {
+        Route::get('/search', [PatientController::class, 'search'])->name('patient.search');
+        Route::get('/new-opd-number/{service_point_id}', [PatientController::class, 'generate_opd_number'])->name('patient.generate_opd_number');
+    });
     Route::prefix('reports')->group(function () {
         // Route::get('/users/{user_id}', [ReportsController::class, 'users']);
         // Route::get('/all', [ReportsController::class, 'index']);

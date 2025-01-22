@@ -23,6 +23,7 @@ use App\Models\ServiceRequest;
 use App\Models\Sponsors;
 use App\Models\SponsorType;
 use App\Models\YearlyCount;
+use App\Models\Town;
 use Carbon\Carbon;
 
 class PatientController extends Controller
@@ -39,11 +40,19 @@ class PatientController extends Controller
             $gender = Gender::where('archived', 'No')->where('status', '=','Active')->where('usage', '=','1')->get();
             $region = Region::where('archived', 'No')->where('status', '=','Active')->get();
             $relation = Relation::where('archived', 'No')->where('status', '=','Active')->get();
-            $clinic = Clinic::where('archived', 'No')->where('status', '=', 'Active')->orderBy('clinic', 'asc')->get();
+            $towns = Town::where('archived', 'No')->where('status', '=','Active')->get();
+            $service_points = DB::table('service_points')->where('archived', 'No')->where('status', '=', 'Active')->orderBy('service_points', 'asc')->get();
+            $occupations = DB::table('occupation')->Where('status', '=', 'Active')->where('archived', 'No')->orderBy('occupation', 'asc')->get();
 
             $payment_type = SponsorType::where('archived', 'No')->orderBy('sponsor_type', 'DESC')->get();
+            $sponsor =  DB::table('sponsors')->Where('status', '=', 'Active')->where('archived', 'No')->orderBy('sponsor_name', 'asc')->get();
 
-        return view('patient.create', compact('clinic','title', 'religion', 'gender', 'region', 'relation', 'payment_type'));
+            $clinic_attendance = ServicePoints::select('service_point_id','service_points')
+                ->where('archived', 'No')
+                ->where('is_active', 'Yes')
+                ->get();
+
+        return view('patient.create', compact('clinic_attendance','title', 'religion', 'gender', 'region', 'relation', 'payment_type', 'towns','occupations', 'sponsor'));
     }
 
    
@@ -60,7 +69,7 @@ class PatientController extends Controller
             'education' => 'required|min:3',
             'religion' => 'required',
             'nationality' => 'required',
-            'old_folder' => 'nullable',
+            'ghana_card' => 'nullable',
             'telephone' => 'nullable',
             'work_telephone' => 'nullable',
             'email' => 'nullable',
@@ -70,11 +79,21 @@ class PatientController extends Controller
             'contact_person' => 'nullable',
             'contact_telephone' => 'nullable',
             'contact_relationship' => 'nullable',
+            'opd_clinic' => 'nullable',
+            'sponsor_name' => 'nullable',
+            'member_no' => 'nullable',
+            'clinic_type' => 'nullable',
+            'opd_number' => 'nullable',
+            'sponsor_type' => 'nullable',
             'dependant' => 'nullable',
+            'start_date' => 'nullable',
+            'end_date' => 'nullable',
         ]);
 
         $available = Patient::where('lastname', $request->input('lastname'))
             ->where('firstname', $request->input('firstname'))
+            ->OrWhere('lastname', $request->input('firstname'))
+            ->OrWhere('firstname', $request->input('firstname'))
             ->where('birth_date', $request->input('birth_date'))
             ->where('telephone', $request->input('telephone'))
             ->first();
@@ -87,8 +106,7 @@ class PatientController extends Controller
         DB::beginTransaction();
 
         try {
-            $pati = $this->pat_id_gen($request);
-            $pat_id = $pati['patient_id'];
+            
             $pat_number = strval($pati['patient_number']);
             $current_date = Carbon::now();
                 
@@ -320,57 +338,53 @@ class PatientController extends Controller
         return response()->json($search_patient);
     }
 
-    // public function show_today(Request $request, $patient_id)
-    // {
-    //     $patients = DB::table('patient_info')
-    //         // ->where('patient_info.added_date', now())
-    //         ->where('patient_info.patient_id', $patient_id)
-    //         ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
-    //         ->join('title', 'patient_info.title_id', '=', 'title.title_id')
-    //         ->join('users', 'patient_info.user_id', '=', 'users.user_id')
-    //         ->select('patient_info.patient_id', 'patient_info.fullname',  'gender.gender', 
-    //         'patient_info.birth_date', 'patient_info.email','patient_info.address', 'patient_info.contact_person', 'patient_info.contact_relationship', 'patient_info.contact_telephone', 'patient_info.added_date', 
-    //         'patient_info.telephone',  'users.user_fullname',
-    //         DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
-    //         ->orderBy('patient_info.added_date', 'asc') 
-    //         ->first();
 
-    //          $sponsors = PatientSponsor::with('users')->where('patient_id', '=', $patient_id);
-
-    //         return view('patient.show', compact('patients', 'sponsors'));
-    // }
-
-    private function pat_id_gen()
+    public function generate_opd_number(Request $request, $service_point_id)
     {
-             $patient_id = (string) Str::uuid();
- 
-             $current_year = date('Y');
-             $small_year = date('y');
- 
-             $yearly_count = YearlyCount::firstOrCreate(
-                 ['year' => $current_year],
-                 ['count' => 0]
-               );
- 
-             if ($yearly_count->wasRecentlyCreated) {
-                  $yearly_count->count = 1; 
-             } else {
-                  $yearly_count->count += 1;
-             }
-                 // $yearly_count->count += 1;
-                 $yearly_count->save();
- 
-             // Format the incremented count as a 6-digit number with leading zeros
-             $formatted_id = str_pad($yearly_count->count, 6, '0', STR_PAD_LEFT);
- 
-             // $patient_id = $formatted_id . $current_year;
-             $patient_number = 'G' . $formatted_id . $small_year;
- 
-             return [
-                 'patient_id' => $patient_id,
-                 'patient_number' => $patient_number
-             ];
-     }
+        $current_year = date('Y');
+        $small_year = date('y');
+
+            if($request->input('opd_type')=='1')// if type == new
+            {
+                    // Fetch the service point details
+                    $service_points = DB::table('service_points')
+                        ->select('folder_prefix', 'folder_lenght')
+                        ->where('archived', 'No')
+                        ->where('status', 'Active')
+                        ->where('service_point_id', $service_point_id)
+                        ->first();
+                    
+                        // Fetch the patient count for the current year
+                    $patient_nos = DB::table('patient_nos')
+                        ->where('clinic_id', $request->input('service_point_id'))
+                        ->whereYear('added_date', $current_year) // Ensure to filter by the current year
+                        ->count();
+
+                    if(!$service_points) {
+                      return response()->json(['success' => false, 'message' => 'Invalid service point.'], 400);
+                    }
+
+                    $initial_letter = $service_points->folder_prefix;
+                    $number_lenght = intval($service_points->folder_lenght);
+                    
+                    // If no patients exist for the current year, start from 1
+                    $patient_nos = ($patient_nos == 0) ? 1 : $patient_nos + 1;
+                    // Format the incremented count as a 6-digit number with leading zeros
+                    $formatted_id = str_pad($patient_nos, $number_lenght, '0', STR_PAD_LEFT);
+                    $patient_number = $initial_letter . $formatted_id ."/". $small_year;// Generate the patient number
+                    
+                    return response()->json([
+                        'success' => true,
+                        'result' => $patient_number
+                    ]);
+
+            }else if($request->input('opd_type')=='0')// if type ==old leave blank
+            {
+                return '';
+            }
+
+    }
+
 
      public function attendance(Request $request, $patient_id)
      {

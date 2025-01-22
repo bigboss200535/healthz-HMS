@@ -25,43 +25,37 @@
           <form id="patient_info" enctype="multipart/form-data" method="post">
            @csrf
           <div class="row mb-3">
+          <input type="text" class="form-control" id="pat_id" name="pat_id" hidden>
             <div class="col">
-              <input type="text" class="form-control" id="pat_id" name="pat_id" hidden>
               <label class="form-label" for="title">Title <a style="color: red;">*</a></label>
               <select name="title" id="title" class="form-control">
                 <option disabled selected>-Select-</option>
-                @foreach($title as $patient_title)                                        
-                  <option value="{{ $patient_title->title_id }}">{{ $patient_title->title }}</option>
-                 @endforeach
+                    @foreach($title as $patient_title)                                        
+                      <option value="{{ $patient_title->title }}">{{ $patient_title->title }}</option>
+                    @endforeach
               </select>
-              @error('title') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
               <label class="form-label" for="firstname">Firstname <a style="color: red;">*</a></label>
-              <input type="text" class="form-control" id="firstname" name="firstname" value="" placeholder="Firstname" autocomplete="off">
-              @error('firstname') <span class="text-danger">{{ $message }}</span> @enderror
+              <input type="text" class="form-control" id="firstname" name="firstname" value="" placeholder="eg. JOHN" autocomplete="off">
             </div>
             <div class="col">
               <label class="form-label" for="middlename">Middlename</label>
-              <input type="text" class="form-control" id="middlename" name="middlename" placeholder="Middlename" autocomplete="off">
-              @error('middlename') <span class="text-danger">{{ $message }}</span> @enderror
+              <input type="text" class="form-control" id="middlename" name="middlename" placeholder="eg. O" autocomplete="off">
             </div>
           </div>
           <div class="row mb-3">
             <div class="col">
               <label class="form-label" for="lastname">Lastname <a style="color: red;">*</a></label>
-              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
-              @error('lastname') <span class="text-danger">{{ $message }}</span> @enderror
+              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="eg. DOE">
             </div>
             <div class="col">
               <label class="form-label" for="birth_date">Date of Birth <a style="color: red;">*</a></label>
               <input type="date" class="form-control" id="birth_date" name="birth_date" autocomplete="off">
-              @error('birth_date') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
               <label class="form-label" for="age">Age</label>
               <input type="text" class="form-control" id="age" name="age" autocomplete="off" disabled>
-              @error('birth_date') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
           </div>
           <div class="row mb-3">
@@ -69,27 +63,26 @@
               <label class="form-label" for="gender">Gender <a style="color: red;">*</a></label>
               <select name="gender" id="gender" class="form-control" wire:model="gender">
                 <option value="" disabled selected>-Select-</option>
-                @foreach($gender as $patient_gender)                                        
-                  <option value="{{ $patient_gender->gender_id }}">{{ $patient_gender->gender }}</option>
-                 @endforeach
+                  @foreach($gender as $patient_gender)                                        
+                    <option value="{{ $patient_gender->gender_id }}">{{ $patient_gender->gender }}</option>
+                  @endforeach
               </select>
-              @error('gender') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
               <label class="form-label" for="occupation">Occupation <a style="color: red;">*</a></label>
               <select name="occupation" id="occupation" class="form-control">
                 <option disabled selected>-Select-</option>
-                <option value="Trader">Trader</option>
+                @foreach($occupations as $works)                                        
+                    <option value="{{ $works->occupation_id }}">{{ $works->occupation }}</option>
+                  @endforeach
               </select>
-              @error('occupation') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
               <label class="form-label" for="education">Education <a style="color: red;">*</a></label>
               <select name="education" id="education" class="form-control">
-                <option value="" disabled selected>-Select-</option>
+                <option disabled selected>-Select-</option>
                 <option value="None">None</option>
               </select>
-              @error('education') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
           </div>
           <div class="row mb-3">
@@ -101,7 +94,6 @@
                   <option value="{{ $u_u->religion_id }}">{{ $u_u->religion }}</option>
                  @endforeach
                </select>
-               @error('religion') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
               <label class="form-label" for="nationality">Nationality <a style="color: red;">*</a></label>
@@ -110,57 +102,52 @@
                 <option value="10001">Ghanaian</option>
                 <option value="20001">Non-Ghanaian</option>
               </select>
-              @error('nationality') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
-              <label class="form-label" for="old_folder">Old Folder Number</label>
-              <input type="text" class="form-control" id="old_folder" name="old_folder" placeholder="Old Folder Number" autocomplete="off">
+              <label class="form-label" for="ghana_card">Ghana Card Number</label>
+              <input type="text" class="form-control" id="ghana_card" name="ghana_card" placeholder="GH-0000000-x" autocomplete="off">
             </div>
           </div>
           <div class="row mb 3">
-                <h5 class="card-tile mb-0"><b>Contact Information</b></h5>
+               <h5 class="card-tile mb-0"><b>Contact Information</b></h5>
           </div>
           <br>
           <div class="row mb-3">
             <div class="col">
-              <label class="form-label" for="telephone">Cell phone</label>
-              <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone" autocomplete="off">
+              <label class="form-label" for="telephone">Telephone</label>
+              <input type="text" class="form-control" id="telephone" name="telephone" placeholder="02XXXXXXX" autocomplete="off">
             </div>
             <div class="col">
               <label class="form-label" for="work_telephone">Work Telephone</label>
-              <input type="text" class="form-control" id="work_telephone" name="work_telephone" placeholder="Work Telephone" autocomplete="off">
+              <input type="text" class="form-control" id="work_telephone" name="work_telephone" placeholder="0xxxxxxxxx" autocomplete="off">
             </div>
             <div class="col">
               <label class="form-label" for="email">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="Email" autocomplete="off">
+              <input type="email" class="form-control" id="email" name="email" placeholder="example@example.com" autocomplete="off">
             </div>
-           
           </div>
           <div class="row mb-3">
             <div class="col">
               <label class="form-label" for="address">Home Address</label>
               <input type="text" class="form-control" id="address" name="address" placeholder="Address" autocomplete="off">
-              @error('address') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
               <label class="form-label" for="town">Town</label>
               <select name="town" id="town" class="form-control">
                 <option value="" disabled selected>-Select-</option>
-                @foreach($region as $ur)                                        
-                  <option value="{{ $ur->region_id }}">{{ $ur->region }}</option>
-                 @endforeach
+                   @foreach($towns as $town)                                        
+                     <option value="{{ $town->towns }}">{{ $town->towns }}</option>
+                   @endforeach
               </select>
-              @error('region') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
               <label class="form-label" for="region">Region</label>
               <select name="region" id="region" class="form-control">
                 <option value="" disabled selected>-Select-</option>
-                @foreach($region as $ur)                                        
-                  <option value="{{ $ur->region_id }}">{{ $ur->region }}</option>
+                @foreach($region as $regions)                                        
+                  <option value="{{ $regions->region_id }}">{{ $regions->region }}</option>
                  @endforeach
               </select>
-              @error('region') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
           </div>
           <br>
@@ -170,23 +157,21 @@
           <br>
           <div class="row mb-3">
             <div class="col">
-              <label class="form-label" for="e_fullname">Fullname</label>
-              <input type="text" class="form-control" id="e_fullname" name="e_fullname" placeholder="Name" autocomplete="off">
-              @error('e_fullname') <span class="text-danger">{{ $message }}</span> @enderror
+              <label class="form-label" for="contact_person">Fullname</label>
+              <input type="text" class="form-control" id="contact_person" name="contact_person" placeholder="eg. JANE DOE">
             </div>
             <div class="col">
-              <label class="form-label" for="e_relationship">Relationship</label>
-              <select name="e_relationship" id="e_relationship" class="form-control">
+              <label class="form-label" for="contact_relationship">Relationship</label>
+              <select name="contact_relationship" id="contact_relationship" class="form-control">
                 <option disabled selected>-Select-</option>
                 @foreach($relation as $rel)                                        
                   <option value="{{ $rel->relation_id }}">{{ $rel->relation }}</option>
                  @endforeach
               </select>
-              @error('e_relationship') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">
-              <label class="form-label" for="e_telephone">Telephone</label>
-              <input type="text" class="form-control" id="e_telephone" name="e_telephone" placeholder="Telephone" autocomplete="off">
+              <label class="form-label" for="contact_telephone">Telephone</label>
+              <input type="text" class="form-control" id="contact_telephone" name="contact_telephone" placeholder="0xxxxxxxxx" autocomplete="off">
             </div>
           </div>
           <div class="row mb 3">
@@ -194,23 +179,27 @@
           </div>
           <br>
           <div class="row mb-3">
+          <div class="col">
+              <label class="form-label" for="opd_type">OPD # Type</label>
+              <select name="opd_type" id="opd_type" class="form-control">
+                <option value="" selected disabled>-Select OPD #-</option>
+                <option value="1" selected>NEW</option>
+                <option value="0">OLD</option>
+              </select>
+            </div>
             <div class="col">
-              <label class="form-label" for="e_fullname">Clinic</label>
-              <select name="opd_clinic" id="opd_clinic" class="form-control">
+              <label class="form-label" for="folder_clinic">Clinic</label>
+              <select name="folder_clinic" id="folder_clinic" class="form-control">
                 <option value="" selected disabled>-Select Clinic-</option>
-                @foreach($clinic as $clinics)                                        
-                  <option value="{{ $clinics->clinic_id }}">{{ $clinics->clinic }}</option>
+                @foreach($clinic_attendance as $clinics)                                        
+                  <option value="{{ $clinics->service_point_id }}">{{ $clinics->service_points }}</option>
                  @endforeach
               </select>
             </div>
             <div class="col">
-              <label class="form-label" for="e_relationship">OPD #</label>
+              <label class="form-label" for="opd_number">OPD #</label>
               <input type="text" class="form-control" id="opd_number" name="opd_number" readonly>
             </div>
-            <!-- <div class="col"> -->
-              <!-- <label class="form-label" for="e_telephone">Telephone</label> -->
-              <!-- <input type="text" class="form-control" id="e_telephone" name="e_telephone" placeholder="Telephone" autocomplete="off"> -->
-            <!-- </div> -->
           </div>
           <!-- <br> -->
           <!-- <div class="row mb 3">
@@ -248,8 +237,9 @@
             <label class="form-label mb-1" for="sponsor_name">Sponsor Name </label>
             <select id="sponsor_name" name="sponsor_name" class="select2 form-select sponsor_name">
               <option value="" disabled selected>-Select-</option>
-              <option value="National Health Insurance">NHIS</option>
-              <option value="Aacacia">Acacia</option>
+                @foreach($sponsor as $sponsors)                                        
+                  <option value="{{ $sponsors->sponsor_id }}">{{ $sponsors->sponsor_name }}</option>
+                 @endforeach
             </select>
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
@@ -274,9 +264,9 @@
             <input type="date" name="end_date" id="end_date" class="form-control">
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
-            <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="status">
+            <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="card_status">
               <span>Card Status</span></label>
-            <input type="text" name="status" id="status" class="form-control" disabled>
+            <input type="text" name="card_status" id="card_status" class="form-control" disabled>
           </div>
         </div>
       </div>
