@@ -98,32 +98,8 @@
     });
 });
 
-// -------GENERATE OPD NUMBER-----------------------------------------------------------------
 
-$(document).on('change', '#folder_clinic', function() {
-  
-  var opd_type = $('#opd_type').val();
-  var folder_clinic = $('#folder_clinic').val();
-
-  $('#opd_number').val('');
-
-  $.ajax({
-      url: '/patient/new-opd-number/'+folder_clinic,
-      type: 'GET',
-      data: {opd_type:opd_type, folder_clinic:folder_clinic},
-      success: function(response) {
-          if (response.success) {
-              $('#opd_number').val(response.result);
-          } else {
-              toastr.error(response.message || 'Failed to generate OPD number!');
-          }
-      },
-      error: function(xhr, status, error) {
-          toastr.error('Error Generating OPD data! Try again.'); // Display error message if AJAX request fails
-      }
-  });
-});
-// -------------------------------------------------------------------------
+// --------------------------------SERVICE TYPE-----------------------------------------
 $(document).on('change', '#service_type', function() {
     var service = $(this).val();
 

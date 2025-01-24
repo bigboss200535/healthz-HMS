@@ -55,11 +55,11 @@ class DatabaseSeeder extends Seeder
             NationalitySeeder::class,
         ]);
         
-        \App\Models\Patient::factory(2000)->create();
-        \App\Models\PatientSponsor::factory(200)->create();
-        \App\Models\PatNumber::factory(450)->create();
+        // \App\Models\Patient::factory(2000)->create();
+        // \App\Models\PatientSponsor::factory(200)->create();
+        // \App\Models\PatientOpdNumber::factory(450)->create();
         \App\Models\User::factory(50)->create();
-        \App\Models\PatientAttendance::factory(100)->create();
+        // \App\Models\PatientAttendance::factory(100)->create();
         // \App\Models\ConsultingRoom::factory(10)->create();
         // \App\Models\Consultation::factory(100)->create();
         // \App\Models\Admissions::factory(100)->create();

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('opd_number', 50);
             $table->string('status_code', 50);
             $table->string('patient_age', 50);
-            $table->timestamp('attendance_date');
-            $table->timestamp('surgery_start_date');
-            $table->timestamp('surgery_end_date');
+            $table->date('attendance_date')->nullable();;
+            $table->date('surgery_start_date')->nullable();;
+            $table->date('surgery_end_date')->nullable();;
             $table->string('surgery_doctor', 50);
             $table->string('theater_in_charge', 50);
             $table->string('surgery_type');
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('assistant_two');
             $table->string('scrub_nurse');
             $table->string('anaesthetist', 50)->nullable();
-            $table->text('complications')->nullable();
+            // $table->text('complications')->nullable();
             $table->text('complications')->nullable();
             $table->string('assistant_surgery_doctor');
             $table->text('surgery');

@@ -29,8 +29,8 @@
           var opd_type = $('#opd_type').val();
           var opd_clinic = $('#opd_clinic').val();
           var opd_number = $('#opd_number').val();
-          var sponsor_type = $('#sponsor_type').val();
-          var sponsor_name = $('#sponsor_name').val();
+          var sponsor_type_id = $('#sponsor_type_id').val();
+          var sponsor_id = $('#sponsor_id').val();
           var member_no = $('#member_no').val();
           var dependant = $('#dependant').val();
           var start_date = $('#start_date').val();
@@ -46,7 +46,6 @@
         toastr.warning('Please select a title'); 
         return;
       }
-    
       // Remove red focus class from #title once the user fixes it
     if(firstname.length < 3) {
           toastr.warning('First name must be at least 3 characters long');
@@ -67,6 +66,21 @@
 
     if (lastname.length < 3) {
         toastr.warning('Lastname is must be at least 3 characters long');
+        return;
+    }
+
+    if(middlename.length < 3) {
+        toastr.warning('Middle name must be at least 3 characters long');
+      return;
+    }
+
+    if(birth_date.length < 3 ) {
+        toastr.warning('Birth Date must be entered');
+      return;
+    }
+
+    if (!gender || gender === "0") {  // Check if gender is selected or the default "0"
+        toastr.warning('Please select gender'); 
         return;
     }
 
@@ -202,3 +216,48 @@ function calculateAge(birthDate) {
 }
 
 // ----------------------- PATIENT SEARCH SCRIPT ---------------------------
+// -------GENERATE OPD NUMBER-----------------------------------------------------------------
+
+$(document).on('change', '#folder_clinic', function() {
+  
+    var opd_type = $('#opd_type').val();
+    var folder_clinic = $('#folder_clinic').val();
+  
+    $('#opd_number').val('');
+  
+    $.ajax({
+        url: '/patient/new-opd-number/'+folder_clinic,
+        type: 'GET',
+        data: {opd_type:opd_type, folder_clinic:folder_clinic},
+        success: function(response) {
+            if (response.code===201) {
+                $('#opd_number').prop('disabled', true);
+                $('#opd_number').val(response.result);
+            } else if (response.code === 200) {
+                $('#opd_number').prop('disabled', false);
+            }
+        },
+        error: function(xhr, status, error) {
+            toastr.error('Error Generating OPD data! Try again.'); // Display error message if AJAX request fails
+        }
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const sponsorTypeSelect = document.getElementById('sponsor_type_id');
+    const sponsorshipDetails = document.querySelectorAll('.sponsorship_details_settings');
+
+    // Hide sponsorship details if "Cash" is selected
+    function toggleSponsorshipDetails() {
+        if (sponsorTypeSelect.value === 'P001') { // Assuming "1001" is for "Cash"
+            sponsorshipDetails.forEach(detail => detail.style.display = 'none');
+        } else {
+            sponsorshipDetails.forEach(detail => detail.style.display = 'block');
+        }
+    }
+    // Initialize based on the default selection
+    toggleSponsorshipDetails();
+
+    // Event listener for dropdown change
+    sponsorTypeSelect.addEventListener('change', toggleSponsorshipDetails);
+});

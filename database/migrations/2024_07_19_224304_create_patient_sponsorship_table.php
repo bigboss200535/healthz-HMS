@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('opd_number', 20)->nullable();
             $table->string('member_no', 150);
             $table->string('sponsor_id', 50)->nullable();
+            $table->string('sponsor_type_id', 50)->nullable();
             $table->string('card_serial', 50)->nullable();
             $table->date('start_date', 100)->nullable();
             $table->date('end_date', 100)->nullable();
@@ -38,6 +39,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
             $table->foreign('sponsor_id')->references('sponsor_id')->on('sponsors');
+            $table->foreign('sponsor_type_id')->references('sponsor_type_id')->on('sponsor_type');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
         });
     }

@@ -198,7 +198,7 @@
             </div>
             <div class="col">
               <label class="form-label" for="opd_number">OPD #</label>
-              <input type="text" class="form-control" id="opd_number" name="opd_number" readonly>
+              <input type="text" class="form-control" id="opd_number" name="opd_number">
             </div>
           </div>
           <!-- <br> -->
@@ -216,8 +216,8 @@
           </div>
           <br>
         <div class="mb-3 col ecommerce-select2-dropdown">
-            <label class="form-label mb-1" for="sponsor_type">Sponsor Type</label>
-             <select name="sponsor_type" id="sponsor_type" class="form-control sponsor_type">
+            <label class="form-label mb-1" for="sponsor_type_id">Sponsor Type</label>
+             <select name="sponsor_type_id" id="sponsor_type_id" class="form-control sponsor_type">
               <option disabled selected>-Select-</option>
                 @foreach($payment_type as $payments)                                        
                   <option value="{{ $payments->sponsor_type_id }}">{{ $payments->sponsor_type }}</option>
@@ -234,8 +234,8 @@
           </div>
           <br>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings" >
-            <label class="form-label mb-1" for="sponsor_name">Sponsor Name </label>
-            <select id="sponsor_name" name="sponsor_name" class="select2 form-select sponsor_name">
+            <label class="form-label mb-1" for="sponsor_id">Sponsor Name </label>
+            <select id="sponsor_id" name="sponsor_id" class="select2 form-select sponsor_name">
               <option value="" disabled selected>-Select-</option>
                 @foreach($sponsor as $sponsors)                                        
                   <option value="{{ $sponsors->sponsor_id }}">{{ $sponsors->sponsor_name }}</option>

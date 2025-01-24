@@ -1,24 +1,5 @@
 // ---------------------- TOGGLE BETWEEN SPONSORS ----------------------------
-document.addEventListener('DOMContentLoaded', function () {
-    const sponsorTypeSelect = document.getElementById('sponsor_type');
-    const sponsorshipDetails = document.querySelectorAll('.sponsorship_details_settings');
-    
 
-    // Hide sponsorship details if "Cash" is selected
-    function toggleSponsorshipDetails() {
-        if (sponsorTypeSelect.value === 'P001') { // Assuming "1001" is for "Cash"
-            sponsorshipDetails.forEach(detail => detail.style.display = 'none');
-        } else {
-            sponsorshipDetails.forEach(detail => detail.style.display = 'block');
-        }
-    }
-
-    // Initialize based on the default selection
-    toggleSponsorshipDetails();
-
-    // Event listener for dropdown change
-    sponsorTypeSelect.addEventListener('change', toggleSponsorshipDetails);
-});
 
 // ----------------CALCULATE AGE----------------------------
 document.addEventListener('DOMContentLoaded', function() {

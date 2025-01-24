@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PatNumber extends Model
+class PatientOpdNumber extends Model
 {
     use HasFactory;
 

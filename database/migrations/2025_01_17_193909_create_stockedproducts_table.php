@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('stocked_products', function (Blueprint $table) {
-                $table->id('stocked_product_id', 50);
+                $table->id('stocked_product_id');
                 $table->string('product_id', 50);
                 $table->double('unit_cost', 150)->nullable();
-                $table->int('stocklevel', 50)->nullable();
+                $table->string('stocklevel', 50)->nullable();
                 $table->string('expiry_date', 10)->nullable();
                 $table->string('batch_number', 50)->nullable();
                 $table->string('store_id', 50)->nullable();
@@ -31,11 +31,11 @@ return new class extends Migration
                 $table->string('archived_id', 100)->nullable();
                 $table->string('archived_by', 100)->nullable();
                 $table->date('archived_date', 100)->nullable();
-                $table->primary('product_id');
+                // $table->primary('product_id');
                 $table->foreign('user_id')->references('user_id')->on('users');
                 $table->foreign('facility_id')->references('facility_id')->on('facility');
                 $table->foreign('store_id')->references('store_id')->on('stores');
-                 $table->foreign('product_type_id')->references('product_type_id')->on('product_type');
+                $table->foreign('product_id')->references('product_id')->on('products');
         });
     }
 
