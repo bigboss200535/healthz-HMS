@@ -30,16 +30,18 @@ class PatientSponsor extends Model
     {
         return $this->belongsTo(Sponsors::class, 'sponsor_id'); 
     }
-    // public function sponsors()
-    // {
-    //     return $this->belongsTo(PatientSponsor::class, 'patient_id');
-    // }
+
+    public function sponsortype()
+    {
+        return $this->belongsTo(SponsorType::class, 'sponsor_type_id'); 
+    }
     
     protected $fillable = [
         'patient_id',
         'opd_number',
         'member_no',
         'sponsor_id',
+        'sponsor_type_id',
         'start_date',
         'end_date',
         'dependant',

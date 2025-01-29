@@ -11,7 +11,7 @@
           var middlename = $('#middlename').val();
           var lastname = $('#lastname').val();
           var birth_date = $('#birth_date').val();
-          var gender = $('#gender').val();
+          var gender_id = $('#gender_id').val();
           var occupation = $('#occupation').val();
           var education = $('#education').val();
           var religion = $('#religion').val();
@@ -27,7 +27,7 @@
           var contact_telephone = $('#contact_telephone').val();
           var contact_relationship = $('#contact_relationship').val();
           var opd_type = $('#opd_type').val();
-          var opd_clinic = $('#opd_clinic').val();
+          var folder_clinic = $('#folder_clinic').val();
           var opd_number = $('#opd_number').val();
           var sponsor_type_id = $('#sponsor_type_id').val();
           var sponsor_id = $('#sponsor_id').val();
@@ -73,13 +73,17 @@
         toastr.warning('Middle name must be at least 3 characters long');
       return;
     }
+    if(opd_number.length < 3) {
+        toastr.warning('Record Number or Records number is too short');
+      return;
+    }
 
     if(birth_date.length < 3 ) {
         toastr.warning('Birth Date must be entered');
       return;
     }
 
-    if (!gender || gender === "0") {  // Check if gender is selected or the default "0"
+    if (!gender_id || gender_id === "0") {  // Check if gender is selected or the default "0"
         toastr.warning('Please select gender'); 
         return;
     }
@@ -93,7 +97,7 @@
           data: $(this).serialize(),
           success: function(response) {
             toastr.success('Patients Updated successfully!');
-            // $("#product_list").load(location.href + " #product_list");
+            
                 $('#patient_info')[0].reset();
                 $('#pat_id').val('');
           },
@@ -109,19 +113,21 @@
             success: function(response) {
               var result = JSON.parse(response);
                 if (result.code === 201) {
-                  // $("#product_list").load(location.href + " #product_list");
+                  
                   $('#patient_info')[0].reset();
-                  Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: result.message + ' OPD Number: ' + result.opd_number
-                      });
+                  toastr.success('Patients saved successfully!');
+                //   Swal.fire({
+                //         icon: 'success',
+                //         title: 'Success',
+                //         text: result.message + ' OPD Number: ' + result.opd_number
+                //       });
                 } else if (result.code === 200) {
-                  Swal.fire({
-                      icon: 'warning',
-                      title: 'Warning',
-                      text: 'Patient data is available in the system'
-                    });
+                    toastr.warning('Patient data is available in the system!');
+                //   Swal.fire({
+                //       icon: 'warning',
+                //       title: 'Warning',
+                //       text: 'Patient data is available in the system'
+                //     });
                 }    
             },
               error: function(xhr, status, error) {
@@ -132,75 +138,15 @@
     });
 
     // ----------------------- PATIENT SEARCH SCRIPT ---------------------------
-  $('#search_item').on('click', function() {
-    var search_term = $('#search_patient').val();  // Get the search input value
 
-    if (search_term.trim() !== '') {
-        $.ajax({
-            url: '/patient/search',
-            type: "GET",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: { search_patient: search_term },
-            success: function(response) {
-                // Clear the DataTable before appending new data
-                var table = $('#patient_search_list').DataTable();
-                table.clear();
-
-                if (response.length > 0) {
-                    response.forEach(function(patient, index) {
-                        var age = calculateAge(patient.birth_date); // Calculate age
-
-                        // Determine the status badge color based on sponsor type
-                        var badgeClass = '';
-                        switch (patient.sponsor_type_id) {
-                            case 'PI03': badgeClass = 'bg-label-info'; break;
-                            case 'N002': badgeClass = 'bg-label-danger'; break;
-                            case 'PC04': badgeClass = 'bg-label-primary'; break;
-                            default: badgeClass = '';
-                        }
-
-                        var row = [
-                            index + 1, // serial no
-                            '<a href="/patients/' + patient.patient_id + '">' + patient.fullname + '</a>', // fullName
-                            patient.opd_number, // OPD #
-                            (patient.gender_id === '3' ? 'Male' : 'Female'), // Gender
-                            age, // Age
-                            patient.telephone, // Telephone
-                            new Date(patient.birth_date).toLocaleDateString('en-GB'), // birth Date
-                            new Date(patient.register_date).toLocaleDateString('en-GB'),
-                            '<div class="dropdown" align="center">' +
-                                '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">' +
-                                    '<i class="bx bx-dots-vertical-rounded"></i>' +
-                                '</button>' +
-                                '<div class="dropdown-menu">' +
-                                    '<a class="dropdown-item" href="/patients/' + patient.patient_id + '">' +
-                                        '<i class="bx bx-detail me-1"></i> More' +
-                                    '</a>' +
-                                '</div>' +
-                            '</div>' // Action
-                        ];
-                        // Add the row to the DataTable
-                        table.row.add(row).draw();
-                    });
-                } else {
-                    // If no results, display a message
-                    table.row.add([
-                        '', 'No Data Available', '', '', '', '', '', '', ''
-                    ]).draw();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-                alert('There was an error processing your request. Please try again.');
-            }
-        });
-    } else {
-        alert('Please enter a search term');
-    }
-});
-// ----------------------- PATIENT SEARCH SCRIPT ---------------------------
+// Debounce function to limit the rate of AJAX requests
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
 
 // Age calculation function
 function calculateAge(birthDate) {
@@ -215,7 +161,77 @@ function calculateAge(birthDate) {
     return age;
 }
 
-// ----------------------- PATIENT SEARCH SCRIPT ---------------------------
+function renderTableRows(table, data) {// Function to render the table rows
+    table.clear();
+    if (data.length > 0) {
+        data.forEach((patient, index) => {
+            const age = calculateAge(patient.birth_date);
+            const row = [
+                index + 1,
+                `<a href="/patients/${patient.patient_id}">${patient.fullname}</a>`,
+                patient.opd_number,
+                patient.gender_id === '3' ? 'Male' : 'Female',
+                age,
+                patient.telephone,
+                new Date(patient.birth_date).toLocaleDateString('en-GB'),
+                new Date(patient.register_date).toLocaleDateString('en-GB'),
+                `<div class="dropdown" align="center">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/patients/${patient.patient_id}">
+                            <i class="bx bx-detail me-1"></i> More
+                        </a>
+                    </div>
+                </div>`
+            ];
+            table.row.add(row);
+        });
+        $('#patient_search_result').show(); // Show the table if results are found
+    } else {
+        toastr.info(' No patient found with the criteria');
+        // $('#patient_search_result').hide(); // Show the table even if no results are found
+    }
+    table.draw();
+}
+
+function performSearch(searchTerm) {// Function to handle the AJAX request
+    if (searchTerm.trim() !== '') {
+        $.ajax({
+            url: '/patient/search',
+            type: "GET",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: { search_patient: searchTerm },
+            success: function(response) {
+                const table = $('#patient_search_list').DataTable();
+                renderTableRows(table, response);
+            },
+            error: function(xhr, status, error) {
+                toastr.error('There was an error processing your request');
+                $('#patient_search_result').hide(); // Hide the table on error
+            }
+        });
+    } else {
+        toastr.error('Please enter a search item');
+        $('#patient_search_result').hide(); // Hide the table if search term is empty
+    }
+}
+
+// Cache the DataTable instance
+const patientTable = $('#patient_search_list').DataTable();
+
+// Attach the debounced search function to the input event
+$('#search_item').on('click', debounce(function() {
+    const searchTerm = $('#search_patient').val();
+    performSearch(searchTerm);
+}, 300));
+
+// ----------------------- /PATIENT SEARCH SCRIPT ---------------------------
+
+
 // -------GENERATE OPD NUMBER-----------------------------------------------------------------
 
 $(document).on('change', '#folder_clinic', function() {
@@ -231,10 +247,10 @@ $(document).on('change', '#folder_clinic', function() {
         data: {opd_type:opd_type, folder_clinic:folder_clinic},
         success: function(response) {
             if (response.code===201) {
-                $('#opd_number').prop('disabled', true);
+                // $('#opd_number').prop('disabled', true);
                 $('#opd_number').val(response.result);
             } else if (response.code === 200) {
-                $('#opd_number').prop('disabled', false);
+                // $('#opd_number').prop('disabled', false);
             }
         },
         error: function(xhr, status, error) {

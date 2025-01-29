@@ -59,132 +59,143 @@ class PatientController extends Controller
    
     public function store(Request $request)
     {
+        
         $validated_data = $request->validate([
             'pat_id' => 'nullable',
-            // 'pat_id' => 'nullable',
-            'title' => 'required',
-            'firstname' => 'required|min:3',
-            'middlename' => 'nullable',
-            'lastname' => 'required|min:3',
-            'birth_date' => 'required',
-            'gender' => 'required',
-            'occupation' => 'nullable',
-            'education' => 'required|min:3',
-            'religion' => 'required',
-            'nationality' => 'required',
-            'ghana_card' => 'nullable',
-            'telephone' => 'nullable',
-            'work_telephone' => 'nullable',
-            'email' => 'nullable',
-            'address' => 'nullable',
-            'town' => 'nullable',
-            'region' => 'nullable',
-            'contact_person' => 'nullable',
-            'contact_telephone' => 'nullable',
-            'contact_relationship' => 'nullable',
-            'opd_clinic' => 'nullable',
+            'title' => 'required|string|max:255',
+            'firstname' => 'required|string|min:3|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|min:3|max:255',
+            'birth_date' => 'required|date',
+            'gender_id' => 'required|max:255',
+            'occupation' => 'nullable|string|max:255',
+            'education' => 'required|string|min:3|max:255',
+            'religion' => 'nullable|min:3|max:255',
+            'nationality' => 'required|integer',
+            'ghana_card' => 'nullable|string|max:255',
+            'telephone' => 'nullable|string|max:20',
+            'work_telephone' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'address' => 'nullable|string|max:255',
+            'town' => 'nullable|string|max:255',
+            'region' => 'nullable|string|max:255',
+            'contact_person' => 'nullable|string|max:255',
+            'contact_telephone' => 'nullable|string|max:20',
+            'contact_relationship' => 'nullable|string|max:255',
+            'folder_clinic' => 'nullable|string|min:3|max:255',
             'sponsor_id' => 'nullable',
-            'member_no' => 'nullable',
-            'clinic_type' => 'nullable',
-            'opd_number' => ' nullable',
-            'sponsor_type_id' => 'nullable',
+            'member_no' => 'nullable|string|max:255',
+            'clinic_type' => 'nullable|string|max:255',
+            'opd_number' => 'nullable|string|max:255',
+            'sponsor_type_id' => 'nullable|string|max:255',
             'dependant' => 'nullable',
-            'start_date' => 'nullable',
-            'end_date' => 'nullable',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
         ]);
 
-        $available = Patient::where('lastname', $request->input('lastname'))
-            ->where('firstname', $request->input('firstname'))
-            ->OrWhere('lastname', $request->input('firstname'))
-            ->OrWhere('firstname', $request->input('firstname'))
-            ->where('birth_date', $request->input('birth_date'))
-            ->where('telephone', $request->input('telephone'))
-            ->first();
+        // Check if the patient already exists
+        $existing_patient = Patient::where([
+            ['lastname', $validated_data['lastname']],
+            ['firstname', $validated_data['firstname']],
+            ['birth_date', $validated_data['birth_date']],
+            ['telephone', $validated_data['telephone']],
+        ])->first();
 
-        if($available)
-        {
-            return response()->json(['message' => 'Patient data available', 'code' => 200], 200);
+        if ($existing_patient) {
+            return response()->json([
+                'message' => 'Patient data available',
+                'code' => 200
+                ], 200);
         }
         
+        $sponsor_records = intval(PatientSponsor::all()->count()) + 1;
+        $patient_records = intval(Patient::all()->count()) + 1;
+        $sponsor_records = intval(PatientOpdNumber::all()->count()) + 1;
+
         DB::beginTransaction();
+                    try {
+                        $now = now();
+                        $patient_id_no = Str::uuid();
+                        $transaction_id = now()->format('YmdHis');
+                        $user_id = Auth::user()->user_id;
+                        
+                        $patient = new Patient([
+                            'patient_id' => $patient_id_no,
+                            'title' => strtoupper($validated_data['title']),
+                            'firstname' => strtoupper($validated_data['firstname']),
+                            'middlename' => strtoupper($validated_data['middlename'] ?? ''),
+                            'lastname' => strtoupper($validated_data['lastname']),
+                            'birth_date' => $validated_data['birth_date'],
+                            'gender_id' => $validated_data['gender_id'],
+                            'occupation' => strtoupper($validated_data['occupation'] ?? ''),
+                            'education' => strtoupper($validated_data['education']),
+                            'religion_id' => $validated_data['religion'],
+                            'nationality_id' => $validated_data['nationality'],
+                            'old_folder' => $validated_data['old_folder'] ?? null,
+                            'telephone' => $validated_data['telephone'] ?? null,
+                            'work_telephone' => $validated_data['work_telephone'] ?? null,
+                            'email' => $validated_data['email'] ?? null,
+                            'address' => strtoupper($validated_data['address'] ?? ''),
+                            'town' => strtoupper($validated_data['town'] ?? ''),
+                            'region' => strtoupper($validated_data['region'] ?? ''),
+                            'contact_person' => $validated_data['contact_person'] ?? null,
+                            'contact_telephone' => $validated_data['contact_telephone'] ?? null,
+                            'contact_relationship' => strtoupper($validated_data['contact_relationship'] ?? ''),
+                            'added_date' => $now,
+                            // 'records_id' => $transaction_id,
+                            'records_id' => $patient_records,
+                            'user_id' =>  $user_id,
+                        ]);
 
-        try {
-            $patient_no = $request->input('opd_number');
-            $current_date = Carbon::now();
-            $patient_id = Str::uuid();
-            // $year = $current_date->year;
-            // $month = $current_date->month;
-            // $day =  $current_date->day;
-            // $time = $current_date->format('His');
-            $transaction = $current_date->year . $current_date->month . $current_date->day . $current_date->format('His');
-            // $transaction = $year.$month.$day.$time;
-             
-            $patient = new Patient();
-            $patient->patient_id = $patient_id;
-            $patient->title = $request->input('title');
-            $patient->firstname = $request->input('firstname');
-            $patient->middlename = $request->input('middlename');
-            $patient->lastname = $request->input('lastname');
-            $patient->birth_date = $request->input('birth_date');
-            $patient->gender_id = $request->input('gender');
-            $patient->occupation = $request->input('occupation');
-            $patient->education = $request->input('education');
-            $patient->religion_id = $request->input('religion');
-            $patient->nationality_id = $request->input('nationality');
-            $patient->old_folder = $request->input('old_folder');
-            $patient->telephone = $request->input('telephone');
-            $patient->work_telephone = $request->input('work_telephone');
-            $patient->email = $request->input('email');
-            $patient->address = $request->input('address');
-            $patient->town = $request->input('town');
-            $patient->region = $request->input('region');
-            $patient->contact_person = $request->input('contact_person');
-            $patient->contact_telephone = $request->input('contact_telephone');
-            $patient->contact_relationship = $request->input('contact_relationship');
-            // $patient->sponsor_type_id = $request->input('sponsor_type_id');
-            // $patient->sponsor_id= $request->input('sponsor_id');
-            // $patient->member_no = $request->input('member_no');
-            $patient->added_date = now();
-            $patient->records_id = $transaction;
-            $patient->user_id =  Auth::user()->user_id;
-            $patient->save();
-            // return 'Patient details success'; 
+                        $patient->save();
+                          // Save OPD number
+                        PatientOpdNumber::create([
+                            'patient_id' => $patient_id_no,
+                            'opd_number' => $validated_data['opd_number'] ?? null,
+                            'clinic_id' => $validated_data['folder_clinic'] ?? null,
+                            'registration_date' => $now,
+                            'registration_time' => $now,
+                            'user_id' =>  $user_id,
+                            'added_date' => $now,
+                        ]);
 
-            $opd_number = new PatientOpdNumber();
-            $opd_number->patient_id = $patient_id; 
-            $opd_number->opd_number = $patient_no;
-            $opd_number->registration_date = now();
-            $opd_number->registration_time = now();
-            $opd_number->user_id =  Auth::user()->user_id;
-            $opd_number->added_date = now();
-            $opd_number->save();
-            // return 'pat number success'; 
+                        // Check and save sponsor information
+                        $sponsor_types = ['PI03', 'N002', 'PC04'];
 
-            $check_sponsor = $request->input('sponsor_type');
+                        if (in_array($validated_data['sponsor_type_id'] ?? '', $sponsor_types)) {
 
-                if($check_sponsor=='PI03' || $check_sponsor=='N002' || $check_sponsor=='PC04')
-                 {
-                    $sponsor = new PatientSponsor();
-                    $sponsor->patient_id = $pat_id; 
-                    $sponsor->sponsor_type_id = $request->input('sponsor_type_id');
-                    $sponsor->sponsor_id = $request->input('sponsor_id');
-                    $sponsor->member_no = $request->input('member_no');
-                    $sponsor->start_date = $request->input('start_date');
-                    $sponsor->end_date = $request->input('end_date');
-                    $sponsor->user_id =  Auth::user()->user_id;
-                    $sponsor->added_date = now();
-                    $sponsor->status = 'Active';
-                    $sponsor->save(); 
-                    // return 'Sponsor success'; 
-                 }
-           
-         DB::commit();
-            return response()->json(['message' => 'Patient saved successfully', 'code' => 201, 'opd_number' => $patient_no], 201);
+                            PatientSponsor::create([
+                                'patient_id' => $patient_id_no,
+                                'opd_number' => $validated_data['opd_number'],
+                                'sponsor_type_id' => $validated_data['sponsor_type_id'],
+                                'sponsor_id' => $validated_data['sponsor_id'],
+                                'member_no' => $validated_data['member_no'],
+                                'start_date' => $validated_data['start_date'],
+                                'end_date' => $validated_data['end_date'],
+                                'user_id' =>  $user_id,
+                                'added_date' => $now,
+                                'status' => 'Active',
+                            ]);
+                        }
+
+            DB::commit();
+
+                    return response()->json([
+                        // 'message' => 'Patient saved successfully',
+                        'code' => 201,
+                        // 'opd_number' => $validated_data['opd_number'] ?? null,
+                    ], 201);
+
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error saving patient details', 'error' => $e->getMessage()], 500);
+            
+                    return response()->json([
+                        'message' => 'Error saving patient details',
+                        'error' => $e->getMessage()
+                    ], 500);
         }
     }
+
 
     public function show(Patient $patient)
     {
@@ -192,7 +203,6 @@ class PatientController extends Controller
             ->where('patient_info.patient_id', $patient->patient_id)
             ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
             ->join('patient_nos', 'patient_nos.patient_id', '=', 'patient_info.patient_id')
-            // ->join('title', 'patient_info.title_id', '=', 'title.title_id')
             ->join('users', 'patient_info.user_id', '=', 'users.user_id')
             ->select('patient_info.patient_id', 'patient_nos.opd_number', 'patient_info.title', 'patient_info.fullname', 'gender.gender', 
                      'patient_info.birth_date', 'patient_info.email', 'patient_info.address', 'patient_info.contact_person', 
@@ -266,7 +276,7 @@ class PatientController extends Controller
             'middlename' => 'nullable',
             'lastname' => 'required|min:3',
             'birth_date' => 'required',
-            'gender' => 'required',
+            'gender_id' => 'required',
             'occupation' => 'required|min:3',
             'education' => 'required|min:3',
             'religion' => 'required',
@@ -321,20 +331,16 @@ class PatientController extends Controller
     {
         $search_term = $request->input('search_patient');
 
-        // Query the patients based on the search term and join with patient_nos
-        $search_patient = Patient::query()
+        $search_patient = Patient::query() // Query the patients based on the search term and join with patient_nos and patient_sponsors
             ->join('patient_nos', 'patient_info.patient_id', '=', 'patient_nos.patient_id')
+            ->join('patient_sponsorship', 'patient_info.patient_id', '=', 'patient_sponsorship.patient_id')
             ->where(function ($query) use ($search_term) {
-                $query->where('firstname', 'like', '%' . $search_term . '%')
-                    ->orWhere('lastname', 'like', '%' . $search_term . '%')
-                    ->orWhere('opd_number', 'like', '%' . $search_term . '%')
-                    ->orWhere('telephone', 'like', '%' . $search_term . '%')
-                    ->orWhere('middlename', 'like', '%' . $search_term . '%')
+                $query->where('telephone', 'like', '%' . $search_term . '%')
+                    ->orWhere('patient_sponsorship.member_no', 'like', '%' . $search_term . '%')
                     ->orWhere('patient_nos.opd_number', 'like', '%' . $search_term . '%'); // Assuming opd_number is in patient_nos
             })->get();
 
-        // Return a response in JSON format
-        return response()->json($search_patient);
+        return response()->json($search_patient);  // Return a response in JSON format
     }
 
 
@@ -353,8 +359,7 @@ class PatientController extends Controller
                         ->where('service_point_id', $service_point_id)
                         ->first();
                     
-                        // Fetch the patient count for the current year
-                    $patient_nos = DB::table('patient_nos')
+                    $patient_nos = DB::table('patient_nos')// Fetch the patient count for the current year
                         ->where('clinic_id', $request->input('service_point_id'))
                         ->whereYear('added_date', $current_year) // Ensure to filter by the current year
                         ->count();
@@ -365,11 +370,8 @@ class PatientController extends Controller
 
                     $initial_letter = $service_points->folder_prefix;
                     $number_lenght = intval($service_points->folder_lenght);
-                    
-                    // If no patients exist for the current year, start from 1
-                    $patient_nos = ($patient_nos == 0) ? 1 : $patient_nos + 1;
-                    // Format the incremented count as a 6-digit number with leading zeros
-                    $formatted_id = str_pad($patient_nos, $number_lenght, '0', STR_PAD_LEFT);
+                    $patient_nos = ($patient_nos == 0) ? 1 : $patient_nos + 1; // If no patients exist for the current year, start from 1
+                    $formatted_id = str_pad($patient_nos, $number_lenght, '0', STR_PAD_LEFT);// Format the incremented count as a 6-digit number with leading zeros
                     $patient_number = $initial_letter . $formatted_id ."/". $small_year;// Generate the patient number
                     
                     return response()->json([

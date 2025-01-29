@@ -22,10 +22,9 @@
                                   <table class="table table-responsive" style="color:aqua">
                                     <tr>
                                       <td colspan="2">
-                                        <label for="search_patient"> Member #/OPD #/ Telephone #/ Firstname / Othername</label>
+                                        <label for="search_patient"> Member #/OPD #/ Telephone # </label>
                                         <i class="bx bx-scan"></i>
-                                         <input type="text" id="search_patient" name="search_patient" class="form-control col-lg-12" 
-                                         maxlength="30" min="3" placeholder="Member #/OPD #/ Telephone #/ Firstname / Othername"  autocomplete="off">
+                                          <input type="text" id="search_patient" name="search_patient" class="form-control col-lg-12" maxlength="30" min="3" placeholder="Member# /OPD#/ Telephone #" autocomplete="off">
                                       </td>
                                     </tr>
                                     <tr>
@@ -45,7 +44,7 @@
                     </div>
                 </div>  
                 <br>
-                <div class="card">
+                <div class="card" id="patient_search_result" style="display: none;">
                     <div class="card-datatable table-responsive">
                       <div class="col" style="padding-left:20px;"> 
                       <h4 class="mb-1 mt-3">Patient Search data</h4>

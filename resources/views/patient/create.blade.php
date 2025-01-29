@@ -22,7 +22,7 @@
           <h5 class="card-tile mb-0"><b>Bio-information</b></h5>
         </div>
         <div class="card-body">
-          <form id="patient_info" enctype="multipart/form-data" method="post">
+          <form  enctype="multipart/form-data" method="post" id="patient_info">
            @csrf
           <div class="row mb-3">
           <input type="text" class="form-control" id="pat_id" name="pat_id" hidden>
@@ -60,8 +60,8 @@
           </div>
           <div class="row mb-3">
              <div class="col">
-              <label class="form-label" for="gender">Gender <a style="color: red;">*</a></label>
-              <select name="gender" id="gender" class="form-control" wire:model="gender">
+              <label class="form-label" for="gender_id">Gender <a style="color: red;">*</a></label>
+              <select name="gender_id" id="gender_id" class="form-control" wire:model="gender">
                 <option value="" disabled selected>-Select-</option>
                   @foreach($gender as $patient_gender)                                        
                     <option value="{{ $patient_gender->gender_id }}">{{ $patient_gender->gender }}</option>
