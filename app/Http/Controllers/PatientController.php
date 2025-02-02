@@ -36,18 +36,18 @@ class PatientController extends Controller
 
     public function create()
     {
-            $title = Title::where('archived', 'No')->where('status', '=','Active')->get();
-            $religion = Religion::where('archived', 'No')->where('status', '=','Active')->get();
-            $gender = Gender::where('archived', 'No')->where('status', '=','Active')->where('usage', '=','1')->get();
-            $region = Region::where('archived', 'No')->where('status', '=','Active')->get();
-            $relation = Relation::where('archived', 'No')->where('status', '=','Active')->get();
-            $towns = Town::where('archived', 'No')->where('status', '=','Active')->get();
-            $service_points = DB::table('service_points')->where('archived', 'No')->where('status', '=', 'Active')->orderBy('service_points', 'asc')->get();
-            $occupations = DB::table('occupation')->Where('status', '=', 'Active')->where('archived', 'No')->orderBy('occupation', 'asc')->get();
-            $payment_type = SponsorType::where('archived', 'No')->orderBy('sponsor_type', 'DESC')->get();
-            $sponsor =  DB::table('sponsors')->Where('status', '=', 'Active')->where('archived', 'No')->orderBy('sponsor_name', 'asc')->get();
+        $title = Title::where('archived', 'No')->where('status', '=','Active')->get();
+        $religion = Religion::where('archived', 'No')->where('status', '=','Active')->get();
+        $gender = Gender::where('archived', 'No')->where('status', '=','Active')->where('usage', '=','1')->get();
+        $region = Region::where('archived', 'No')->where('status', '=','Active')->get();
+        $relation = Relation::where('archived', 'No')->where('status', '=','Active')->get();
+        $towns = Town::where('archived', 'No')->where('status', '=','Active')->get();
+        $service_points = DB::table('service_points')->where('archived', 'No')->where('status', '=', 'Active')->orderBy('service_points', 'asc')->get();
+        $occupations = DB::table('occupation')->Where('status', '=', 'Active')->where('archived', 'No')->orderBy('occupation', 'asc')->get();
+        $payment_type = SponsorType::where('archived', 'No')->orderBy('sponsor_type', 'DESC')->get();
+        $sponsor =  DB::table('sponsors')->Where('status', '=', 'Active')->where('archived', 'No')->orderBy('sponsor_name', 'asc')->get();
 
-            $clinic_attendance = ServicePoints::select('service_point_id','service_points')
+        $clinic_attendance = ServicePoints::select('service_point_id','service_points')
                 ->where('archived', 'No')
                 ->where('is_active', 'Yes')
                 ->orderBy('service_points', 'asc') 
@@ -196,9 +196,40 @@ class PatientController extends Controller
         }
     }
 
+    private function get_age_full($birthdate)
+    {
+       
+        $dob = Carbon::parse($birthdate); 
+        $today = Carbon::now();
+        $age_in_days = $dob->diffInDays($today);
+
+            if ($age_in_days == 1) {
+                return "1 DAY";
+            } elseif ($age_in_days < 7) {
+                return "$age_in_days DAYS";
+            } elseif ($age_in_days < 14) {
+                return "1 WEEK";
+            } elseif ($age_in_days < 30) {
+                $age_in_weeks = floor($age_in_days / 7);
+                return "$age_in_weeks WEEKS";
+            } elseif ($age_in_days == 30) {
+                return "1 MONTH";
+            } elseif ($age_in_days < 365) {
+                $age_in_months = floor($age_in_days / 30);
+                return "$age_in_months MONTHS";
+            } elseif ($age_in_days == 365) {
+                return "1 YEAR";
+            } else {
+                $age_in_years = floor($age_in_days / 365);
+                return "$age_in_years YEARS";
+            }
+    }
+
 
     public function show(Patient $patient)
     {
+        $age_full = $this->get_age_full($patient->birth_date);
+
         $patients = DB::table('patient_info')
             ->where('patient_info.patient_id', $patient->patient_id)
             ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
@@ -207,43 +238,72 @@ class PatientController extends Controller
             ->select('patient_info.patient_id', 'patient_nos.opd_number', 'patient_info.title', 'patient_info.fullname', 'gender.gender', 
                      'patient_info.birth_date', 'patient_info.email', 'patient_info.address', 'patient_info.contact_person', 
                      'patient_info.contact_relationship', 'patient_info.contact_telephone', 'patient_info.added_date', 
-                     'patient_info.telephone', 'users.user_fullname', 'patient_info.gender_id', 
+                     'patient_info.telephone', 'users.user_fullname', 'patient_info.gender_id', 'patient_info.death_status',
                      DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as patient_age'))
             ->orderBy('patient_info.added_date', 'asc') 
             ->first();
 
-       
-
+            
         $ages = Age::where('min_age', '<=', $patients->patient_age)
             ->where('max_age', '>=', $patients->patient_age)
             ->where('max_age', '>=', $patients->patient_age)
             ->first();
 
-        $clinic_attendance = ServicePoints::select('service_point_id','service_points','gender_id', 'age_id')
-            ->where('gender_id', $patients->gender_id)
-            ->orWhere('gender_id', 1)
-            ->where('age_id', $patient->age_id)
-            ->orWhere('age_id', 3)
-            ->where('archived', 'No')
-            ->where('is_active', 'Yes')
+        $clinic_attendance = ServicePoints::select('service_point_id', 'service_points', 'gender_id', 'age_id')
+                    ->where(function ($query) use ($patients) {
+                        $query->where('gender_id', $patients->gender_id)
+                            ->orWhere('gender_id', 1); // Assuming 1 is a default gender_id
+                    })
+                    ->where(function ($query) use ($ages) {
+                        $query->where('age_id', $ages->age_id)
+                            ->orWhere('age_id', 3); // Assuming 3 is a default age_id
+                    })
+                    ->where('archived', 'No')
+                    ->where('is_active', 'Yes')
+                    ->get();
+
+        // $clinic_attendance = ServicePoints::select('service_point_id','service_points','gender_id', 'age_id')
+        //     ->where('gender_id', $patients->gender_id)
+        //     ->orWhere('gender_id', 1)
+        //     ->where('age_id', $patient->age_id)
+        //     ->orWhere('age_id', 3)
+        //     ->where('archived', 'No')
+        //     ->where('is_active', 'Yes')
+        //     ->get();
+    
+
+        $todays_request = ServiceRequest::where('patient_attendance.archived','No')
+            ->join('patient_sponsorship', 'patient_sponsorship.patient_id', '=', 'patient_attendance.patient_id')
+            ->join('sponsor_type', 'patient_sponsorship.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
+            ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.clinic_code')
+            ->select('patient_attendance.attendance_id', 'patient_attendance.opd_number', 'patient_attendance.attendance_date', 'patient_attendance.pat_age', 
+                    'service_attendance_type.attendance_type', 'sponsor_type.sponsor_type')
+            ->where('patient_attendance.patient_id', $patient->patient_id)
+            ->whereDate('patient_attendance.attendance_date', Carbon::today()) 
+            ->orderBy('patient_attendance.attendance_id', 'asc')
             ->get();
 
-        $all_attendance = DB::table('patient_attendance')
-            ->where('archived', 'No')
-            ->where('patient_id', $patient->patient_id)
-            ->get();
-            
         // $request_episode = ServiceRequest::count();
         // $new_number = $request_episode + 1;
         // $episode = str_pad($new_number, 6, '0', STR_PAD_LEFT);
+       
+        // OLD ATTENDANCE REQUESTS
+        $service_requests = ServiceRequest::where('patient_attendance.archived','No')
+            ->join('patient_sponsorship', 'patient_sponsorship.patient_id', '=', 'patient_attendance.patient_id')
+            ->join('sponsor_type', 'patient_sponsorship.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
+            ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.clinic_code')
+            ->select('patient_attendance.attendance_id', 'patient_attendance.opd_number', 'patient_attendance.attendance_date', 'patient_attendance.pat_age', 
+                    'service_attendance_type.attendance_type', 'sponsor_type.sponsor_type')
+            ->where('patient_attendance.patient_id', $patient->patient_id)
+            ->orderBy('patient_attendance.attendance_id', 'asc')
+            ->get();
 
-        $service_request = ServiceRequest::where('archived','No')
-        ->where('patient_id', $patient->patient_id)
-        ->get();
-
-        return view('patient.show', compact('patients', 'clinic_attendance', 'service_request', 'all_attendance'));
+        return view('patient.show', compact('patients', 'clinic_attendance', 'service_requests', 'age_full', 'todays_request'));
         
     }
+
+    
+
 
     public function edit($patient_id)
     {  
@@ -309,19 +369,19 @@ class PatientController extends Controller
 
     public function destroy(Request $request)
     {
-        $request->validate([
-            'pat_number' => 'required',
-        ]);
+        // $request->validate([
+        //     'pat_number' => 'required',
+        // ]);
         
-         $searched_patient = Patient::where('pat_number', $request->input('pat_number')) ->first();
+        //  $searched_patient = Patient::where('pat_number', $request->input('pat_number')) ->first();
        
-        if($searched_patient)
-        {
-            return 200;
-        }
-        $pat_to_be_deleted = Patient::find($request->pat_number);
-        $pat_to_be_deleted->delete();
-        return 201;
+        // if($searched_patient)
+        // {
+        //     return 200;
+        // }
+        // $pat_to_be_deleted = Patient::find($request->pat_number);
+        // $pat_to_be_deleted->delete();
+        // return 201;
 
     }
 
@@ -337,6 +397,7 @@ class PatientController extends Controller
                 $query->where('telephone', 'like', '%' . $search_term . '%')
                     ->orWhere('patient_sponsorship.member_no', 'like', '%' . $search_term . '%')
                     ->orWhere('patient_nos.opd_number', 'like', '%' . $search_term . '%'); // Assuming opd_number is in patient_nos
+                    
             })->get();
 
         return response()->json($search_patient);  // Return a response in JSON format
@@ -350,8 +411,7 @@ class PatientController extends Controller
 
             if($request->input('opd_type')=='1')// if type == new
             {
-                    // Fetch the service point details
-                    $service_points = DB::table('service_points')
+                    $service_points = DB::table('service_points') // Fetch the service point details
                         ->select('folder_prefix', 'folder_lenght')
                         ->where('archived', 'No')
                         ->where('status', 'Active')
@@ -359,7 +419,7 @@ class PatientController extends Controller
                         ->first();
                     
                     $patient_nos = DB::table('patient_nos')// Fetch the patient count for the current year
-                        ->where('clinic_id', $request->input('service_point_id'))
+                        ->where('clinic_id', $service_point_id)
                         ->whereYear('added_date', $current_year) // Ensure to filter by the current year
                         ->count();
 
@@ -379,7 +439,8 @@ class PatientController extends Controller
                         'result' => $patient_number
                     ]);
 
-            }else if($request->input('opd_type')=='0')// if type ==old leave blank
+            }
+            else if($request->input('opd_type')=='0')// if type ==old leave blank
             {
                 return response()->json([
                     'success' => true,
@@ -433,9 +494,11 @@ class PatientController extends Controller
             ])->post($apiUrl, $formData);
 
             // Check if the response is JSON or plain text
-            if ($response->header('Content-Type') === 'application/json') {
+            if ($response->header('Content-Type') === 'application/json') 
+            {
                 $result = $response->json(); // Parse as JSON
-            } else {
+            } else 
+            {
                 $result = $response->body(); // Otherwise get plain text response
             }
 
@@ -454,18 +517,21 @@ class PatientController extends Controller
         }
     }
 
-    public function get_all_patient_sponsors(Response $response, $patient_id)
+    public function get_patient_sponsor($patient_id)
     {
          $sponsor = DB::table('patient_sponsorship')
             ->where('patient_sponsorship.archived', 'No')
-            ->where('patient_id', $patients->patient_id)
+            ->where('patient_id', $patient_id)
             ->join('sponsors', 'patient_sponsorship.sponsor_id', '=', 'sponsors.sponsor_id')
-            // ->join('sponsor_type', 'patient_sponsorship.sponsor_id', '=', 'sponsors.sponsor_id')
-            ->select('patient_sponsorship.member_no', 'patient_sponsorship.sponsor_id', 'sponsors.sponsor_name', 
+            ->join('sponsor_type', 'sponsor_type.sponsor_type_id', '=', 'sponsors.sponsor_type_id')
+            ->select('sponsor_type.sponsor_type','patient_sponsorship.member_no', 'patient_sponsorship.sponsor_id', 'sponsors.sponsor_name', 
                     'patient_sponsorship.start_date', 'patient_sponsorship.end_date', 
                     'patient_sponsorship.status', 'patient_sponsorship.priority', 'patient_sponsorship.is_active' )
             ->get();
+
+        return response()->json($sponsor);
     }
+
     public function get_all_patient_attendance(Response $response, $patient_id)
     {
          $sponsor = DB::table('patient_sponsorship')

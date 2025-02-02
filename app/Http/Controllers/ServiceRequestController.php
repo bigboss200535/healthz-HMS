@@ -139,35 +139,6 @@ class ServiceRequestController extends Controller
         ]);
     }
    
-    private function get_age_full($birthdate)
-    {
-       
-        $dob = Carbon::parse($birthdate); 
-        $today = Carbon::now();
-        $age_in_days = $dob->diffInDays($today);
-
-            if ($age_in_days == 1) {
-                return "1 DAY";
-            } elseif ($age_in_days < 7) {
-                return "$age_in_days DAYS";
-            } elseif ($age_in_days < 14) {
-                return "1 WEEK";
-            } elseif ($age_in_days < 30) {
-                $age_in_weeks = floor($age_in_days / 7);
-                return "$age_in_weeks WEEKS";
-            } elseif ($age_in_days == 30) {
-                return "1 MONTH";
-            } elseif ($age_in_days < 365) {
-                $age_in_months = floor($age_in_days / 30);
-                return "$age_in_months MONTHS";
-            } elseif ($age_in_days == 365) {
-                return "1 YEAR";
-            } else {
-                $age_in_years = floor($age_in_days / 365);
-                return "$age_in_years YEARS";
-            }
-    }
-
 
     public function gettarrifs($service_id, Request $request)
     {

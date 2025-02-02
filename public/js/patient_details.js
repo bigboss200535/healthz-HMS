@@ -237,7 +237,7 @@ $('#search_item').on('click', debounce(function() {
 // ----------------------- /PATIENT SEARCH SCRIPT ---------------------------
 
 
-// -------GENERATE OPD NUMBER-----------------------------------------------------------------
+// ****************************** GENERATE OPD NUMBER- ****************************----------------------------------------------------------------
 
 $(document).on('change', '#folder_clinic', function() {
   
@@ -282,3 +282,65 @@ $(document).on('change', '#folder_clinic', function() {
     // Event listener for dropdown change
     sponsorTypeSelect.addEventListener('change', toggleSponsorshipDetails);
 });
+
+// ************************** GET ALL PATIENT SPONSORS_?**********************************
+$(document).ready(function() {
+   
+    var patient_id = $('#p_id').val(); // Get the patient_id from the hidden input field
+
+    if (!patient_id) { // Ensure patient_id is not empty
+        console.error('Patient ID is missing.');
+        return;
+    }
+
+    $.ajax({
+       url: '/patient/patient-sponsors/' + patient_id,
+        type: 'GET',
+        success: function(response) {
+            // Clear the table body before populating
+            var tbody = $('#data_table tbody');
+            tbody.empty();
+
+            // Check if response is not empty
+            if (response.length > 0) {
+                // Loop through the response data and populate the table
+                $.each(response, function(index, patient) {
+                    var row = '<tr>' +
+                        '<td>' + patient.sponsor_name + '</td>' +
+                        '<td>' + patient.member_no + '</td>' +
+                        '<td>' + patient.start_date + '</td>' +
+                        '<td>' + patient.end_date + '</td>' +
+                        '<td>' + (patient.status ? 'Active' : 'Inactive') + '</td>' + // Format boolean value
+                        '<td>' + patient.priority + '</td>' +
+                        // '<td></td>' +
+                        '<td>'+
+                            '<div class="dropdown" align="center">'+
+                                    '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">'+
+                                        '<i class="bx bx-dots-vertical-rounded"></i>'+
+                                    '</button>'+
+                                '<div class="dropdown-menu">'+
+                                    '<a class="dropdown-item" href="/patients/${patient.patient_id}">'+
+                                        '<i class="bx bx-detail me-1"></i> Edit'+
+                                    '</a>'+
+                                    '<a class="dropdown-item" href="/patients/${patient.patient_id}">'+
+                                        '<i class="bx bx-trash me-1"></i> Delete'+
+                                    '</a>'+
+                                '</div>'+
+                                
+                            '</div>'+
+                        '</td>' +
+                        '</tr>';
+                    tbody.append(row);
+                });
+            } else {
+                // If no data is returned, display a message
+                tbody.append('<tr><td colspan="8" class="text-center">No data found.</td></tr>');
+            }
+        },
+        error: function(xhr) {
+            // Log the error to the console
+            console.error('Error fetching patient sponsors:', xhr.responseText);
+        }
+    });
+});
+// ************************** GET ALL PATIENT SPONSORS_?**********************************

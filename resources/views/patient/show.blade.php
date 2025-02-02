@@ -57,30 +57,29 @@
                   <h5 class="card-tile mb-0 text-primary"><b>BIO-INFORMATION</b></h5>
               </div> -->
                 <table class="table">
-                   <tr>
-                        <td colspan="2">
-                          <h5 class="text-dark"><b>BIO-INFORMATION</b></h5>
-                        </td>
-                      </tr>
+                    <tr>
+                       <td colspan="2">
+                          <h5 class="text-primary"><b>BIO-INFORMATION</b></h5>
+                       </td>
+                    </tr>
                     <tr>
                       <td><b>Fullname</b></td>
                       <td>{{ $patients->fullname }}</td>
                     </tr>
                     <tr>
                       <td><b>Gender</b></td>
-                      <td>{{ $patients->gender }}</td>
+                      <td>{{ strtoupper($patients->gender) }}</td>
                     </tr>
                     <tr>
                       <td><b>Age</b></td>
-                      <td>{{ $patients->patient_age }}</td>
+                      <td>{{ $age_full }}</td>
                     </tr>
-                    
-                   <tr>
+                     <tr>
                        <td colspan="2">
-                          <h5 class="text-dark"><b>CONTACT</b></h5>
+                          <h5 class="text-primary"><b>CONTACT</b></h5>
                        </td>
-                    </tr>
-                      <tr>
+                     </tr>
+                     <tr>
                         <td><b>Email</b></td>
                         <td>{{ $patients->email }}</td>
                       </tr>
@@ -94,7 +93,7 @@
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <h5 class="text-dark"><b>EMERGENCY CONTACT PERSON</b></h5>
+                          <h5 class="text-primary"><b>EMERGENCY CONTACT PERSON</b></h5>
                         </td>
                       </tr>
                       <tr>
@@ -124,14 +123,13 @@
             <table class="table table-hover" id="data_table">
               <thead>
                 <tr>
-                  <th>S/N</th>
-                  <th>Type</th>
+                  <th>Sponsor Type</th>
                   <th>Member #</th>
-                  <th>Effect Date</th>
-                  <th>Expiry Date</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
                   <th>Sponsorhip Status</th>
-                  <th>Current Sponsor</th>
-                  <th></th>
+                  <th>Prority Sponsor</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -139,14 +137,13 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th>S/N</th>
-                  <th>Type</th>
+                <th>Sponsor Type</th>
                   <th>Member #</th>
-                  <th>Effect Date</th>
-                  <th>Expiry Date</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
                   <th>Sponsorhip Status</th>
-                  <th>Current Sponsor</th>
-                  <th></th>
+                  <th>Prority Sponsor</th>
+                  <th>Action</th>
                 </tr>
               </tfoot>
             </table>
@@ -160,26 +157,53 @@
             <table class="table table-hover" id="employee_details">
               <thead>
                 <tr>
-                  <th>S/N</th>
-                  <th>Type</th>
-                  <th>Member #</th>
-                  <th>Effect Date</th>
-                  <th>Expiry Date</th>
-                  <th># Status</th>
-                  <th>Active?</th>
+                  <th>Attendance #</th>
+                  <th>Attendance Date</th>
+                  <th>Clinic</th>
+                  <th>Sponsor</th>
+                  <th>Status</th>
+                  <!-- <th>is NHIS</th> -->
+                  <th>Outcome</th>
                   <th></th>
                 </tr>
               </thead>
-             
+              <tbody>
+                            @php
+                              $counter = 1;
+                            @endphp
+                            @foreach($service_requests  as $old_requests)
+                            <tr>
+                                <td><a href="#">{{ $old_requests->attendance_id}}</a></td>
+                                <td>{{ \Carbon\Carbon::parse($old_requests->attendance_date)->format('d-m-Y') }}</td>
+                                <td>{{ $old_requests->attendance_type }}</td>
+                                <td>{{ $old_requests->sponsor_type }}</td>
+                                <td><span class="badge bg-label-danger me-1">OPD</span></td> <!--   IPD or OPD-->
+                                <!-- <td><span class="badge bg-label-warning me-1">NO</span></td> -->
+                                <td><span class="badge bg-label-info me-1">DISCHARGED</span></td>
+                                <td>
+                                      <div class="dropdown" align="center">
+                                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                  <i class="bx bx-dots-vertical-rounded"></i>
+                                              </button>
+                                              <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="bx bx-lock-alt me-1"></i> Details 
+                                                    </a>
+                                              </div>
+                                      </div>
+                                 </td>
+                            </tr>
+                        @endforeach
+             </tbody>
               <tfoot>
                 <tr>
-                  <th>S/N</th>
-                  <th>Type</th>
-                  <th>Member #</th>
-                  <th>Effect Date</th>
-                  <th>Expiry Date</th>
-                  <th># Status</th>
-                  <th>Active?</th>
+                  <th>Attendance #</th>
+                  <th>Attendance Date</th>
+                  <th>Clinic</th>
+                  <th>Sponsor</th>
+                  <th>Status</th>
+                  <!-- <th>is NHIS</th> -->
+                  <th>Outcome</th>
                   <th></th>
                 </tr>
               </tfoot>
@@ -267,16 +291,16 @@
           </div>
           <!-- <br> -->
            <div class="mb-3 col ecommerce-select2-dropdown" align="center">
-            <img src="{{$patients->gender==='Female' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px ">
+            <img src="{{ $patients->gender==='Female' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px ">
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown" align="center">
-            <h5 class="card-tile mb-0"><b>{{ $patients->title}} {{$patients->fullname}}</b></h5>
+            <h5 class="card-tile mb-0"><b>{{ $patients->title}}. {{ $patients->fullname }}</b></h5>
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown">
            <table class="table">
             <tr>
               <td><b>Folder #</b>:</td>
-              <td>{{ $patients->opd_number}}</td>
+              <td>{{ $patients->opd_number }}</td>
             </tr>
             <tr>
               <td><b>Date Registered</b>:</td>
@@ -284,26 +308,37 @@
             </tr>
             <tr>
               <td><b>Blood Group</b>:</td>
-              <td><span class="badge bg-label-danger me-1">O-</span></td>
+              <td><span class="badge bg-label-info me-1">O-</span></td>
             </tr>
             <tr>
               <td><b>Sickling</b>:</td>
               <td>Negative</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td><b>Allergy</b>:</td>
               <td>Negative</td>
-            </tr>
+            </tr> -->
             <tr>
               <td><b>Registered By</b>:</td>
               <td>{{ $patients->user_fullname}}</td>
             </tr>
             <tr>
-                 <td colspan="2">
+              <td><b>Deceased</b>:</td>
+              <td><span class="badge bg-label-danger me-1">{{ $patients->death_status}}</span></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center">
+                <div class="btn-group">
+                        <button type="button" data-bs-toggle='modal' data-bs-target="#claims_check_code" class="btn btn-sm btn-info">GET CCC </button>
+                        <button type="button" class="btn btn-sm btn-warning edit-btn">EDIT PATIENT</button>
+                        <button type="button" data-bs-toggle='modal' data-bs-target="#addattendance" class="btn btn-sm btn-primary">NEW ATTENDANCE</button>
+                </div>
+              </td>
+                 <!-- <td colspan="2">
                     <a href="#" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target="#claims_check_code"><i class="bx bx-plus"></i> C.C</a>
                     <a href="#" class="btn btn-warning"><i class="bx bx-pencil"></i> Edit</a>
                     <a href="#" class="btn btn-primary" data-bs-toggle='modal' data-bs-target="#addattendance"><i class="bx bx-plus"></i> Visit</a>
-                </td>
+                </td> -->
             </tr>
            </table>
           </div>
@@ -322,11 +357,11 @@
                       <table class="datatables-category-list table border-top" id="patient_services">
                         <thead>
                           <tr class="" align="center">
-                            <th>S/N</th>  
-                            <th>Att ID</th>
+                            <!-- <th>S/N</th>   -->
+                            <th>Attendance ID</th>
                             <th>Attendate Date</th>
                             <th>Clinic</th>
-                            <th>Gender</th>
+                            <th>Sponsor</th>
                             <th>Age</th>
                             <th>Sponsor &nbsp;</th>
                             <th>Service Fee</th>
@@ -338,40 +373,37 @@
                         @php
                             $counter = 1;
                             @endphp
-                            @foreach($all_attendance as $attendance)
-
+                            @foreach($todays_request as $new_request)
                             <tr>
-                                <td>{{ $counter++ }}</td>
-                                <td><a href="#">{{ $attendance->episode_id}}</a></td>
-                                <td>{{ $attendance->opd_number}}</td>
-                                <td></td>
-                                <td></td>
+                                <td><a href="#">{{ $new_request->attendance_id}}</a></td>
+                                <td>{{ \Carbon\Carbon::parse($old_requests->attendance_date)->format('d-m-Y') }}</td>
+                                <td>{{ $new_request->attendance_type }}</td>
+                                <td>{{ $new_request->sponsor_type }}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td>
-                                          <div class="dropdown" align="center">
-                                                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                          <i class="bx bx-dots-vertical-rounded"></i>
-                                                      </button>
-                                                          <div class="dropdown-menu">
-                                                              <!-- <a class="dropdown-item"  href="#">
-                                                                <i class="bx bx-edit-alt me-1"></i> Edit
-                                                              </a> -->
-                                                              <a class="dropdown-item" href="#">
-                                                                <i class="bx bx-lock-alt me-1"></i> More 
-                                                              </a>
-                                                        </div>
-                                            </div>
+                                      <div class="dropdown" align="center">
+                                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                              </button>
+                                              <div class="dropdown-menu">
+                                                          <a class="dropdown-item"  href="#">
+                                                                 <i class="bx bx-plus me-1"></i> Add Vitals
+                                                          </a>
+                                                          <a class="dropdown-item" href="#">
+                                                              <i class="bx bx-lock-alt me-1"></i> Consult 
+                                                          </a>
+                                              </div>
+                                      </div>
                                  </td>
                             </tr>
-
                             @endforeach
                         </tbody>
                         <tfoot>
                           <tr class="" align="center">
-                              <th>S/N</th>  
+                              <!-- <th>S/N</th>   -->
                               <th>Att ID</th>
                               <th>Attendate Date</th>
                               <th>Clinic</th>
@@ -388,7 +420,7 @@
                   </div>   
              </div>
 </div>   
-  <!-- -------------------------------------------------------------------------------------------------- -->
+  <!-- ----------------------------------------****************************---------------------------------------------------------- -->
 <!-- service_request Modal -->
 <div class="modal fade" id="addattendance" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
@@ -397,18 +429,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center mb-6">
           <h4 class="address-title mb-2">Patient Attendance Registration</h4>
-          <p class="address-subtitle">Add new patient attendance registration</p>
+          <p class="address-subtitle">ADD NEW PATIENT ATTENDANCE</p>
         </div>
         <form id="save_service_fee" class="row g-6" onsubmit="return false">
           @csrf
           <div id="success_diplay" class="container mt-6"></div>
-          <div class="col-12 col-md-12">
+          <div class="col-12 col-md-12" hidden>
             <label class="form-label" for="credit_amount">Fullname</label>
             <input type="text" id="fullname" name="fullname" class="form-control" value="{{ strtoupper($patients->fullname) }}" disabled/>
           </div>
-          <input type="text" name="p_id" id="p_id" value="{{ $patients->patient_id }}">
+            <input type="text" name="p_id" id="p_id" value="{{ $patients->patient_id }}">
             <input type="text" name="p_age" id="p_age" value="{{ $patients->patient_age }}">
-            <input type="text" name="episode_id" id="episode_id" value="">
+            <input type="text" name="episode_id" id="episode_id" value="{{ $age_full }}">
             <input type="text" name="pat_number" id="pat_number" value="{{ $patients->opd_number}}">
           <div class="col-12 col-md-6">
             <label class="form-label" for="clinics">Service Clinic</label>
@@ -463,7 +495,7 @@
   </div>
 </div>
 <!--/ service_request Modal -->
-
+ <!-- ----------------------------------------****************************---------------------------------------------------------- -->
 <!-- check claims code Modal -->
 <div class="modal fade" id="claims_check_code" tabindex="-1" aria-hidden="true" data-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
@@ -517,4 +549,5 @@
   </div>
 </div>
 <!--/ service_request Modal -->
+ <!-- ----------------------------------------****************************---------------------------------------------------------- -->
 </x-app-layout>

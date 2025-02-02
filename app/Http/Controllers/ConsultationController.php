@@ -9,6 +9,7 @@ use App\Models\Stores;
 use App\Models\User;
 use App\Models\Diagnosis;
 use App\Models\Product;
+use App\Models\ServiceRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -107,7 +108,32 @@ class ConsultationController extends Controller
 
     public function consult()
     {
-       return view('consultation.consult');
+        $consult_list = ServiceRequest::where('patient_attendance.archived','No')
+            ->join('patient_sponsorship', 'patient_sponsorship.patient_id', '=', 'patient_attendance.patient_id')
+            ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_sponsorship.sponsor_id')
+            ->join('sponsor_type', 'patient_sponsorship.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
+            ->join('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
+            ->join('gender', 'gender.gender_id', '=', 'patient_info.gender_id')
+            ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.clinic_code')
+            // ->join('sponsor_type', 'gender.gender_id', '=', 'patient_info.gender_id')
+            // ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_attendance.sponsor_id')
+            // ->join('patient_sponsorship', 'patient_sponsorship.sponsor_id', '=', 'sponsors.sponsor_id')
+            ->get();
+
+
+        // $patients = DB::table('patient_info')
+        // ->where('patient_info.archived', 'No')
+        // ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
+        // ->join('patient_nos', 'patient_nos.patient_id', '=', 'patient_info.patient_id')
+        // // ->join('users', 'patient_info.user_id', '=', 'users.user_id')
+        // ->select('patient_info.patient_id', 'patient_nos.opd_number', 'patient_info.title', 'patient_info.fullname', 'gender.gender', 
+        //      'patient_info.birth_date', 'patient_info.email', 'patient_info.address', 'patient_info.contact_person', 
+        //      'patient_info.contact_relationship', 'patient_info.contact_telephone', 'patient_info.added_date', 
+        //      'patient_info.telephone', 'patient_info.gender_id', DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
+        // ->orderBy('patient_info.added_date', 'asc') 
+        // ->get();
+
+       return view('consultation.consult', compact('consult_list'));
     }
     
 }

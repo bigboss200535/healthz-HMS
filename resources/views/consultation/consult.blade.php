@@ -100,26 +100,59 @@
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Age</th>
-                                <th>Ward</th>
-                                <th>Bed #</th>
+                                <!-- <th>Ward</th> -->
+                                <th>Clinic #</th>
                                 <th>Admit Date</th>
                                 <th>Action</th>
                               </tr>
                             </thead>
                             <tbody>
+                            @php
+                              $counter = 1;
+                            @endphp
 
+                            @foreach($consult_list as $patients)
+                            <tr>
+                              <td>{{ $counter++ }}</td>
+                              <td>{{ $patients->attendance_date }}</td>
+                              <td>{{ $patients->fullname }}</td>
+                              <td>{{ strtoupper($patients->gender) }}</td>
+                              <td>{{ $patients->pat_age}}</td>
+                              <td>{{ $patients->attendance_type}}</td>
+                              <td>{{ $patients->sponsor_name}}</td>
+                              <!-- <td></td> -->
+                              <td class="text-lg-center">
+                                  <div class="dropdown" align="center">
+                                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                              <i class="bx bx-dots-vertical-rounded"></i>
+                                          </button>
+                                            <div class="dropdown-menu">
+                                                  <a class="dropdown-item" href="">
+                                                    <i class="bx bx-edit-alt me-1"></i> Consult
+                                                  </a>
+                                                  <a class="dropdown-item" href="">
+                                                    <i class="bx bx-pause me-1"></i> Hold
+                                                  </a>
+                                                  <a class="dropdown-item product_delete_btn" data-id="{{ $patients->product_id}}" href="#">
+                                                      <i class="bx bx-trash me-1"></i> Delete
+                                                  </a>
+                                            </div>
+                                </div>  
+                              </td>
+                          </tr>
+                            @endforeach
                             </tbody>
                             <tfoot>
                                <tr>
-                                  <th>Sn</th>
-                                  <th>Date</th>
-                                  <th>Name</th>
-                                  <th>Gender</th>
-                                  <th>Age</th>
-                                  <th>Ward</th>
-                                  <th>Bed #</th>
-                                  <th>Admit Date</th>
-                                  <th>Action</th>
+                               <th>Sn</th>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Age</th>
+                                <!-- <th>Ward</th> -->
+                                <th>Clinic #</th>
+                                <th>Admit Date</th>
+                                <th>Action</th>
                                 </tr>
                             </tfoot>
                           </table>
@@ -206,14 +239,14 @@
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Age</th>
-                                <th>Ward</th>
-                                <th>Bed #</th>
-                                <th>Admit Date</th>
+                                <th>Clinic</th>
+                                <th>Sponsor Type #</th>
+                                <!-- <th>Admit Date</th> -->
                                 <th>Action</th>
                               </tr>
                             </thead>
                             <tbody>
-
+                            
                             </tbody>
                             <tfoot>
                             <tr>
@@ -222,9 +255,9 @@
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Age</th>
-                                <th>Ward</th>
-                                <th>Bed #</th>
-                                <th>Admit Date</th>
+                                <th>Clinic</th>
+                                <th>Sponsor Type #</th>
+                                <!-- <th>Admit Date</th> -->
                                 <th>Action</th>
                               </tr>
                             </tfoot>

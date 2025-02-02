@@ -31,7 +31,7 @@
               <select name="title" id="title" class="form-control">
                 <option disabled selected>-Select-</option>
                     @foreach($title as $patient_title)                                        
-                      <option value="{{ $patient_title->title }}">{{ $patient_title->title }}</option>
+                      <option value="{{ $patient_title->title }}">{{ strtoupper($patient_title->title) }}</option>
                     @endforeach
               </select>
             </div>
@@ -64,7 +64,7 @@
               <select name="gender_id" id="gender_id" class="form-control" wire:model="gender">
                 <option value="" disabled selected>-Select-</option>
                   @foreach($gender as $patient_gender)                                        
-                    <option value="{{ $patient_gender->gender_id }}">{{ $patient_gender->gender }}</option>
+                    <option value="{{ $patient_gender->gender_id }}">{{ strtoupper($patient_gender->gender) }}</option>
                   @endforeach
               </select>
             </div>
@@ -91,7 +91,7 @@
                <select name="religion" id="religion" class="form-control">
                 <option value="" disabled selected>-Select-</option>
                 @foreach($religion as $u_u)                                        
-                  <option value="{{ $u_u->religion_id }}">{{ $u_u->religion }}</option>
+                  <option value="{{ $u_u->religion_id }}">{{ strtoupper($u_u->religion) }}</option>
                  @endforeach
                </select>
             </div>
@@ -99,8 +99,8 @@
               <label class="form-label" for="nationality">Nationality <a style="color: red;">*</a></label>
               <select name="nationality" id="nationality" class="form-control">
                 <option disabled selected>-Select-</option>
-                <option value="10001">Ghanaian</option>
-                <option value="20001">Non-Ghanaian</option>
+                <option value="10001">GHANAIAN</option>
+                <option value="20001">NON-GHANAIAN</option>
               </select>
             </div>
             <div class="col">
@@ -136,7 +136,7 @@
               <select name="town" id="town" class="form-control">
                 <option value="" disabled selected>-Select-</option>
                    @foreach($towns as $town)                                        
-                     <option value="{{ $town->towns }}">{{ $town->towns }}</option>
+                     <option value="{{ $town->towns }}">{{ strtoupper($town->towns) }}</option>
                    @endforeach
               </select>
             </div>
@@ -145,7 +145,7 @@
               <select name="region" id="region" class="form-control">
                 <option value="" disabled selected>-Select-</option>
                 @foreach($region as $regions)                                        
-                  <option value="{{ $regions->region_id }}">{{ $regions->region }}</option>
+                  <option value="{{ $regions->region_id }}">{{ strtoupper($regions->region) }}</option>
                  @endforeach
               </select>
             </div>
@@ -165,7 +165,7 @@
               <select name="contact_relationship" id="contact_relationship" class="form-control">
                 <option disabled selected>-Select-</option>
                 @foreach($relation as $rel)                                        
-                  <option value="{{ $rel->relation_id }}">{{ $rel->relation }}</option>
+                  <option value="{{ $rel->relation_id }}">{{ strtoupper($rel->relation) }}</option>
                  @endforeach
               </select>
             </div>
@@ -220,7 +220,7 @@
              <select name="sponsor_type_id" id="sponsor_type_id" class="form-control sponsor_type">
               <option disabled selected>-Select-</option>
                 @foreach($payment_type as $payments)                                        
-                  <option value="{{ $payments->sponsor_type_id }}">{{ $payments->sponsor_type }}</option>
+                  <option value="{{ $payments->sponsor_type_id }}">{{ strtoupper($payments->sponsor_type) }}</option>
                  @endforeach
               <!-- <option disable selected>-Select sponsor-</option>
               <option value="1001">Cash</option> 
@@ -238,13 +238,13 @@
             <select id="sponsor_id" name="sponsor_id" class="select2 form-select sponsor_name">
               <option value="" disabled selected>-Select-</option>
                 @foreach($sponsor as $sponsors)                                        
-                  <option value="{{ $sponsors->sponsor_id }}">{{ $sponsors->sponsor_name }}</option>
+                  <option value="{{ $sponsors->sponsor_id }}">{{ strtoupper($sponsors->sponsor_name) }}</option>
                  @endforeach
             </select>
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1" for="member_no">Membership Number</label>
-             <input type="text" name="member_no" id="member_no" class="form-control" >
+             <input type="text" name="member_no" id="member_no" class="form-control" maxlength="10" >
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1" for="dependant">Dependant</label>
@@ -265,7 +265,7 @@
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="card_status">
-              <span>Card Status</span></label>
+              <span>Sponsor Status</span></label>
             <input type="text" name="card_status" id="card_status" class="form-control" disabled>
           </div>
         </div>
