@@ -35,6 +35,7 @@ class DownloadsController extends Controller
         return response()->download($file_path);
     }
 
+    
     public function xml_claims_generation(Request $request)
     {
         $start_date = $request->input('start_date');

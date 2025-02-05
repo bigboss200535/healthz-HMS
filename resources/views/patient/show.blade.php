@@ -389,10 +389,10 @@
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                               </button>
                                               <div class="dropdown-menu">
-                                                          <a class="dropdown-item"  href="#">
+                                                          <!-- <a class="dropdown-item"  href="#">
                                                                  <i class="bx bx-plus me-1"></i> Add Vitals
-                                                          </a>
-                                                          <a class="dropdown-item" href="#">
+                                                          </a> -->
+                                                          <a class="dropdown-item" href="/consultation/opd-consultation">
                                                               <i class="bx bx-lock-alt me-1"></i> Consult 
                                                           </a>
                                               </div>

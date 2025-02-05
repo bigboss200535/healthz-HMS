@@ -220,7 +220,7 @@ class PatientController extends Controller
             } elseif ($age_in_days == 365) {
                 return "1 YEAR";
             } else {
-                $age_in_years = floor($age_in_days / 365);
+                 $age_in_years = floor($age_in_days / 365);
                 return "$age_in_years YEARS";
             }
     }
@@ -279,7 +279,7 @@ class PatientController extends Controller
             ->select('patient_attendance.attendance_id', 'patient_attendance.opd_number', 'patient_attendance.attendance_date', 'patient_attendance.pat_age', 
                     'service_attendance_type.attendance_type', 'sponsor_type.sponsor_type')
             ->where('patient_attendance.patient_id', $patient->patient_id)
-            ->whereDate('patient_attendance.attendance_date', Carbon::today()) 
+            // ->whereDate('patient_attendance.attendance_date', Carbon::today()) 
             ->orderBy('patient_attendance.attendance_id', 'asc')
             ->get();
 

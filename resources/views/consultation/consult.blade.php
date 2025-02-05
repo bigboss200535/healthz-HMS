@@ -89,18 +89,19 @@
                   <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-top-home" role="tabpanel">
                        <p>
-                         <a href="/consultation/opd-consultation" class="btn btn-primary rounded-pill">
+                         <!-- <a href="/consultation/opd-consultation" class="btn btn-primary rounded-pill">
                            <i class="fas fa-plus"></i> Consult
-                         </a>
+                         </a> -->
                         <table class="table table-responsive" id="product_list">
                             <thead>
                               <tr>
                                 <th>Sn</th>
                                 <th>Date</th>
                                 <th>Name</th>
+                                <th>OPD #</th>
                                 <th>Gender</th>
                                 <th>Age</th>
-                                <!-- <th>Ward</th> -->
+                                <th>Ward</th>
                                 <th>Clinic #</th>
                                 <th>Admit Date</th>
                                 <th>Action</th>
@@ -114,12 +115,22 @@
                             @foreach($consult_list as $patients)
                             <tr>
                               <td>{{ $counter++ }}</td>
-                              <td>{{ $patients->attendance_date }}</td>
+                              <td>{{ \Carbon\Carbon::parse($patients->attendance_date)->format('d-m-Y') }}</td>
                               <td>{{ $patients->fullname }}</td>
+                              <td>{{ $patients->opd_number }}</td>
                               <td>{{ strtoupper($patients->gender) }}</td>
                               <td>{{ $patients->pat_age}}</td>
                               <td>{{ $patients->attendance_type}}</td>
-                              <td>{{ $patients->sponsor_name}}</td>
+                              <td>{{ $patients->attendance_type}}</td>
+                              <td>@if($patients->sponsor_type_id === 'PI03')
+                                <span class="badge bg-label-info me-1">{{ $patients->sponsor_type}}</span>
+                                @elseif ($patients->sponsor_type_id === 'N002')
+                                <span class="badge bg-label-danger me-1">{{ $patients->sponsor_type}}</span>
+                                @elseif ($patients->sponsor_type_id === 'P001')
+                                <span class="badge bg-label-warning me-1">{{ $patients->sponsor_type}}</span>
+                                @elseif ($patients->sponsor_type_id === 'PC04')
+                                <span class="badge bg-label-primary me-1">{{ $patients->sponsor_type}}</span>
+                                @endif</td>
                               <!-- <td></td> -->
                               <td class="text-lg-center">
                                   <div class="dropdown" align="center">
@@ -127,7 +138,7 @@
                                               <i class="bx bx-dots-vertical-rounded"></i>
                                           </button>
                                             <div class="dropdown-menu">
-                                                  <a class="dropdown-item" href="">
+                                                  <a class="dropdown-item" href="/consultation/opd-consultation">
                                                     <i class="bx bx-edit-alt me-1"></i> Consult
                                                   </a>
                                                   <a class="dropdown-item" href="">
@@ -144,12 +155,13 @@
                             </tbody>
                             <tfoot>
                                <tr>
-                               <th>Sn</th>
+                                <th>Sn</th>
                                 <th>Date</th>
                                 <th>Name</th>
+                                <th>OPD #</th>
                                 <th>Gender</th>
                                 <th>Age</th>
-                                <!-- <th>Ward</th> -->
+                                <th>Ward</th>
                                 <th>Clinic #</th>
                                 <th>Admit Date</th>
                                 <th>Action</th>
