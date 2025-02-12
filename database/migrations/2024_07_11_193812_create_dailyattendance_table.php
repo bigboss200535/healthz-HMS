@@ -23,12 +23,13 @@ return new class extends Migration
             $table->string('full_age', 50)->nullable(); 
             $table->string('age_group_category', 50)->nullable(); 
             $table->string('status_code', 50)->nullable(); 
-            // $table->string('reg_type', 20)->nullable(); 
-            // $table->string('reg_status', 50)->nullable(); 
+            $table->string('request_type', 20)->nullable('INWARD'); //inward and outward
+            $table->string('service_id', 50)->nullable(); 
+             $table->string('service_fee_id', 50)->nullable(); 
             $table->string('service_type', 50)->nullable(); 
             $table->string('insured', 50)->nullable()->default('No'); 
             $table->string('service_issued', 50)->default('0'); 
-            // $table->string('claims_check_code', 50)->nullable(); 
+            $table->string('attendance_type', 50)->nullable(); 
             $table->string('episode_id', 50)->nullable(); 
             $table->string('sponsor_type_id', 50)->nullable(); 
             $table->string('sponsor_id', 50)->nullable(); 

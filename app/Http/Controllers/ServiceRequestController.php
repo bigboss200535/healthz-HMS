@@ -7,6 +7,7 @@ use App\Models\EpisodeGenerate;
 use App\Models\Patient;
 use App\Models\ServiceAttendancetype;
 use App\Models\PatientAttendance;
+use App\Models\PatientSponsor;
 use App\Models\ServicePoints;
 use App\Models\ServiceRequest;
 use App\Models\SponsorType;
@@ -35,7 +36,7 @@ class ServiceRequestController extends Controller
 
     public function store(Request $request)
     {
-        // $old_episode = 0;
+        
             try {
                 $validated_data = $request->validate([
                     'patient_id' => 'required|max:50',
@@ -44,6 +45,8 @@ class ServiceRequestController extends Controller
                     'service_type' => 'required|string',
                     'credit_amount' => 'nullable',
                     'cash_amount' => 'nullable',
+                    'service_id' => 'nullable|string',
+                    'service_fee_id' => 'nullable|string',
                     'top_up' => 'nullable',
                     'gdrg_code' => 'nullable|string|max:50',
                     'attendance_date' => 'required|date',
@@ -63,48 +66,51 @@ class ServiceRequestController extends Controller
                 ], 404);
             }
 
-       $sponsor = PatientSponsor::where('opd_number', $patient->opd_number)
+       $sponsor = PatientSponsor::where('opd_number', $validated_data['opd_number'])
             ->where('archived', 'No')
             ->where('priority', 1)
             ->where('is_active', 'Yes')
+            ->select('sponsor_id', 'sponsor_type_id')
             ->first();
 
-        if(!sponsor) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Patient sponsor not found'
-            ], 404);
-        }
+            if (!$sponsor) {
+                $sponsor = (object) [
+                    'sponsor_id' => '',
+                    'sponsor_type_id' => 'P001',
+                ];
+                $insured = '0';
+            }
 
         $age_full = $this->get_age_full($patient->birth_date);
         
-        // $episode = DB::table('patient_episode')
-        //     ->where('patient_id', $request->input('patient_id'))
-        //     ->select('patient_id', 'fullname', 'birth_date', 'telephone', 'gender_id', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age'))
-        //     ->first();
-        
-        $old_episode = PatientAttendance::count();
-        // $new_episode = $old_episode + 1;
                 // Begin transaction
                 DB::beginTransaction();
     
                  // Create new service request
                  $service_request = PatientAttendance::create([
-                    'patient_id' => $request->patient_id,
-                    'opd_number' => $request->opd_number,
+                    'patient_id' => $validated_data['patient_id'],
+                    'opd_number' => $validated_data['opd_number'],
                     'pat_age' => $patient->patient_age,
                     'full_age' => $age_full,
-                    'clinic_code' => $request->clinic_code,
-                    'service_type' => $request->service_type,
-                    'credit_fee' => $request->credit_amount,
-                    'cash_fee' => $request->cash_amount,
-                    'gdrg_code' => $request->gdrg_code,
-                    'status_code' => '2', //For out_patient
+                    'service_id' => $validated_data['service_id'] ?? 0, // Provide default value
+                    'service_fee_id' => $validated_data['service_fee_id'] ?? 0, // Provide default value
+                    'clinic_code' => $validated_data['clinic_code'],
+                    'service_type' => $validated_data['service_type'],
+                    'request_type' => 'INWARD',
+                    'sponsor_type_id' => $sponsor->sponsor_type_id ?? 'P001',
+                    'sponsor_id' => $sponsor->sponsor_id ?? '',
+                    'credit_amount' => $validated_data['credit_amount'],
+                    'cash_amount' => $validated_data['cash_amount'],
+                    'gdrg_code' => $validated_data['gdrg_code'],
+                    'status_code' => $status_code ?? '2',
+                    'insured' => $insured ?? '0',
                     'service_issued' => '0',
-                    'attendance_date' => $request->attendance_date,
+                    'attendance_date' => $validated_data['attendance_date'],
                     'attendance_time' => now(),
-                    'attendance_type' => $request->pat_type,
-                    'user_id' => Auth::user()->user_id
+                    'added_date' => now(),
+                    'attendance_type' => $validated_data['attendance_type'],
+                    'user_id' => Auth::user()->user_id,
+                    'added_id' => Auth::user()->user_id,
                 ]);
     
                 DB::commit();
@@ -227,7 +233,7 @@ class ServiceRequestController extends Controller
         $code_column = $age_group === 'ADULT' ? 'gdrg_adult' : 'gdrg_child'; 
 
         $fee_charges = DB::table('services_fee') ->where('service_fee_id', $service_code->$age_code) 
-         ->select($fee_column, 'cash_amount', $code_column, 'topup_amount', 'foreigners_amount', 'company_amount', 'allow_nhis', 'allow_topup', 'editable') ->get(); 
+         ->select($fee_column, 'cash_amount', $code_column, 'topup_amount', 'foreigners_amount', 'company_amount', 'allow_nhis', 'allow_topup', 'editable', 'service_id', 'service_fee_id') ->get(); 
             $fee_charges = $fee_charges->map(function ($item) use ($fee_column, $code_column) { 
             $item->nhis_amount = $item->$fee_column; 
             unset($item->$fee_column); 
@@ -290,6 +296,18 @@ class ServiceRequestController extends Controller
                  $age_in_years = floor($age_in_days / 365);
                 return "$age_in_years YEARS";
             }
+    }
+
+    public function patient_requests($patient_id)
+    {
+        $service_requests = ServiceRequest::where('patient_id', $patient_id)
+            ->where('archived', 'No')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'result' => $service_requests
+        ]);
     }
 
 }

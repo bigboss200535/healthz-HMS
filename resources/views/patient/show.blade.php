@@ -228,7 +228,6 @@
                   <th></th>
                 </tr>
               </thead>
-             
               <tfoot>
                 <tr>
                   <th>S/N</th>
@@ -370,36 +369,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                        @php
-                            $counter = 1;
-                            @endphp
-                            @foreach($todays_request as $new_request)
-                            <tr>
-                                <td><a href="#">{{ $new_request->attendance_id}}</a></td>
-                                <td>{{ \Carbon\Carbon::parse($old_requests->attendance_date)->format('d-m-Y') }}</td>
-                                <td>{{ $new_request->attendance_type }}</td>
-                                <td>{{ $new_request->sponsor_type }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                      <div class="dropdown" align="center">
-                                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                              </button>
-                                              <div class="dropdown-menu">
-                                                          <!-- <a class="dropdown-item"  href="#">
-                                                                 <i class="bx bx-plus me-1"></i> Add Vitals
-                                                          </a> -->
-                                                          <a class="dropdown-item" href="/consultation/opd-consultation/{{$old_requests->patient_id }}">
-                                                              <i class="bx bx-lock-alt me-1"></i> Consult 
-                                                          </a>
-                                              </div>
-                                      </div>
-                                 </td>
-                            </tr>
-                            @endforeach
+                          
                         </tbody>
                         <tfoot>
                           <tr class="" align="center">
@@ -440,7 +410,8 @@
             <!-- <input type="text" id="fullname" name="fullname" class="form-control" value="{{ strtoupper($patients->fullname) }}" disabled/> -->
           </div>
             <input type="text" name="patient_id" id="patient_id" value="{{ $patients->patient_id }}">
-            <!-- <input type="text" name="pat_age" id="pat_age" value="{{ $patients->patient_age }}"> -->
+            <input type="text" name="service_id" id="service_id">
+            <input type="text" name="service_fee_id" id="service_fee_id">
             <!-- <input type="text" name="full_age" id="full_age" value="{{ $age_full }}"> -->
             <!-- <input type="text" name="top_up" id="top_up"> -->
             <input type="text" name="opd_number" id="opd_number" value="{{ $patients->opd_number}}">

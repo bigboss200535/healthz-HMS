@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('patient')->group(function () {
         Route::get('/search', [PatientController::class, 'search'])->name('patient.search');
         Route::get('/patient-sponsors/{patient_id}', [PatientController::class, 'get_patient_sponsor'])->name('patient.get_patient_sponsor');
+        Route::get('/patient-request/{patient_id}', [ServiceRequestController::class, 'get_patient_request'])->name('patient.get_patient_sponsor');
         Route::get('/new-opd-number/{service_point_id}', [PatientController::class, 'generate_opd_number'])->name('patient.generate_opd_number');
     });
     

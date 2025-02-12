@@ -109,6 +109,8 @@ $(document).on('change', '#service_type', function() {
     $('#credit_amount').val('');
     $('#cash_amount').val('');
     $('#gdrg_code').val('');
+    $('#service_id').val('');
+    $('#service_fee_id').val('');
 
     $.ajax({
       
@@ -117,11 +119,13 @@ $(document).on('change', '#service_type', function() {
         data: {pat_age:pat_age, service:service, patient_id:patient_id},
         success: function(response) {
           if (response && response.success && response.result.length > 0) {
-            var serviceData = response.result[0]; // Get the first element of the array
+            var service_data = response.result[0]; // Get the first element of the array
             
-            $('#credit_amount').val(serviceData.nhis_amount);
-            $('#cash_amount').val(serviceData.cash_amount);
-            $('#gdrg_code').val(serviceData.gdrg);
+            $('#credit_amount').val(service_data.nhis_amount);
+            $('#cash_amount').val(service_data.cash_amount);
+            $('#gdrg_code').val(service_data.gdrg);
+            $('#service_id').val(service_data.service_id);
+            $('#service_fee_id').val(service_data.service_fee_id);
 
           } else if (response && !response.success && response.message) {
              toastr.error(response.message);
