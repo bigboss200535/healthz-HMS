@@ -19,8 +19,8 @@ class PatientStatusSeeder extends Seeder
         $user = User::where('archived', '=', 'No')->first();
 
         $patient_status = PatientStatus::create([
-            'patient_status' => '1',
-            'status_patient' => 'All',
+            'patient_status_id' => '1',
+            'patient_status' => 'All',
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -28,8 +28,8 @@ class PatientStatusSeeder extends Seeder
         ]);
 
         $patient_status = PatientStatus::create([
-            'patient_status' => '2',
-            'status_patient' => 'Out',
+            'patient_status_id' => '2',
+            'patient_status' => 'Out',
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',
@@ -37,8 +37,8 @@ class PatientStatusSeeder extends Seeder
         ]);
 
         $patient_status = PatientStatus::create([
-            'patient_status' => '3',
-            'status_patient' => 'In',
+            'patient_status_id' => '3',
+            'patient_status' => 'In',
             'user_id' => $user->user_id,
             'added_date' => now(),
             'status' => 'Active',

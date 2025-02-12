@@ -8,9 +8,9 @@
                       </div>
                       <div class="d-flex align-content-center flex-wrap gap-3">
                         <!-- <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdoal_form" >Search Patient</button> -->
-                        <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a>
-                        <a href="#" class="btn btn-primary">Patient Sponsors</a>
-                        <a href="#" class="btn btn-success">Advance Search</a>
+                        <!-- <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a> -->
+                        <!-- <a href="#" class="btn btn-primary">Patient Sponsors</a> -->
+                        
                       </div>
                     </div>
                   <div class="card">
@@ -18,23 +18,85 @@
                         <h3>Patient Search</h3>
                           <div class="card">
                             <!-- <div class="card-body"> -->
-                              <div align="center" class="col-lg-12">
+                                  <div align="center" class="col-lg-12"> <div class="mb-3">
+                                    <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearch" aria-expanded="false" aria-controls="advancedSearch">
+                                        <i class="bx bx-filter"></i> Advanced Search
+                                    </button>
+                                  </div>
+                                  <!-- Basic Search -->
+                                <div class="basic-search mb-3">
+                                    <table class="table table-responsive">
+                                        <tr>
+                                            <td colspan="2">
+                                                <label for="search_patient">Member #/OPD #/Telephone #</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="search_patient" name="search_patient" class="form-control" maxlength="30" minlength="3" placeholder="Search Data" autocomplete="off">
+                                                    <span class="input-group-text">
+                                                        <i class="bx bx-scan"></i>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- Advanced Search -->
+                                <div class="collapse" id="advancedSearch">
+                                    <div class="card card-body bg-light mb-3">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label for="patient_name">Firstname</label>
+                                                <input type="text" class="form-control" id="patient_name" name="patient_name">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="date_of_birth">Othername</label>
+                                                <input type="text" class="form-control" id="date_of_birth" name="date_of_birth">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="gender">Gender</label>
+                                                <select class="form-select" id="gender" name="gender">
+                                                    <option value="" disabled selected>Select Gender</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label for="patient_name">Birth Date</label>
+                                                <input type="text" class="form-control" id="patient_name" name="patient_name">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="date_of_birth">Address</label>
+                                                <input type="text" class="form-control" id="date_of_birth" name="date_of_birth">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="gender">Sponsor</label>
+                                                <select class="form-select" id="gender" name="gender">
+                                                    <option value="" disabled selected>Select Sponsor</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- Search Buttons -->
                                   <table class="table table-responsive" style="color:aqua">
                                     <tr>
-                                      <td colspan="2">
-                                        <label for="search_patient"> Member #/OPD #/ Telephone # </label>
-                                        <i class="bx bx-scan"></i>
-                                          <input type="text" id="search_patient" name="search_patient" class="form-control col-lg-12" maxlength="30" min="3" placeholder="Member# /OPD#/ Telephone #" autocomplete="off">
-                                      </td>
-                                    </tr>
-                                    <tr>
                                       <td>
-                                          <button class="btn btn-primary" name="search_item" id="search_item">Search</button>
-                                             <a href="#" class="btn btn-info" id="clear_search">Clear</a>
-                                          <!-- <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a> -->
-                                      </td>
-                                      <td>
-
+                                         <button class="btn btn-primary" name="search_item" id="search_item">
+                                            <i class="bx bx-search"></i> Search
+                                         </button>
+                                          <button class="btn btn-info" id="clear_search">
+                                              <i class="bx bx-reset"></i> Clear
+                                          </button>
+                                          <!-- <button class="btn btn-info">
+                                              <i class="bx bx-plus"></i> Add Patient
+                                          </button> -->
+                                          <a href="{{ route('patients.create') }}" class="btn btn-warning">
+                                            <i class="bx bx-plus"></i> Create Patient
+                                          </a>
                                       </td>
                                     </tr>
                                   </table>
@@ -84,3 +146,31 @@
             </div>
           </div>
 </x-app-layout>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Clear search form
+    document.getElementById('clear_search').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('search_patient').value = '';
+        document.getElementById('patient_name').value = '';
+        document.getElementById('date_of_birth').value = '';
+        document.getElementById('gender').value = '';
+        document.getElementById('insurance_number').value = '';
+    });
+
+    // Handle search
+    document.getElementById('search_item').addEventListener('click', function() {
+        // Collect all search parameters
+        const searchData = {
+            basic_search: document.getElementById('search_patient').value,
+            patient_name: document.getElementById('patient_name').value,
+            date_of_birth: document.getElementById('date_of_birth').value,
+            gender: document.getElementById('gender').value,
+            insurance_number: document.getElementById('insurance_number').value
+        };
+
+        // TODO: Implement your search logic here
+        console.log('Search parameters:', searchData);
+    });
+});
+</script>

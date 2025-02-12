@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('patient_statuses', function (Blueprint $table) {
-            $table->string('patient_status', 50)->primary();//1,2,3
-            $table->string('status_patient', 50)->nullable(); //all, out, in
+            $table->string('patient_status_id', 50)->primary();//1,2,3
+            $table->string('patient_status', 50)->nullable(); //all, out, in
             $table->string('user_id', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('added_id', 100)->nullable();

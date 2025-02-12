@@ -69,12 +69,8 @@
         return;
     }
 
-    if(middlename.length < 3) {
-        toastr.warning('Middle name must be at least 3 characters long');
-      return;
-    }
     if(opd_number.length < 3) {
-        toastr.warning('Record Number or Records number is too short');
+        toastr.warning('Record Number or Records number is invalid');
       return;
     }
 
@@ -111,23 +107,15 @@
             type: 'POST',
             data: $(this).serialize(),
             success: function(response) {
-              var result = JSON.parse(response);
-                if (result.code === 201) {
-                    toastr.success('Patients saved successfully!');
+            //   var result = JSON.parse(response);
+                if (response.code === 201) {
+                    // toastr.success('Patients saved successfully!');
+                    toastr.success(response.message);
                     $('#patient_info')[0].reset();
-                 
-                //   Swal.fire({
-                //         icon: 'success',
-                //         title: 'Success',
-                //         text: result.message + ' OPD Number: ' + result.opd_number
-                //       });
-                } else if (result.code === 200) {
+                } else if (response.code === 200) {
                     toastr.warning('Patient data is available in the system!');
-                //   Swal.fire({
-                //       icon: 'warning',
-                //       title: 'Warning',
-                //       text: 'Patient data is available in the system'
-                //     });
+                }else {
+                    toastr.error('Error saving data! Try again.');
                 }    
             },
               error: function(xhr, status, error) {
@@ -170,7 +158,7 @@ function renderTableRows(table, data) {// Function to render the table rows
                 index + 1,
                 `<a href="/patients/${patient.patient_id}">${patient.fullname}</a>`,
                 patient.opd_number,
-                patient.gender_id === '3' ? 'Male' : 'Female',
+                patient.gender_id === '3' ? 'MALE' : 'FEMALE',
                 age,
                 patient.telephone,
                 new Date(patient.birth_date).toLocaleDateString('en-GB'),

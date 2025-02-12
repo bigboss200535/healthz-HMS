@@ -1,6 +1,3 @@
-// ---------------------- TOGGLE BETWEEN SPONSORS ----------------------------
-
-
 // ----------------CALCULATE AGE----------------------------
 document.addEventListener('DOMContentLoaded', function() {
   var birthDateInput = document.getElementById('birth_date');

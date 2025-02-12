@@ -9,7 +9,7 @@ class PatientAttendance extends Model
 {
     use HasFactory;
     protected $table = 'patient_attendance';
-    protected $primaryKey = 'patient_id';
+    protected $primaryKey = 'attendance_id';
     public $timestamps = false;
     protected $keyType = 'string';
     public $incrementing= false;
@@ -28,6 +28,11 @@ class PatientAttendance extends Model
     {
         return $this->belongsTo(Age::class, 'age_id');
     }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
     
     protected $fillable = [
         'attendance_id',
@@ -36,6 +41,8 @@ class PatientAttendance extends Model
         'attendance_date',
         'attendance_time',
         'pat_age',
+        'full_age',
+
         'status_code',
         'reg_type',
         'service_type',

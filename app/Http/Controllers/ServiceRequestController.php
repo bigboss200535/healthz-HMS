@@ -6,6 +6,7 @@ use App\Models\Age;
 use App\Models\EpisodeGenerate;
 use App\Models\Patient;
 use App\Models\ServiceAttendancetype;
+use App\Models\PatientAttendance;
 use App\Models\ServicePoints;
 use App\Models\ServiceRequest;
 use App\Models\SponsorType;
@@ -19,78 +20,110 @@ use Illuminate\Support\Facades\Log;
 
 
 
+
 class ServiceRequestController extends Controller
 {
      public function index()
     {
-        // // $service_resuest = ;
-        //  // $service_request = Relation::with('users')->get();
-        // $sponsors = SponsorType::where('archived', 'No')->where('status', '=','Active')->get();
-        // return view('service.index', compact('sponsors'));
+       
     }
 
     public function create(Request $request, $clinic_id)
     {
-        // $clinic_id = '000';
-        $service = ServicePoints::select('service_point_id','service_points','gender_id', 'age_id')
-        // ->where('gender_id', $patients->gender_id)
-        // ->where('age_id', $ages->age_id)
-          ->where('archived', 'No')
-          ->where('is_active', 'Yes')
-          ->get();
+        
     }
 
     public function store(Request $request)
     {
-            $request->validate([
-                'p_id' => 'required|string|max:255',
-                'opd_id' => 'nullable|string|max:255',
-                'pat_age' => 'nullable|string|max:255',
-                'pat_age_full' => 'nullable|string|max:255',
-                'clinics' => 'required|string|max:255',
-                'gender_id' => 'nullable|string|max:255',
-                'service' => 'nullable|string|max:255',
-                'attendance_type' => 'nullable|string|max:255',
-                'attendance_date' => 'required|date',
-                'service_type' => 'required|string|max:255',
-                'credit_amount' => 'nullable|numeric|min:0',
-                'cash_amount' => 'nullable|numeric|min:0',
-                'gdrg_code' => 'nullable|string|max:255',
-                'pat_type' => 'required|string|max:255',
-                'user_id' => 'nullable|string|max:255',
-                'episode_id' => 'nullable|string|max:255',
-                'p_age' => 'nullable|string|max:255',
-                'attendance_date' => 'required|date',
-            ]);
+        // $old_episode = 0;
+            try {
+                $validated_data = $request->validate([
+                    'patient_id' => 'required|max:50',
+                    'opd_number' => 'required|max:50',
+                    'clinic_code' => 'required|string',
+                    'service_type' => 'required|string',
+                    'credit_amount' => 'nullable',
+                    'cash_amount' => 'nullable',
+                    'top_up' => 'nullable',
+                    'gdrg_code' => 'nullable|string|max:50',
+                    'attendance_date' => 'required|date',
+                    'attendance_type' => 'nullable|string|max:50', 
+                    //out or in
+                ]);
+        
+        $patient = Patient::where('archived', 'No')
+            ->where('patient_id', $request->input('patient_id'))
+            ->select('patient_id', 'birth_date', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
+            ->first();
 
-            DB::select('CALL GetEpisodeId(?, ?, ?, ?)', [$request->p_id, 'PAT123456', 'CLAIMCODE123', $request->attendance_date]);
-                  $patient = Patient::find($request->p_id);
-                  $age_in_full = $this->get_age_full($patient->birth_date);
+        if(!$patient) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Patient not found'
+                ], 404);
+            }
 
-            $service_equest = ServiceRequest::create([
-                'patient_id' => $request->p_id,
-                'opd_id' => $request->p_id,
-                'clinic_code' => $request->clinics,
-                'service_type' => $request->service_type,
-                'credit_amount' => $request->credit_amount ?? 0, 
-                'amount_payable' => $request->credit_amount ?? 0, 
-                'topup_code' => $request->credit_amount ?? 0, //Yes or no topup bill
-                'cash_amount' => $request->cash_amount ?? 0,   //amount payable if topup or no topup  
-                'gdrg_code' => $request->gdrg_code,
-                'reg_type' => $request->pat_type,
-                'episode_id' => $request->episode_id,
-                'pat_age' => $request->p_age,
-                'attendance_time' => $request->attendance_date,
-                'age_in_full' => $age_in_full,
-                'attendance_date' => $request->attendance_date,
-                'user_id' => Auth::check() ? Auth::id() : null,   
-            ]);
+       $sponsor = PatientSponsor::where('opd_number', $patient->opd_number)
+            ->where('archived', 'No')
+            ->where('priority', 1)
+            ->where('is_active', 'Yes')
+            ->first();
 
+        if(!sponsor) {
             return response()->json([
-                'success' => true,
-                'result' => 'Saved Successfully',
-                // 'data' => $service_equest,
-            ]);
+                'status' => 'error',
+                'message' => 'Patient sponsor not found'
+            ], 404);
+        }
+
+        $age_full = $this->get_age_full($patient->birth_date);
+        
+        // $episode = DB::table('patient_episode')
+        //     ->where('patient_id', $request->input('patient_id'))
+        //     ->select('patient_id', 'fullname', 'birth_date', 'telephone', 'gender_id', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age'))
+        //     ->first();
+        
+        $old_episode = PatientAttendance::count();
+        // $new_episode = $old_episode + 1;
+                // Begin transaction
+                DB::beginTransaction();
+    
+                 // Create new service request
+                 $service_request = PatientAttendance::create([
+                    'patient_id' => $request->patient_id,
+                    'opd_number' => $request->opd_number,
+                    'pat_age' => $patient->patient_age,
+                    'full_age' => $age_full,
+                    'clinic_code' => $request->clinic_code,
+                    'service_type' => $request->service_type,
+                    'credit_fee' => $request->credit_amount,
+                    'cash_fee' => $request->cash_amount,
+                    'gdrg_code' => $request->gdrg_code,
+                    'status_code' => '2', //For out_patient
+                    'service_issued' => '0',
+                    'attendance_date' => $request->attendance_date,
+                    'attendance_time' => now(),
+                    'attendance_type' => $request->pat_type,
+                    'user_id' => Auth::user()->user_id
+                ]);
+    
+                DB::commit();
+    
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Service request created successfully',
+                    // 'data' => $service_request
+                ], 201);
+    
+            } catch (\Exception $e) {
+                DB::rollBack();
+                
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'An error occurred while processing your request',
+                    'error' => $e->getMessage()
+                ], 500);
+            }
     
     }
 
@@ -111,8 +144,7 @@ class ServiceRequestController extends Controller
 
     public function destroy()
     {
-
-        
+   
     }
 
 
@@ -143,7 +175,7 @@ class ServiceRequestController extends Controller
     public function gettarrifs($service_id, Request $request)
     {
         $patients = DB::table('patient_info')
-            ->where('patient_id', $request->input('pat_id'))
+            ->where('patient_id', $request->input('patient_id'))
             ->select('patient_id', 'fullname', 'birth_date', 'telephone', 'gender_id', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age'))
             ->first();
 
@@ -230,6 +262,34 @@ class ServiceRequestController extends Controller
         $patient_status = Patient::where('death_status', '=', 'No')
         ->where('patient_id', $patient_id)
         ->first();        
+    }
+
+    private function get_age_full($birthdate)
+    {
+        $dob = Carbon::parse($birthdate); 
+        $today = Carbon::now();
+        $age_in_days = $dob->diffInDays($today);
+
+            if ($age_in_days == 1) {
+                return "1 DAY";
+            } elseif ($age_in_days < 7) {
+                return "$age_in_days DAYS";
+            } elseif ($age_in_days < 14) {
+                return "1 WEEK";
+            } elseif ($age_in_days < 30) {
+                $age_in_weeks = floor($age_in_days / 7);
+                return "$age_in_weeks WEEKS";
+            } elseif ($age_in_days == 30) {
+                return "1 MONTH";
+            } elseif ($age_in_days < 365) {
+                $age_in_months = floor($age_in_days / 30);
+                return "$age_in_months MONTHS";
+            } elseif ($age_in_days == 365) {
+                return "1 YEAR";
+            } else {
+                 $age_in_years = floor($age_in_days / 365);
+                return "$age_in_years YEARS";
+            }
     }
 
 }

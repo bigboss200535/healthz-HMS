@@ -308,7 +308,7 @@
             </tr>
             <tr>
               <td><b>Blood Group</b>:</td>
-              <td><span class="badge bg-label-info me-1">O-</span></td>
+              <td><span class="badge bg-label-info me-1">AB-</span></td>
             </tr>
             <tr>
               <td><b>Sickling</b>:</td>
@@ -352,7 +352,7 @@
                   <div class="card">
                     <div class="card-datatable table-responsive">
                       <div style="margin:15px">
-                        <h5>Patient Attendance History</h5>
+                        <h5>Patient Attendance</h5>
                       </div>
                       <table class="datatables-category-list table border-top" id="patient_services">
                         <thead>
@@ -392,7 +392,7 @@
                                                           <!-- <a class="dropdown-item"  href="#">
                                                                  <i class="bx bx-plus me-1"></i> Add Vitals
                                                           </a> -->
-                                                          <a class="dropdown-item" href="/consultation/opd-consultation">
+                                                          <a class="dropdown-item" href="/consultation/opd-consultation/{{$old_requests->patient_id }}">
                                                               <i class="bx bx-lock-alt me-1"></i> Consult 
                                                           </a>
                                               </div>
@@ -420,7 +420,7 @@
                   </div>   
              </div>
 </div>   
-  <!-- ----------------------------------------****************************---------------------------------------------------------- -->
+<!-----------****************************----------------------------------------------------------->
 <!-- service_request Modal -->
 <div class="modal fade" id="addattendance" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
@@ -431,20 +431,22 @@
           <h4 class="address-title mb-2">Patient Attendance Registration</h4>
           <p class="address-subtitle">ADD NEW PATIENT ATTENDANCE</p>
         </div>
-        <form id="save_service_fee" class="row g-6" onsubmit="return false">
+          <div class="alert-container"></div>
+        <form id="service_request_form" class="row g-6" onsubmit="return false">
           @csrf
           <div id="success_diplay" class="container mt-6"></div>
-          <div class="col-12 col-md-12" hidden>
-            <label class="form-label" for="credit_amount">Fullname</label>
-            <input type="text" id="fullname" name="fullname" class="form-control" value="{{ strtoupper($patients->fullname) }}" disabled/>
+          <div class="col-12 col-md-12">
+            <!-- <label class="form-label" for="credit_amount">Fullname</label> -->
+            <!-- <input type="text" id="fullname" name="fullname" class="form-control" value="{{ strtoupper($patients->fullname) }}" disabled/> -->
           </div>
-            <input type="text" name="p_id" id="p_id" value="{{ $patients->patient_id }}">
-            <input type="text" name="p_age" id="p_age" value="{{ $patients->patient_age }}">
-            <input type="text" name="episode_id" id="episode_id" value="{{ $age_full }}">
-            <input type="text" name="pat_number" id="pat_number" value="{{ $patients->opd_number}}">
+            <input type="text" name="patient_id" id="patient_id" value="{{ $patients->patient_id }}">
+            <!-- <input type="text" name="pat_age" id="pat_age" value="{{ $patients->patient_age }}"> -->
+            <!-- <input type="text" name="full_age" id="full_age" value="{{ $age_full }}"> -->
+            <!-- <input type="text" name="top_up" id="top_up"> -->
+            <input type="text" name="opd_number" id="opd_number" value="{{ $patients->opd_number}}">
           <div class="col-12 col-md-6">
-            <label class="form-label" for="clinics">Service Clinic</label>
-             <select name="clinics" id="clinics" class="form-control">
+            <label class="form-label" for="clinic_code">Service Clinic</label>
+             <select name="clinic_code" id="clinic_code" class="form-control">
                 <option>-Select-</option>
                 @foreach($clinic_attendance as $clinics)                                        
                   <option value="{{ $clinics->service_point_id }}">{{ $clinics->service_points }}</option>
@@ -459,26 +461,26 @@
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="credit_amount">Credit Fee</label>
-            <input type="number" id="credit_amount" name="credit_amount" class="form-control" placeholder="0.00" disabled/>
+            <input type="text" id="credit_amount" name="credit_amount" class="form-control" placeholder="0.00"/>
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="cash_amount">Cash Fee</label>
-            <input type="number" id="cash_amount" name="cash_amount" class="form-control" placeholder="0.00" disabled/>
+            <input type="text" id="cash_amount" name="cash_amount" class="form-control" placeholder="0.00"/>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-6" hidden>
             <label class="form-label" for="gdrg_code">Service G-DRG</label>
             <input type="text" id="gdrg_code" name="gdrg_code" class="form-control"/>
           </div>
           <div class="col-12 col-md-6">
-            <label class="form-label" for="credit_amount">Attendance Date</label>
+            <label class="form-label" for="attendance_date">Attendance Date</label>
             <input type="date" id="attendance_date" name="attendance_date" class="form-control" />
           </div>
           <div class="col-12 col-md-6">
-            <label class="form-label" for="pat_type">Attendance Type</label>
-                <select name="pat_type" id="pat_type" class="form-control">
+            <label class="form-label" for="attendance_type">Attendance Type</label>
+                <select name="attendance_type" id="attendance_type" class="form-control">
                   <option selected disabled>-Select-</option>
-                  <option value="1">New</option>
-                  <option value="0">Old</option>
+                  <option value="NEW">NEW</option>
+                  <option value="OLD">OLD</option>
                 </select>
           </div>
           <div class="col-12">
@@ -495,8 +497,9 @@
   </div>
 </div>
 <!--/ service_request Modal -->
- <!-- ----------------------------------------****************************---------------------------------------------------------- -->
-<!-- check claims code Modal -->
+ <!------------------------------------------****************************----------------------------------------------------------->
+
+ <!-- check claims code Modal -->
 <div class="modal fade" id="claims_check_code" tabindex="-1" aria-hidden="true" data-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
     <div class="modal-content">

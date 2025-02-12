@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            // $table->primary('episode_id');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
             

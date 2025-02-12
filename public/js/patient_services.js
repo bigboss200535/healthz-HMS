@@ -13,9 +13,9 @@
 
       let isValid = true;
       
-      if ($('#clinics').val() === '-Select-') {
-         $('#clinics').addClass('is-invalid');
-         $('#clinics').after('<div class="invalid-feedback">Please select a clinic.</div>');
+      if ($('#clinic_code').val() === '-Select-') {
+         $('#clinic_code').addClass('is-invalid');
+         $('#clinic_code').after('<div class="invalid-feedback">Please select a clinic.</div>');
         isValid = false;
       }
 
@@ -37,9 +37,9 @@
         // isValid = false;
       }
 
-      if ($('#pat_type').val() === '-Select-') {
-         $('#pat_type').addClass('is-invalid');
-         $('#pat_type').after('<div class="invalid-feedback">Please select a Attendance Type.</div>');
+      if ($('#attendance_type').val() === '-Select-') {
+         $('#attendance_type').addClass('is-invalid');
+         $('#attendance_type').after('<div class="invalid-feedback">Please select a Attendance Type.</div>');
         isValid = false;
       }
 
@@ -72,7 +72,7 @@
     });
   });
 // clinic dropdown dynamically
-  $(document).on('change', '#clinics', function() {
+  $(document).on('change', '#clinic_code', function() {
     var clinic_id = $(this).val();
 
     $('#service_type').empty().append('<option disabled selected>-Select-</option>');
@@ -103,7 +103,7 @@
 $(document).on('change', '#service_type', function() {
     var service = $(this).val();
 
-    var pat_id = $('#p_id').val();
+    var patient_id = $('#patient_id').val();
     var pat_age = $('#p_age').val();
 
     $('#credit_amount').val('');
@@ -114,7 +114,7 @@ $(document).on('change', '#service_type', function() {
       
         url: '/services/' + service + '/service_tarif',
         type: 'GET',
-        data: {pat_age:pat_age, service:service, pat_id:pat_id},
+        data: {pat_age:pat_age, service:service, patient_id:patient_id},
         success: function(response) {
           if (response && response.success && response.result.length > 0) {
             var serviceData = response.result[0]; // Get the first element of the array
@@ -205,3 +205,45 @@ function clear_Form() {
 $('#claims_check_code').on('hidden.bs.modal', function () {
   clear_Form();
 });
+
+
+
+
+// SERVICE REQUEST FORM SUBMISSION --------------------------
+$(document).ready(function() {
+  $('#service_request_form').on('submit', function(e) {
+      e.preventDefault();
+      
+      $.ajax({
+          url: '/request/service_request',  // Replace with your actual submission URL
+          type: 'POST',
+          data: $(this).serialize(),
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function(response) {
+              // Show success message
+              $('.alert-container').html(`
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Attendance Created successfully!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+              
+              // Reset form
+              $('#service_request_form')[0].reset();
+          },
+          error: function(xhr, status, error) {
+              // Show error message
+              $('.alert-container').html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                     An error occurred while creating attendance.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+          }
+      });
+  });
+});
+
+// SERVICE REQUEST FORM SUBMISSION --------------------------

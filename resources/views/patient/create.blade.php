@@ -9,8 +9,8 @@
         <div class="d-flex align-content-center flex-wrap gap-3">
           <!-- <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdoal_form" >Search Patient</button> -->
           <!-- <button class="btn btn-primary">Go to Registered Patients</button> -->
-          <a href="{{ route('patients.index') }}" class="btn btn-primary">Search Patient</a>
-          <a href="#" class="btn btn-primary">Patient Sponsors</a>
+          <a href="{{ route('patients.index') }}" class="btn btn-primary"> <i class="bx bx-search"></i> Search Patient</a>
+          <a href="#" class="btn btn-warning"><i class="bx bx-dollar"></i>Patient Sponsors</a>
           <!-- <button type="submit" class="btn btn-primary">Patient Sponsorship</button> -->
         </div>
       </div>
@@ -273,7 +273,7 @@
     </div>
     <div class="d-flex align-content-center flex-wrap gap-3">
       <button type="submit" class="btn btn-primary">Submit</button>
-      <button type="reset" class="btn btn-label-secondary">clear</button>
+      <button type="reset" class="btn btn-label-info"> <i class="bx bx-reset"></i> Clear</button>
     </div>
   </form>
   </div>

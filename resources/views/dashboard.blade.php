@@ -82,7 +82,7 @@
                              <h3 class="card-title text-primary"> 
                                {!! $greeting !!}, {{ Auth::user()->othername }}</h3>
                           <p class="mb-4">
-                           The way to get started is to quit talking and begin doing.
+                           <marquee behavior="" direction="">"The way to get started is to quit talking and begin doing."</marquee>
                           </p>
                           <!-- <a href="{{ url('profile-details') }}" class="btn btn-sm btn-outline-primary">View Profile</a> -->
                         </div>
@@ -150,11 +150,11 @@
                         <div class="card">
                         <div class="card-body">
                           <div align="center">
-                              <a href="{{ route('patients.index') }}" class="btn btn-secondary">Search Patient</a>
+                              <a href="{{ route('patients.index') }}" class="btn btn-primary">Search Patient</a>
                               <a href="{{ route('patients.create') }}" class="btn btn-warning">Register New Patient</a>
                               <a href="#" class="btn btn-primary">Book Appointment</a>
                               <a href="#" class="btn btn-info">Walk-in Medications</a>
-                              <a href="#" class="btn btn-primary">Walk-In Services</a>
+                              <a href="#" class="btn btn-danger">Walk-In Services</a>
                           </div>
                       </div>
                         </div>

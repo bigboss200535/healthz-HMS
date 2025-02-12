@@ -181,7 +181,7 @@ class PatientController extends Controller
             DB::commit();
 
                     return response()->json([
-                        // 'message' => 'Patient saved successfully',
+                        'message' => 'Patient saved with Id: ' . $validated_data['opd_number'],
                         'code' => 201,
                         // 'opd_number' => $validated_data['opd_number'] ?? null,
                     ], 201);
@@ -388,19 +388,38 @@ class PatientController extends Controller
 
     public function search(Request $request)
     {
-        $search_term = $request->input('search_patient');
+            $search_term = $request->input('search_patient');
 
-        $search_patient = Patient::query() // Query the patients based on the search term and join with patient_nos and patient_sponsors
-            ->join('patient_nos', 'patient_info.patient_id', '=', 'patient_nos.patient_id')
-            ->join('patient_sponsorship', 'patient_info.patient_id', '=', 'patient_sponsorship.patient_id')
-            ->where(function ($query) use ($search_term) {
-                $query->where('telephone', 'like', '%' . $search_term . '%')
-                    ->orWhere('patient_sponsorship.member_no', 'like', '%' . $search_term . '%')
-                    ->orWhere('patient_nos.opd_number', 'like', '%' . $search_term . '%'); // Assuming opd_number is in patient_nos
-                    
-            })->get();
+            // Step 1: Search in the Patient table
+            $search_patient = Patient::query()
+                ->where(function ($query) use ($search_term) {
+                    $query->where('telephone', 'like', '%' . $search_term . '%');
+                })
+                ->get();
 
-        return response()->json($search_patient);  // Return a response in JSON format
+            // Step 2: If no results are found in the Patient table, search in the PatientSponsor table
+            if ($search_patient->isEmpty()) {
+                $search_patient = PatientSponsor::query()
+                ->join('patient_info', 'patient_info.patient_id', '=', 'patient_sponsorship.patient_id')
+                    ->where(function ($query) use ($search_term) {
+                        $query->where('opd_number', 'like', '%' . $search_term . '%')
+                            ->orWhere('member_no', 'like', '%' . $search_term . '%');
+                    })
+                    ->get();
+
+                // Step 3: If no results are found in the PatientSponsor table, search in the PatientOpdNumber table
+                if ($search_patient->isEmpty()) {
+                    $search_patient = PatientOpdNumber::query()
+                    ->join('patient_info', 'patient_info.patient_id', '=', 'patient_nos.patient_id')
+                        ->where(function ($query) use ($search_term) {
+                            $query->where('opd_number', 'like', '%' . $search_term . '%');
+                        })
+                        ->get();
+                }
+            }
+
+            // Return the search results in JSON format
+            return response()->json($search_patient);
     }
 
 
