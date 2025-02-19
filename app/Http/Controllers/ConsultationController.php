@@ -23,18 +23,10 @@ class ConsultationController extends Controller
           ->rightJoin('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
           ->RightJoin('gender', 'patient_info.gender_id', 'gender.gender_id')       
           ->orderBy('patient_attendance.attendance_id', 'asc')
-          ->select('patient_attendance.*', 'patient_info.*', 'gender.gender',  DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as pat_ages'))
+          ->select('patient_attendance.*', 'patient_info.*', 'gender.gender',  
+            DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as pat_ages'))
           ->get();  
 
-      // $patients = DB::table('patient_info')
-      //     ->where('patient_info.patient_id', $patient_id)
-      //     ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
-      //     ->join('title', 'patient_info.title_id', '=', 'title.title_id')
-      //     ->select('patient_info.patient_id', 'title.title', 'patient_info.fullname',  'gender.gender', 
-      //         'patient_info.birth_date', 'patient_info.email','patient_info.address',  'patient_info.added_date', 
-      //         'patient_info.telephone', DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
-      //     ->orderBy('patient_info.added_date', 'asc') 
-      //     ->first();
 
           // $con_room = ConsultingRoom::where('Archived', 'No')->get();
           // $store = Stores::where('archived', 'No')->where('is_pharmacy', '=', 'Yes')->get();
@@ -80,6 +72,7 @@ class ConsultationController extends Controller
     
     public function opd_consult(Patient $patient_id)
     {
+        
       $patients = DB::table('patient_info')
           ->where('patient_info.archived', 'No')
           ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
@@ -88,11 +81,20 @@ class ConsultationController extends Controller
           ->select('patient_info.patient_id', 'patient_nos.opd_number', 'patient_info.title', 'patient_info.fullname', 'gender.gender', 
                'patient_info.birth_date', 'patient_info.email', 'patient_info.address', 'patient_info.contact_person', 
                'patient_info.contact_relationship', 'patient_info.contact_telephone', 'patient_info.added_date', 
-               'patient_info.telephone', 'users.user_fullname', 'patient_info.gender_id', DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
+               'patient_info.telephone', 'users.user_fullname', 'patient_info.gender_id', 
+               DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
+         ->where('patient_info.patient_id', $patient_id->patient_id)
           ->orderBy('patient_info.added_date', 'asc') 
           ->get();
 
-          $con_room = ConsultingRoom::where('Archived', 'No')->where('status', 'Active')->get();
+        $con_room = ConsultingRoom::where('Archived', 'No')
+            ->where('status', 'Active')
+            ->where('gender_id', $patients->gender_id)
+            ->orWhere('gender_id', 1) //all 
+            ->where('age_id', $patients->age_id)
+            ->orWhere('age_id', 3) //all ages
+            ->get();
+
           $patient_list = Patient::where('Archived', 'No')->where('status', 'Active')->get();
           $diagnosis = Diagnosis::where('Archived', 'No')->where('status', 'Active')->get();
           $prescription = Product::where('Archived', 'No')->where('status', 'Active')->get();

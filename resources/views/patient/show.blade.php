@@ -44,7 +44,7 @@
         <li class="nav-item">
           <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#nav_claims_code" aria-controls="navs-justified-messages" aria-selected="false">
             <span class="d-none d-sm-block">
-              <i class="tf-icons bx bx-layer bx-sm me-1_5 align-text-bottom"></i> Claims Code
+              <i class="tf-icons bx bx-layer bx-sm me-1_5 align-text-bottom"></i> Vitals History
             </span>
             <i class="bx bx-message-square bx-sm d-sm-none"></i>
           </button>
@@ -119,8 +119,7 @@
                     <a href="#" class="btn btn-info pull-right" id="clear_search">Add Sponsor</a>
                 </div>
             </div>
-              
-            <table class="table table-hover" id="data_table">
+            <table class="table table-hover" id="patient_sponsor">
               <thead>
                 <tr>
                   <th>Sponsor Type</th>
@@ -154,56 +153,33 @@
             <div>
               <h5>Attendance History</h5>
             </div>
-            <table class="table table-hover" id="employee_details">
+            <table class="table table-hover" id="attendance_details">
               <thead>
                 <tr>
-                  <th>Attendance #</th>
+                  <th>Sn #</th>
                   <th>Attendance Date</th>
+                  <th>Patient Age</th>
                   <th>Clinic</th>
                   <th>Sponsor</th>
                   <th>Status</th>
                   <!-- <th>is NHIS</th> -->
-                  <th>Outcome</th>
+                  <th>Status</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                            @php
-                              $counter = 1;
-                            @endphp
-                            @foreach($service_requests  as $old_requests)
-                            <tr>
-                                <td><a href="#">{{ $old_requests->attendance_id}}</a></td>
-                                <td>{{ \Carbon\Carbon::parse($old_requests->attendance_date)->format('d-m-Y') }}</td>
-                                <td>{{ $old_requests->attendance_type }}</td>
-                                <td>{{ $old_requests->sponsor_type }}</td>
-                                <td><span class="badge bg-label-danger me-1">OPD</span></td> <!--   IPD or OPD-->
-                                <!-- <td><span class="badge bg-label-warning me-1">NO</span></td> -->
-                                <td><span class="badge bg-label-info me-1">DISCHARGED</span></td>
-                                <td>
-                                      <div class="dropdown" align="center">
-                                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                  <i class="bx bx-dots-vertical-rounded"></i>
-                                              </button>
-                                              <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="bx bx-lock-alt me-1"></i> Details 
-                                                    </a>
-                                              </div>
-                                      </div>
-                                 </td>
-                            </tr>
-                        @endforeach
+                            
              </tbody>
               <tfoot>
                 <tr>
-                  <th>Attendance #</th>
+                  <th>Sn #</th>
                   <th>Attendance Date</th>
+                  <th>Patient Age</th>
                   <th>Clinic</th>
                   <th>Sponsor</th>
                   <th>Status</th>
                   <!-- <th>is NHIS</th> -->
-                  <th>Outcome</th>
+                  <th>Status</th>
                   <th></th>
                 </tr>
               </tfoot>
@@ -215,7 +191,7 @@
             <div>
               <h5>Appointments History</h5>
             </div>
-            <table class="table table-hover" id="app_list">
+            <table class="table table-hover" id="appointments">
               <thead>
                 <tr>
                   <th>S/N</th>
@@ -247,7 +223,7 @@
         <div class="tab-pane fade" id="nav_claims_code" role="tabpanel">
         <p>
             <div>
-              <h5>Claims Code History</h5>
+              <h5>Vitals History</h5>
             </div>
             <table class="table table-hover" id="claims_code_list">
               <thead>
@@ -288,9 +264,8 @@
           <div class="row mb 3">
                 <!-- <h5 class="card-tile mb-0"><b>Sponsorship Details</b></h5> -->
           </div>
-          <!-- <br> -->
            <div class="mb-3 col ecommerce-select2-dropdown" align="center">
-            <img src="{{ $patients->gender==='Female' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px ">
+            <img src="{{ $patients->gender==='FEMALE' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px ">
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown" align="center">
             <h5 class="card-tile mb-0"><b>{{ $patients->title}}. {{ $patients->fullname }}</b></h5>
@@ -313,10 +288,14 @@
               <td><b>Sickling</b>:</td>
               <td>Negative</td>
             </tr>
-            <!-- <tr>
-              <td><b>Allergy</b>:</td>
-              <td>Negative</td>
-            </tr> -->
+            <tr>
+              <td><b>Current Sponsor</b>:</td>
+              <td><span class="badge bg-label-danger me-1">NO AVAILABLE</span></td>
+            </tr>
+            <tr>
+              <td><b>Member #</b>:</td>
+              <td><span class="badge bg-label-danger me-1"> UNAVAILABLE</span></td>
+            </tr>
             <tr>
               <td><b>Registered By</b>:</td>
               <td>{{ $patients->user_fullname}}</td>
@@ -353,17 +332,16 @@
                       <div style="margin:15px">
                         <h5>Patient Attendance</h5>
                       </div>
-                      <table class="datatables-category-list table border-top" id="patient_services">
+                      <table class="datatables-category-list table border-top" id="current_attendance">
                         <thead>
                           <tr class="" align="center">
-                            <!-- <th>S/N</th>   -->
                             <th>Attendance ID</th>
                             <th>Attendate Date</th>
+                            <th>Patient Age</th>
                             <th>Clinic</th>
                             <th>Sponsor</th>
-                            <th>Age</th>
-                            <th>Sponsor &nbsp;</th>
-                            <th>Service Fee</th>
+                            <!-- <th>Sponsor &nbsp;</th> -->
+                            <th>Attendance Type</th>
                             <th>Status</th>
                             <th>Actions</th>
                           </tr>
@@ -373,17 +351,16 @@
                         </tbody>
                         <tfoot>
                           <tr class="" align="center">
-                              <!-- <th>S/N</th>   -->
-                              <th>Att ID</th>
-                              <th>Attendate Date</th>
-                              <th>Clinic</th>
-                              <th>Gender</th>
-                              <th>Age</th>
-                              <th>Sponsor &nbsp;</th>
-                              <th>Service Fee</th>
-                              <th>Status</th>
-                              <th>Actions</th>
-                            </tr>
+                            <th>Attendance ID</th>
+                            <th>Attendate Date</th>
+                            <th>Patient Age</th>
+                            <th>Clinic</th>
+                            <th>Sponsor</th>
+                            <!-- <th>Sponsor &nbsp;</th> -->
+                            <th>Attendance Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                          </tr>
                         </tfoot>
                       </table>
                     </div>
@@ -392,11 +369,11 @@
 </div>   
 <!-----------****************************----------------------------------------------------------->
 <!-- service_request Modal -->
-<div class="modal fade" id="addattendance" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="addattendance" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
     <div class="modal-content">
       <div class="modal-body">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
         <div class="text-center mb-6">
           <h4 class="address-title mb-2">Patient Attendance Registration</h4>
           <p class="address-subtitle">ADD NEW PATIENT ATTENDANCE</p>
@@ -405,15 +382,10 @@
         <form id="service_request_form" class="row g-6" onsubmit="return false">
           @csrf
           <div id="success_diplay" class="container mt-6"></div>
-          <div class="col-12 col-md-12">
-            <!-- <label class="form-label" for="credit_amount">Fullname</label> -->
-            <!-- <input type="text" id="fullname" name="fullname" class="form-control" value="{{ strtoupper($patients->fullname) }}" disabled/> -->
-          </div>
             <input type="text" name="patient_id" id="patient_id" value="{{ $patients->patient_id }}">
             <input type="text" name="service_id" id="service_id">
             <input type="text" name="service_fee_id" id="service_fee_id">
-            <!-- <input type="text" name="full_age" id="full_age" value="{{ $age_full }}"> -->
-            <!-- <input type="text" name="top_up" id="top_up"> -->
+            <input type="text" name="top_up" id="top_up" value="0.00">
             <input type="text" name="opd_number" id="opd_number" value="{{ $patients->opd_number}}">
           <div class="col-12 col-md-6">
             <label class="form-label" for="clinic_code">Service Clinic</label>
@@ -448,7 +420,7 @@
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="attendance_type">Attendance Type</label>
-                <select name="attendance_type" id="attendance_type" class="form-control">
+                <select name="attendance_type" id="attendance_type" class="form-control" required>
                   <option selected disabled>-Select-</option>
                   <option value="NEW">NEW</option>
                   <option value="OLD">OLD</option>
@@ -460,7 +432,7 @@
           </div>
           <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary me-3">Submit</button>
-            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            <button type="reset" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bx bx-trash"></i>Close</button>
           </div>
         </form>
       </div>
@@ -475,7 +447,6 @@
   <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
     <div class="modal-content">
       <div class="modal-body">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center mb-6">
           <h4 class="address-title mb-2">Patient NHIS Verification</h4>
           <!-- <p class="address-subtitle">Click on the generate to get CCC or enter it in the CCC input box</p> -->
@@ -508,14 +479,15 @@
             <label class="form-label" for="status">Status </label>
             <input type="text" id="card_status" name="card_status" class="form-control" readonly/>
           </div>
-          <div class="col-12 col-md-12">
-            <label class="form-label">NHIS Registration Name</label>
-              <input type="text" name="fullname" id="fullname" class="form-control" disabled>
-          </div>
+         <div class="col-12">
+            <!-- <label class="form-label">NHIS Registration Name</label> -->
+              <!-- <input type="text" name="fullname" id="fullname" class="form-control" disabled> -->
+          </div> 
           <br>
-          <div class="col-12 text-center">
-          <button type="button" class="btn btn-label-info" onclick="generateCC()">Generate CC</button>
+          <div class="col-12 col-md-12" align="center">
+            <button type="button" class="btn btn-info" onclick="generateCC()">Generate CC</button>
             <button type="submit" class="btn btn-primary me-3">Submit</button>
+            <button type="reset" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bx bx-trash"></i>Close</button>
           </div>
         </form>
       </div>

@@ -46,6 +46,7 @@ return new class extends Migration
             $table->string('email_verified', 20)->default('No');
             $table->string('telephone_verified', 20)->default('No');
             $table->string('allow_sms', 50)->default('No');
+            $table->string('blood_group', 50)->default('Unkwown')->nullable();
             $table->string('allow_email', 50)->default('No');
             $table->string('records_id', 100)->nullable();
             $table->date('register_date')->nullable()->default(DB::raw('CURRENT_DATE'));;

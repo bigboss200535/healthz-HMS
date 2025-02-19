@@ -26,15 +26,15 @@
       }
 
       if ( $('#credit_amount').empty()) {
-        // $('#credit_amount').addClass('is-invalid');
-        // $('#credit_amount').after('<div class="invalid-feedback">Please enter a valid Amount.</div>');
-        // isValid = false;
+        $('#credit_amount').addClass('is-invalid');
+        $('#credit_amount').after('<div class="invalid-feedback">Please enter a valid Amount.</div>');
+        isValid = false;
       }
 
       if ($('#cash_amount').val() ) {
-        // $('#cash_amount').addClass('is-invalid');
-        // $('#cash_amount').after('<div class="invalid-feedback">Please enter a valid Amount</div>');
-        // isValid = false;
+        $('#cash_amount').addClass('is-invalid');
+        $('#cash_amount').after('<div class="invalid-feedback">Please enter a valid Amount</div>');
+        isValid = false;
       }
 
       if ($('#attendance_type').val() === '-Select-') {
@@ -51,7 +51,7 @@
           dataType: 'json',
           success: function (response) {
             if (response.success) {
-              
+             
               var successAlert = $('<div class="alert alert-info alert-dismissible fade show" role="alert">')
                                 .text('Service submitted!')
                             $('#success_diplay').prepend(successAlert);
@@ -59,7 +59,8 @@
                             setTimeout(function () {
                                 successAlert.alert('close');
                             }, 7000);
-              $('#save_service_fee')[0].reset();// Reset form           
+              $('#save_service_fee')[0].reset();// Reset form      
+               
             } else {
               alert('There was an issue with the submission.');
             }
@@ -149,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function() {
 // -------------------------------------------------------------------------------------------------------------------------------
 
 
-
  // Clear the search field when the "Clear" button is clicked
  $('#clear_search').on('click', function(e){
   e.preventDefault(); // Prevent default link behavior
@@ -160,21 +160,24 @@ document.addEventListener("DOMContentLoaded", function() {
 // });
 
 
-
-// --------------------------------------------------------------------------------------------------------
+// ***************************** CCC FUNCTION***************************** ***************************** ***************************** 
 function generateCC() {
         var member_no = $('#member_no').val();
         var card_type = $('#card_type').val();
-
+        
+        if (!member_no) {
+          alert('Please enter a member number.');
+          return;
+        }
         // Perform AJAX request
         $.ajax({
-            url: '/code_generate',
-            type: 'POST', 
+            url: '/external/claims_code',
+            type: 'get', 
             data: { member_no: member_no, card_type: card_type }, 
             dataType: 'json',
             headers: {
+               // Ensure CSRF token is fetched correctly
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-                // Ensure CSRF token is fetched correctly
             },
             success: function(response) {
                 if (response.success) {
@@ -184,7 +187,7 @@ function generateCC() {
                     $('#end_date').val(result.EligibilityEndDate.split('T')[0]);
                     $('#hin_no').val(result.HIN); 
                     $('#card_status').val(result.Status);
-                    $('#fullname').val(result.MemberName);
+                    // $('#fullname').val(result.MemberName);
                   
                 } else {
                     // alert('Error: ' + response.message); 
@@ -213,13 +216,13 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
 
 
 
-// SERVICE REQUEST FORM SUBMISSION --------------------------
+//********************************** */ SERVICE REQUEST FORM SUBMISSION ***************************** 
 $(document).ready(function() {
   $('#service_request_form').on('submit', function(e) {
       e.preventDefault();
       
       $.ajax({
-          url: '/request/service_request',  // Replace with your actual submission URL
+          url: '/request/service_request', 
           type: 'POST',
           data: $(this).serialize(),
           headers: {

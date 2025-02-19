@@ -31,6 +31,8 @@ class PatientOpdNumber extends Model
         'clinic_id',
         'registration_date',
         'registration_time',
+        'year',
+        'month',
         'user_id',
         'added_id',
         'added_date',

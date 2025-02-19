@@ -208,3 +208,19 @@ function isValidDate(date) {
     updateStatus();
   });
 
+
+  // Prevent modal from closing when clicking outside
+  $('#addattendance').modal({
+    backdrop: 'static',
+    keyboard: false
+  });
+
+  // Clear form data when the modal is closed
+  $('#addattendance').on('hidden.bs.modal', function () {
+    $('#service_request_form')[0].reset(); // Reset the form
+    $('#service_id').val(''); // Clear specific fields if needed
+    $('#service_fee_id').val('');
+    $('#gdrg_code').val('');
+    $('#attendance_date').val('');
+    $('#attendance_type').val('');
+  });

@@ -1,131 +1,128 @@
-    // PATIENT CREATION SCRIPT
-    // ---------------------------------------------------------------------------
-    
-    $('#patient_info').on('submit', function(e) {
-      e.preventDefault();
+//  ********************** PATIENT SAVE SCRIPT ************************
+$('#patient_info').on('submit', function (e) {
+    e.preventDefault();
 
-         // Collect patient form data
-          var pat_id = $('#pat_id').val();
-          var title = $('#title').val();
-          var firstname = $('#firstname').val();
-          var middlename = $('#middlename').val();
-          var lastname = $('#lastname').val();
-          var birth_date = $('#birth_date').val();
-          var gender_id = $('#gender_id').val();
-          var occupation = $('#occupation').val();
-          var education = $('#education').val();
-          var religion = $('#religion').val();
-          var nationality = $('#nationality').val();
-          var ghana_card = $('#ghana_card').val();
-          var telephone = $('#telephone').val();
-          var work_telephone = $('#work_telephone').val();
-          var email = $('#email').val();
-          var address = $('#address').val();
-          var town = $('#town').val();
-          var region = $('#region').val();
-          var contact_person = $('#contact_person').val();
-          var contact_telephone = $('#contact_telephone').val();
-          var contact_relationship = $('#contact_relationship').val();
-          var opd_type = $('#opd_type').val();
-          var folder_clinic = $('#folder_clinic').val();
-          var opd_number = $('#opd_number').val();
-          var sponsor_type_id = $('#sponsor_type_id').val();
-          var sponsor_id = $('#sponsor_id').val();
-          var member_no = $('#member_no').val();
-          var dependant = $('#dependant').val();
-          var start_date = $('#start_date').val();
-          var end_date = $('#end_date').val();
-          var card_status = $('#card_status').val();
+    // Collect patient form data using a single object to minimize DOM queries
+    const patient_save = {
+        sponsor_type_id: $('#sponsor_type_id').val(),
+        pat_id: $('#pat_id').val(),
+        title: $('#title').val(),
+        firstname: $('#firstname').val().trim(),
+        middlename: $('#middlename').val().trim(),
+        lastname: $('#lastname').val().trim(),
+        birth_date: $('#birth_date').val(),
+        gender_id: $('#gender_id').val(),
+        occupation: $('#occupation').val(),
+        education: $('#education').val(),
+        religion: $('#religion').val(),
+        nationality: $('#nationality').val(),
+        ghana_card: $('#ghana_card').val(),
+        telephone: $('#telephone').val(),
+        work_telephone: $('#work_telephone').val(),
+        email: $('#email').val(),
+        address: $('#address').val(),
+        town: $('#town').val(),
+        region: $('#region').val(),
+        contact_person: $('#contact_person').val(),
+        contact_telephone: $('#contact_telephone').val(),
+        contact_relationship: $('#contact_relationship').val(),
+        opd_type: $('#opd_type').val(),
+        folder_clinic: $('#folder_clinic').val(),
+        opd_number: $('#opd_number').val(),
+        sponsor_id: $('#sponsor_id').val(),
+        member_no: $('#member_no').val(),
+        dependant: $('#dependant').val(),
+        start_date: $('#start_date').val(),
+        end_date: $('#end_date').val(),
+        card_status: $('#card_status').val(),
+    };
 
-          var url = pat_id ? '/patients/' + pat_id : '/patients';
-          var method = pat_id ? 'PUT' : 'POST';
-
-      // Client-side validation
-
-      if (!title || title === "0") {  // Check if title is selected or the default "0"
-        toastr.warning('Please select a title'); 
-        return;
-      }
-      // Remove red focus class from #title once the user fixes it
-    if(firstname.length < 3) {
-          toastr.warning('First name must be at least 3 characters long');
+    // Client-side validation
+    if (!patient_save.title || patient_save.title === "0") {
+        toastr.warning('Please select a title');
+        $('#title').focus();
         return;
     }
 
-    if (!firstname.trim()) {
+    if (!patient_save.firstname) {
         toastr.warning('Firstname cannot be empty');
-        $('#firstname').focus();  // Autofocus on the first name field
+        $('#firstname').focus();
         return;
     }
 
-    if (!lastname.trim()) {
+    if (patient_save.firstname.length < 3) {
+        toastr.warning('First name must be at least 3 characters long');
+        $('#firstname').focus();
+        return;
+    }
+
+    if (!patient_save.lastname) {
         toastr.warning('Lastname cannot be empty');
-        $('#lastname').focus();  // Autofocus on the first name field
+        $('#lastname').focus();
         return;
     }
 
-    if (lastname.length < 3) {
-        toastr.warning('Lastname is must be at least 3 characters long');
+    if (patient_save.lastname.length < 3) {
+        toastr.warning('Lastname must be at least 3 characters long');
+        $('#lastname').focus();
         return;
     }
 
-    if(opd_number.length < 3) {
-        toastr.warning('Record Number or Records number is invalid');
-      return;
+    if (patient_save.opd_number.length < 3) {
+        toastr.warning('Record Number is invalid');
+        $('#opd_number').focus();
+        return;
     }
 
-    if(birth_date.length < 3 ) {
+    if (!patient_save.birth_date) {
         toastr.warning('Birth Date must be entered');
-      return;
-    }
-
-    if (!gender_id || gender_id === "0") {  // Check if gender is selected or the default "0"
-        toastr.warning('Please select gender'); 
+        $('#birth_date').focus();
         return;
     }
 
-      // Check if pat_id has a value before update
-    if (pat_id && method === 'PUT') {
+    if (!patient_save.gender_id || patient_save.gender_id === "0") {
+        toastr.warning('Please select gender');
+        $('#gender_id').focus();
+        return;
+    }
 
-        $.ajax({
-          url: pat_id ? '/patients/' + pat_id : '/patients',
-          type: method,
-          data: $(this).serialize(),
-          success: function(response) {
-            toastr.success('Patients Updated successfully!');
-            
+    if (!patient_save.sponsor_type_id || patient_save.sponsor_type_id === "0") {
+        toastr.warning('Sponsor type must be selected');
+        $('#sponsor_type_id').focus();
+        return;
+    } else if (!patient_save.sponsor_id || !patient_save.member_no || !patient_save.start_date || !patient_save.end_date) {
+        toastr.warning('Sponsor ID, Member No, Start and End Date must be filled for selected sponsor');
+        return;
+    }
+
+    // Determine URL and method based on pat_id
+    const url = patient_save.pat_id ? `/patients/${patient_save.pat_id}` : '/patients';
+    const method = patient_save.pat_id ? 'PUT' : 'POST';
+
+    // AJAX request
+    $.ajax({
+        url: url,
+        type: method,
+        data: $(this).serialize(),
+        success: function (response) {
+            if (response.code === 201) {
+                toastr.success(response.message);
                 $('#patient_info')[0].reset();
-                $('#pat_id').val('');
-          },
-          error: function(xhr, status, error) {
-            toastr.error('Error updating Patient Information! Try again.');
-          }
-        });
-      } else {
-          $.ajax({
-            url: '/patients',
-            type: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-            //   var result = JSON.parse(response);
-                if (response.code === 201) {
-                    // toastr.success('Patients saved successfully!');
-                    toastr.success(response.message);
-                    $('#patient_info')[0].reset();
-                } else if (response.code === 200) {
-                    toastr.warning('Patient data is available in the system!');
-                }else {
-                    toastr.error('Error saving data! Try again.');
-                }    
-            },
-              error: function(xhr, status, error) {
-              toastr.error('Error saving data! Try again.');
+                $('#pat_id').val(''); // Clear pat_id for new entries
+            } else if (response.code === 200) {
+                toastr.warning('Patient data is already available in the system!');
+            } else {
+                toastr.error('Error saving data! Try again.');
             }
-        });
-      }
+        },
+        error: function (xhr, status, error) {
+            toastr.error('Error saving data! Try again.');
+        }
     });
+});
+// *********************** PATIENT SAVE SCRIPT ************************
 
-    // ----------------------- PATIENT SEARCH SCRIPT ---------------------------
+// ************************* PATIENT SEARCH SCRIPT ******************
 
 // Debounce function to limit the rate of AJAX requests
 function debounce(func, wait) {
@@ -210,7 +207,6 @@ function perform_search(searchTerm) {// Function to handle the AJAX request
 
 // Cache the DataTable instance
 const patientTable = $('#patient_search_list').DataTable();
-
 // Attach the debounced search function to the input event
 $('#search_item').on('click', debounce(function() {
     const search_term = $('#search_patient').val();
@@ -221,11 +217,10 @@ $('#search_item').on('click', debounce(function() {
             }
     perform_search(search_term);
 }, 300));
+// ***************************/PATIENT SEARCH SCRIPT ***************************/
 
-// ----------------------- /PATIENT SEARCH SCRIPT ---------------------------
 
-
-// ****************************** GENERATE OPD NUMBER- ****************************----------------------------------------------------------------
+// *************************** GENERATE OPD NUMBER *****************************/
 
 $(document).on('change', '#folder_clinic', function() {
   
@@ -252,6 +247,9 @@ $(document).on('change', '#folder_clinic', function() {
     });
   });
 
+//   $(":inpumst").inputmask();
+  
+
   document.addEventListener('DOMContentLoaded', function () {
     const sponsorTypeSelect = document.getElementById('sponsor_type_id');
     const sponsorshipDetails = document.querySelectorAll('.sponsorship_details_settings');
@@ -271,131 +269,200 @@ $(document).on('change', '#folder_clinic', function() {
     sponsorTypeSelect.addEventListener('change', toggleSponsorshipDetails);
 });
 
-// ************************** GET ALL PATIENT SPONSORS_?**********************************
-$(document).ready(function() {
-   
-    var patient_id = $('#patient_id').val(); // Get the patient_id from the hidden input field
-
-    if (!patient_id) { // Ensure patient_id is not empty
-        console.error('Patient ID is missing.');
-        return;
-    }
-
-    $.ajax({
-       url: '/patient/patient-sponsors/' + patient_id,
-        type: 'GET',
-        success: function(response) {
-            // Clear the table body before populating
-            var tbody = $('#data_table tbody');
-            tbody.empty();
-
-            // Check if response is not empty
-            if (response.length > 0) {
-                // Loop through the response data and populate the table
-                $.each(response, function(index, patient) {
-                    var row = '<tr>' +
-                        '<td>' + patient.sponsor_name + '</td>' +
-                        '<td>' + patient.member_no + '</td>' +
-                        '<td>' + patient.start_date + '</td>' +
-                        '<td>' + patient.end_date + '</td>' +
-                        '<td>' + (patient.status ? 'Active' : 'Inactive') + '</td>' + // Format boolean value
-                        '<td>' + patient.priority + '</td>' +
-                        // '<td></td>' +
-                        '<td>'+
-                            '<div class="dropdown" align="center">'+
-                                    '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">'+
-                                        '<i class="bx bx-dots-vertical-rounded"></i>'+
-                                    '</button>'+
-                                '<div class="dropdown-menu">'+
-                                    '<a class="dropdown-item" href="/patients/${patient.patient_id}">'+
-                                        '<i class="bx bx-detail me-1"></i> Edit'+
-                                    '</a>'+
-                                    '<a class="dropdown-item" href="/patients/${patient.patient_id}">'+
-                                        '<i class="bx bx-trash me-1"></i> Delete'+
-                                    '</a>'+
-                                '</div>'+
-                                
-                            '</div>'+
-                        '</td>' +
-                        '</tr>';
-                    tbody.append(row);
-                });
-            } else {
-                // If no data is returned, display a message
-                tbody.append('<tr><td colspan="8" class="text-center">No data found.</td></tr>');
-            }
-        },
-        error: function(xhr) {
-            // Log the error to the console
-            console.error('Error fetching patient sponsors:', xhr.responseText);
-        }
-    });
-
-    // GET PATIENT RESQUEST INTO TABLE
-    var patient_id = $('#patient_id').val(); // Get the patient_id from the hidden input field
-
-    if (!patient_id) { // Ensure patient_id is not empty
-        console.error('Patient ID is missing.');
-        return;
-    }
-
-    $.ajax({
-       url: '/patient/patient-sponsors/' + patient_id,
-        type: 'GET',
-        success: function(response) {
-            // Clear the table body before populating
-            var tbody = $('#data_table tbody');
-            tbody.empty();
-
-            // Check if response is not empty
-            if (response.length > 0) {
-                // Loop through the response data and populate the table
-                $.each(response, function(index, patient) {
-                    var row = '<tr>' +
-                        '<td>' + patient.sponsor_name + '</td>' +
-                        '<td>' + patient.member_no + '</td>' +
-                        '<td>' + patient.start_date + '</td>' +
-                        '<td>' + patient.end_date + '</td>' +
-                        '<td>' + (patient.status ? 'Active' : 'Inactive') + '</td>' + // Format boolean value
-                        '<td>' + patient.priority + '</td>' +
-                        // '<td></td>' +
-                        '<td>'+
-                            '<div class="dropdown" align="center">'+
-                                    '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">'+
-                                        '<i class="bx bx-dots-vertical-rounded"></i>'+
-                                    '</button>'+
-                                '<div class="dropdown-menu">'+
-                                    '<a class="dropdown-item" href="/patients/${patient.patient_id}">'+
-                                        '<i class="bx bx-detail me-1"></i> Edit'+
-                                    '</a>'+
-                                    '<a class="dropdown-item" href="/patients/${patient.patient_id}">'+
-                                        '<i class="bx bx-trash me-1"></i> Delete'+
-                                    '</a>'+
-                                '</div>'+
-                                
-                            '</div>'+
-                        '</td>' +
-                        '</tr>';
-                    tbody.append(row);
-                });
-            } else {
-                // If no data is returned, display a message
-                tbody.append('<tr><td colspan="8" class="text-center">No data found.</td></tr>');
-            }
-        },
-        error: function(xhr) {
-            // Log the error to the console
-            console.error('Error fetching patient sponsors:', xhr.responseText);
-        }
-    });
-
-
-
-
-
-
-
-
-
-});
 // ************************** GET ALL PATIENT and REQUESTS?**********************************
+$(document).ready(function () {
+    const patient_Id = $('#patient_id').val();
+
+    if (!patient_Id) {
+        console.error('Patient id is missing.');
+        return;
+    }
+
+// Reusable function to initialize DataTables
+    function initializeDataTable(table_id, columns) {
+        return $(table_id).DataTable({
+            paging: true,
+            pageLength: 5,
+            searching: true,
+            ordering: true,
+            responsive: true,
+            autoWidth: false,
+            columns: columns
+        });
+    }
+
+    // Initialize DataTables
+    const sponsorsTable = initializeDataTable('#patient_sponsor', [
+        { data: 'sponsor_name' },
+        { data: 'member_no' },
+        { data: 'start_date' },
+        { data: 'end_date' },
+        { data: 'status' },
+        { data: 'priority' },
+        { data: 'actions', orderable: false }
+    ]);
+
+    const attendanceTable = initializeDataTable('#attendance_details', [
+        { data: 'attendance_id' },
+        { data: 'attendance_date' },
+        { data: 'full_age' },
+        { data: 'pat_clinic' },
+        { data: 'sponsor' },
+        { data: 'status' },
+        { 
+            data: 'service_issued',
+            render: function (data, type, row) {
+                if (data === '0') {
+                    return '<span class="badge bg-label-danger me-1">Unassigned</span>';
+                } else if (data === '1') {
+                    return '<span class="badge bg-label-success me-1">Assigned</span>';
+                }
+                return data; // Fallback for unexpected status values
+            }
+        },
+        { data: 'actions', orderable: false }
+    ]);
+
+    const currentattendanceTable = initializeDataTable('#current_attendance', [
+        { data: 'attendance_id' },
+        { data: 'attendance_date' },
+        { data: 'full_age' },
+        { data: 'pat_clinic' },
+        { data: 'sponsor' },
+        { data: 'attendance_type' },
+        { 
+            data: 'service_issued',
+            render: function (data, type, row) {
+                if (data === '0') 
+                    {
+                    return '<span class="badge bg-label-danger me-1">Unassigned</span>';
+                } else if (data === '1') 
+                    {
+                    return '<span class="badge bg-label-success me-1">Assigned</span>';
+                }
+                return data; // Fallback for unexpected status values
+            }
+        },
+        { data: 'actions', orderable: false }
+    ]);
+
+    // Fetch and refresh data
+    function fetchAndRefreshData() {
+        Promise.all([
+            fetchData(`/patient/patient-sponsors/${patient_Id}`),
+            fetchData(`/patient/single-attendance/${patient_Id}`),
+            fetchData(`/patient/current-attendance/${patient_Id}`)
+        ])
+        .then(([sponsorsResponse, attendanceResponse, currentResponse]) => {
+            // Clear and re-populate sponsors table
+            sponsorsTable.clear().rows.add(sponsorsResponse.map(patient => ({
+                sponsor_name: `<a href="/patients/${patient_Id}">${patient.sponsor_name}</a>`,
+                member_no: patient.member_no,
+                start_date: formatDate(patient.start_date),
+                end_date: formatDate(patient.end_date),
+                status: patient.status ? 'Active' : 'Inactive',
+                priority: patient.priority,
+                actions: `
+                    <div class="dropdown" align="center">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/patients/${patient_Id}">
+                                <i class="bx bx-detail me-1"></i> Edit
+                            </a>
+                            <a class="dropdown-item" href="/patients/${patient_Id}">
+                                <i class="bx bx-trash me-1"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                `
+            }))).draw();
+
+            // Clear and re-populate attendance table
+            attendanceTable.clear().rows.add(attendanceResponse.map(attendance => ({
+                attendance_id: `<a href="${attendance.attendance_id}">${attendance.attendance_id}</a>`,
+                attendance_date: formatDate(attendance.attendance_date),
+                full_age: attendance.full_age || 'N/A',
+                pat_clinic: attendance.pat_clinic,
+                sponsor: attendance.sponsor,
+                status: attendance.status ? 'Active' : 'Inactive',
+                service_issued: attendance.service_issued || 'N/A',
+                actions: `
+                    <div class="dropdown" align="center">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/patients/${patient_Id}">
+                                <i class="bx bx-detail me-1"></i> Consult
+                            </a>
+                            <a class="dropdown-item" href="/patients/${patient_Id}">
+                                <i class="bx bx-detail me-1"></i> View
+                            </a>
+                            <a class="dropdown-item" href="/patients/${patient_Id}">
+                                <i class="bx bx-trash me-1"></i> E-Folder
+                            </a>
+                        </div>
+                    </div>
+                `
+            }))).draw();
+
+            // Clear and re-populate current attendance table
+            currentattendanceTable.clear().rows.add(currentResponse.map(current_attendance => ({
+                attendance_id: `<a href="${current_attendance.attendance_id}">${current_attendance.attendance_id}</a>`,
+                attendance_date: formatDate(current_attendance.attendance_date),
+                full_age: current_attendance.full_age || 'N/A',
+                pat_clinic: current_attendance.pat_clinic,
+                sponsor: current_attendance.sponsor,
+                attendance_type: current_attendance.attendance_type || 'N/A',
+                service_issued: current_attendance.service_issued || 'N/A',
+                actions: `
+                    <div class="dropdown" align="center">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/consultation/opd-consultation/${patient_Id}">
+                                <i class="bx bx-detail me-1"></i> Consult
+                            </a>
+                            <a class="dropdown-item" href="/patients/${patient_Id}">
+                                <i class="bx bx-play me-1"></i> Hold
+                            </a>
+                            <a class="dropdown-item" href="/patients/${patient_Id}">
+                                <i class="bx bx-trash me-1"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                `
+            }))).draw();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+    // Initial data fetch
+    fetchAndRefreshData();
+
+    // Optionally, refresh data periodically or on user action
+    // setInterval(fetchAndRefreshData, 10000); // Refresh every 10 seconds
+});
+
+// Generic function to fetch data
+function fetchData(url) {
+    return $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json'
+    }).catch(error => {
+        console.error('Error fetching data from', url, error);
+        throw error;
+    });
+}
+
+// Helper function to format dates
+function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return isNaN(date) ? 'N/A' : date.toLocaleDateString('en-GB');
+}

@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('facility_id', 50)->nullable();    
             $table->string('added_id', 50)->nullable();
             $table->string('added_by', 100)->nullable();
-            $table->date('added_date')->nullable();
+            $table->date('added_date')->index();
             $table->string('updated_by', 100)->nullable();
             $table->date('updated_date')->nullable();
             $table->string('status', 100)->default('Active');
@@ -53,12 +53,28 @@ return new class extends Migration
             $table->date('archived_date')->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->foreign('user_id')->references('user_id')->on('users');
-            // $table->foreign('age_id')->references('age_id')->on('ages');
-            // $table->foreign('gender_id')->references('gender_id')->on('gender');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
             $table->foreign('status_code')->references('patient_status_id')->on('patient_statuses');
         });
+
+        DB::statement("
+            ALTER TABLE `patient_attendance`
+            PARTITION BY RANGE (YEAR(added_date))
+            (
+                PARTITION p2021 VALUES LESS THAN (2022) ENGINE = InnoDB,
+                PARTITION p2022 VALUES LESS THAN (2023) ENGINE = InnoDB,
+                PARTITION p2023 VALUES LESS THAN (2024) ENGINE = InnoDB,
+                PARTITION p2024 VALUES LESS THAN (2025) ENGINE = InnoDB,
+                PARTITION p2025 VALUES LESS THAN (2026) ENGINE = InnoDB,
+                PARTITION p2026 VALUES LESS THAN (2027) ENGINE = InnoDB,
+                PARTITION p2027 VALUES LESS THAN (2028) ENGINE = InnoDB,
+                PARTITION p2028 VALUES LESS THAN (2029) ENGINE = InnoDB,
+                PARTITION p2029 VALUES LESS THAN (2030) ENGINE = InnoDB,
+                PARTITION p2030 VALUES LESS THAN (2031) ENGINE = InnoDB
+                PARTITION pFuture VALUES LESS THAN maxvalue
+            );
+        ");
     }
 
     /**

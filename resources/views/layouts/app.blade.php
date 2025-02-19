@@ -42,6 +42,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <!-- <link rel="stylesheet" href="{{ asset('preloader.css') }}"> -->
     </head>
  <body>
@@ -101,15 +102,21 @@
     <script src="{{ asset('js/custom_js.js') }}"></script>
     <script src="{{ asset('js/patient_services.js') }}"></script>
     <script src="{{ asset('js/patient_details.js') }}"></script>
+    
   </body>
 </html>
 <script type="text/javascript">
      $(document).ready( function () {
+        // $("#ghana_card").inputmask({"mask": "AAA-9999999-9"});
+        // $('#ghana_card').mask('AAA-9999999-9');
         $('#app_list').DataTable();
-        $('#employee_details').DataTable();
+        $('#attendance_details').DataTable();   
         $('#claims_code_list').DataTable();
+        $('#current_attendance').DataTable(); 
+        $('#patient_sponsor').DataTable();
+        $('#appointments').DataTable();
         
-        $('#data_table').DataTable();
+       
         $('#product_list').DataTable();
         $('#patient_list').DataTable();
         $('#patient_services').DataTable();
@@ -117,9 +124,11 @@
         $('#patient_searches').DataTable();
         $('#nurses_notes_patient').DataTable();
         $('.sponsor_name').select2();
-        $('.sponsorship_type').select2();
+        // $('.sponsor_type_id').select2();
+        $('.select_2_dropbox').select2();
     });
 </script>
+
 <script>
     $(document).on('click', '.product_delete_btn', function() {
       var product_id = $(this).data('id');

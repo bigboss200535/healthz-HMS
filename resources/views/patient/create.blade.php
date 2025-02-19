@@ -105,7 +105,7 @@
             </div>
             <div class="col">
               <label class="form-label" for="ghana_card">Ghana Card Number</label>
-              <input type="text" class="form-control" id="ghana_card" name="ghana_card" placeholder="GH-0000000-x" autocomplete="off">
+              <input type="text" class="form-control" id="ghana_card" name="ghana_card" data-inputmask="'mask': 'AAA-99999999-9'"  placeholder="GH-0000000-x" autocomplete="off">
             </div>
           </div>
           <div class="row mb 3">
@@ -133,7 +133,7 @@
             </div>
             <div class="col">
               <label class="form-label" for="town">Town</label>
-              <select name="town" id="town" class="form-control">
+              <select name="town" id="town" class="select2 form-control region_select">
                 <option value="" disabled selected>-Select-</option>
                    @foreach($towns as $town)                                        
                      <option value="{{ $town->towns }}">{{ strtoupper($town->towns) }}</option>
@@ -142,7 +142,7 @@
             </div>
             <div class="col">
               <label class="form-label" for="region">Region</label>
-              <select name="region" id="region" class="form-control">
+              <select name="region" id="region" class="select2 form-control region_select">
                 <option value="" disabled selected>-Select-</option>
                 @foreach($region as $regions)                                        
                   <option value="{{ $regions->region_id }}">{{ strtoupper($regions->region) }}</option>
@@ -217,16 +217,11 @@
           <br>
         <div class="mb-3 col ecommerce-select2-dropdown">
             <label class="form-label mb-1" for="sponsor_type_id">Sponsor Type</label>
-             <select name="sponsor_type_id" id="sponsor_type_id" class="form-control sponsor_type">
+             <select name="sponsor_type_id" id="sponsor_type_id" class="select2 form-control sponsor_type_id">
               <option disabled selected>-Select-</option>
                 @foreach($payment_type as $payments)                                        
                   <option value="{{ $payments->sponsor_type_id }}">{{ strtoupper($payments->sponsor_type) }}</option>
                  @endforeach
-              <!-- <option disable selected>-Select sponsor-</option>
-              <option value="1001">Cash</option> 
-              <option value="20001">Public NHIS</option>
-              <option value="3000">Co-operate Company</option>
-              <option value="4004">Private Insurance</option> -->
             </select>
           </div>
           <div class="row mb 3 sponsorship_details_settings" >
@@ -244,7 +239,7 @@
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1" for="member_no">Membership Number</label>
-             <input type="text" name="member_no" id="member_no" class="form-control" maxlength="10" >
+             <input type="text" name="member_no" id="member_no" class="form-control" maxlength="15" >
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown sponsorship_details_settings">
             <label class="form-label mb-1" for="dependant">Dependant</label>

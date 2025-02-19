@@ -93,6 +93,11 @@
             <div class="text-truncate" data-i18n="List">Patient Sponsors</div>
           </a>
         </li>
+        <li class="menu-item">
+          <a href="{{ route('patients.index') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Patient Attendance</div>
+          </a>
+        </li>
       </ul>
     </li>
     @endif

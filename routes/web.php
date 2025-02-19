@@ -20,6 +20,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\NotificationController; 
+use App\Http\Controllers\AttendanceController; 
 use App\Http\Controllers\ExternalCallController;
 use Illuminate\Support\Facades\Route;
 use illuminate\Http\Request;
@@ -68,6 +69,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/patient-sponsors/{patient_id}', [PatientController::class, 'get_patient_sponsor'])->name('patient.get_patient_sponsor');
         Route::get('/patient-request/{patient_id}', [ServiceRequestController::class, 'get_patient_request'])->name('patient.get_patient_sponsor');
         Route::get('/new-opd-number/{service_point_id}', [PatientController::class, 'generate_opd_number'])->name('patient.generate_opd_number');
+        Route::get('/single-attendance/{patient_id}', [AttendanceController::class, 'single_attendance'])->name('patient.single_attendance');
+        Route::get('/current-attendance/{patient_id}', [AttendanceController::class, 'current_attendance'])->name('patient.current_attendance');
     });
     
     Route::prefix('request')->group(function () {
@@ -124,7 +127,13 @@ Route::middleware('auth')->group(function () {
         
     });
 
-    Route::post('code_generate', [ExternalCallController::class, 'claims_check_code']);
+    Route::prefix('external')->group(function () {
+        Route::get('/claims_code', [ExternalCallController::class, 'claims_check_code']);
+        
+        
+    });
+
+    // Route::post('code_generate', [ExternalCallController::class, 'claims_check_code']);
 });
 
 require __DIR__.'/auth.php';

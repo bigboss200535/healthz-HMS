@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('duration', 10)->nullable();
             $table->string('gdrg', 10)->nullable();
             $table->string('service_fee', 10)->nullable();
-            $table->string('episode_id', 10)->nullable();
+            // $table->string('episode_id', 10)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('episode_id', 50)->nullable();
             $table->string('added_id', 100)->nullable();
