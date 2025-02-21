@@ -47,16 +47,17 @@ class DatabaseSeeder extends Seeder
             ServiceMDCSSeeder::class,
             ConsultingRoomSeeder::class,
             NhisDrugs::class,
-            Store::class,
+            StoreSeeder::class,
             ICD10GroupSeeder::class,
             ProductPresentationSeeder::class,
-            ProductType::class,
-            Products::class,
+            ProductTypeSeeder::class,
+            ProductsSeeder::class,
             DiagnosisSeeder::class,
             ProductClassSeeder::class,
             NationalitySeeder::class,
             AgeGroupsSeeder::class,
-            TownSeeder::class
+            TownSeeder::class, 
+            DocumentationRepoSeeder::class,
         ]);
         
         // \App\Models\Patient::factory(2000)->create();

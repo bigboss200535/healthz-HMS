@@ -11,15 +11,19 @@
             <p>
            <table class="table table-striped">
               <tr>
-                <td colspan="2" align="center"><h5><b>Doctors</b></h5></td>
+                <td colspan="2" align="center"><h5><b>Patient Details</b></h5></td>
               </tr>
               <tr>
+             
+          
                 <td rowspan="" colspan="2" align="center">
-                 <img src="#x" alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px; width:50%" align="center">
+                 <img src="{{ $attendance->gender==='FEMALE' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" 
+                 alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px; width:50%" 
+                 align="center">
                 </td>
               </tr>
               <tr>
-                <td colspan="2" align="center">fullname</td>
+                <td colspan="2" align="center">{{ $attendance->fullname}}</td>
               </tr>
             </table>
            </p>
@@ -35,20 +39,24 @@
                 <td colspan="2"><h5><b>Patient Information</b></h5></td>
               </tr>
               <tr>
-                <td><b>Folder #:</b></td>
-                <td>Y082/24</td>
+                <td><b>OPD #:</b></td>
+                <td>{{ $attendance->opd_number}}</td>
               </tr>
               <tr>
                 <td><b>Gender:</b></td>
-                <td>Male</td>
+                <td>{{ $attendance->gender}}</td>
               </tr>
               <tr>
                 <td><b>Age:</b></td>
-                <td>43 Years</td>
+                <td>{{ $attendance->full_age}}</td>
               </tr>
               <tr>
-                <td><b>Active Sponsor</b></td>
-                <td><span class="badge bg-label-danger">Private Insurance</span></td>
+                <td><b>Sponsor Type:</b></td>
+                <td><span class="badge bg-label-danger">{{ $attendance->sponsor_type}}</span></td>
+              </tr>
+              <tr>
+                <td><b>Sponsor:</b></td>
+                <td><span class="badge bg-label-primary">{{ $attendance->sponsor}}</span></td>
               </tr>
             </table>
            </p>
@@ -70,7 +78,7 @@
                 <td><b>Consulting Room</b></td>
                 <td>
                   <select name="visit_date" id="visit_date" class="form-control">
-                    <option value="">-Select-</option>
+                    <option disabled selected>-Select-</option>
                            @foreach($con_room as $consulting_room)                                        
                               <option value="{{ $consulting_room->consulting_room_id}}">{{ $consulting_room->consulting_room }}</option>
                            @endforeach
@@ -82,7 +90,7 @@
                 <td><b>Visit Outcome</b></td>
                 <td>
                   <select name="visit_date" id="visit_date" class="form-control">
-                    <option value="">-Select-</option> 
+                    <option selected disabled>-Select-</option> 
                     <option value="">Discharged Successfully</option>
                     <option value="">Recommend for Admission</option>
                   </select>
@@ -91,8 +99,11 @@
               <tr>
                 <td><b>Doctor</b></td>
                 <td>
-                  <select name="visit_date" id="visit_date" class="form-control">
-                    <option value="">-Select-</option>
+                  <select name="doctors" id="doctors" class="form-control">
+                    <option value="" selected selected>-Select-</option>
+                        @foreach($doctors as $doc)                                        
+                              <option value="{{ $doc->user_id}}">{{ $doc->title. ' '. $doc->user_fullname }}</option>
+                           @endforeach
                   </select>
                 </td>
               </tr>
@@ -109,12 +120,7 @@
               </tr>
               <tr>
                 <td>
-                  <!-- <input type="submit" name="new_visit" id="new_visit" class="btn btn-primary rounded-pill" value="Add New Visit"> -->
-                  <a href="#" class="btn btn-primary rounded-pill">
-                    <i class="fas fa-plus"></i> 
-                    Consult
-                  </a>
-                  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewAddress"> Show </button> -->
+                 
                 </td>
               </tr>
               <tr>

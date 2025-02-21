@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ProductType extends Seeder
+class ProductsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class ProductType extends Seeder
      */
     public function run()
     {
-        $data_one = database_path('seeders/seeds/11_product_type.sql');
+        $data_one = database_path('seeders/seeds/12_products.sql');
         $sql_one = file_get_contents($data_one);
         DB::unprepared($sql_one); 
     }

@@ -15,6 +15,8 @@ return new class extends Migration
      */
     public function up()
     {
+        
+
         DB::unprepared(
             'CREATE PROCEDURE IF NOT EXISTS `GetAgeGroup`(
                 IN `input_age` INT) 

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,18 +15,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('patient_attendance', function (Blueprint $table) {
-            $table->id('attendance_id');
+            $table->string('attendance_id');
             $table->string('patient_id', 50);
             $table->string('opd_number', 50);
             $table->date('attendance_date');
             $table->timestamp('attendance_time'); 
             $table->string('pat_age', 50)->nullable(); 
+            $table->string('age_id', 50)->nullable(); 
             $table->string('full_age', 50)->nullable(); 
             $table->string('age_group_category', 50)->nullable(); 
             $table->string('status_code', 50)->nullable(); 
-            $table->string('request_type', 20)->nullable('INWARD'); //inward and outward
+            $table->string('request_type', 20)->default('INWARD'); //inward and outward
             $table->string('service_id', 50)->nullable(); 
-             $table->string('service_fee_id', 50)->nullable(); 
+            $table->string('service_fee_id', 50)->nullable(); 
             $table->string('service_type', 50)->nullable(); 
             $table->string('insured', 50)->nullable()->default('No'); 
             $table->string('service_issued', 50)->default('0'); 
@@ -36,45 +38,30 @@ return new class extends Migration
             $table->string('clinic_code', 50)->nullable(); 
             $table->string('records_no', 50)->nullable(); 
             $table->string('attendance_no', 50)->nullable(); 
-            $table->float('cash_amount',10)->default('0.00');
-            $table->float('top_up',10)->default('0.00');
-            $table->float('credit_amount',10)->default('0.00');  
+            $table->float('cash_amount',10)->default(0.00);
+            $table->float('top_up',10)->default(0.00);
+            $table->float('credit_amount',10)->default(0.00);  
             $table->string('gdrg_code',50)->nullable(); 
             $table->string('allow_top_up',10)->default('No');
             $table->string('user_id',50)->nullable();    
             $table->string('facility_id', 50)->nullable();    
             $table->string('added_id', 50)->nullable();
             $table->string('added_by', 100)->nullable();
-            $table->date('added_date')->index();
+            $table->date('added_date')->index()->default(DB::raw('CURRENT_DATE'));
             $table->string('updated_by', 100)->nullable();
             $table->date('updated_date')->nullable();
             $table->string('status', 100)->default('Active');
             $table->string('archived', 100)->default('No');
             $table->date('archived_date')->nullable();
             $table->string('archived_by', 100)->nullable();
+            $table->primary(['attendance_id', 'added_date']);
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
             $table->foreign('status_code')->references('patient_status_id')->on('patient_statuses');
+            $table->foreign('age_id')->references('age_id')->on('ages');
         });
 
-        DB::statement("
-            ALTER TABLE `patient_attendance`
-            PARTITION BY RANGE (YEAR(added_date))
-            (
-                PARTITION p2021 VALUES LESS THAN (2022) ENGINE = InnoDB,
-                PARTITION p2022 VALUES LESS THAN (2023) ENGINE = InnoDB,
-                PARTITION p2023 VALUES LESS THAN (2024) ENGINE = InnoDB,
-                PARTITION p2024 VALUES LESS THAN (2025) ENGINE = InnoDB,
-                PARTITION p2025 VALUES LESS THAN (2026) ENGINE = InnoDB,
-                PARTITION p2026 VALUES LESS THAN (2027) ENGINE = InnoDB,
-                PARTITION p2027 VALUES LESS THAN (2028) ENGINE = InnoDB,
-                PARTITION p2028 VALUES LESS THAN (2029) ENGINE = InnoDB,
-                PARTITION p2029 VALUES LESS THAN (2030) ENGINE = InnoDB,
-                PARTITION p2030 VALUES LESS THAN (2031) ENGINE = InnoDB
-                PARTITION pFuture VALUES LESS THAN maxvalue
-            );
-        ");
     }
 
     /**
@@ -84,6 +71,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance_request');
+        Schema::dropIfExists('patient_attendance');
     }
 };

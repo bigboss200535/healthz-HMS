@@ -273,7 +273,7 @@
           <div class="mb-3 col ecommerce-select2-dropdown">
            <table class="table">
             <tr>
-              <td><b>Folder #</b>:</td>
+              <td><b>OPD #</b>:</td>
               <td>{{ $patients->opd_number }}</td>
             </tr>
             <tr>

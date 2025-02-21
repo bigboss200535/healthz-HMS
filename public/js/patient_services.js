@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function generateCC() {
         var member_no = $('#member_no').val();
         var card_type = $('#card_type').val();
-        
+
         if (!member_no) {
           alert('Please enter a member number.');
           return;
@@ -215,7 +215,6 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
 
 
 
-
 //********************************** */ SERVICE REQUEST FORM SUBMISSION ***************************** 
 $(document).ready(function() {
   $('#service_request_form').on('submit', function(e) {
@@ -239,6 +238,7 @@ $(document).ready(function() {
               
               // Reset form
               $('#service_request_form')[0].reset();
+              fetchAndRefreshData();
           },
           error: function(xhr, status, error) {
               // Show error message

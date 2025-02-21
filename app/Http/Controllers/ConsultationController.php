@@ -70,36 +70,58 @@ class ConsultationController extends Controller
 
     }
     
-    public function opd_consult(Patient $patient_id)
+    public function opd_consult($attendance_id)
     {
-        
-      $patients = DB::table('patient_info')
-          ->where('patient_info.archived', 'No')
-          ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
-          ->join('patient_nos', 'patient_nos.patient_id', '=', 'patient_info.patient_id')
-          ->join('users', 'patient_info.user_id', '=', 'users.user_id')
-          ->select('patient_info.patient_id', 'patient_nos.opd_number', 'patient_info.title', 'patient_info.fullname', 'gender.gender', 
-               'patient_info.birth_date', 'patient_info.email', 'patient_info.address', 'patient_info.contact_person', 
-               'patient_info.contact_relationship', 'patient_info.contact_telephone', 'patient_info.added_date', 
-               'patient_info.telephone', 'users.user_fullname', 'patient_info.gender_id', 
-               DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as age'))
-         ->where('patient_info.patient_id', $patient_id->patient_id)
-          ->orderBy('patient_info.added_date', 'asc') 
-          ->get();
+        $attendance = ServiceRequest::where('patient_attendance.archived','No')
+            ->join('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
+            ->join('gender', 'gender.gender_id', '=', 'patient_info.gender_id')
+            ->join('ages', 'ages.age_id', '=', 'patient_attendance.age_id')
+            ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_attendance.sponsor_id')
+            ->join('sponsor_type', 'patient_attendance.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
+            ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.service_type')
+            ->select(
+                    'patient_attendance.attendance_id', 
+                    'patient_attendance.opd_number', 
+                    'patient_attendance.attendance_date', 
+                    'patient_attendance.full_age', 
+                    'sponsor_type.sponsor_type as sponsor_type', 
+                    'patient_info.fullname', 
+                    'ages.age_id', 
+                    'sponsors.sponsor_name as sponsor',
+                    'gender.gender',
+                    'gender.gender_id',
+                    'service_attendance_type.attendance_type as pat_clinic'
+                   )
+            ->where('patient_attendance.attendance_id', $attendance_id)
+            ->first();
 
         $con_room = ConsultingRoom::where('Archived', 'No')
             ->where('status', 'Active')
-            ->where('gender_id', $patients->gender_id)
+            ->get();
+
+        $diagnosis = Diagnosis::where('Archived', 'No')
+            ->where('gender_id', $attendance->gender_id)
             ->orWhere('gender_id', 1) //all 
-            ->where('age_id', $patients->age_id)
+            ->where('status', 'Active')
+            ->where('age_id', $attendance->age_id)
             ->orWhere('age_id', 3) //all ages
             ->get();
 
-          $patient_list = Patient::where('Archived', 'No')->where('status', 'Active')->get();
-          $diagnosis = Diagnosis::where('Archived', 'No')->where('status', 'Active')->get();
-          $prescription = Product::where('Archived', 'No')->where('status', 'Active')->get();
+        $prescription = Product::where('Archived', 'No')
+            ->where('gender_id', $attendance->gender_id)
+            ->orWhere('gender_id', 1) //all 
+            ->where('age_id', $attendance->age_id)
+            ->orWhere('age_id', 3) //all ages
+            ->where('status', 'Active')
+            ->get();
 
-       return view('consultation.opd_consult', compact('con_room', 'patient_list', 'diagnosis', 'prescription')); 
+        $doctors = User::where('status', 'Active')
+            ->where('archived', 'No')
+            ->where('role_id', 'R10')
+            ->get()
+        ;
+
+       return view('consultation.opd_consult', compact('con_room', 'attendance', 'diagnosis', 'prescription', 'doctors')); 
     }
 
 

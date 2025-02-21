@@ -423,7 +423,7 @@ $(document).ready(function () {
                             <i class="bx bx-dots-vertical-rounded"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/consultation/opd-consultation/${patient_Id}">
+                            <a class="dropdown-item" href="/consultation/opd-consultation/${current_attendance.attendance_id}">
                                 <i class="bx bx-detail me-1"></i> Consult
                             </a>
                             <a class="dropdown-item" href="/patients/${patient_Id}">
