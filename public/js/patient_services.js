@@ -1,3 +1,45 @@
+
+
+//********************************** */ SERVICE REQUEST FORM SUBMISSION ***************************** 
+$(document).ready(function() {
+  $('#service_request_form').on('submit', function(e) {
+      e.preventDefault();
+      
+      $.ajax({
+          url: '/services/service_request', 
+          type: 'POST',
+          data: $(this).serialize(),
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function(response) {
+              // Show success message
+              $('.alert-container').html(`
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    Attendance Created successfully!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+              
+              // Reset form
+              $('#service_request_form')[0].reset();
+              $('#current_attendance').refresh(); // Refresh the attendance list
+              // fetchAndRefreshData();
+          },
+          error: function(xhr, status, error) {
+              // Show error message
+              $('.alert-container').html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                     An error occurred while creating attendance.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`);
+          }
+      });
+  });
+});
+
+//********************************** */ SERVICE REQUEST FORM SUBMISSION ***************************** 
+
 //  ----------------------------------------------------------
  $(document).ready(function () {
     var patient_id = $('#p_id').val();
@@ -100,44 +142,72 @@
 });
 
 
-// --------------------------------SERVICE TYPE-----------------------------------------
+// --------------------------------GET SERVICE AND THEIR FEE-----------------------------------------
 $(document).on('change', '#service_type', function() {
+    
     var service = $(this).val();
-
     var patient_id = $('#patient_id').val();
     var pat_age = $('#p_age').val();
 
-    $('#credit_amount').val('');
-    $('#cash_amount').val('');
-    $('#gdrg_code').val('');
-    $('#service_id').val('');
-    $('#service_fee_id').val('');
+    if (!patient_id || !service) {
+      toastr.error('Patient ID, or Service Type is missing.');
+      return; // Stop execution if any required field is missing
+  }
+
+  // Disable the dropdown and show a spinner
+  $(this).prop('disabled', true);
+  $('#loading-spinner').show();
 
     $.ajax({
-      
         url: '/services/' + service + '/service_tarif',
         type: 'GET',
-        data: {pat_age:pat_age, service:service, patient_id:patient_id},
+        data: { pat_age:pat_age, service:service, patient_id:patient_id },
         success: function(response) {
-          if (response && response.success && response.result.length > 0) {
-            var service_data = response.result[0]; // Get the first element of the array
+          if (response && response.success && Array.isArray(response.result) && response.result.length > 0) {
             
-            $('#credit_amount').val(service_data.nhis_amount);
-            $('#cash_amount').val(service_data.cash_amount);
-            $('#gdrg_code').val(service_data.gdrg);
-            $('#service_id').val(service_data.service_id);
-            $('#service_fee_id').val(service_data.service_fee_id);
-
-          } else if (response && !response.success && response.message) {
-             toastr.error(response.message);
-            } else {
-              toastr.error('Unexpected response format');
+            var service_data = response.result[0]; 
+            // Get the first element of the array
+          if (service_data.nhis_amount !== undefined && service_data.cash_amount !== undefined && service_data.gdrg !== undefined) {
+                    $('#credit_amount').val(service_data.nhis_amount);
+                    $('#cash_amount').val(service_data.cash_amount);
+                    $('#gdrg_code').val(service_data.gdrg);
+                    $('#service_id').val(service_data.service_id);
+                    $('#service_fee_id').val(service_data.service_fee_id);
+                    // Check if the service is editable
+                    if (service_data.editable === "No") {
+                      $('#cash_amount').prop('readonly', true);
+                      $('#credit_amount').prop('readonly', true);
+                  } else {
+                      $('#cash_amount').prop('readonly', false);
+                      $('#credit_amount').prop('readonly', false);
+                  }
+          } else {
+                    toastr.error('Invalid data structure in response.');
           }
-        },
-        error: function(xhr, status, error) {
-            toastr.error('Error fetching data! Try again.');
-        }
-    });
+
+          } else if (response && response.success && Array.isArray(response.result) && response.result.length === 0) {
+          toastr.error('No data found for the selected service.');
+      } else if (response && !response.success && response.message) {
+          toastr.error(response.message);
+      } else {
+          toastr.error('Unexpected response format');
+      }
+  },
+  error: function(xhr, status, error) {
+    if (xhr.status === 404) {
+        toastr.error('Resource not found. Please check the URL.');
+    } else if (xhr.status === 500) {
+        toastr.error('Server error. Please try again later.');
+    } else {
+        toastr.error('Error fetching data! Try again.');
+    }
+},
+complete: function() {
+    // Re-enable the dropdown and hide the spinner
+    $('#service_type').prop('disabled', false);
+    $('#loading-spinner').hide();
+}
+});
 });
 // --------------------------------------------GET DATE FOR attendane_date------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function() {
@@ -213,44 +283,3 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
   clear_Form();
 });
 
-
-
-//********************************** */ SERVICE REQUEST FORM SUBMISSION ***************************** 
-$(document).ready(function() {
-  $('#service_request_form').on('submit', function(e) {
-      e.preventDefault();
-      
-      $.ajax({
-          url: '/request/service_request', 
-          type: 'POST',
-          data: $(this).serialize(),
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          success: function(response) {
-              // Show success message
-              $('.alert-container').html(`
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Attendance Created successfully!
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `);
-              
-              // Reset form
-              $('#service_request_form')[0].reset();
-              fetchAndRefreshData();
-          },
-          error: function(xhr, status, error) {
-              // Show error message
-              $('.alert-container').html(`
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                     An error occurred while creating attendance.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `);
-          }
-      });
-  });
-});
-
-// SERVICE REQUEST FORM SUBMISSION --------------------------

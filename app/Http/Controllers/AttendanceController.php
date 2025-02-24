@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ServiceRequest;
+use App\Models\PatientAttendance;
 
 class AttendanceController extends Controller
 {
     public function single_attendance($patient_id)
     {
-        $all_single_attendance = ServiceRequest::where('patient_attendance.archived','No')
+        $all_single_attendance = PatientAttendance::where('patient_attendance.archived','No')
                 // ->join('patient_sponsorship', 'patient_sponsorship.patient_id', '=', 'patient_attendance.patient_id')
                 ->join('sponsor_type', 'patient_attendance.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
                 ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.service_type')
@@ -27,7 +27,8 @@ class AttendanceController extends Controller
     public function current_attendance($patient_id)
     {
         $todays_date = date('Y-m-d');
-        $todays_request = ServiceRequest::where('patient_attendance.archived','No')
+
+        $todays_request = PatientAttendance::where('patient_attendance.archived','No')
             ->join('sponsor_type', 'patient_attendance.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
             ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.service_type')
             ->select('patient_attendance.attendance_id', 'patient_attendance.opd_number', 'patient_attendance.attendance_date', 
@@ -66,6 +67,4 @@ class AttendanceController extends Controller
     //         ->get();
 
     
-
-
 }

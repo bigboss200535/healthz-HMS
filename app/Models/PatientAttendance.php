@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatientAttendance extends Model
 {
     use HasFactory;
+    
     protected $table = 'patient_attendance';
     protected $primaryKey = 'attendance_id';
     public $timestamps = false;
@@ -39,6 +40,7 @@ class PatientAttendance extends Model
         'patient_id',
         'opd_number',
         'pat_age',
+        'age_id',
         'full_age',
         'service_id',
         'service_fee_id',
@@ -49,6 +51,7 @@ class PatientAttendance extends Model
         'sponsor_id',
         'credit_amount',
         'cash_amount',
+        'fee_column',
         'gdrg_code',
         'status_code',
         'insured',

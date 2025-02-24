@@ -8,34 +8,58 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceRequest extends Model
 {
     use HasFactory;
-    protected $table = 'patient_attendance';
-    // protected $primaryKey = 'age_id';
+
+    // protected $table = 'xxxxxx';
+    // protected $primaryKey = 'attendance_id';
     public $timestamps = false;
     protected $keyType = 'string';
     public $incrementing= false;
+    
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class. 'gender_id');
+    }
+
+    public function age()
+    {
+        return $this->belongsTo(Age::class, 'age_id');
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
 
     protected $fillable = [
+        'attendance_id',
         'patient_id',
-        'pat_age',
         'opd_number',
-        'reg_status',
-        'reg_type',
-        'service_type',
-        'membership_number',
+        'pat_age',
+        'age_id',
+        'full_age',
+        'service_id',
+        'service_fee_id',
         'clinic_code',
+        'service_type',
+        'request_type',
+        'sponsor_type_id',
+        'sponsor_id',
+        'credit_amount',
+        'cash_amount',
+        'gdrg_code',
+        'status_code',
         'insured',
         'service_issued',
-        'claims_check_code',
-        'cash_amount',
-        'credit_amount',
-        'top_up',
-        'gdrg_code',
-        'gdrg_code',
-        'gender_id',
-        'age_id',
         'attendance_date',
-        'episode_id',
         'attendance_time',
+        'attendance_type',
+        'records_no',
+        'attendance_no',
         'user_id',
         'added_id',
         'added_date',
@@ -44,12 +68,11 @@ class ServiceRequest extends Model
         'archived',
         'archived_id',
         'archived_by',
-        'archived_date'
+        'archived_date',
+        '_token'
     ];
 
-    public function users()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+
+   
 
 }

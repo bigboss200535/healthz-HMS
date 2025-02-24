@@ -43,12 +43,12 @@ class ProductController extends Controller
             ->orderBy('product.added_date', 'asc') 
             ->paginate(5);
 
-        $product = Product::rightJoin('product_category', 'product_category.category_id', '=', 'product.category_id')
-        ->where('product.archived', 'No')
-        // ->where('product.is_new', '1')
-        ->select('product.product_id','product.product_name','product.added_date','product.status' ,'product.stocked','product.expirable','product_category.category_id as pro_id', 'product_category.category_name as category')
-        ->orderBy('product.added_date', 'asc') 
-        ->paginate(5);
+        // $product = Product::rightJoin('product_category', 'product_category.category_id', '=', 'product.category_id')
+        //     ->where('product.archived', 'No')
+        // // ->where('product.is_new', '1')
+        //     ->select('product.product_id','product.product_name','product.added_date','product.status' ,'product.stocked','product.expirable','product_category.category_id as pro_id', 'product_category.category_name as category')
+        //     ->orderBy('product.added_date', 'asc') 
+        //     ->paginate(5);
         // ->get();
 
         return view('product.create', compact('category', 'products'));

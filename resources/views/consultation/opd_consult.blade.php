@@ -36,7 +36,7 @@
            <p>
            <table class="table table-hover">
               <tr>
-                <td colspan="2"><h5><b>Patient Information</b></h5></td>
+                <!-- <td colspan="2"><h5><b>Patient Information</b></h5></td> -->
               </tr>
               <tr>
                 <td><b>OPD #:</b></td>
@@ -68,7 +68,7 @@
           <p>
            <table class="table table-hover">
               <tr>
-                <td colspan="2"><h5><b>Last Visit</b></h5></td>
+                <!-- <td colspan="2"><h5><b>Last Visit</b></h5></td> -->
               </tr>
               <tr>
                 <td><b>Last Visit</b></td>

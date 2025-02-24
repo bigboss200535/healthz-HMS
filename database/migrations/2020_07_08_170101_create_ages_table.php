@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('age_id',50)->primary();
             $table->string('age_description',150); 
             $table->string('usage',50)->nullable('1'); 
+            $table->string('category',50)->nullable()->default('0');
             $table->string('min_age',150); 
             $table->string('max_age',150); 
             $table->string('user_id',50); 

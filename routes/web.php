@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
           return Redirect::route('dashboard');
     });
    
-    Route::resource('service', ServiceRequestController::class);
+    // Route::resource('service', ServiceRequestController::class);
     Route::resource('users', UserController::class);
     Route::resource('sponsors', SponsorController::class); 
     Route::resource('servicesandfee', ServicesFeeController::class);
@@ -73,7 +73,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/current-attendance/{patient_id}', [AttendanceController::class, 'current_attendance'])->name('patient.current_attendance');
     });
     
-    Route::prefix('request')->group(function () {
+    Route::prefix('services')->group(function () {
+        Route::get('/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);
+        Route::get('/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);
+        Route::post('/patient_service', [ServiceRequestController::class, 'store']);
+        Route::get('/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve']); 
         Route::post('/service_request', [ServiceRequestController::class, 'store']);
     });
 
@@ -84,10 +88,10 @@ Route::middleware('auth')->group(function () {
     });
 
     // Route::get('patient/attendance/{patient_id}', [PatientVisitsController::class, 'show'])->name('attendance.show');
-    Route::get('/services/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);
-    Route::get('/services/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);
-    Route::post('/services/patient_service', [ServiceRequestController::class, 'store']);
-    Route::get('/services/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve']); 
+    // Route::get('/services/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);
+    // Route::get('/services/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);
+    // Route::post('/services/patient_service', [ServiceRequestController::class, 'store']);
+    // Route::get('/services/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve']); 
     
     Route::prefix('claims')->group(function () {
         Route::resource('/private-management', ClaimsPrivateController::class);
@@ -97,7 +101,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('consultation')->group(function () {
-        Route::get('/opd-consultation/{patient_id}', [ConsultationController::class, 'opd_consult']);
+        Route::get('/opd-consultation/{attendance_id}', [ConsultationController::class, 'opd_consult']);
         Route::get('/ipd-consultation', [ConsultationController::class, 'ipd-consult']);
         Route::get('/consult', [ConsultationController::class, 'consult']);
         // Route::get('patient', [ReportsController::class, 'patient']);

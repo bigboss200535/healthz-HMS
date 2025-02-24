@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
                 'login_time' => now(),
                 'added_date' => now(),
                 'session_id' => session()->getId(), 
-                'status' => 'Active', // Login success
+                'status' => 'Success', // Login success
             ]);
 
             return redirect()->intended(RouteServiceProvider::HOME);
@@ -59,7 +59,7 @@ class AuthenticatedSessionController extends Controller
                 'login_time' => now(),
                 'added_date' => now(),
                 'session_id' => session()->getId(), 
-                'status' => 'Inactve', // Login failed
+                'status' => 'failed', // Login failed
             ]);
 
             // Catch session expiry or other issues and provide a custom message
