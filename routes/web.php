@@ -71,9 +71,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/new-opd-number/{service_point_id}', [PatientController::class, 'generate_opd_number'])->name('patient.generate_opd_number');
         Route::get('/single-attendance/{patient_id}', [AttendanceController::class, 'single_attendance'])->name('patient.single_attendance');
         Route::get('/current-attendance/{patient_id}', [AttendanceController::class, 'current_attendance'])->name('patient.current_attendance');
-        Route::get('/attendance', [AttendanceController::class, 'all_attendance'])->name('patients.attendance');
+        Route::get('/add-appointment', [AttendanceController::class, 'add_appointment'])->name('patients.appointments');
     });
-    
+
+    Route::prefix('attendance')->group(function () {
+        Route::get('/list', [AttendanceController::class, 'all_attendance'])->name('patient.attendance');
+        Route::get('/delete-attendance/{attendance_id}', [AttendanceController::class, 'delete_attendance']);
+    });
+
+
     Route::prefix('services')->group(function () {
         Route::get('/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);
         Route::get('/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);

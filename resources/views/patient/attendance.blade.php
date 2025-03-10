@@ -3,13 +3,12 @@
                   <h4 class="py-3 mb-4">
                     <span class="text-muted fw-light">Patients /</span> Attendance
                   </h4>
-                   
                   <div class="card mb-6">
                     <div class="card-widget-separator-wrapper">
                       <div class="card-body card-widget-separator">
                         <div class="row gy-4 gy-sm-1">
                           <div class="col-sm-6 col-lg-12">
-                              <h4 align="center" class="text-primary">-Kingly select a Patient attendance to continue-</h4>
+                              <h4 class="text-muted text-center">-Kingly select a Patient attendance to continue-</h4>
                           </div>
                         </div>
                       </div>
@@ -24,14 +23,14 @@
                       <table class="datatables-customers table border-top table-hover" id="app_list">
                           <thead>
                               <tr>
-                                  <th>S/N</th>
+                                  <th>SN</th>
                                   <th>Attendance Date</th>
-                                  <th>Name</th>
-                                  <th>OPD #</th>
-                                  <th>Gender</th>
-                                  <th>Age</th>
-                                  <th>Sponsor</th>
-                                  <th>Clinic</th>
+                                  <th>Patient Name</th>
+                                  <th>Patient OPD #</th>
+                                  <th>Patient Gender</th>
+                                  <th>Patient Age</th>
+                                  <th>Attendance Sponsor</th>
+                                  <th>Attendance Clinic</th>
                                   <th>Status</th>
                                   <th></th>
                               </tr>
@@ -77,7 +76,7 @@
                                                   <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
                                                       <i class="bx bx-edit-alt me-1"></i> Edit Attendance
                                                   </a>
-                                                  <a class="dropdown-item product_delete_btn" data-id="#" href="#">
+                                                  <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
                                                       <i class="bx bx-trash me-1"></i> Delete Attendance
                                                   </a>
                                              </div>
@@ -88,14 +87,14 @@
                           </tbody>
                           <tfoot>
                               <tr>
-                                  <th>S/N</th>
+                                  <th>SN</th>
                                   <th>Attendance Date</th>
-                                  <th>Name</th>
-                                  <th>OPD #</th>
-                                  <th>Gender</th>
-                                  <th>Age</th>
-                                  <th>Sponsor</th>
-                                  <th>Clinic</th>
+                                  <th>Patient Name</th>
+                                  <th>Patient OPD #</th>
+                                  <th>Patient Gender</th>
+                                  <th>Patient Age</th>
+                                  <th>Attendance Sponsor</th>
+                                  <th>Attendance Clinic</th>
                                   <th>Status</th>
                                   <th></th>
                               </tr>

@@ -37,12 +37,16 @@
     <script src="{{ asset('vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('vendor/js/template-customizer.js') }}"></script>
     <script src="{{ asset('js/config.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/pickr-themes.css') }}" />
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/fullcalendar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/app-calendar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/flatpickr.css') }}" />
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
     <!-- <link rel="stylesheet" href="{{ asset('preloader.css') }}"> -->
     </head>
@@ -76,6 +80,7 @@
     <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('vendor/libs/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('vendor/libs/hammer/hammer.js') }}"></script>
     <script src="{{ asset('vendor/libs/i18n/i18n.js') }}"></script>
@@ -86,7 +91,7 @@
     <script src="{{ asset('vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('vendor/libs/moment/moment.js') }}"></script>
     <script src="{{ asset('vendor/libs/apex-charts/apexcharts.js') }}"></script>
-    <script src="{{ asset('vendor/libs/flatpickr/flatpickr.js') }}"></script>
+   
     <script src="{{ asset('vendor/libs/tagify/tagify.js') }}"></script>
     <script src="{{ asset('vendor/libs/@form-validation/popular.js') }}"></script>
     <script src="{{ asset('vendor/libs/@form-validation/bootstrap5.js') }}"></script>
@@ -103,8 +108,10 @@
     <script src="{{ asset('js/custom_js.js') }}"></script>
     <script src="{{ asset('js/patient_services.js') }}"></script>
     <script src="{{ asset('js/patient_details.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js') }}"></script>
+    <script src="{{ asset('js/fullcalendar.js') }}"></script>
+    <script src="{{ asset('js/app-calendar-events.js') }}"></script>
+    <script src="{{ asset('js/app-calendar.js') }}"></script>
     
   </body>
 </html>
@@ -118,7 +125,7 @@
         // $('#current_attendance').DataTable(); 
         $('#patient_sponsor').DataTable();
         $('#appointments').DataTable();
-        $('#product_list').DataTable();
+        $('#diagnostics_list').DataTable();
         $('#patient_list').DataTable();
         $('#patient_services').DataTable();
         $('#patient_search_list').DataTable();

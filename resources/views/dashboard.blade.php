@@ -1,7 +1,7 @@
 <x-app-layout>
             <div class="container-xxl flex-grow-1 container-p-y">
               <!-- Hour chart  -->
-                <!-- <div class="card bg-transparent shadow-none my-6 border-0">
+                <div class="card bg-transparent shadow-none my-6 border-0">
                   <div class="card-body row p-0 pb-6 g-6">
                     <div class="col-12 col-lg-8 card-separator">
                       <h5 class="mb-2">
@@ -23,7 +23,7 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">Out Patient</p>
-                            <h4 class="text-primary mb-0">34</h4>
+                            <h4 class="text-primary mb-0">{{ $out_patient }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">
@@ -70,7 +70,7 @@
                       </div>
                     </div>
                   </div>
-                </div> -->
+                </div>
                 <!-- Hour chart End  -->
             <br>
               <div class="row">
@@ -82,7 +82,8 @@
                              <h3 class="card-title text-primary"> 
                                {!! $greeting !!}, {{ Auth::user()->othername }}</h3>
                           <p class="mb-4">
-                           <marquee behavior="" direction="">"The way to get started is to quit talking and begin doing."</marquee>
+                           <!-- <marquee behavior="" direction="">"The way to get started is to quit talking and begin doing."</marquee> -->
+                           "The way to get started is to quit talking and begin doing."
                           </p>
                           <!-- <a href="{{ url('profile-details') }}" class="btn btn-sm btn-outline-primary">View Profile</a> -->
                         </div>
@@ -124,7 +125,7 @@
                               </div>
                           </div>
                           <span class="fw-medium d-block mb-1">Out Patient</span>
-                             <h3 class="card-title mb-2">{{ $out_patient}}</h3>
+                             <h3 class="card-title mb-2">{{ $out_patient }}</h3>
                         </div>
                       </div>
                     </div>
@@ -147,14 +148,14 @@
                 <div class="card">
                   <div class="card-body">
                       <h3>Menu</h3>
-                        <div class="card">
-                        <div class="card-body">
-                          <div align="center">
-                              <a href="{{ route('patients.index') }}" class="btn btn-primary">Search Patient</a>
-                              <a href="{{ route('patients.create') }}" class="btn btn-warning">Register New Patient</a>
-                              <a href="#" class="btn btn-primary">Book Appointment</a>
-                              <a href="#" class="btn btn-info">Walk-in Medications</a>
-                              <a href="#" class="btn btn-danger">Walk-In Services</a>
+                        <div class="card" style="border-color: black; border-width:2px">
+                        <div class="card-body text-center">
+                          <div >
+                              <a href="{{ route('patients.index') }}" class="btn btn-dark"><i class="bx bx-search"></i>Search Patient</a>
+                              <a href="{{ route('patients.create') }}" class="btn btn-info"><i class="bx bx-plus"></i>Register New Patient</a>
+                              <a href="{{ url('patient/add-appointment') }}" class="btn btn-dark"><i class="bx bx-plus"></i>Book Appointment</a>
+                              <a href="#" class="btn btn-info"><i class="menu-icon tf-icons bx bx-injection"></i>Walk-in Medications</a>
+                              <a href="#" class="btn btn-dark"><i class="menu-icon tf-icons bx bx-male-female"></i>Walk-In Services</a>
                           </div>
                       </div>
                         </div>

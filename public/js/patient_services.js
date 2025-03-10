@@ -518,3 +518,50 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
       });
     });
   });
+
+
+
+
+    $(document).on('click', '.attendance_delete_btn', function() {
+      var attendance_id = $(this).data('id');
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to undo this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/attendance/delete-attendance/${ attendance_id}`,
+            // type: 'json',
+            data: {
+              _token: '{{ csrf_token() }}',
+              attendance_id: attendance_id
+            },
+            success: function(response) {
+              // var result = JSON.parse(response);
+              if (response.code === 201) {
+                $("#app_list").load(location.href + " #app_list");
+                toastr.success(response.message);
+              } else if ([200, 403, 404].includes(response.code)) {
+                toastr.warning(response.message);
+              }
+              // else if (response.code == 101) {
+              //   toastr.warning(response.message);
+              // }
+              // else if (response.code == 200) {
+              //   toastr.warning(response.message);
+              // }
+              
+            },
+            error: function(xhr, status, error) {
+              toastr.error(xhr.responseJSON?.message || 'An error occurred while deleting the attendance.');
+            }
+          });
+        }
+      });
+    });

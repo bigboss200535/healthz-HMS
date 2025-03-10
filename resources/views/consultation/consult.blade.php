@@ -1,4 +1,5 @@
 <x-app-layout>
+ 
 <div class="container-xxl flex-grow-1 container-p-y">     
 <div class="card mb-6">
   <div class="card-widget-separator-wrapper">
@@ -51,8 +52,8 @@
                   </ul>
                   <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-top-home" role="tabpanel">
-                       <p>
-                        <table class="table table-responsive" id="product_list">
+                       <!-- <p> -->
+                        <table class="table table-responsive" id="app_list">
                             <thead>
                               <tr>
                                 <th>SN</th>
@@ -96,23 +97,23 @@
                                   @if($patients->service_issued === '0')
                                   <span class="badge bg-label-danger me-1">PENDING</span>
                                   @elseif ($patients->service_issued === '1')
-                                  <span class="badge bg-label-success me-1">ISSUED</span>
+                                  <span class="badge bg-label-primary me-1">ISSUED</span>
                                   @endif 
                               </td>
                               <td class="text-lg-center">
-                                  <div class="dropdown" align="center">
+                                  <div class="dropdown">
                                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                               <i class="bx bx-dots-vertical-rounded"></i>
                                           </button>
                                             <div class="dropdown-menu">
                                                   <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}">
-                                                    <i class="bx bx-edit-alt me-1"></i> Consult
+                                                    <i class="bx bx-edit-alt me-1"></i> Consult Patient
                                                   </a>
                                                   <a class="dropdown-item" href="">
-                                                    <i class="bx bx-pause me-1"></i> Hold
+                                                    <i class="bx bx-pause me-1"></i> Hold Attendance
                                                   </a>
-                                                  <a class="dropdown-item product_delete_btn" data-id="{{ $patients->product_id}}" href="#">
-                                                      <i class="bx bx-trash me-1"></i> Delete
+                                                  <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
+                                                      <i class="bx bx-trash me-1"></i> Delete Attendance
                                                   </a>
                                             </div>
                                    </div>  
@@ -122,24 +123,24 @@
                             </tbody>
                             <tfoot>
                               <tr>
-                                <th>Sn</th>
-                                <th>Date</th>
-                                <th>Name</th>
+                                <th>SN</th>
+                                <th>Attenance Date</th>
+                                <th>Patient Name</th>
                                 <th>OPD #</th>
                                 <th>Gender</th>
-                                <th>Age</th>
-                                <th>Clinic</th>
-                                <th>Status</th>
-                                <th>Sponsor </th>
+                                <th>Patient Age</th>
+                                <th>Attendance Sponsor</th>
+                                <th>Attendance Clinic</th>
+                                <th>Attendance Status </th>
                                 <th>Action</th>
                               </tr>
                             </tfoot>
                           </table>
-                       </p>
+                       <!-- </p> -->
                     </div>
                     <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
                       <p>
-                      <table class="table table-responsive" id="app_list">
+                      <table class="table table-responsive" id="diagnostics_list">
                             <thead>
                               <tr>
                                 <th>Sn</th>

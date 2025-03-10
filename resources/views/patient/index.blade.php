@@ -3,20 +3,11 @@
                   <h4 class="py-3 mb-4">
                     <span class="text-muted fw-light">Patients /</span> Search
                   </h4>
-                  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                      <div class="d-flex flex-column justify-content-center">
-                      </div>
-                      <div class="d-flex align-content-center flex-wrap gap-3">
-                        <!-- <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdoal_form" >Search Patient</button> -->
-                        <!-- <a href="{{ route('patients.create') }}" class="btn btn-warning">Create Patient</a> -->
-                        <!-- <a href="#" class="btn btn-primary">Patient Sponsors</a> -->
-                        
-                      </div>
-                    </div>
+
                   <div class="card">
                     <div class="card-body">
-                        <h3>Patient Search</h3>
-                          <div class="card">
+                        <!-- <h3>Patient Search</h3> -->
+                          <div class="card" style="border-color: black; border-width:2px">
                             <!-- <div class="card-body"> -->
                                   <div align="center" class="col-lg-12"> <div class="mb-3">
                                     <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearch" aria-expanded="false" aria-controls="advancedSearch">
@@ -73,7 +64,7 @@
                                             <div class="col-md-4">
                                                 <label for="gender">Sponsor</label>
                                                 <select class="form-select" id="gender" name="gender">
-                                                    <option value="" disabled selected>Select Sponsor</option>
+                                                    <option disabled selected>Select Sponsor</option>
                                                     <option value="M">Male</option>
                                                     <option value="F">Female</option>
                                                 </select>
@@ -85,18 +76,9 @@
                                   <table class="table table-responsive" style="color:aqua">
                                     <tr>
                                       <td>
-                                         <button class="btn btn-primary" name="search_item" id="search_item">
-                                            <i class="bx bx-search"></i> Search
-                                         </button>
-                                          <button class="btn btn-info" id="clear_search">
-                                              <i class="bx bx-reset"></i> Clear
-                                          </button>
-                                          <!-- <button class="btn btn-info">
-                                              <i class="bx bx-plus"></i> Add Patient
-                                          </button> -->
-                                          <a href="{{ route('patients.create') }}" class="btn btn-warning">
-                                            <i class="bx bx-plus"></i> Create Patient
-                                          </a>
+                                         <button class="btn btn-primary" name="search_item" id="search_item"><i class="bx bx-search"></i> Search</button>
+                                          <button class="btn btn-info" id="clear_search"><i class="bx bx-reset"></i> Clear</button>
+                                          <a href="{{ route('patients.create') }}" class="btn btn-dark"> <i class="bx bx-plus"></i> Create Patient</a>
                                       </td>
                                     </tr>
                                   </table>

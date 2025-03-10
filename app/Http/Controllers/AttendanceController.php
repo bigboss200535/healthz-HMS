@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PatientAttendance;
+// use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
@@ -61,5 +64,58 @@ class AttendanceController extends Controller
             return view('patient.attendance', compact('all')); 
     }
 
+    public function add_appointment()
+    {
+            return view('patient.appointments'); 
+    }
+
+     
+    public function delete_attendance(Request $request, $attendance_id)
+    {
+            // Find the attendance record
+            $attendance = PatientAttendance::where('archived', 'No')
+                ->where('attendance_id', $attendance_id)
+                ->first();
+
+            if (!$attendance) {
+                return response()->json([
+                    'message' => 'Attendance not found.',
+                    'code' => 404,
+                ], 404); // Return 404 for "Not Found"
+            }
+
+            // Check if service has been issued
+            if ($attendance->service_issued == 1) {
+                return response()->json([
+                    'message' => 'Service has been issued. Attendance cannot be deleted.',
+                    'code' => 403,
+                ], 403); // Return 403 for "Forbidden"
+            }
+
+            // Update only the necessary fields
+            $attendance->archived = 'Yes';
+            $attendance->archived_by = Auth::user()->user_id;
+            $attendance->archived_date = now();
+
+            // Save the changes
+            try {
+                if ($attendance->save()) {
+                    return response()->json([
+                        'message' => 'Attendance Deleted Successfully.',
+                        'code' => 201,
+                    ], 201); // Return 201 for "OK"
+                } else {
+                    return response()->json([
+                        'message' => 'Failed to Delete Attendance.',
+                        'code' => 200,
+                    ], 200); // Return 500 for "Internal Server Error"
+                }
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'An error occurred while deleting the attendance.',
+                    'code' => 200,
+                ], 200); // Return 500 for "Internal Server Error"
+            }
+    }
     
 }

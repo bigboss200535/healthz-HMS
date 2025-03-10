@@ -1,60 +1,49 @@
 <x-app-layout>
+<?php 
+  $today = date('Y-m-d'); 
+  $currentTime = date('H:i'); // Get the current time in HH:MM format
+?>
+  
 <div class="container-xxl flex-grow-1 container-p-y">    
 <div class="card mb-6">
   <div class="card-widget-separator-wrapper">
     <div class="card-body card-widget-separator">
       <div class="row gy-4 gy-sm-1">
         <div class="col-sm-6 col-lg-3">
-          <div class="d-flex justify-content-between align-items-center card-widget-1 border-end pb-4 pb-sm-0">
-            <p>
-                <table class="table table-striped">
+          <div class="d-flex justify-content-between align-items-center card-widget-3 border-end pb-4 pb-sm-0">
+                <table class="table">
                     <tr>
-                      <td colspan="2" align="center"><h5><b>{{ $attendance->fullname}}</b></h5></td>
+                      <td class="text-center"><h5><b>{{ $attendance->fullname}}</b></h5></td>
                     </tr>
                     <tr>
-                      <td rowspan="" colspan="2" align="center">
+                      <td class="text-center">
                           <img src="{{ $attendance->gender==='FEMALE' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" 
                           alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px; width:50%" 
                           align="center">
                       </td>
                     </tr>
-                    <!-- <tr>
-                      <td colspan="2" align="center"></td>
-                    </tr> -->
                     <tr>
-                      <td colspan="2">
+                      <td class="text-center">
                         <table class="table">
                           <tr>
                             <td><b>OPD #:</b><br> {{ $attendance->opd_number}}</td>
+                            <td style="width: 2px; background-color: #dee2e6; padding: 0;"></td>
                             <td><b>Age: </b><br>{{ $attendance->full_age}}</td>
                           </tr>
                         </table>
                       </td>
                     </tr>
                   </table>
-           </p>
           </div>
-          <hr class="d-none d-sm-block d-lg-none me-6">
         </div>
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-lg-4">
           <div class="d-flex justify-content-between align-items-center card-widget-2 border-end pb-4 pb-sm-0">
            <p>
-           <table class="table table-hover">
-              <!--<tr>
-                 <td colspan="2"><h5><b>Patient Information</b></h5></td> 
-              </tr>-->
-              <!-- <tr>
-                <td><b>OPD #:</b></td>
-                <td>{{ $attendance->opd_number}}</td>
-              </tr> -->
+           <table class="table table-striped">
               <tr>
                 <td><b>Gender:</b></td>
                 <td>{{ $attendance->gender}}</td>
               </tr>
-              <!-- <tr>
-                <td><b>Age:</b></td>
-                <td>{{ $attendance->full_age}}</td>
-              </tr> -->
               <tr>
                 <td><b>Clinic:</b></td>
                 <td>{{ $attendance->pat_clinic}}</td>
@@ -64,109 +53,86 @@
                 <td><span class="badge bg-label-danger">{{ $attendance->sponsor_type}}</span></td>
               </tr>
               <tr>
-                <td><b>Sponsor:</b></td>
+                <td><b>Sponsor Name:</b></td>
                 <td><span class="badge bg-label-primary">{{ $attendance->sponsor}}</span></td>
               </tr>
-              <td><b>Consultation Type</b></td>
-                <td>
-                  <select name="visit_date" id="visit_date" class="form-control">
-                    <option disabled selected>-Select-</option>
-                          <option value="NEW" Selected>NEW</option>
-                          <option value="OLD">OLD</option>
-                  </select>
-                </td>
+              <tr>
+                  <td><b>Consultation Type</b></td>
+                  <td>
+                        <select name="visit_type" id="visit_type" class="form-control">
+                            <option value="NEW" Selected>NEW</option>
+                            <option value="OLD">OLD</option>
+                      </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Discharged Outcome</b></td>
+                  <td>
+                       <a href="#" class="btn btn-primary">Undischarged</a>
+                  </td>
+                </tr>
             </table>
            </p>
           </div>
-          <hr class="d-none d-sm-block d-lg-none me-6">
         </div>
         <div class="col-sm-6 col-lg-4">
           <div class="d-flex justify-content-between align-items-center border-end pb-4 pb-sm-0 card-widget-3">
           <p>
-           <table class="table table-hover">
-              <tr>
-                <!-- <td colspan="2"><h5><b>Last Visit</b></h5></td> -->
-              </tr>
-              <tr>
-              <tr>
-                
-              <!-- </tr>
-                <td><b>Last Visit</b></td>
-                <td>24-01-2024</td>
-              </tr> -->
+           <table class="table table-striped">
               <tr>
                 <td><b>Consulting Room</b></td>
                 <td>
                   <select name="visit_date" id="visit_date" class="form-control">
-                    <option disabled selected>-Select-</option>
+                    <!-- <option disabled selected>-Select-</option> -->
                            @foreach($con_room as $consulting_room)                                        
                               <option value="{{ $consulting_room->consulting_room_id}}">{{ $consulting_room->consulting_room }}</option>
                            @endforeach
                   </select>
-                  <!-- <button><i class="fa fa-reload"></i></button> -->
                 </td>
               </tr>
               <tr>
-                <td><b>Visit Outcome</b></td>
+                <td><b>Consultation Time</b></td>
                 <td>
-                  <select name="visit_date" id="visit_date" class="form-control">
-                    <option selected disabled>-Select-</option> 
-                    <option value="">Discharged Successfully</option>
-                    <option value="">Recommend for Admission</option>
-                  </select>
+                  <input type="time" class="form-control" name="consultation_time" id="consultation_time" value="<?php echo $currentTime; ?>">
                 </td>
               </tr>
               <tr>
-                <td><b>Doctor</b></td>
+                <td><b>Consulting Doctor</b></td>
                 <td>
-                  <select name="doctors" id="doctors" class="form-control">
-                    <option value="" selected selected>-Select-</option>
-                        @foreach($doctors as $doc)                                        
-                              <option value="{{ $doc->user_id}}">{{ $doc->title. ' '. $doc->user_fullname }}</option>
-                           @endforeach
-                  </select>
+                    <select name="doctors" id="doctors" class="form-control">
+                      <option value="" selected selected>-Select-</option>
+                          @foreach($doctors as $doc)                                        
+                                <option value="{{ $doc->user_id}}">{{ $doc->title. ' '. $doc->user_fullname }}</option>
+                            @endforeach
+                    </select>
                 </td>
               </tr>
               <tr>
-                <td><b>Attendance Date</b></td>
+                <td><b>Consulting Date</b></td>
                 <td>
-                  <input type="date" class="form-control" id="consultation_date" name="consultation_date">
+                  <input type="date" class="form-control" id="consultation_date" name="consultation_date" value="{{ $today }}">
                 </td>
               </tr>
               <tr>
                 <td><b>Episode</b></td>
                 <td>
-                  <select name="episode_name" id="episode_name" class="form-control">
+                    <select name="episode_name" id="episode_name" class="form-control">
                         <option value="ACUTE" selected>ACUTE</option>
                         <option value="CHRONIC">CHRONIC</option>
-                  </select>
+                    </select>
                 </td>
               </tr>
             </table>
            </p>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-2">
-         <div class="d-flex justify-content-between align-items-center border-end pb-4 pb-sm-0 card-widget-3">
-            <p>
-            <table>
-              <tr>
-                <td><b>Episode</b></td>
-                <td>Episode</td>
-              </tr>
-              <tr>
-                <td><b>Last Visit</b></td>
-                <td>Episode</td>
-              </tr>
-            </table>
-            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <br>
+
 <div class="card mb-6">
   <div class="card-widget-separator-wrapper">
     <div class="card-body card-widget-separator">
@@ -214,7 +180,7 @@
                         <div class="tab-content">
                           <!-- TABS VIEWS -->
                              <div class="tab-pane fade  show active" id="navs_vitals" role="tabpanel">  <!--------------VITAL SIGNS -->
-                                    <div class="row g-6 mb-6">
+                                    <div class="row g-6 mb-12">
                                           <div class="col-md">
                                             <div class="card">
                                               <div class="card-body">
@@ -230,18 +196,32 @@
                                                     <thead>
                                                       <tr>
                                                         <th>SN</th>
-                                                        <th>Diagnosis</th>
-                                                        <th>ICD-10</th>
-                                                        <th>GRDG</th>
+                                                        <th>Date</th>
+                                                        <th>Pressure</th>
+                                                        <th>Weight</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
                                                         <th>Action</th>
                                                       </tr>
                                                     </thead>
                                                     <tfoot>
-                                                      <tr>
+                                                    <tr>
                                                         <th>SN</th>
-                                                        <th>Diagnosis</th>
-                                                        <th>ICD-10</th>
-                                                        <th>GRDG</th>
+                                                        <th>Date</th>
+                                                        <th>Pressure</th>
+                                                        <th>Weight</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
+                                                        <th>BMI</th>
                                                         <th>Action</th>
                                                       </tr>
                                                     </tfoot>
@@ -249,24 +229,22 @@
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="col-md">
+                                          <!-- <div class="col-md">
                                             <div class="card">
                                               <div class="card-body">
                                                 <form class="needs-validation" novalidate>
                                                   <div class="row">
-                                                    <!----------------------------------------chart -->
+                                                  
                                                     <div class="col-12">
                                                        <canvas id="vital_sign_chart"></canvas>
                                                     </div>
-                                                    <!--------------------------------------------chart -->
+                                                   
                                                   </div>
                                                 </form>
-                                                  <div>
-                                                      <!-- <canvas id="vital_sign_chart"></canvas> -->
-                                                  </div>
+                                                 
                                               </div>
                                             </div>
-                                          </div>
+                                          </div> -->
                                         </div>
                                 </div>
 

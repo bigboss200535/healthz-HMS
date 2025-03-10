@@ -94,7 +94,7 @@
           </a>
         </li>
         <li class="menu-item">
-          <a href="{{ route('patients.attendance') }}" class="menu-link">
+          <a href="{{ route('patient.attendance') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Patient Attendance</div>
           </a>
         </li>
