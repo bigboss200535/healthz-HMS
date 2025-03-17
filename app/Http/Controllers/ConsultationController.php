@@ -118,8 +118,12 @@ class ConsultationController extends Controller
             ->where('archived', 'No')
             ->where('role_id', 'R10')
             ->get();
-    
-        return view('consultation.opd_consult', compact( 'attendance', 'doctors', 'con_room'));
+        
+        $systemic = DB::table('systemic_areas')
+            ->where('archived', 'No')
+            ->get();  
+
+        return view('consultation.opd_consult', compact( 'attendance', 'doctors', 'con_room', 'systemic'));
     }
 
 
@@ -130,7 +134,6 @@ class ConsultationController extends Controller
 
     public function consult()
     {
-
             $all = PatientAttendance::where('patient_attendance.archived','No')
                 ->join('sponsor_type', 'patient_attendance.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
                 ->join('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
@@ -145,6 +148,10 @@ class ConsultationController extends Controller
                 ->where('patient_attendance.archived', 'No')
                 ->orderBy('patient_attendance.attendance_id', 'desc')
                 ->get();
+            
+            // $systemic = DB::table('systemic_areas')
+            //     ->where('archived', 'No')
+            //     ->get();  
 
             return view('consultation.consult', compact('all')); 
     

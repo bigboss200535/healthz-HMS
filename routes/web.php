@@ -23,6 +23,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AttendanceController; 
 use App\Http\Controllers\ExternalCallController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\InvestigationController;
 use Illuminate\Support\Facades\Route;
 use illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -79,6 +80,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/delete-attendance/{attendance_id}', [AttendanceController::class, 'delete_attendance']);
     });
 
+    Route::prefix('patient')->group(function () {
+        Route::get('/investigations', [InvestigationController::class, 'index'])->name('investigations.index');
+        Route::get('/add-labs/{attendance_id}', [InvestigationController::class, 'add_results']);
+        Route::get('/add-ultrasound/{attendance_id}', [InvestigationController::class, 'add_results']);
+        Route::get('/add-x-rays/{attendance_id}', [InvestigationController::class, 'add_results']);
+    });
 
     Route::prefix('services')->group(function () {
         Route::get('/{clinic}/get_specialty', [ServiceRequestController::class, 'getspecialties']);

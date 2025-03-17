@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('system_review_template', function (Blueprint $table) {
-            $table->string('system_review_template_id', 50)->primary();
-            // $table->string('system', 50)->nullable();
-            $table->string('template', 50)->nullable();
-            $table->string('system_review_id',50);
+        Schema::create('systemic_symtom', function (Blueprint $table) {
+            $table->string('systemic_symtom_id', 50)->primary();
+            $table->string('systemic_symtom', 100)->nullable();
+            $table->string('systemic_id',50);
             $table->string('user_id', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('added_id', 50)->nullable();
@@ -30,7 +29,7 @@ return new class extends Migration
             $table->date('archived_date', 100)->nullable();
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
-            $table->foreign('system_review_id')->references('system_review_id')->on('system_review');
+            $table->foreign('systemic_id')->references('systemic_id')->on('systemic_areas');
         });
     }
 
@@ -41,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('system_review_template');
+        Schema::dropIfExists('systemic_symtom');
     }
 };

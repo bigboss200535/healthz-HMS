@@ -394,16 +394,119 @@
                                           </div>
                                         </div>
                                 </div>
-                                <!-- ---------------------------------------------------------------------------------- -->
-
+  <!----------------------------------------------------------------------------------------------------------------------------- -->
                                 <div class="tab-pane fade" id="navs_systems" role="tabpanel">     <!--------------REVIEW OF SYSTEM -->
-                                  <p>
-                                      <b>system</b> have been paid to the company 
-                                                I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                                I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                                <a href="#"><i class="bx bx-edit"></i></a>
-                                  </p>
+                                    <div class="row g-6 mb-12">
+                                          <div class="col-md">
+                                                    <div class="nav-align-top nav-tabs-shadow mb-6" >
+                                                          <ul class="nav nav-tabs nav-fill" role="tablist" >
+                                                            <li class="nav-item">
+                                                              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs_review_of_system" aria-controls="navs_vitals" aria-selected="true">
+                                                                  <span class="d-none d-sm-block"><b class="text-dark">Review of Systems</b></span>
+                                                                </button>
+                                                              </li>
+                                                            <li class="nav-item">
+                                                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs_exams_finding" aria-controls="navs_medical" aria-selected="false">
+                                                                  <span class="d-none d-sm-block"><b class="text-dark">Examinations/Findings</b></span>
+                                                                </button> 
+                                                              </li>
+                                                              <li class="nav-item">
+                                                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs_eye_exams" aria-controls="navs_clinical" aria-selected="false">
+                                                                  <span class="d-none d-sm-block"><b class="text-dark">Eye Examination</b></span>
+                                                                </button>
+                                                              </li>
+                                                          </ul>
+                                                          <!-- tab content 1-->
+                                                            <div class="tab-content">
+                                                              <!-- 1 -->
+                                                                    <div class="tab-pane fade  show active" id="navs_review_of_system" role="tabpanel">  <!--------------REVIEW OF SYSTEMS/EXAMINATIONS -->
+                                                                        <div class="row g-6 mb-12">
+                                                                              <div class="col-md">
+                                                                                <div class="row">
+                                                                                    <div class="col-6">
+                                                                                          <table class="table table">
+                                                                                            <tr></tr>
+                                                                                          </table>
+                                                                                         <h6 class="text">REVIEW OF SYSTEMS/EXAMINATIONS</h6>
+                                                                                          <select class="form-control" id="systemic_review" name="systemic_review">
+                                                                                              <option selected disabled>-Select-</option>
+                                                                                                  @foreach($systemic as $systemics)                                        
+                                                                                                      <option value="{{ $systemics->systemic_id}}">{{ $systemics->systemic_item }}</option>
+                                                                                                  @endforeach
+                                                                                          </select>
+                                                                                      </div>
+                                                                                      <br>
+                                                                                      <br>
+                                                                                      <div class="col-12" >
+                                                                                        <table class="table table-striped">
+                                                                                          <thead>
+                                                                                            <tr>
+                                                                                              <th>Systems</th>
+                                                                                              <th>Symptom</th>
+                                                                                              <th>Remarks</th>
+                                                                                              <th>Remarks</th>
+                                                                                            </tr>
+                                                                                          </thead>
+                                                                                          <tbody>
+                                                                                          
+                                                                                          </tbody>
+                                                                                        </table>
+                                                                                      </div>                                                                                    
+                                                                                </div>
+                                                                            </div>
+                                                                         </div>
+                                                                      </div>
+                                                                      <!-- 2 -->
+                                                                      <div class="tab-pane fade" id="navs_exams_finding" role="tabpanel">  <!--------------VITAL SIGNS -->
+                                                                        <div class="row g-6 mb-12">
+                                                                              <div class="col-md">
+                                                                                <div class="row">
+                                                                                    <!-- <div class="col-12" >
+                                                                                        <h6 class="text">EXAMINATIONS AND FINDINGS</h6>
+                                                                                          <select class="form-control" id="systemic_review" name="systemic_review">
+                                                                                              <option selected disabled>-Select-</option>
+                                                                                                  @foreach($systemic as $systemics)                                        
+                                                                                                      <option value="{{ $systemics->systemic_id}}">{{ $systemics->systemic_item }}</option>
+                                                                                                  @endforeach
+                                                                                          </select>
+                                                                                      </div> -->
+                                                                                      <div class="col-12" >
+                                                                                        <table class="table table">
+                                                                                          <thead>
+                                                                                            <tr>
+                                                                                              <th></th>
+                                                                                              <th><b>Systems</b></th>
+                                                                                              <th><b>Examination / Findings</b></th>
+                                                                                            </tr>
+                                                                                          </thead>
+                                                                                          <tbody>
+                                                                                          @foreach($systemic as $systemics) 
+                                                                                            <tr>
+                                                                                              <td>
+                                                                                                <input type="checkbox" name="select_system" id="select_system">
+                                                                                              </td>
+                                                                                              <td>{{ $systemics->systemic_item }}</td>
+                                                                                              <td>
+                                                                                                  <textarea name="exams_with_findings" id="exams_with_findings" colspan="5" class="form-control"></textarea>
+                                                                                              </td>
+                                                                                            </tr>       
+                                                                                          @endforeach
+                                                                                          </tbody>
+                                                                                        </table>
+                                                                                      </div>                                                                                    
+                                                                                </div>
+                                                                            </div>
+                                                                         </div>
+                                                                      </div>
+                                                                <!-- tab content end 1-->
+                                                            </div>
+                                                            
+                                                      <!-- tab content end -->          
+                                                  </div>
+                                          </div>
+                                        </div>
                                 </div>
+   <!------------------------------------------------------------------------------------------------------------------------------->
 
                                 <div class="tab-pane fade" id="navs_diagnosis" role="tabpanel">     <!--------------DIAGNOSIS  -->
                                     <div class="row g-6 mb-6">
@@ -551,7 +654,7 @@
                                           </div>
                                         </div>
                                 </div>
-                                
+                                 <!-- TABS VIEWS --> 
                     </div>
                 </div>
             </div>

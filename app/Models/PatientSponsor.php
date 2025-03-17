@@ -42,6 +42,7 @@ class PatientSponsor extends Model
         'member_no',
         'sponsor_id',
         'sponsor_type_id',
+        'priority',
         'start_date',
         'end_date',
         'dependant',

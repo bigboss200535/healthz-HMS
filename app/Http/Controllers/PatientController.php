@@ -268,10 +268,8 @@ class PatientController extends Controller
                     ->where('archived', 'No')
                     ->where('is_active', 'Yes')
                     ->get();
-
-
-       
-
+  
+            
         // $request_episode = ServiceRequest::count();
         // $new_number = $request_episode + 1;
         // $episode = str_pad($new_number, 6, '0', STR_PAD_LEFT);
@@ -357,6 +355,7 @@ class PatientController extends Controller
             $search_term = $request->input('search_patient');
             // Step 1: Search in the Patient table
             $search_patient = Patient::query()
+            ->join('patient_nos', 'patient_nos.patient_id', '=', 'patient_info.patient_id',)
                 ->where(function ($query) use ($search_term) {
                     $query->where('telephone', 'like', '%' . $search_term . '%');
                 })

@@ -1,3 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'vendor/fonts/boxicons.css';
+@import 'vendor/fonts/fontawesome.css';
+@import 'vendor/fonts/flag-icons.css';
+@import 'vendor/css/rtl/core.css';
+@import 'vendor/css/rtl/theme-default.css';
+@import 'demo.css';
+@import 'vendor/libs/perfect-scrollbar/perfect-scrollbar.css';
+@import 'vendor/libs/typeahead-js/typeahead.css';
+@import 'vendor/libs/datatables-bs5/datatables.bootstrap5.css';
+@import 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css';
+@import 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css';
+@import 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css';
+@import 'vendor/libs/dropzone/dropzone.css';
+@import 'vendor/libs/tagify/tagify.css';
+/* @import 'vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css'; */
+@import 'vendor/libs/@form-validation/form-validation.css';
+@import 'vendor/css/pages/page-profile.css';
+@import 'vendor/libs/spinkit/spinkit.css';
+@import 'vendor/libs/apex-charts/apex-charts.css';
+@import 'pickr-themes.css';
+@import 'fullcalendar.css';
+@import 'app-calendar.css';
+@import 'flatpickr.css';
+
