@@ -1,5 +1,5 @@
 
-INSERT INTO `diagnosis` (`diagnosis_id`, `diagnosis_code`, `diagnosis`, `class_id`, `category`, `icd_10`, `gdrg_code`, `gdrg_description`, `age_id`, `gender_id`, `is_chronic`, `is_nhis`, `adult_tarif`, `child_tarif`, `gdrg_adult`, `gdrg_child`) VALUES
+INSERT INTO `diagnosis` (`diagnosis_code`, `diagnosis_id`, `diagnosis`, `class_id`, `category`, `icd_10`, `gdrg_code`, `gdrg_description`, `age_id`, `gender_id`, `is_chronic`, `is_nhis`, `adult_tarif`, `child_tarif`, `gdrg_adult`, `gdrg_child`) VALUES
 	('1', 'DIA000001', 'ABDOMINAL ABSCESS POST CAESARIAN SECTION', '7', '0', 'K75.0', 'ASUR34A', '', '3', '1', 'No', 'Yes', '303.8', '354.85', '', ''),
 	('2', 'DIA000002', 'ABDOMINAL INFECTION', '7', '8', 'B89', 'MEDI30A', 'NON-SPECIFIC ABDOMONAL CONDITIONS >= 12 YRS', '3', '1', 'No', 'Yes', '528.59', '522.61', 'MEDI30A', 'PAED38C'),
 	('3', 'DIA000003', 'ABNORMAL UTERINE BLEEDING', '5', '8', 'N93.9', 'OBGY09A', '', '3', '3', 'No', 'Yes', '197.8', '0', '', ''),

@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServicesFeeController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\MedicationsController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\NotificationController; 
@@ -86,7 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/add-labs/{attendance_id}', [InvestigationController::class, 'add_results']);
         Route::get('/add-ultrasound/{attendance_id}', [InvestigationController::class, 'add_results']);
         Route::get('/add-x-rays/{attendance_id}', [InvestigationController::class, 'add_results']);
-        Route::get('/getsponsortype', [App\Http\Controllers\SponsorController::class, 'getSponsorsByType'])->name('get.sponsors.by.type');
+        Route::get('/getsponsortype', [App\Http\Controllers\SponsorController::class, 'get_sponsors_by_type'])->name('get.sponsors.by.type');
     });
     // Add this route to handle the AJAX request
    
@@ -122,6 +123,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('consultation')->group(function () {
+        Route::get('/opd-waiting', [ConsultationController::class, 'getWaitingList']); // New AJAX endpoint
         Route::get('/opd-consultation/{attendance_id}', [ConsultationController::class, 'opd_consult']);
         Route::get('/ipd-consultation/{attendance_id}', [ConsultationController::class, 'ipd_consult']);
         Route::get('/consult', [ConsultationController::class, 'consult']);
@@ -155,13 +157,25 @@ Route::middleware('auth')->group(function () {
         // Route::get('patient', [ReportsController::class, 'patient']);
         
     });
-
+    // Route::get('/search-prescription', [MedicationsController::class, 'search_prescription']);
     Route::prefix('external')->group(function () {
         Route::get('/claims_code', [ExternalCallController::class, 'claims_check_code']);  
     });
+
+   
+    Route::get('get-diagnosis/{attendance_id}', [DiagnosisController::class, 'get_diagnosis']);
+    Route::get('search-diagnosis', [DiagnosisController::class, 'search_diagnosis']);
+    Route::post('add-diagnosis', [DiagnosisController::class, 'add_diagnosis']);
+    Route::get('search-prescription', [MedicationsController::class, 'search_prescription']);
 
     // Route::post('code_generate', [ExternalCallController::class, 'claims_check_code']);
 });
 
 require __DIR__.'/auth.php';
+
+
+// Hold and resume attendance routes
+// Route::post('/consultation/hold-attendance/{id}', [App\Http\Controllers\ConsultationController::class, 'holdAttendance']);
+// Route::post('/consultation/resume-attendance/{id}', [App\Http\Controllers\ConsultationController::class, 'resumeAttendance']);
+// Route::get('/consultation/get-on-hold-patients', [App\Http\Controllers\ConsultationController::class, 'getOnHoldPatients']);
 

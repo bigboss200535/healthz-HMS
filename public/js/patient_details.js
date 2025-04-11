@@ -1,127 +1,126 @@
-//  ********************** PATIENT SAVE SCRIPT ************************
-$('#patient_info').on('submit', function (e) {
-    e.preventDefault();
+// //  ********************** PATIENT SAVE SCRIPT ************************
+// $('#patient_info').on('submit', function (e) {
+//     e.preventDefault();
 
-    // Collect patient form data using a single object to minimize DOM queries
-    const patient_save = {
-        sponsor_type_id: $('#sponsor_type_id').val(),
-        pat_id: $('#pat_id').val(),
-        title: $('#title').val(),
-        firstname: $('#firstname').val().trim(),
-        middlename: $('#middlename').val().trim(),
-        lastname: $('#lastname').val().trim(),
-        birth_date: $('#birth_date').val(),
-        gender_id: $('#gender_id').val(),
-        occupation: $('#occupation').val(),
-        education: $('#education').val(),
-        religion: $('#religion').val(),
-        nationality: $('#nationality').val(),
-        ghana_card: $('#ghana_card').val(),
-        telephone: $('#telephone').val(),
-        work_telephone: $('#work_telephone').val(),
-        email: $('#email').val(),
-        address: $('#address').val(),
-        town: $('#town').val(),
-        region: $('#region').val(),
-        contact_person: $('#contact_person').val(),
-        contact_telephone: $('#contact_telephone').val(),
-        contact_relationship: $('#contact_relationship').val(),
-        opd_type: $('#opd_type').val(),
-        folder_clinic: $('#folder_clinic').val(),
-        opd_number: $('#opd_number').val(),
-        sponsor_id: $('#sponsor_id').val(),
-        member_no: $('#member_no').val(),
-        dependant: $('#dependant').val(),
-        start_date: $('#start_date').val(),
-        end_date: $('#end_date').val(),
-        card_status: $('#card_status').val(),
-    };
+//     // Collect patient form data using a single object to minimize DOM queries
+//     const patient_save = {
+//         sponsor_type_id: $('#sponsor_type_id').val(),
+//         pat_id: $('#pat_id').val(),
+//         title: $('#title').val(),
+//         firstname: $('#firstname').val().trim(),
+//         middlename: $('#middlename').val().trim(),
+//         lastname: $('#lastname').val().trim(),
+//         birth_date: $('#birth_date').val(),
+//         gender_id: $('#gender_id').val(),
+//         occupation: $('#occupation').val(),
+//         education: $('#education').val(),
+//         religion: $('#religion').val(),
+//         nationality: $('#nationality').val(),
+//         ghana_card: $('#ghana_card').val(),
+//         telephone: $('#telephone').val(),
+//         work_telephone: $('#work_telephone').val(),
+//         email: $('#email').val(),
+//         address: $('#address').val(),
+//         town: $('#town').val(),
+//         region: $('#region').val(),
+//         contact_person: $('#contact_person').val(),
+//         contact_telephone: $('#contact_telephone').val(),
+//         contact_relationship: $('#contact_relationship').val(),
+//         opd_type: $('#opd_type').val(),
+//         folder_clinic: $('#folder_clinic').val(),
+//         opd_number: $('#opd_number').val(),
+//         sponsor_id: $('#sponsor_id').val(),
+//         member_no: $('#member_no').val(),
+//         dependant: $('#dependant').val(),
+//         start_date: $('#start_date').val(),
+//         end_date: $('#end_date').val(),
+//         card_status: $('#card_status').val(),
+//     };
 
-    // Client-side validation
-    if (!patient_save.title || patient_save.title === "0") {
-        toastr.warning('Please select a title');
-        $('#title').focus();
-        return;
-    }
+//     // Client-side validation
+//     if (!patient_save.title || patient_save.title === "0") {
+//         toastr.warning('Please select a title');
+//         $('#title').focus();
+//         return;
+//     }
 
-    if (!patient_save.firstname) {
-        toastr.warning('Firstname cannot be empty');
-        $('#firstname').focus();
-        return;
-    }
+//     if (!patient_save.firstname) {
+//         toastr.warning('Firstname cannot be empty');
+//         $('#firstname').focus();
+//         return;
+//     }
 
-    if (patient_save.firstname.length < 3) {
-        toastr.warning('First name must be at least 3 characters long');
-        $('#firstname').focus();
-        return;
-    }
+//     if (patient_save.firstname.length < 3) {
+//         toastr.warning('First name must be at least 3 characters long');
+//         $('#firstname').focus();
+//         return;
+//     }
 
-    if (!patient_save.lastname) {
-        toastr.warning('Lastname cannot be empty');
-        $('#lastname').focus();
-        return;
-    }
+//     if (!patient_save.lastname) {
+//         toastr.warning('Lastname cannot be empty');
+//         $('#lastname').focus();
+//         return;
+//     }
 
-    if (patient_save.lastname.length < 3) {
-        toastr.warning('Lastname must be at least 3 characters long');
-        $('#lastname').focus();
-        return;
-    }
+//     if (patient_save.lastname.length < 3) {
+//         toastr.warning('Lastname must be at least 3 characters long');
+//         $('#lastname').focus();
+//         return;
+//     }
 
-    if (patient_save.opd_number.length < 3) {
-        toastr.warning('Record Number is invalid');
-        $('#opd_number').focus();
-        return;
-    }
+//     if (patient_save.opd_number.length < 3) {
+//         toastr.warning('Record Number is invalid');
+//         $('#opd_number').focus();
+//         return;
+//     }
 
-    if (!patient_save.birth_date) {
-        toastr.warning('Birth Date must be entered');
-        $('#birth_date').focus();
-        return;
-    }
+//     if (!patient_save.birth_date) {
+//         toastr.warning('Birth Date must be entered');
+//         $('#birth_date').focus();
+//         return;
+//     }
 
-    if (!patient_save.gender_id || patient_save.gender_id === "0") {
-        toastr.warning('Please select gender');
-        $('#gender_id').focus();
-        return;
-    }
+//     if (!patient_save.gender_id || patient_save.gender_id === "0") {
+//         toastr.warning('Please select gender');
+//         $('#gender_id').focus();
+//         return;
+//     }
 
-    if (!patient_save.sponsor_type_id || patient_save.sponsor_type_id === "0") {
-        toastr.warning('Sponsor type must be selected');
-        $('#sponsor_type_id').focus();
-        return;
-    } else if (!patient_save.sponsor_id || !patient_save.member_no || !patient_save.start_date || !patient_save.end_date) {
-        toastr.warning('Sponsor ID, Member No, Start and End Date must be filled for selected sponsor');
-        return;
-    }
+//     if (!patient_save.sponsor_type_id || patient_save.sponsor_type_id === "0") {
+//         toastr.warning('Sponsor type must be selected');
+//         $('#sponsor_type_id').focus();
+//         return;
+//     } else if (!patient_save.sponsor_id || !patient_save.member_no || !patient_save.start_date || !patient_save.end_date) {
+//         toastr.warning('Sponsor ID, Member No, Start and End Date must be filled for selected sponsor');
+//         return;
+//     }
 
-    // Determine URL and method based on pat_id
-    const url = patient_save.pat_id ? `/patients/${patient_save.pat_id}` : '/patients';
-    const method = patient_save.pat_id ? 'PUT' : 'POST';
+//     // Determine URL and method based on pat_id
+//     const url = patient_save.pat_id ? `/patients/${patient_save.pat_id}` : '/patients';
+//     const method = patient_save.pat_id ? 'PUT' : 'POST';
 
-    // AJAX request
-    $.ajax({
-        url: url,
-        type: method,
-        data: $(this).serialize(),
-        success: function (response) {
-            if (response.code === 201) {
-                toastr.success(response.message);
-                $('#patient_info')[0].reset();
-                $('#pat_id').val(''); // Clear pat_id for new entries
-            } else if (response.code === 200) {
-                toastr.warning('Patient data is already available in the system!');
-            } else {
-                toastr.error('Error saving data! Try again.');
-            }
-        },
-        error: function (xhr, status, error) {
-            toastr.error('Error saving data! Try again.');
-        }
-    });
-});
-// *********************** PATIENT SAVE SCRIPT ************************
-
+//     // AJAX request
+//     $.ajax({
+//         url: url,
+//         type: method,
+//         data: $(this).serialize(),
+//         success: function (response) {
+//             if (response.code === 201) {
+//                 toastr.success(response.message);
+//                 $('#patient_info')[0].reset();
+//                 $('#pat_id').val(''); // Clear pat_id for new entries
+//             } else if (response.code === 200) {
+//                 toastr.warning('Patient data is already available in the system!');
+//             } else {
+//                 toastr.error('Error saving data! Try again.');
+//             }
+//         },
+//         error: function (xhr, status, error) {
+//             toastr.error('Error saving data! Try again.');
+//         }
+//     });
+// });
+// // *********************** PATIENT SAVE SCRIPT ************************
 
 // *************************** GENERATE OPD NUMBER *****************************/
 
@@ -398,22 +397,3 @@ $(document).ready(function () {
     // Optionally, refresh data periodically or on user action
     // setInterval(fetchAndRefreshData, 10000); // Refresh every 10 seconds
 });
-
-// // Generic function to fetch data
-// function fetchData(url) {
-//     return $.ajax({
-//         url: url,
-//         type: 'GET',
-//         dataType: 'json'
-//     }).catch(error => {
-//         console.error('Error fetching data from', url, error);
-//         throw error;
-//     });
-// }
-
-// // Helper function to format dates
-// function formatDate(dateString) {
-//     if (!dateString) return 'N/A';
-//     const date = new Date(dateString);
-//     return isNaN(date) ? 'N/A' : date.toLocaleDateString('en-GB');
-// }

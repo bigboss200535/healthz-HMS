@@ -59,7 +59,8 @@ class DatabaseSeeder extends Seeder
             TownSeeder::class, 
             DocumentationRepoSeeder::class,
             ClinicalHistorySeeder::class,
-            SystemicAreasSeeder::class
+            SystemicAreasSeeder::class,
+            FrequenciesSeeder::class
         ]);
         
         // \App\Models\Patient::factory(2000)->create();

@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchButton.innerHTML = originalButtonText;
                 searchButton.disabled = false;
                 
-                console.log("Search response:", response); // Debug: Log the response
+                // console.log("Search response:", response); // Debug: Log the response
                 
                 // Show results container
                 document.getElementById('patient_search_result').style.display = 'block';
@@ -234,14 +234,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     patientData = [response];
                 }
                 
-                console.log("Processed patient data:", patientData); // Debug: Log processed data
+                // console.log("Processed patient data:", patientData); // Debug: Log processed data
                 
                 if (patientData.length > 0) {
                     // Populate table with results
                     patientData.forEach((patient, index) => {
                         const row = document.createElement('tr');
                         
-                        console.log("Processing patient:", patient); // Debug: Log each patient
+                        // console.log("Processing patient:", patient); // Debug: Log each patient
                         
                         // Format date of birth if it exists
                         let formattedDob = 'N/A';
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (patient.birth_date) {
                             try {
                                 const dob = new Date(patient.birth_date);
-                                formattedDob = dob.toLocaleDateString();
+                                formatted_dob = dob.toLocaleDateString();
                                 
                                 // Calculate age
                                 const today = new Date();
@@ -260,27 +260,27 @@ document.addEventListener('DOMContentLoaded', function() {
                                     age--;
                                 }
                             } catch (e) {
-                                console.error("Error formatting birth date:", e);
+                                // console.error("Error formatting birth date:", e);
                             }
                         }
                         
                         // Format created date if it exists
-                        let formattedAddedDate = 'N/A';
+                        let formatted_added_date = 'N/A';
                         if (patient.added_date) {
                             try {
                                 const createdDate = new Date(patient.added_date);
-                                formattedAddedDate = createdDate.toLocaleDateString();
+                                formatted_added_date = createdDate.toLocaleDateString();
                             } catch (e) {
-                                console.error("Error formatting added date:", e);
-                                formattedAddedDate = patient.added_date;
+                                // console.error("Error formatting added date:", e);
+                                formatted_added_date = patient.added_date;
                             }
                         } else if (patient.registration_date) {
                             try {
                                 const regDate = new Date(patient.registration_date);
-                                formattedAddedDate = regDate.toLocaleDateString();
+                                formatted_added_date = regDate.toLocaleDateString();
                             } catch (e) {
-                                console.error("Error formatting registration date:", e);
-                                formattedAddedDate = patient.registration_date;
+                                // console.error("Error formatting registration date:", e);
+                                formatted_added_date = patient.registration_date;
                             }
                         }
                         
@@ -293,28 +293,28 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         
                         // Build patient name with proper handling for null/undefined values
-                        let fullName = '';
+                        let full_name = '';
                         
                         // Use fullname field if available
                         if (patient.fullname) {
-                            fullName = patient.fullname;
+                            full_name = patient.fullname;
                         } else {
                             const lastname = patient.lastname || '';
                             const firstname = patient.firstname || '';
                             const middlename = patient.middlename || '';
-                            fullName = `${lastname} ${firstname} ${middlename}`.trim();
+                            full_name = `${lastname} ${firstname} ${middlename}`.trim();
                         }
                         
                         // Build row HTML
                         row.innerHTML = `
                             <td>${index + 1}</td>
-                            <td>${fullName}</td>
+                            <td>${full_name}</td>
                             <td>${patient.opd_number || 'N/A'}</td>
                             <td>${genderDisplay}</td>
                             <td>${age}</td>
                             <td>${patient.telephone || 'N/A'}</td>
-                            <td>${formattedDob}</td>
-                            <td>${formattedAddedDate}</td>
+                            <td>${formatted_dob}</td>
+                            <td>${formatted_added_date}</td>
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </button>
                                     <div class="dropdown-menu">
                                      <a class="dropdown-item" href="{{ url('patients') }}/${patient.patient_id}">
-                                            <i class="bx bx-show me-1"></i> More
+                                            <i class="bx bx-show me-1"></i> View
                                         </a>
                                         <a class="dropdown-item" href="{{ url('patients/show') }}/${patient.patient_id}/edit">
                                             <i class="bx bx-edit-alt me-1"></i> Edit

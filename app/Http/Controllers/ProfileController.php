@@ -20,7 +20,7 @@ class ProfileController extends Controller
      {
         $user = User::where('archived', 'No')
             ->where('status', '=','Active')
-            ->where('user_id', Auth::user()->user_id,)
+            ->where('user_id', Auth::user()->user_id)
             ->first();
             
         return view('profile.index', compact('user'));

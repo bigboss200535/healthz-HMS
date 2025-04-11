@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('diagnosis', function (Blueprint $table) {
             $table->string('diagnosis_id', 50)->primary();
-            $table->string('diagnosis_code', 150)->nullable();
+            $table->string('diagnosis_code', 50)->nullable();
             $table->string('diagnosis', 200)->nullable();
             $table->string('class', 50)->nullable();
             $table->string('class_id', 50)->nullable();

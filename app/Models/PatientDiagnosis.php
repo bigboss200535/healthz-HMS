@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Diagnosis extends Model
+
+class PatientDiagnosis extends Model
 {
     use HasFactory;
 
-    protected $table = 'diagnosis';
-    protected $primaryKey = 'diagnosis_id';
+    protected $table = 'patient_diagnosis';
+    protected $primaryKey = 'attendance_diagnosis_id';
     public $timestamps = false;
     protected $keyType = 'string';
-    public $incrementing= false;
-
+    public $incrementing = false;
 
     public function users()
     {
@@ -26,30 +26,28 @@ class Diagnosis extends Model
         return $this->belongsTo(Facility::class, 'facility_id');
     }
 
-    public function patientDiagnosis()
+    public function diagnosis()
     {
-        return $this->hasMany(PatientDiagnosis::class, 'diagnosis_id');
+        return $this->belongsTo(Diagnosis::class, 'diagnosis_id');
     }
 
     protected $fillable = [
+        'attendance_diagnosis_id',
+        'attendance_id',
+        'attendance_date',
+        'attendance_time',
+        'entry_date',
+        'episode_id',
         'diagnosis_id',
-        'diagnosis_code',
-        'diagnosis',
-        'class',
-        'class_id',
-        'category',
-        'icd_10',
-        'icd_group_id',
+        'diagnosis_type',
+        'diagnosis_category',
+        'diagnosis_fee',
         'gdrg_code',
-        'gdrg_description',
-        'gender_id',
-        'is_chronic',
-        'is_nhis',
-        'adult_tarif',
-        'child_tarif',
-        'gdrg_adult',
-        'gdrg_child',
-        'is_active',
+        'icd_10',
+        'is_principal',
+        'facility_id',
+        'doctor_id',
+        'user_id',
         'added_id',
         'added_date',
         'udpated_by',

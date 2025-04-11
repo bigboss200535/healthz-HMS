@@ -49,7 +49,7 @@ class SponsorController extends Controller
 
     }
 
-    public function getSponsorsByType(Request $request)
+    public function get_sponsors_by_type(Request $request)
     {
         $sponsor_type_id = $request->input('sponsor_type_id');
         
