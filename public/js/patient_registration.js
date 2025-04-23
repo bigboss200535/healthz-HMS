@@ -1,321 +1,297 @@
-$(document).ready(function() {
-    // Initialize input masks with improved validation
-    $('#ghana_card').inputmask('AAA-99999999-9', {
-        placeholder: 'GHA-12345678-9',
-        clearMaskOnLostFocus: true
-    });
 
-    // Phone number validation with Ghanaian format
-    const phoneInputs = ['#telephone', '#work_telephone', '#contact_telephone'];
-    phoneInputs.forEach(input => {
-        $(input).inputmask('099-999-9999', {
-            placeholder: '024-123-4567',
-            clearMaskOnLostFocus: true,
-            definitions: {
-                '0': { validator: '[2-5]' } // Ghana phone numbers start with 2,3,4,5
-            }
-        });
-    });
-
-    // Improved age calculation with validation
-    function calculateAge(birthDate) {
-        const today = new Date();
-        const birth = new Date(birthDate);
-        
-        if (!isValidDate(birth) || birth > today) {
-            return '';
-        }
-        
-        let age = today.getFullYear() - birth.getFullYear();
-        const monthDiff = today.getMonth() - birth.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-            age--;
-        }
-        
-        return age;
-    }
-
-    function isValidDate(date) {
-        return date instanceof Date && !isNaN(date);
-    }
-
-    $('#birth_date').on('change', function() {
-        const age = calculateAge($(this).val());
-        $('#age').val(age);
-        
-        if (age === '') {
-            $(this).addClass('is-invalid');
-            $(this).after('<div class="invalid-feedback">Please enter a valid date not in the future</div>');
-        } else {
-            $(this).removeClass('is-invalid');
-            $('.invalid-feedback').remove();
-        }
-    });
-
-    // Enhanced sponsorship management
-    const sponsorshipManager = {
-        clearSponsorshipFields: function() {
-            $('#sponsor_id').html('<option value="" disabled selected>-Select-</option>');
-            $('#member_no').val('');
-            $('#dependant').val('NO');
-            $('#start_date, #end_date').val('');
-            $('#card_status').val('');
-        },
-
-        validateDates: function(startDate, endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            if (start > end) {
-                toastr.error('End date must be after start date');
-                return false;
-            }
-            if (start < today) {
-                toastr.error('Start date cannot be in the past');
-                return false;
-            }
-            return true;
-        },
-
-        loadSponsors: function(sponsorTypeId) {
-            if (!sponsorTypeId) return;
-
-            $.ajax({
-                url: '/get-sponsors/' + sponsorTypeId,
-                type: 'GET',
-                timeout: 10000,
-                beforeSend: function() {
-                    $('#sponsor_id').html('<option value="" disabled selected>Loading...</option>');
-                },
-                success: function(response) {
-                    let options = '<option value="" disabled selected>-Select-</option>';
-                    response.forEach(function(sponsor) {
-                        options += `<option value="${sponsor.sponsor_id}">${sponsor.sponsor_name}</option>`;
-                    });
-                    $('#sponsor_id').html(options);
-                },
-                error: function(xhr, status, error) {
-                    toastr.error('Failed to load sponsors. Please try again.');
-                    $('#sponsor_id').html('<option value="" disabled selected>-Select-</option>');
-                    console.error('Sponsor loading error:', error);
-                }
-            });
-        }
-    };
-
-    // Show/hide sponsorship details based on sponsor type
-    $('#sponsor_type_id').on('change', function() {
-        const sponsorTypeId = $(this).val();
-        if (!sponsorTypeId) {
-            $('.sponsorship_details_settings').hide();
-            sponsorshipManager.clearSponsorshipFields();
-        } else {
-            $('.sponsorship_details_settings').show();
-            sponsorshipManager.loadSponsors(sponsorTypeId);
-        }
-    });
-
-    // Handle date validation
-    $('#start_date, #end_date').on('change', function() {
-        const startDate = $('#start_date').val();
-        const endDate = $('#end_date').val();
-
-        if (startDate && endDate) {
-            if (sponsorshipManager.validateDates(startDate, endDate)) {
-                $('#card_status').val('Active');
-            } else {
-                $('#card_status').val('Inactive');
-            }
-        }
-    });
-
-    // Initialize form validation with improved rules
-    const requiredFields = [
-        { id: 'title', name: 'Title', type: 'select' },
-        { id: 'firstname', name: 'Firstname', type: 'text', minLength: 2 },
-        { id: 'lastname', name: 'Lastname', type: 'text', minLength: 2 },
-        { id: 'birth_date', name: 'Date of Birth', type: 'date' },
-        { id: 'gender_id', name: 'Gender', type: 'select' },
-        { id: 'occupation', name: 'Occupation', type: 'select' },
-        { id: 'education', name: 'Education', type: 'select' },
-        { id: 'religion', name: 'Religion', type: 'select' },
-        { id: 'nationality', name: 'Nationality', type: 'select' }
-    ];
-
-    // Form submission handler with retry mechanism and improved validation
-    const formHandler = {
-        maxRetries: 3,
-        retryDelay: 2000, // 2 seconds
-        currentRetry: 0,
-
-        resetFormState: function($form) {
-            $('.is-invalid').removeClass('is-invalid');
-            $('.invalid-feedback').remove();
-            toastr.clear();
-            $form.find('.form-overlay').remove();
-        },
-
-        validateField: function(field) {
-            const $field = $('#' + field.id);
-            const value = $field.val();
-            let isValid = true;
-            let errorMessage = '';
-
-            if (!value || value === '' || value === '-Select-') {
-                isValid = false;
-                errorMessage = `${field.name} is required`;
-            } else if (field.type === 'text' && field.minLength && value.length < field.minLength) {
-                isValid = false;
-                errorMessage = `${field.name} must be at least ${field.minLength} characters`;
-            } else if (field.type === 'date' && new Date(value) > new Date()) {
-                isValid = false;
-                errorMessage = 'Birth date cannot be in the future';
-            }
-
-            if (!isValid) {
-                $field.addClass('is-invalid')
-                      .after(`<div class="invalid-feedback">${errorMessage}</div>`);
-            }
-
-            return isValid;
-        },
-
-        showLoadingState: function($form) {
-            const submitBtn = $form.find('button[type="submit"]');
-            const resetBtn = $form.find('button[type="reset"]');
-            const searchBtn = $form.find('a.btn-dark');
-
-            submitBtn.prop('disabled', true).html('<i class="bx bx-loader bx-spin"></i> Saving...');
-            resetBtn.prop('disabled', true);
-            searchBtn.addClass('disabled');
-
-            const formOverlay = $('<div class="form-overlay"><div class="spinner-border text-primary"></div></div>');
-            $form.css('position', 'relative').append(formOverlay);
-        },
-
-        resetLoadingState: function($form) {
-            const submitBtn = $form.find('button[type="submit"]');
-            const resetBtn = $form.find('button[type="reset"]');
-            const searchBtn = $form.find('a.btn-dark');
-
-            submitBtn.prop('disabled', false).html('<i class="bx bx-save"></i> Save Patient');
-            resetBtn.prop('disabled', false);
-            searchBtn.removeClass('disabled');
-            $form.find('.form-overlay').remove();
-        },
-
-        handleSuccess: function(response, patient_id) {
-            toastr.success('Patient registered successfully');
-            window.location.href = '/patients/' + patient_id;
-        },
-
-        handleError: function($form, xhr) {
-            const errors = xhr.responseJSON?.errors;
-            if (errors) {
-                Object.keys(errors).forEach(function(field) {
-                    const $field = $('#' + field);
-                    if ($field.length) {
-                        $field.addClass('is-invalid')
-                              .after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
-                    }
-                });
-                toastr.error('Please correct the errors in the form');
-            } else {
-                toastr.error('An error occurred while registering patient');
-                if (this.currentRetry < this.maxRetries) {
-                    this.currentRetry++;
-                    setTimeout(() => {
-                        toastr.info(`Retrying submission (Attempt ${this.currentRetry} of ${this.maxRetries})...`);
-                        this.submitForm($form);
-                    }, this.retryDelay);
-                    return;
-                }
-            }
-            this.resetLoadingState($form);
-        },
-
-        submitForm: function($form) {
-            const formData = new FormData($form[0]);
-            
-            $.ajax({
-                url: '/patient/store',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: (response) => {
-                    if (response.success) {
-                        this.handleSuccess(response, response.patient_id);
-                    } else {
-                        toastr.error(response.message || 'Failed to register patient');
-                        this.resetLoadingState($form);
-                    }
-                },
-                error: (xhr) => this.handleError($form, xhr),
-                complete: () => {
-                    if (this.currentRetry >= this.maxRetries) {
-                        this.currentRetry = 0;
-                    }
-                }
-            });
-        }
-    };
-
-    // Handle form submission with improved validation
-    $('#patient_info').on('submit', function(e) {
+    // Handle form submission
+    $('#patient_info_create').on('submit', function(e) {
         e.preventDefault();
-        const $form = $(this);
+        const $form = $('#patient_info_create');
+
+        // Get form elements
+        const submitBtn = $form.find('button[type="submit"]');
+        const resetBtn = $form.find('button[type="reset"]');
+        const searchBtn = $form.find('a.btn-dark');
+        const formOverlay = $('<div class="form-overlay"><div class="spinner-border text-primary"></div></div>');
 
         // Check if form is already being submitted
-        if ($form.find('button[type="submit"]').prop('disabled')) {
+        if (submitBtn.prop('disabled')) {
             toastr.warning('Form submission in progress, please wait...');
             return;
         }
 
-        formHandler.resetFormState($form);
+        // Clear any previous error states
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        toastr.clear();
+    
+        //    remove the loading overlay is alreading loading
+        formOverlay.fadeOut(function() {
+                    $(this).remove();
+                });
 
-        // Check if the form is completely empty
-        let hasValue = false;
-        $form.find('input, select').each(function() {
-            if ($(this).val() && $(this).val() !== '-Select-' && $(this).val() !== '') {
-                hasValue = true;
-                return false; // Break the loop
+        // Add loading overlay
+        $form.css('position', 'relative').append(formOverlay);
+        formOverlay.fadeIn();
+
+        // Get CSRF token from meta tag
+        const token = $('meta[name="csrf-token"]').attr('content');
+        if (!token) {
+            toastr.error('CSRF token not found. Please refresh the page.');
+            return;
+        }
+
+        // Collect and validate form data
+        const formData = new FormData($form[0]);
+        const patient_save = Object.fromEntries(formData.entries());
+
+        // Trim text inputs
+        ['firstname', 'middlename', 'lastname'].forEach(field => {
+            if (patient_save[field]) {
+                patient_save[field] = patient_save[field].trim();
+                formData.set(field, patient_save[field]);
             }
         });
 
-        if (!hasValue) {
-            toastr.error('Please fill in the form before submitting');
-            requiredFields.forEach(field => {
-                const $field = $('#' + field.id);
-                $field.addClass('is-invalid')
-                      .after('<div class="invalid-feedback">This field is required</div>');
+
+        // Client-side validation with improved feedback
+        const validationRules = [
+            { field: 'title', value: patient_save.title, message: 'Please select a title', condition: !patient_save.title || patient_save.title === "-Select-" },
+            { field: 'firstname', value: patient_save.firstname, message: 'Firstname cannot be empty', condition: !patient_save.firstname },
+            { field: 'firstname', value: patient_save.firstname, message: 'First name must be at least 3 characters long', condition: patient_save.firstname || patient_save.firstname.length < 3 },
+            { field: 'lastname', value: patient_save.lastname, message: 'Lastname cannot be empty', condition: !patient_save.lastname},
+            { field: 'lastname', value: patient_save.lastname, message: 'Lastname must be at least 3 characters long', condition: patient_save.lastname || patient_save.lastname.length < 3 },
+            { field: 'birth_date', value: patient_save.birth_date, message: 'Birth Date must be entered', condition: !patient_save.birth_date },
+            { field: 'gender_id', value: patient_save.gender_id, message: 'Please select gender', condition: !patient_save.gender_id || patient_save.gender_id === "-Select-" },
+            { field: 'occupation', value: patient_save.occupation, message: 'Please select occupation', condition: !patient_save.occupation || patient_save.occupation === "-Select-" },
+            { field: 'education', value: patient_save.education, message: 'Please select education level', condition: !patient_save.education || patient_save.education === "-Select-" },
+            { field: 'religion', value: patient_save.religion, message: 'Please select religion', condition: !patient_save.religion || patient_save.religion === "-Select-" },
+            { field: 'nationality', value: patient_save.nationality, message: 'Please select nationality', condition: !patient_save.nationality || patient_save.nationality === "-Select-" },
+            { field: 'telephone', value: patient_save.telephone, message: 'Please enter a valid phone number', condition: patient_save.telephone && !/^\+?\d{10,15}$/.test(patient_save.telephone) },
+            { field: 'work_telephone', value: patient_save.work_telephone, message: 'Please enter a valid work phone number', condition: patient_save.work_telephone && !/^\+?\d{10,15}$/.test(patient_save.work_telephone) },
+            { field: 'email', value: patient_save.email, message: 'Please enter a valid email address', condition: patient_save.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(patient_save.email) },
+            { field: 'contact_telephone', value: patient_save.contact_telephone, message: 'Please enter a valid emergency contact number', condition: patient_save.contact_telephone && !/^\+?\d{10,15}$/.test(patient_save.contact_telephone) },
+            { field: 'sponsor_type_id', value: patient_save.region, message: 'Please select a sponsor type', condition: !patient_save.sponsor_type_id || patient_save.sponsor_type_id === "-Select-" },
+            { field: 'folder_clinic', value: patient_save.region, message: 'Please select a Clinic', condition: !patient_save.folder_clinic || patient_save.folder_clinic === "-Select-" },
+            { field: 'opd_number', value: patient_save.opd_number, message: 'Record Number is invalid', condition: patient_save.opd_number && patient_save.opd_number.length < 3 }
+        ];
+
+        // Additional validation for required contact person details
+        if (patient_save.contact_person || patient_save.contact_telephone || patient_save.contact_relationship) {
+            if (!patient_save.contact_person) {
+                validationRules.push({ field: 'contact_person', value: patient_save.contact_person, message: 'Emergency contact name is required', condition: true });
+            }
+            if (!patient_save.contact_relationship) {
+                validationRules.push({ field: 'contact_relationship', value: patient_save.contact_relationship, message: 'Emergency contact relationship is required', condition: true });
+            }
+            if (!patient_save.contact_telephone) {
+                validationRules.push({ field: 'contact_telephone', value: patient_save.contact_telephone, message: 'Emergency contact phone is required', condition: true });
+            }
+        }
+
+        // Check sponsorship details if sponsor type is selected
+        if (patient_save.sponsor_type_id && patient_save.sponsor_type_id !== "-Select-") {
+            if (!patient_save.sponsor_id || patient_save.sponsor_id === "-Select-") {
+                // toastr.warning('Please select a sponsor');
+                $('#sponsor_id').addClass('is-invalid').focus();
+                return;
+            }
+            if (!patient_save.member_no) {
+                // toastr.warning('Please enter member number');
+                $('#member_no').addClass('is-invalid').focus();
+                return;
+            }
+            if (!patient_save.start_date) {
+                // toastr.warning('Please enter start date');
+                $('#start_date').addClass('is-invalid').focus();
+                return;
+            }
+            if (!patient_save.end_date) {
+                // toastr.warning('Please enter end date');
+                $('#end_date').addClass('is-invalid').focus();
+                return;
+            }
+        }
+
+        // Validate all rules
+        let hasError = false;
+        for (const rule of validationRules) {
+            const field = $(`#${rule.field}`);
+            if (rule.condition) {
+                field.addClass('is-invalid');
+                if (!field.next('.invalid-feedback').length) {
+                    field.after(`<div class="invalid-feedback">${rule.message}</div>`);
+                }
+                if (!hasError) {
+                    field.focus();
+                    hasError = true;
+                }
+                // toastr.warning(rule.message);
+            } else {
+                field.removeClass('is-invalid');
+                field.next('.invalid-feedback').remove();
+            }
+        }
+
+        if (hasError) {
+            return;
+        }
+
+        // Disable form buttons and show loading state
+        submitBtn.prop('disabled', true)
+                .html('<i class="bx bx-loader bx-spin"></i> Saving...');
+        resetBtn.prop('disabled', true);
+        searchBtn.addClass('disabled');
+
+        // Determine URL and method based on pat_id
+        const url = patient_save.pat_id ? `/patients/${patient_save.pat_id}` : '/patients';
+        const method = patient_save.pat_id ? 'PUT' : 'POST';
+
+        // AJAX request with improved error handling and feedback
+        $.ajax({
+            url: url,
+            type: method,
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
+            beforeSend: function() {
+                formOverlay.fadeIn();
+            },
+            success: function (response) {
+                if (response.code === 201) {
+                    toastr.success(response.message || 'Patient saved successfully');
+                    $form[0].reset();
+                    $('#pat_id').val('');
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('.invalid-feedback').remove();
+                    submitBtn.prop('disabled', false);
+                } else if (response.code === 200) {
+                    toastr.warning(response.message || 'Patient data already exists');
+                } else {
+                    toastr.error(response.message || 'Error saving patient data');
+                }
+            },
+            error: function (xhr, status, error) {
+                let errorMessage = xhr.responseJSON?.message || 'Error saving patient data';
+                toastr.error(errorMessage);
+                
+                if (xhr.responseJSON?.errors) {
+                    Object.entries(xhr.responseJSON.errors).forEach(([field, messages]) => {
+                        const input = $(`#${field}`);
+                        if (input.length) {
+                            input.addClass('is-invalid')
+                                 .after(`<div class="invalid-feedback">${messages[0]}</div>`);
+                            
+                            if (!input.is(':visible')) {
+                                input.closest('.collapse').collapse('show');
+                            }
+                        }
+                    });
+                    $('.is-invalid:first').focus();
+                }
+            },
+            complete: function () {
+                submitBtn.prop('disabled', false)
+                         .html('<i class="bx bx-save"></i> Save Patient');
+                resetBtn.prop('disabled', false);
+                searchBtn.removeClass('disabled');
+                formOverlay.fadeOut(function() {
+                    $(this).remove();
+                });
+            }
+        });
+
+    });
+
+
+// When sponsor type changes
+$('#sponsor_type_id').on('change', function() {
+        var sponsorTypeId = $(this).val();
+        if(sponsorTypeId) {
+            // Clear current options
+            $('#sponsor_id').empty();
+            $('#sponsor_id').append('<option value="" disabled selected>-Loading Sponsors-</option>');
+            
+            // Make AJAX request to get sponsors by type
+            $.ajax({
+                url: '{{ route("get.sponsors.by.type") }}',
+                type: 'GET',
+                data: {
+                    sponsor_type_id: sponsorTypeId
+                },
+                success: function(data) {
+                    $('#sponsor_id').empty();
+                    $('#sponsor_id').append('<option value="" disabled selected>-Select-</option>');
+                    
+                    // Add the returned sponsors to the dropdown
+                    $.each(data, function(key, value) {
+                        $('#sponsor_id').append('<option value="' + value.sponsor_id + '">' + value.sponsor_name.toUpperCase() + '</option>');
+                    });
+                    
+                    // Refresh Select2 to apply changes
+                    $('#sponsor_id').trigger('change');
+                },
+                error: function() {
+                    $('#sponsor_id').empty();
+                    $('#sponsor_id').append('<option value="" disabled selected>-Error Loading Sponsors-</option>');
+                }
             });
-            return;
+            
+            // Set member number format based on sponsor type
+            if(sponsorTypeId === 'N002') {
+                // For N002, set min and max length
+                $('#member_no').attr('minlength', '8');
+                $('#member_no').attr('maxlength', '10');
+                $('#member_no').attr('pattern', '[0-9]{8,10}');
+                $('#member_no').attr('title', 'Member number must be 8-10 digits');
+            } else {
+                // For other sponsor types, remove restrictions
+                $('#member_no').removeAttr('minlength');
+                $('#member_no').removeAttr('maxlength');
+                $('#member_no').removeAttr('pattern');
+                $('#member_no').removeAttr('title');
+            }
+        } else {
+            // If no sponsor type selected, clear and reset sponsor dropdown
+            $('#sponsor_id').empty();
+            $('#sponsor_id').append('<option value="" disabled selected>-Select-</option>');
+            
+            // Reset member number field
+            $('#member_no').removeAttr('minlength');
+            $('#member_no').removeAttr('maxlength');
+            $('#member_no').removeAttr('pattern');
+            $('#member_no').removeAttr('title');
         }
-
-        // Validate all required fields
-        let isValid = requiredFields.every(field => formHandler.validateField(field));
-
-        // Validate email format if provided
-        const email = $('#email').val();
-        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            isValid = false;
-            $('#email').addClass('is-invalid')
-                      .after('<div class="invalid-feedback">Please enter a valid email address</div>');
-        }
-
-        if (!isValid) {
-            toastr.error('Please fill in all required fields');
-            return;
-        }
-
-        formHandler.showLoadingState($form);
-        formHandler.submitForm($form);
     });
+
+    // Function to check date range and update card status
+    function updateCardStatus() {
+        var startDate = $('#start_date').val();
+        var endDate = $('#end_date').val();
+        
+        if(startDate && endDate) {
+            var today = new Date();
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            
+            // Reset time part to compare dates only
+            today.setHours(0, 0, 0, 0);
+            start.setHours(0, 0, 0, 0);
+            end.setHours(0, 0, 0, 0);
+            
+            if(today >= start && today <= end) {
+                $('#card_status').val('Active');
+                $('#card_status').css('color', 'green');
+            } else {
+                $('#card_status').val('Inactive');
+                $('#card_status').css('color', 'red');
+            }
+        } else {
+            $('#card_status').val('');
+        }
+    }
+
+    // Update card status when start date or end date changes
+    $('#start_date, #end_date').on('change', function() {
+        updateCardStatus();
     });
+

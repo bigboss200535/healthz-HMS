@@ -162,9 +162,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/claims_code', [ExternalCallController::class, 'claims_check_code']);  
     });
 
-   
-    Route::get('get-diagnosis/{attendance_id}', [DiagnosisController::class, 'get_diagnosis']);
-    Route::get('search-diagnosis', [DiagnosisController::class, 'search_diagnosis']);
+    Route::delete('delete-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'delete_diagnosis']);
+    // Route::get('get-diagnosis/{attendance_id}', [DiagnosisController::class, 'get_diagnosis']);
+    // Route::get('search-diagnosis', [DiagnosisController::class, 'search_diagnosis']);
     Route::post('add-diagnosis', [DiagnosisController::class, 'add_diagnosis']);
     Route::get('search-prescription', [MedicationsController::class, 'search_prescription']);
 

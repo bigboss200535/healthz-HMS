@@ -115,6 +115,14 @@
   <script src="{{ asset('vendor/libs/@form-validation/auto-focus.js') }}"></script>
   <script src="{{ asset('js/main.js') }}"></script>
   <script src="{{ asset('js/pages-auth.js') }}"></script>
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('keydown', event => {
+        if (event.ctrlKey && (event.key === 'p' || event.key === 's')) {
+            event.preventDefault();
+        }
+    });
+</script>
 </body>
 </html>
 

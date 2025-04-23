@@ -124,7 +124,7 @@
           <div class="row mb-3">
             <div class="col">
               <label class="form-label" for="telephone">Cell phone</label>
-              <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone" autocomplete="off">
+              <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone" autocomplete="off" pattern="\+?\d{10,15}" title="Please enter a valid phone number">
               @error('telephone') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="col">

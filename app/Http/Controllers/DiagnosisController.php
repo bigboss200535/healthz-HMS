@@ -65,6 +65,10 @@ class DiagnosisController extends Controller
         $patient_id = $request->input('patient_id');
         $diagnosis_query = $request->input('diagnosis_query');
 
+        $start = '&'. $diagnosis_query;
+        $contain = '&' . $diagnosis_query . '&';
+        $end = $diagnosis_query . '&';
+
         $attendance = DB::table('patient_attendance')
             ->where('archived', 'No')
             ->where('opd_number', $opd_number)
@@ -90,7 +94,7 @@ class DiagnosisController extends Controller
             ->select('diagnosis_id','diagnosis', 'diagnosis_code', 'icd_10', 'gdrg_code', 'age_id', 
                     'gender_id', 'adult_tarif', 'child_tarif', 'gdrg_adult', 'gdrg_child')
             ->orderBy('diagnosis', 'asc')
-            ->limit(10)
+            ->limit(50)
             ->get();
 
         return response()->json($diagnosis);
@@ -136,30 +140,58 @@ class DiagnosisController extends Controller
                      'diagnosis.diagnosis', 
                      'patient_diagnosis.attendance_id', 
                      'patient_diagnosis.patient_id', 
-                    // 'patient_diagnosis.opd_number', 
                     'patient_diagnosis.diagnosis_category', 
                     'patient_diagnosis.entry_date', 
-                    // 'patient_diagnosis.diagnosis_fee',
                     'patient_diagnosis.gdrg_code', 
                     'patient_diagnosis.icd_10', 
                     'patient_diagnosis.is_principal',
-                    'users.user_fullname as doctor_name',
+                    // 'users.user_fullname as doctor_name',
+                    \DB::raw('UPPER(users.user_fullname) as doctor_name')
                     )
             ->get();
             
-           
         return response()->json($diagnoses);
     }
 
-    public function delete_diagnosis(Request $request)
-    {
-        $diagnosis->attendance_diagnosis_id = $request->input('attendance_diagnosis_id');
-        $diagnosis = PatientDiagnosis::findOrFail($pat_id);
-        $diagnosis->updated_by =  Auth::user()->user_id;
-        $diagnosis->updated_date = now();
-        // $pat->status = $request->input('category_status');
-        $pat->lockForUpdate($request->all());
+    public function get_previous_diagnosis(Request $request, $patient_id)
+    {   
 
-        return response()->json(['success' => true]);
+        $diagnoses = PatientDiagnosis::where('patient_diagnosis.archived', 'No')
+            ->where('patient_diagnosis.patient_id',$patient_id)
+            ->join('diagnosis', 'diagnosis.diagnosis_id', '=', 'patient_diagnosis.diagnosis_id')
+            ->join('users', 'users.user_id', '=', 'patient_diagnosis.user_id')
+            ->select('patient_diagnosis.attendance_diagnosis_id as diagnosis_table_id',
+                     'diagnosis.diagnosis_code', 
+                     'diagnosis.diagnosis', 
+                     'patient_diagnosis.attendance_id', 
+                     'patient_diagnosis.patient_id', 
+                    'patient_diagnosis.diagnosis_category', 
+                    'patient_diagnosis.entry_date', 
+                    'patient_diagnosis.gdrg_code', 
+                    'patient_diagnosis.icd_10', 
+                    'patient_diagnosis.is_principal',
+                    // 'users.user_fullname as doctor_name',
+                    \DB::raw('UPPER(users.user_fullname) as doctor_name')
+                    )
+            ->get();
+            
+        return response()->json($diagnoses);
+    }
+
+    public function delete_diagnosis(Request $request, $diagnosis_id)
+    {
+        $diagnosis = PatientDiagnosis::where('attendance_diagnosis_id', $diagnosis_id)->lockForUpdate();
+        
+        if($diagnosis->exists()){
+            $diagnosis->update([
+                'updated_by' => Auth::user()->user_id,
+                'archived_by' => Auth::user()->user_id,
+                'archived_date' => now(),
+                'archived' => 'Yes'
+            ]);
+            return response()->json(['success' => true]);
+        }else{
+            return response()->json(['success' => false]);
+        }
     }
 }

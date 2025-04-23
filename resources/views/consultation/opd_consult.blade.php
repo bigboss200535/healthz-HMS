@@ -93,7 +93,12 @@
                 <tr>
                   <td><b>Discharged Outcome</b></td>
                   <td>
-                       <a href="#" class="btn btn-primary">Undischarged</a>
+                  <select name="visit_type" id="visit_type" class="form-control">
+                            <option selected disabled></option>
+                            <option value="PENDING DIAGNOSTIC">PENDING DIAGNOSTIC</option>
+                            <option value="DISCHARGED">DISCHARGED</option>
+                            <option value="DISCHARGED AGAINST MEDICAL ADVICE">DISCHARGED AGAINST MEDICAL ADVICE</option>
+                      </select>
                   </td>
                 </tr>
             </table>
@@ -951,7 +956,13 @@
                     <div class="col-12 col-md-6">
                       <label class="form-label" for="pres_sponsor">Sponsor</label>
                       <select name="pres_sponsor" id="pres_sponsor" class="form-control">
-                        <option value="CASH">CASH</option>
+                          @php
+                                $sponsors = \App\Models\SponsorType::orderBy('sponsor_type_id', 'asc')->get();
+                            @endphp
+                            @foreach($sponsors as $sponsor_type)
+                                <option value="{{ $sponsor_type->sponsor_type }}">{{ $sponsor_type->sponsor_type }}</option>
+                            @endforeach
+                        <option value="CASH">CASH PAYMENT</option>
                       </select>
                     </div>
                     <div class="col-12 col-md-6">
@@ -972,7 +983,7 @@
             </div>
           </div>
           <!--/ prescription Modal -->
-
+<!-- 
 
 <script>
   // Prescription management functionality
@@ -1188,5 +1199,5 @@ $(document).ready(function() {
     // Initialize the prescription table on page load
     refreshPrescriptionTable();
 });
-</script>
+</script> -->
 </x-app-layout>

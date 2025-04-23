@@ -133,7 +133,7 @@
           </div>
 </x-app-layout>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
     // Clear search form code remains unchanged
     document.getElementById('clear_search').addEventListener('click', function(e) {
         e.preventDefault();
