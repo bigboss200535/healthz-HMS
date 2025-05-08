@@ -4,13 +4,11 @@
                     <span class="text-muted fw-light">Users/</span> Permissions
                   </h4>
                   <div class="row">
-                      
                         <div class="col-12 col-lg-12">
                           <div class="card mb-4">
                           <div class="card-header">
                               <h5 class="card-tile mb-0">Permissions For <br> <b>{{ strtoupper($user->user_fullname) }}</b> <br>{{$user->role_type}}</h5>
                             </div>
-                           
                             <div class="card-body">
                                 <div class="pull-right">
                                     <button class="btn btn-primary" name="add_permissions" id="add_permissions"><i class="bx bx-plus"></i> New Permission</button>
@@ -32,13 +30,13 @@
                                         <tbody>
                                         @foreach($permissions as $permission)
                                         <tr>
-                                          <td align="center">
+                                            <td align="center">
                                                 @if($permission->is_granted)
                                                 <input type="checkbox" checked>
                                                 @else
                                                 <input type="checkbox" >
                                                 @endif  
-                                         </td>
+                                            </td>
                                             <td>{{ $permission->role_name }}</td>
                                             <td>{{ $permission->permission_name }}</td>
                                             <td>
@@ -47,7 +45,6 @@
                                                 @elseif($permission->can_read==='0')
                                                  <input type="checkbox" >
                                                 @endif  
-                                              <!-- <input type="checkbox" > -->
                                             </td>
                                             <td>
                                                @if($permission->can_create==='1')
@@ -70,7 +67,7 @@
                                                 @endif 
                                             </td>
                                             <td>
-                                            <div class="dropdown" align="center">
+                                                 <div class="dropdown" align="center">
                                                       <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                           <i class="bx bx-dots-vertical-rounded"></i>
                                                       </button>
@@ -78,9 +75,9 @@
                                                               <a class="dropdown-item product_delete_btn" data-id="#" href="#">
                                                                   <i class="bx bx-edit me-1"></i> Edit
                                                               </a>
-                                                              <a class="dropdown-item product_delete_btn" data-id="#" href="{{ $permission->user_permissions_id}}">
+                                                              <!-- <a class="dropdown-item product_delete_btn" data-id="#" href="{{ $permission->user_permissions_id}}">
                                                                   <i class="bx bx-trash me-1"></i> Delete
-                                                              </a>
+                                                              </a> -->
                                                         </div>
                                                   </div>
                                             </td>

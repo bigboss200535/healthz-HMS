@@ -20,6 +20,7 @@ $facility = DB::table('facility')->where('archived', 'No')->value('facility_name
           </div>
         </div>
         <ul class="navbar-nav flex-row align-items-center ms-auto">
+        @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
           <!-- Language ------------------------------------------------------------------------------------>
           <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -48,9 +49,12 @@ $facility = DB::table('facility')->where('archived', 'No')->value('facility_name
               </li> -->
             </ul>
           </li>
+          @endif
+         
           <!-- Language ------------------------------------------------------------------------------------>
 
           <!-- -Notification------------------------------------------------------------------------------------->
+          @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
           <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               <i class="bx bx-bell bx-sm"></i>
@@ -127,6 +131,9 @@ $facility = DB::table('facility')->where('archived', 'No')->value('facility_name
             </ul>
           </li>
           <!--/ Notification --------------------------------------------------------------------------------------------------->
+          @endif
+
+          @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
           <!-- User -->
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -153,19 +160,23 @@ $facility = DB::table('facility')->where('archived', 'No')->value('facility_name
               <li>
                 <div class="dropdown-divider"></div>
               </li>
+              @endif
+              @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
               <li>
                 <a class="dropdown-item" href="{{ url('user-profile') }}">
                   <i class="bx bx-user me-2"></i>
                   <span class="align-middle">My Profile</span>
                 </a>
               </li>
+              @endif
+              @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
               <li>
                 <a class="dropdown-item" href="#">
                   <i class="bx bx-cog me-2"></i>
                   <span class="align-middle">Settings</span>
                 </a>
               </li>
-             
+             @endif
               <li>
                 <div class="dropdown-divider"></div>
               </li>

@@ -5,7 +5,7 @@
                   <script>
                      document.write(new Date().getFullYear());
                   </script>
-                  , WebEdge Technologies
+                  , WebEdge Technologies Ltd
                 </div>
                 <div class="d-none d-lg-inline-block">
                 </div>

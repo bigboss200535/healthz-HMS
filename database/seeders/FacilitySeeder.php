@@ -19,7 +19,7 @@ class FacilitySeeder extends Seeder
 
         $facility = Facility::updateOrCreate([
             'facility_id' => 'FAC000001',
-            'facility_name' => 'MATER DEI HOSPITAL',
+            'facility_name' => 'METRO HEALTH SERVICES',
             'nhis_api' => 'Claim Check Code',
             'nhia_url' => 'https://elig.nhia.gov.gh:5000/',
             'nhia_key' => 'hp6658',

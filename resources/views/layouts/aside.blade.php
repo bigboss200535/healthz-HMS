@@ -1,20 +1,16 @@
+<?php 
+use Illuminate\Support\Facades\DB;
+// use App\Models\UserController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
-<!-- 
- R1 -  Developer
- R2 - System Administrator
- R3 - IT Officer
- R4 - Claims Officer
- R5 - HOSPITAL ADMINISTRATOR
- R6 - HOSPITAL MANAGER
- R7 - ACCOUNTS OFFICER
- R8 - ACCOUNTANT
- R9 - NURSE
- R10 - DOCTORS
- R11 - 
- R12
-  -->
+$userController = new UserController();
+$access = $userController->permissions(Auth::user()->user_id);
+
+?>
+
 <aside x-data="{ open: false }" id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-  <div class="app-brand demo ">
+  <div class="app-brand demo">
     <a href="#" class="app-brand-link">
       <!-- <span class="app-brand-logo demo">
       <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -59,18 +55,21 @@
   <!--------------------------Home------------------------------------>
   <div class="menu-inner-shadow"></div>
   <ul class="menu-inner py-1">
+  @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="{{ url('/dashboard') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div class="text-truncate" data-i18n="Dashboards">Home</div>
       </a>
     </li>
+    @endif
+   
     <!----------------------------Menu--------------------------------->
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text" data-i18n="Apps & Pages">Apps</span>
     </li>
 
-    
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <!-- -----------------------------------patient------------------->
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -79,13 +78,12 @@
          <!-- <span class="badge badge-center rounded-pill bg-success ms-auto">4</span> -->
       </a>
       <ul class="menu-sub">
-      @if(auth()->user()->can('PATIENT REGISTRATION'))
       <li class="menu-item">
           <a href="{{ route('patients.create') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Add Patient</div>
           </a>
         </li>
-        @endif
+        
          <li class="menu-item">
           <a href="{{ route('patients.index') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Search Patient</div>
@@ -103,9 +101,9 @@
         </li>
       </ul>
     </li>
-    
+    @endif
   <!-----------nurses------------------------>
-  
+  @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
   <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-injection"></i>
@@ -139,7 +137,8 @@
         </li> -->
       </ul>
     </li>
-    
+  @endif
+  @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-male-female"></i>
@@ -154,6 +153,8 @@
         </li>
       </ul>
     </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-hotel"></i>
@@ -183,7 +184,8 @@
         </li>
       </ul>
     </li>
-    
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-vial"></i>
@@ -208,6 +210,8 @@
         </li> -->
       </ul>
     </li>
+    @endif 
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-credit-card-alt"></i>
@@ -237,6 +241,8 @@
         </li> -->
       </ul>
     </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-band-aid"></i>
@@ -271,9 +277,9 @@
         </li> -->
       </ul>
     </li>
- 
+ @endif
 <!-- ---------------------------------------sett--------------------------------------------- -->
-<!-- -----------------------------------leads------------------------------------------------- -->
+@if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
 <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-credit-card"></i>
@@ -282,7 +288,7 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{ url('/claims/nhis-management') }}" class="menu-link">
+          <a href="{{ url('claims/nhis-management') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">NHIS</div>
           </a>
         </li>
@@ -304,6 +310,8 @@
         </li>
       </ul>
     </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-envelope"></i>
@@ -325,6 +333,8 @@
         </li>
       </ul>
     </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
 <!-- --------------------------------------/-salaries--------------------------------------------- -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text" data-i18n="Components">System Setup</span></li>
     <!-- Cards -->
@@ -347,6 +357,8 @@
         </li>
       </ul>
     </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-cog"></i>
@@ -366,6 +378,8 @@
         </li>
       </ul>
     </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-cog"></i>
@@ -385,6 +399,8 @@
         </li>
       </ul>
     </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-cog"></i>
@@ -416,6 +432,9 @@
         </li>
       </ul>
     </li>
+    @endif
+
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
 <!-- --------------------------------------/-tax--------------------------------------------- -->
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -436,6 +455,9 @@
         </li>
       </ul>
     </li>
+    @endif
+
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
 <!-- --------------------------------------/-tax--------------------------------------------- -->
 <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -461,7 +483,9 @@
         </li>
       </ul>
     </li>
-   
+   @endif
+
+   @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
 <!-- ---------------------------------------------------------------------------- -->
 <li class="menu-header small text-uppercase"><span class="menu-header-text" data-i18n="Components">Reports</span></li>
 <li class="menu-item">
@@ -488,6 +512,9 @@
         </li>
       </ul>
     </li>
+    @endif
+
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
@@ -520,9 +547,11 @@
             <div class="text-truncate" data-i18n="Advance">Morbidity/Mortality</div>
           </a>
         </li>
-
       </ul>
     </li>
+    @endif
+
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
@@ -562,6 +591,10 @@
         </li>
       </ul>
     </li>
+@endif
+
+@if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
+
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
@@ -586,6 +619,9 @@
         </li>
       </ul>
     </li>
+    @endif
+
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-collection"></i>
@@ -625,6 +661,6 @@
         </li>
       </ul>
     </li>
-
+@endif
   </ul>
 </aside>

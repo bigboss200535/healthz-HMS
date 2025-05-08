@@ -120,11 +120,12 @@ Route::middleware('auth')->group(function () {
     // Route::get('/services/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);
     // Route::post('/services/patient_service', [ServiceRequestController::class, 'store']);
     // Route::get('/services/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve']); 
-    
+    Route::get('claims/nhis-management', [ClaimsNhisController::class, 'index']);
+
     Route::prefix('claims')->group(function () {
         Route::resource('/private-management', ClaimsPrivateController::class);
         // Route::get('/company-management', [ClaimsController::class, 'index']);
-        Route::resource('/nhis-management', ClaimsNhisController::class);
+      
         // Route::get('/cash-management', [ClaimsController::class, 'index']);
     });
 

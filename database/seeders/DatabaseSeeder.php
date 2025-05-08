@@ -65,7 +65,8 @@ class DatabaseSeeder extends Seeder
             PermissionRoleSeeder::class,
             PermissionsSeeder::class,
             UserCategoryAccessLevelSeeder::class,
-            UserPermissionsSeeder::class
+            // UserPermissionsSeeder::class
+            UserPermissionTestSeeder::class
         ]);
         // \App\Models\User::factory(20)->create();
         // \App\Models\Patient::factory(2000)->create();
