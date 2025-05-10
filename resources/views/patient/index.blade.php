@@ -78,7 +78,7 @@
                                 </div>
                                  <!-- Search Buttons -->
                                   <table class="table table-responsive" style="color:aqua">
-                                    <tr>
+                                    <tr align="center">
                                       <td>
                                          <button class="btn btn-primary" name="search_item" id="search_item"><i class="bx bx-search"></i> Search</button>
                                           <button class="btn btn-info" id="clear_search"><i class="bx bx-reset"></i> Clear</button>

@@ -290,7 +290,7 @@
                 <div class="card mb-4">
                   <div class="card-body">
                     <div class="row mb 3">
-                        <h5 class="card-tile mb-0"><b>Current Registrations</b></h5>
+                        <h5 class="card-tile mb-0"><b>Patient List</b></h5>
                         <label style="color:green"></label>
                     </div>
                     <br>

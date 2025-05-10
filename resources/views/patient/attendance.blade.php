@@ -8,7 +8,25 @@
                       <div class="card-body card-widget-separator">
                         <div class="row gy-4 gy-sm-1">
                           <div class="col-sm-6 col-lg-12">
-                              <h4 class="text-muted text-center">-Kingly select a Patient attendance to continue-</h4>
+                              <!-- <h4 class="text-muted text-center">-Kingly select a Patient attendance to continue- -->
+                               <div class="row mb-3">
+                                  <div class="col">
+                                    <label class="form-label" for="begin_date">Start Date <a style="color: red;">*</a></label>
+                                    <input type="date" class="form-control" id="begin_date" name="begin_date" placeholder="Start End">
+                                  </div>
+                                  <div class="col">
+                                    <label class="form-label" for="last_date">Start Date <a style="color: red;">*</a></label>
+                                    <input type="date" class="form-control" id="last_date" name="last_date" placeholder="End Date">
+                                  </div>
+                                  <div class="col">
+                                     <label class="form-label" for="begin_date">. </label><br>
+                                    <!-- <div class="d-flex align-content-center flex-wrap gap-3"> -->
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <!-- <button type="reset" class="btn btn-label-secondary">clear</button> -->
+                                  <!-- </div> -->
+                                  </div>
+                                </div>
+                              </h4>
                           </div>
                         </div>
                       </div>

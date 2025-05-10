@@ -80,23 +80,23 @@ $access = $userController->permissions(Auth::user()->user_id);
       <ul class="menu-sub">
       <li class="menu-item">
           <a href="{{ route('patients.create') }}" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Add Patient</div>
+            <div class="text-truncate" data-i18n="List">Add New</div>
           </a>
         </li>
         
          <li class="menu-item">
           <a href="{{ route('patients.index') }}" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Search Patient</div>
+            <div class="text-truncate" data-i18n="List">Search</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="{{ route('patient.list_all_patient_sponsors') }}" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Patient Sponsors</div>
+            <div class="text-truncate" data-i18n="List">Sponsors</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="{{ route('patient.attendance') }}" class="menu-link">
-            <div class="text-truncate" data-i18n="List">Patient Attendance</div>
+            <div class="text-truncate" data-i18n="List">Attendance</div>
           </a>
         </li>
       </ul>
