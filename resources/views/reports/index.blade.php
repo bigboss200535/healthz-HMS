@@ -1,5 +1,5 @@
 <x-app-layout>
-<duiiv class="container-xxl flex-grow-1 container-p-y">    
+<div class="container-xxl flex-grow-1 container-p-y">    
           <div class="app-ecommerce">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div class="d-flex flex-column justify-content-center">

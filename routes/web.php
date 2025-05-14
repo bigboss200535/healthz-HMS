@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServicesFeeController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\PatientReportController;
 use App\Http\Controllers\MedicationsController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ClinicController;
@@ -181,6 +182,13 @@ Route::middleware('auth')->group(function () {
     Route::get('search-prescription', [MedicationsController::class, 'search_prescription']);
 
     // Route::post('code_generate', [ExternalCallController::class, 'claims_check_code']);
+
+    // Route::prefix('reports')->group(function () {
+    //     Route::get('/', function () {
+    //         return view('reports.patients.index');
+    //     })->name('index');
+    //      Route::post('/generate', [App\Http\Controllers\PatientReportController::class, 'generate'])->name('generate');
+    // });
 });
 
 require __DIR__.'/auth.php';
@@ -191,4 +199,19 @@ require __DIR__.'/auth.php';
 // Route::post('/consultation/resume-attendance/{id}', [App\Http\Controllers\ConsultationController::class, 'resumeAttendance']);
 // Route::get('/consultation/get-on-hold-patients', [App\Http\Controllers\ConsultationController::class, 'getOnHoldPatients']);
 // Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('regenerate-session');
+
+    
+    // Patient Reports
+    Route::prefix('reports')->group(function () {
+        Route::get('/patients', [App\Http\Controllers\PatientReportController::class, 'index'])->name('index');
+        Route::post('patients/generate', [App\Http\Controllers\PatientReportController::class, 'generate'])->name('reports.patients.generate');
+        Route::get('/results', [App\Http\Controllers\PatientReportController::class, 'results'])->name('results');
+        Route::get('/print', [App\Http\Controllers\PatientReportController::class, 'print'])->name('print');
+        
+        // Export routes
+        Route::get('/export/pdf', [App\Http\Controllers\PatientReportController::class, 'exportPdf'])->name('export.pdf');
+        Route::get('/export/excel', [App\Http\Controllers\PatientReportController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/export/word', [App\Http\Controllers\PatientReportController::class, 'exportWord'])->name('export.word');
+    });
+// });
 
