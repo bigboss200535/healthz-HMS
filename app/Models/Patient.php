@@ -8,8 +8,10 @@ class Patient extends Model
 {
     protected $table = 'patient_info';
     protected $primaryKey = 'patient_id';
+     public $timestamps = false;
     public $incrementing = false;
     protected $keyType = 'string';
+     
     
     /**
      * The attributes that are mass assignable.

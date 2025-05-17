@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
 $userController = new UserController();
-$access = $userController->permissions(Auth::user()->user_id);
+// $access = $userController->permissions(Auth::user()->user_id);
 
 ?>
 
@@ -490,9 +490,48 @@ $access = $userController->permissions(Auth::user()->user_id);
     </li>
    @endif
 
-   @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
+
 <!-- ---------------------------------------------------------------------------- -->
 <li class="menu-header small text-uppercase"><span class="menu-header-text" data-i18n="Components">Reports</span></li>
+
+
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <div class="text-truncate" data-i18n="Cards">Patient</div>
+        <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="/reports/patients" class="menu-link">
+            <div class="text-truncate" data-i18n="Basic">Patient Reports</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="Advance">Daily Attendance</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="Advance">Consulting Register</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="Advance">Surgeries</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="Advance">Morbidity/Mortality</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    @endif
+    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
 <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
@@ -556,42 +595,6 @@ $access = $userController->permissions(Auth::user()->user_id);
     </li>
     @endif
 
-    @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
-    <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
-        <div class="text-truncate" data-i18n="Cards">Patient</div>
-        <!-- <span class="badge badge-center rounded-pill bg-danger ms-auto">6</span> -->
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item">
-          <a href="/reports/patients" class="menu-link">
-            <div class="text-truncate" data-i18n="Basic">Patient Reports</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Advance">Daily Attendance</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Advance">Consulting Register</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Advance">Surgeries</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="#" class="menu-link">
-            <div class="text-truncate" data-i18n="Advance">Morbidity/Mortality</div>
-          </a>
-        </li>
-      </ul>
-    </li>
-    @endif
 
     @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
     <li class="menu-item">

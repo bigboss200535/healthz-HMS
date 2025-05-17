@@ -22,24 +22,29 @@ class PatientReportController extends Controller
         $genders = Gender::all();
         $religions = Religion::all();
         $sponsors = Sponsors::all();
-        $sponsorTypes = SponsorType::all();
+        $sponsor_types = SponsorType::all();
         
-        return view('reports.patients.index', compact('genders', 'religions', 'sponsors', 'sponsorTypes'));
+        return view('reports.patients.index', compact('genders', 'religions', 'sponsors', 'sponsor_types'));
     }
     
     public function generate(Request $request)
     {
         $patients = $this->getFilteredPatients($request);
         
-        if ($request->output_format == 'view') {
+        if ($request->output_format == 'view') 
+        {
             return view('reports.patients.view', compact('patients', 'request'));
-        } elseif ($request->output_format == 'pdf') {
+        } elseif ($request->output_format == 'pdf') 
+        {
             return $this->generatePDF($patients, $request);
-        } elseif ($request->output_format == 'excel') {
+        } elseif ($request->output_format == 'excel') 
+        {
             return $this->generateExcel($patients, $request);
-        } elseif ($request->output_format == 'word') {
+        } elseif ($request->output_format == 'word') 
+        {
             return $this->generateWord($patients, $request);
-        } elseif ($request->output_format == 'print') {
+        } elseif ($request->output_format == 'print') 
+        {
             return view('reports.patients.print', compact('patients', 'request'));
         }
         

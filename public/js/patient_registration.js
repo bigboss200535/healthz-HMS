@@ -1,4 +1,4 @@
-// PATIENT REGISTRATION FORM
+//*************************************************** */ PATIENT REGISTRATION FORM
 
 // Handle form submission
     $('#patient_info_create').on('submit', function(e) {
@@ -287,7 +287,7 @@ $('#sponsor_type_id').on('change', function() {
     });
 
 
-    // PATIENT FETCH MODIFICATIONS
+    //********************************************************* */ PATIENT FETCH MODIFICATIONS
 
 // $(document).ready(function() {
     // Handle edit button click

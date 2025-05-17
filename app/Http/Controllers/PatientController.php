@@ -125,18 +125,19 @@ class PatientController extends Controller
                 ], 200);
         }
         
-        $sponsor_records = intval(PatientSponsor::all()->count()) + 1;
+        // $sponsor_records = intval(PatientSponsor::all()->count()) + 1;
         $patient_records = intval(Patient::all()->count()) + 1;
-        $sponsor_records = intval(PatientOpdNumber::all()->count()) + 1;
+        // $sponsor_records = intval(PatientOpdNumber::all()->count()) + 1;
 
         DB::beginTransaction();
                     try {
                         $now = now();
                         $patient_id_no = Str::uuid();
-                        $transaction_id = now()->format('YmdHis');
+                        $transaction_id = date('YmdHis');
                         $user_id = Auth::user()->user_id;
                         
-                        $patient = new Patient([
+                        // $patient = new Patient([
+                            Patient::create([
                             'patient_id' => $patient_id_no,
                             'title_id' => strtoupper($validated_data['title']),
                             'firstname' => strtoupper($validated_data['firstname']),
@@ -162,7 +163,7 @@ class PatientController extends Controller
                             'user_id' =>  $user_id,
                         ]);
                        
-                        $patient->save();
+                        // $patient->save();
                           // Save OPD number
                         PatientOpdNumber::create([
                             'patient_id' => $patient_id_no,
@@ -206,7 +207,7 @@ class PatientController extends Controller
                                 'member_no' => $validated_data['member_no'],
                                 'start_date' => $validated_data['start_date'],
                                 'end_date' => $validated_data['end_date'],
-                                'priority' => '1',
+                                'priority' => '1' ?? '0',
                                 'dependant' => $validated_data['dependant'],
                                 'user_id' =>  $user_id,
                                 'added_date' => $now,
