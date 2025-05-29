@@ -104,7 +104,7 @@
     <script src="{{ asset('js/patient_extras.js') }}"></script>
     <script src="{{ asset('js/diagnosis_and_drugs.js') }}"></script>
      <script src="{{ asset('js/patient_registration.js') }}"></script>
-    <!-- <script src="{{ asset('js/patient_search.js') }}"></script> -->
+    <script src="{{ asset('js/consultation.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js') }}"></script>
     <!-- <script src="{{ asset('js/fullcalendar.js') }}"></script> -->
     <!-- <script src="{{ asset('js/app-calendar-events.js') }}"></script> -->
@@ -115,7 +115,8 @@
             $('#app_list').DataTable({
                 searching: false
             });
-             $('#system_table').DataTable();
+            // $('#symptoms-table').DataTable();
+            $('#system_table').DataTable();
             $('#attendance_details').DataTable();   
             $('#claims_code_list').DataTable();
             $('#prescriptions_list').DataTable(); 
@@ -130,7 +131,7 @@
             $('#nurses_notes_patient').DataTable();
             $('#drugs').DataTable();
             $('#users_list').DataTable();
-            $('#diagnosis_list').DataTable();
+            // $('#diagnosis_list').DataTable();
             $('.sponsor_name').select2();
             $('.diagnosis_search').select2();
             // $('.sponsor_type_id').select2();

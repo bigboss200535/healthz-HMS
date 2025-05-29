@@ -369,7 +369,7 @@ $('#sponsor_type_id').on('change', function() {
                               </td>
                               <td>
                               <td>
-                                  <button class='btn btn-danger'><i class="bx bx-trash"></i></button>
+                                  <button class='btn btn-danger' data-id=""><i class="bx bx-trash"></i></button>
                               </td>
                               </td>
                            </table>

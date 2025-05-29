@@ -398,6 +398,7 @@ class PatientController extends Controller
     $emergency_contacts = [];
         foreach ($relations as $relation) {
             $emergency_contacts[] = [
+                // 'relation_id' =>$relations->
                 'relation_name' => $relation->relation_name,
                 'relation_id' => $relation->relation_id,
                 'contact' => $relation->contact

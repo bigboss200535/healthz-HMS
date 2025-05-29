@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\Religion;
 use App\Models\Sponsors;
 use App\Models\SponsorType;
+use App\Models\Clinic;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\PDF;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -19,36 +20,45 @@ class PatientReportController extends Controller
 {
     public function index()
     {
-        $genders = Gender::all();
+        $genders = Gender::where('usage', '1')->get();
         $religions = Religion::all();
         $sponsors = Sponsors::all();
         $sponsor_types = SponsorType::all();
+        $clinics = Clinic::where('status', 'Active')->get();
         
-        return view('reports.patients.index', compact('genders', 'religions', 'sponsors', 'sponsor_types'));
+        return view('reports.patients.index', compact('genders', 'religions', 'sponsors', 'sponsor_types', 'clinics'));
     }
     
     public function generate(Request $request)
     {
         $patients = $this->getFilteredPatients($request);
         
-        if ($request->output_format == 'view') 
-        {
-            return view('reports.patients.view', compact('patients', 'request'));
-        } elseif ($request->output_format == 'pdf') 
-        {
-            return $this->generatePDF($patients, $request);
-        } elseif ($request->output_format == 'excel') 
-        {
-            return $this->generateExcel($patients, $request);
-        } elseif ($request->output_format == 'word') 
-        {
-            return $this->generateWord($patients, $request);
-        } elseif ($request->output_format == 'print') 
-        {
-            return view('reports.patients.print', compact('patients', 'request'));
+        // For AJAX requests, return JSON response
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'data' => $patients,
+                'message' => 'Patients retrieved successfully',
+                'code' => 200
+            ]);
         }
         
-        return back()->with('error', 'Invalid output format selected');
+        // For non-AJAX requests, handle as before
+        if ($request->report_type == 'View') 
+        {
+            return view('reports.patients.view', compact('patients', 'request'));
+        } elseif ($request->report_type == 'PDF') 
+        {
+            return $this->generatePDF($patients, $request);
+        } elseif ($request->report_type == 'Excel') 
+        {
+            return $this->generateExcel($patients, $request);
+        } elseif ($request->report_type == 'Word') 
+        {
+            return $this->generateWord($patients, $request);
+        }
+        
+        return back()->with('error', 'Invalid report type selected');
     }
     
     private function getFilteredPatients(Request $request)
@@ -83,6 +93,11 @@ class PatientReportController extends Controller
         
         if ($request->date_to) {
             $query->whereDate('added_date', '<=', $request->date_to);
+        }
+        
+        // Add clinic filter
+        if ($request->clinic_id) {
+            $query->where('clinic_id', $request->clinic_id);
         }
         
         return $query->where('status', 'Active')

@@ -285,7 +285,7 @@
             <img src="{{ $patients->gender==='FEMALE' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px ">
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown" align="center">
-            <h5 class="card-tile mb-0"><b>{{ $patients->title}} {{ $patients->fullname }}</b></h5>
+            <h5 class="card-tile mb-0"><b>{{ $patients->fullname }}</b></h5>
           </div>
           <div class="mb-3 col ecommerce-select2-dropdown">
            <table class="table">

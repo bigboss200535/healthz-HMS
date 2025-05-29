@@ -181,6 +181,23 @@ class ConsultationController extends Controller
             ->where('archived', 'No')
             ->get();  
 
+       // Fetch clinical history with their questions
+        $clinical_history = DB::table('clinical_history')
+            ->where('clinical_history.archived', 'No')
+            ->orderBy('clinical_history_id', 'asc')
+            ->get();
+            
+        // Fetch clinical history questions
+        $clinical_history_questions = DB::table('clinical_history_question')
+            ->where('archived', 'No')
+            ->get();
+            
+        // Group questions by clinical_history_id
+        $grouped_questions = [];
+        foreach ($clinical_history_questions as $question) {
+            $grouped_questions[$question->clinical_history_id][] = $question;
+        } 
+
         $claims = Claim::where('attendance_id', $attendance_id)->get();
 
         if(!$claims){
@@ -200,7 +217,7 @@ class ConsultationController extends Controller
             ]);
         }
 
-        return view('consultation.opd_consult', compact( 'attendance', 'doctors', 'con_room', 'systemic'));
+        return view('consultation.opd_consult', compact( 'attendance', 'doctors', 'con_room', 'systemic', 'clinical_history', 'grouped_questions'));
     }
 
 
@@ -295,7 +312,16 @@ class ConsultationController extends Controller
         }
     }
     
-
+    public function getSystemicSymptoms($systemic_id)
+    {
+        $symptoms = DB::table('systemic_symtom')
+            ->where('systemic_id', $systemic_id)
+            ->where('archived', 'No')
+            ->where('status', 'Active')
+            ->get();
+        
+        return response()->json($symptoms);
+    }
 
 
 

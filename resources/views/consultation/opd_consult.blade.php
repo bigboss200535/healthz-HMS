@@ -160,8 +160,6 @@
     </div>
   </div>
 </div>
-
-
 <br>
 <!-- Add a message to inform the user what's needed -->
     <div class="card mb-6" id="required_fields_message">
@@ -169,8 +167,8 @@
               <div class="card-body card-widget-separator">
                    <div class="row gy-4 gy-sm-1">
                        <div class="col-sm-6 col-lg-12">
-                          <h6 style="color: red" align='center'><i class="bx bx-info-circle me-1"></i> Please complete all consultation details before proceeding</h6>
-                          <h4 class="text-dark text-center"> <b style="color:green">SELECT ALL REQUIRED FIELDS:</b> Consultation Type, Doctor, Consulting Date, and Episode.</h4>
+                          <h6 style="color: red" align='center'><i class="bx bx-info-circle me-1"></i>Please complete all consultation details before proceeding</h6>
+                          <!-- <h4 class="text-dark text-center"> <b style="color:green">SELECT ALL REQUIRED FIELDS:</b> Consultation Type, Doctor, Consulting Date, and Episode.</h4> -->
                         </div>
                    </div>
               </div>
@@ -178,7 +176,7 @@
      </div>
 <br>
 <!-- The existing consultation display div remains unchanged -->
-<div class="card mb-6" id="consultation_display">
+<div class="card mb-6" id="consultation_display" hidden>
   <div class="card-widget-separator-wrapper">
     <div class="card-body card-widget-separator">
       <div class="row gy-4 gy-sm-1">
@@ -377,45 +375,123 @@
                               </div>
                              <!-- ---------------------------------------------------------------------------------- -->
 
-                             <div class="tab-pane fade" id="navs_medical" role="tabpanel">     <!-------------- HISTORY  -------->
+                             <div class="tab-pane fade" id="navs_medical" role="tabpanel">     <!----- HISTORY of patient  -------->
                               <h5>History /Medical Conditions</h5>
-                                    <div class="row g-6 mb-6">
+                                   
+                                    <div class="row g-6 mb-12">
                                           <div class="col-md">
-                                            <div class="card">
-                                              <div class="card-body">
-                                                <form class="browser-default-validation">
-                                                  <div class="row">
-                                                    <div class="col-12">
-                                                      <button type="button" data-bs-toggle='modal' data-bs-target="#add_history" class="btn btn-sm btn-primary">ADD HISTORY</button>
-                                                      <!-- <button type="button" data-bs-toggle='modal' data-bs-target="#_history" class="btn btn-sm btn-danger"> HISTORY</button> -->
-                                                    </div>
+                                                    <div class="nav-align-top nav-tabs-shadow mb-6" >
+                                                          <ul class="nav nav-tabs nav-fill" role="tablist" >
+
+                                                            <li class="nav-item">
+                                                              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs_new_history" aria-controls="navs_new_history" aria-selected="true">
+                                                                  <span class="d-none d-sm-block"><b class="text-dark">New History</b></span>
+                                                                </button>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs_previous_history" aria-controls="navs_previous_history" aria-selected="false">
+                                                                  <span class="d-none d-sm-block"><b class="text-dark">Previous History</b></span>
+                                                                </button> 
+                                                            </li>
+                                                              
+                                                          </ul>
+                                                          <!-- tab content 1-->
+                                                            <div class="tab-content">
+                                                            <!-- 1 -->  
+                                                                      <div class="tab-pane fade show active" id="navs_new_history" role="tabpanel">  <!--------------new history -->
+                                                                        <div class="row g-6 mb-12">
+                                                                              <div class="col-md">
+                                                                                <div class="row">
+                                                                                      <div class="col-12" >
+                                                                                        <table class="table table">
+                                                                                          <thead>
+                                                                                            <tr>
+                                                                                              <th><b>Select</b></th>
+                                                                                              <th><b>Clinical History</b></th>
+                                                                                              <th><b>Clinical Questions</b></th>
+                                                                                              <th><b>Response</b></th>
+                                                                                              <th><b>Actions</b></th>
+                                                                                            </tr>
+                                                                                          </thead>
+                                                                                         <tbody>
+                                                                                            @foreach($clinical_history as $history)
+                                                                                              @if(isset($grouped_questions[$history->clinical_history_id]))
+                                                                                                @foreach($grouped_questions[$history->clinical_history_id] as $index => $question)
+                                                                                                  <tr>
+                                                                                                    <td>
+                                                                                                      <input type="checkbox" class="form-check-input" name="selected_questions[]" value="{{ $question->clinical_history_qtn_id }}">
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                      @if($index === 0)
+                                                                                                        <b>{{ $history->clinical_history }}</b>
+                                                                                                      @endif
+                                                                                                    </td>
+                                                                                                    <td>{{ $question->clinical_history_question }}</td>
+                                                                                                    <td>
+                                                                                                      <input type="text" class="form-control" name="response[{{ $question->clinical_history_qtn_id }}]" placeholder="Enter response">
+                                                                                                    </td>
+                                                                                                    <td><button type="button" class="btn btn-sm btn-primary">Add</button></td>
+                                                                                                  </tr>
+                                                                                                @endforeach
+                                                                                              @endif
+                                                                                            @endforeach
+                                                                                          </tbody>
+                                                                                          <tfoot>
+                                                                                            <tr>
+                                                                                              <th><b>Select</b></th>
+                                                                                              <th><b>Clinical History</b></th>
+                                                                                              <th><b>Clinical Questions</b></th>
+                                                                                              <th><b>Response</b></th>
+                                                                                              <th><b>Actions</b></th>
+                                                                                            </tr>
+                                                                                          </tfoot>
+                                                                                        </table>
+                                                                                      </div>                                                                                    
+                                                                                </div>
+                                                                            </div>
+                                                                         </div>
+                                                                      </div>
+                                                                <!-- tab content end 1-->
+                                                              <!-- 2 -->
+                                                                    <div class="tab-pane fade" id="navs_previous_history" role="tabpanel"> <!--------------new previous history -->
+                                                                        <div class="row g-6 mb-12">
+                                                                              <div class="col-md">
+                                                                                <div class="row">
+                                                                                  <h6>HISTORY of Patient</h6>
+                                                                                  
+
+                                                                                      <div class="col-12" >
+                                                                                        <ul class="timeline timeline-outline mb-0">
+                                                                                              <li class="timeline-item timeline-item-transparent border-dashed">
+                                                                                                <span class="timeline-point timeline-point-primary"></span>
+                                                                                                <div class="timeline-event">
+                                                                                                  <div class="timeline-header mb-3">
+                                                                                                    <h6 class="mb-0">Doctor: <label>Dr. Ansah Sasraku Jnr</label></h6>
+                                                                                              
+                                                                                                    <small class="text-body-dark">
+                                                                                                      <a href="#" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i> </a>
+                                                                                                    </small>
+                                                                                                  </div>
+                                                                                                  <p class="mb-2"><b>REMARKS:</b> Invoices have been paid to the company</p>
+                                                                                                </div>
+                                                                                              </li>
+                                                                                            </ul>
+                                                                                      </div>                                                                                    
+                                                                                </div>
+                                                                            </div>
+                                                                         </div>
+                                                                      </div>
+                                                            </div>
+                                                      <!-- tab content end -->          
                                                   </div>
-                                                </form>
-                                                <table class="table table-responsive" id="app_list">
-                                                    <thead>
-                                                      <tr>
-                                                        <th>SN</th>
-                                                        <th>History</th>
-                                                        <th>Description</th>
-                                                        <th>Date</th>
-                                                        <th>Action</th>
-                                                      </tr>
-                                                    </thead>
-                                                    <tfoot>
-                                                      <tr>
-                                                        <th>SN</th>
-                                                        <th>History</th>
-                                                        <th>Description</th>
-                                                        <th>Date</th>
-                                                        <th>Action</th>
-                                                      </tr>
-                                                    </tfoot>
-                                                </table>
-                                              </div>
-                                            </div>
                                           </div>
-                                      
                                         </div>
+                             
+                                <!------------------------------------------------------------------------------------------------------------------------------->
+ 
+
+
+                              
                                 </div>
   <!----------------------------------------------------------------------------------------------------------------------------- -->
                                 <div class="tab-pane fade" id="navs_systems" role="tabpanel">     <!--------------REVIEW OF SYSTEM -->
@@ -446,34 +522,63 @@
                                                                         <div class="row g-6 mb-12">
                                                                               <div class="col-md">
                                                                                 <div class="row">
-                                                                                    <div class="col-6">
-                                                                                          <table class="table table">
-                                                                                            <tr></tr>
-                                                                                          </table>
-                                                                                         <h6 class="text">REVIEW OF SYSTEMS/EXAMINATIONS</h6>
-                                                                                          <select class="form-control" id="systemic_review" name="systemic_review">
-                                                                                              <option selected disabled>-Select-</option>
+                                                                                  <h6>HISTORY OF REVIEW OF SYSTEMS/EXAMINATIONS</h6>
+                                                                                  <hr>
+                                                                                  <table class="table">
+                                                                                    <div class="col-12">
+                                                                                            <ul class="timeline timeline-outline mb-0">
+                                                                                              <li class="timeline-item timeline-item-transparent border-dashed">
+                                                                                                <span class="timeline-point timeline-point-primary"></span>
+                                                                                                <div class="timeline-event">
+                                                                                                  <div class="timeline-header mb-3">
+                                                                                                    <h6 class="mb-0">Doctor: <label>Dr. Ansah Sasraku Jnr</label></h6>
+                                                                                                    <small class="text-body-dark"><label><b>System</b>: GENERAL/CONSTITUTIONAL</label> </small>
+                                                                                                    <small class="text-body-dark"><label><b>SYMPTOM:</b> FEVER</label> </small>
+                                                                                                    <small class="text-body-dark"><label><b>DATE:</b> 12/03/2025</label> </small>
+                                                                                                    <small class="text-body-dark">
+                                                                                                      <a href="#" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i> </a>
+                                                                                                      <!-- <button type="button" class="btn btn-sm btn-danger">Delete</button> -->
+                                                                                                    </small>
+                                                                                                  </div>
+                                                                                                  <p class="mb-2"><b>REMARKS:</b> Invoices have been paid to the company</p>
+                                                                                                </div>
+                                                                                              </li>
+                                                                                            </ul>
+                                                                                  </div>
+                                                                                  </table>
+                                                                                      <br>
+                                                                                      <hr>
+                                                                                 <table class="table table-hover">
+                                                                                    <div class="col-3">
+                                                                                           <h6 class="pull-right"> <i class="bx bx-info-circle me-1"></i> Select a System to Review</h6>
+                                                                                    </div>
+                                                                                    <div class="col-9">
+                                                                                        <select class="form-control" id="systemic_review" name="systemic_review">
+                                                                                              <option selected disabled>-Select a system-</option>
                                                                                                   @foreach($systemic as $systemics)                                        
                                                                                                       <option value="{{ $systemics->systemic_id}}">{{ $systemics->systemic_item }}</option>
                                                                                                   @endforeach
                                                                                           </select>
-                                                                                      </div>
-                                                                                      <br>
+                                                                                    </div>
+                                                                                 </table>
+                                                                                   <!-- <hr> -->
                                                                                       <br>
                                                                                       <div class="col-12" >
-                                                                                        <table class="table table-striped">
+                                                                                        <div>
+                                                                                          <table class="table table-hover" id="symptoms-table">
                                                                                           <thead>
                                                                                             <tr>
-                                                                                              <th>Systems</th>
+                                                                                              <th>Select</th>
                                                                                               <th>Symptom</th>
-                                                                                              <th>Remarks</th>
-                                                                                              <th>Remarks</th>
+                                                                                              <th style="width: 40%;">Remarks</th>
+                                                                                              <th>Action</th>
                                                                                             </tr>
                                                                                           </thead>
                                                                                           <tbody>
                                                                                           
                                                                                           </tbody>
                                                                                         </table>
+                                                                                        </div>
                                                                                       </div>                                                                                    
                                                                                 </div>
                                                                             </div>
@@ -488,9 +593,10 @@
                                                                                         <table class="table table">
                                                                                           <thead>
                                                                                             <tr>
-                                                                                              <th></th>
+                                                                                              <th>Select</th>
                                                                                               <th><b>Systems</b></th>
                                                                                               <th><b>Examination / Findings</b></th>
+                                                                                              <th><b>Action</b></th>
                                                                                             </tr>
                                                                                           </thead>
                                                                                           <tbody>
@@ -501,11 +607,22 @@
                                                                                               </td>
                                                                                               <td>{{ $systemics->systemic_item }}</td>
                                                                                               <td>
-                                                                                                  <textarea name="exams_with_findings" id="exams_with_findings" colspan="5" class="form-control"></textarea>
+                                                                                                  <textarea name="exams_with_findings" style="resize: none" id="exams_with_findings" colspan="5" class="form-control"></textarea>
+                                                                                              </td>
+                                                                                              <td>
+                                                                                                <a href="#" class="btn btn-primary"><i class="bx bx-plus"></i></a>
                                                                                               </td>
                                                                                             </tr>       
                                                                                           @endforeach
                                                                                           </tbody>
+                                                                                          <tfoot>
+                                                                                            <tr>
+                                                                                              <th>Select</th>
+                                                                                              <th><b>Systems</b></th>
+                                                                                              <th><b>Examination / Findings</b></th>
+                                                                                              <th><b>Action</b></th>
+                                                                                            </tr>
+                                                                                          </tfoot>
                                                                                         </table>
                                                                                       </div>                                                                                    
                                                                                 </div>
@@ -514,7 +631,6 @@
                                                                       </div>
                                                                 <!-- tab content end 1-->
                                                             </div>
-                                                            
                                                       <!-- tab content end -->          
                                                   </div>
                                           </div>

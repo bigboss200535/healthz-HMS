@@ -4,6 +4,7 @@
 // Function to refresh diagnosis table
    function refreshDiagnosisTable() {
     const loadingRow = '<tr><td colspan="9" class="text-center"><i class="bx bx-loader bx-spin me-2"></i>Loading diagnoses...</td></tr>';
+    
     $('#diagnosis_list tbody').html(loadingRow);
     
     $.ajax({
