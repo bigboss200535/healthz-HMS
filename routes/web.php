@@ -86,7 +86,6 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('attendance')->group(function () {
-        
         Route::get('/delete-attendance/{attendance_id}', [AttendanceController::class, 'delete_attendance']);
     });
 

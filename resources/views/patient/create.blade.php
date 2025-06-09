@@ -317,7 +317,7 @@
                     </div>
                     <br>
                   <div class="mb-3 col ecommerce-select2-dropdown">
-                     <table class="table table-reponsive" id="app_list">
+                     <table class="table table-reponsive" id="register_list">
                         <thead>
                           <th>SN</th>
                           <th>Patient Name</th>
@@ -337,10 +337,6 @@
                                               <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                               <div class="dropdown-menu">
-                                                
-                                                    <!-- <a class="dropdown-item" href="{{ route('patients.edit', $pat_list->patient_id) }}" >
-                                                        <i class="bx bx-edit-alt me-1"></i> Edit
-                                                    </a> -->
                                                     <a class="dropdown-item edit-patient" href="#" data-patient-id="{{ $pat_list->patient_id }}">
                                                         <i class="bx bx-edit-alt me-1"></i> Edit
                                                     </a>

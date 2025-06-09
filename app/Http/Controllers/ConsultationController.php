@@ -46,41 +46,102 @@ class ConsultationController extends Controller
     {
 
         $validated_data = $request->validate([
-            '_token' => 'required|string',
+            // 'consultation_id' => 'required|string',
             'patient_id' => 'required|string|max:255',
             'opd_number' => 'nullable|string|max:255',
-            'gender_id' => 'required|string|min:3|max:255',
+            'gender_id' => 'required|string',
+            'age_id' => 'required|string',
             'patient_age' => 'required|string|min:3|max:255',
             'clinic' => 'nullable|min:3|max:255',
-            'sponsor_type' => 'required|integer',
+            'patient_status' => 'nullable|min:3|max:255', //inpatient or oupatient
+            'sponsor_type' => 'required|string',
             'sponsor' => 'nullable|string|max:255',
-            'consultation_type' => 'nullable|string|max:20',
-            'episode_type' => 'nullable|string|max:20',
-            'consulting_room' => 'nullable|email|max:255',
-            'prescriber' => 'nullable|string|max:255',
-            'user_id' => 'nullable|string|max:255',
-            'consultation_date' => 'nullable|string|max:255',
-            'contact_person' => 'nullable|array',
-            'consultation_time' => 'nullable|string|max:255',
-            'attendance_date' => 'nullable',
-            'outcome' => 'nullable|string|max:50',
             'episode_id' => 'nullable|string|max:50', 
+            'episode_type' => 'nullable|string|max:20',
+            'consulting_room' => 'nullable|string|max:100',
+            'prescriber' => 'nullable|string|max:255',
+            'attendance_date' => 'nullable',
+            'consultation_date' => 'nullable|string|max:255',
+            'consultation_type' => 'nullable|string|max:20',
+            'consultation_time' => 'nullable|string|max:255',
+            // 'outcome' => 'nullable|string|max:50',
             'attendance_id' => 'required|string|max:50',
-            'gender_id' => 'required|string',
-            'age_id' => 'required|string'
+            // 'user_id' => 'nullable|string|max:255'
         ]);
+
+         $records_no = intval(Consultation::all()->count()) + 1;
+        
 
          // Check if the consultation already exists
           $existing_consultation = Consultation::where('episode_id', $validated_data['episode_id'])
              ->first();
         
-            if ($existing_consultation) {
-            // return response()->json([
-            //     'message' => 'Patient data available',
-            //     'code' => 200
-            //     ], 200);
-        }
+         if ($existing_consultation) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Consultation record already exists for this episode'
+            ], 422);
+         }
 
+        try {
+            DB::beginTransaction();
+            
+            // Generate consultation ID if not provided
+            if (!isset($validated_data['consultation_id']) || empty($validated_data['consultation_id'])) {
+                  $consultation_id = intval(Consultation::all()->count()) + 1;
+                  $validated_data['consultation_id'] = str_pad($consultation_id, 7, '0', STR_PAD_LEFT);
+            }
+
+            
+            // Create new consultation record
+            $consultation = new Consultation();
+            $consultation->consultation_id = $validated_data['consultation_id'];
+            $consultation->patient_id = $validated_data['patient_id'];
+            $consultation->opd_number = $validated_data['opd_number'];
+            $consultation->gender_id = $validated_data['gender_id'];
+            $consultation->age_id = $validated_data['age_id'];
+            $consultation->patient_age = $validated_data['patient_age'];
+            $consultation->clinic = $validated_data['clinic'];
+            $consultation->patient_status = $validated_data['patient_status'];
+            $consultation->sponsor_type = $validated_data['sponsor_type'];
+            $consultation->sponsor = $validated_data['sponsor'];
+            $consultation->episode_id = $validated_data['episode_id'];
+            $consultation->episode_type = $validated_data['episode_type'];
+            $consultation->consulting_room = $validated_data['consulting_room'];
+            $consultation->prescriber = $validated_data['prescriber'];
+            $consultation->attendance_date = $validated_data['attendance_date'];
+            $consultation->consultation_date = $validated_data['consultation_date'];
+            $consultation->consultation_type = $validated_data['consultation_type'];
+            $consultation->consultation_time = $validated_data['consultation_time'];
+            // $consultation->outcome = $validated_data['outcome'];
+            $consultation->attendance_id = $validated_data['attendance_id'];
+            $consultation->user_id =  Auth::user()->user_id;
+            $consultation->added_date = now();
+            $consultation->status = 'Active';
+            $consultation->archived = 'No';
+            $consultation->save();
+            
+            // Update patient attendance status if needed
+            PatientAttendance::where('attendance_id', $validated_data['attendance_id'])
+                ->update(['service_issued' => '1']);
+
+            DB::commit();
+            
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Consultation saved successfully',
+                'consultation_id' => $consultation->consultation_id
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error saving consultation details',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show()

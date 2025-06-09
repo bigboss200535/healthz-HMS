@@ -109,7 +109,7 @@
     <!-- <script src="{{ asset('js/fullcalendar.js') }}"></script> -->
     <!-- <script src="{{ asset('js/app-calendar-events.js') }}"></script> -->
     <!-- <script src="{{ asset('js/app-calendar.js') }}"></script> -->
-<script>
+<!-- <script>
   $(document).ready(function() {
     $('#consulting_room, #consulting_type, #consulting_doctors, #consulting_date, #consulting_episode').change(function() {
         if ($('#consulting_room').val() && $('#consulting_type').val() && $('#consulting_doctors').val() && $('#consulting_date').val() && $('#consulting_episode').val()) 
@@ -123,7 +123,7 @@
         }
     });
 });
-</script>
+</script> -->
     <script type="text/javascript">
         $(document).ready( function () {
             $('#app_list').DataTable({
@@ -145,7 +145,7 @@
             $('#nurses_notes_patient').DataTable();
             $('#drugs').DataTable();
             $('#users_list').DataTable();
-            // $('#diagnosis_list').DataTable();
+            $('#register_list').DataTable();
             $('.sponsor_name').select2();
             $('.diagnosis_search').select2();
             // $('.sponsor_type_id').select2();

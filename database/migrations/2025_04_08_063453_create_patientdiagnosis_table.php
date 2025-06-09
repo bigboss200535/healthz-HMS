@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('patient_diagnosis', function (Blueprint $table) {
             $table->string('attendance_diagnosis_id', 50)->primary();
+            $table->string('consultation_id', 50)->nullable();
             $table->string('attendance_id', 50)->nullable();
             $table->string('patient_id', 50)->nullable();
+            $table->string('age_class', 50)->nullable();
             $table->string('opd_number', 50)->nullable();
             $table->date('attendance_date')->nullable();
             $table->timestamp('attendance_time')->nullable();

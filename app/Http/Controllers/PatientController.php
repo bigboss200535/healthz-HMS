@@ -163,7 +163,6 @@ class PatientController extends Controller
                             'user_id' =>  $user_id,
                         ]);
                        
-                        // $patient->save();
                           // Save OPD number
                         PatientOpdNumber::create([
                             'patient_id' => $patient_id_no,
@@ -194,8 +193,6 @@ class PatientController extends Controller
 
                         // Check and save sponsor information
                         $sponsor_types = ['PI03', 'N002', 'PC04'];
-                        // $sponsor_types = [];
-                        // $sponsor_types = Sponsor::where('sponsor_type_id', '!=', 'P001');
 
                         if (in_array($validated_data['sponsor_type_id'] ?? '', $sponsor_types)) {
 

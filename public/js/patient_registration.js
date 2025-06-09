@@ -114,6 +114,11 @@
                             $form[0].reset();
                             $('#pat_id').val('');
                             $('.is-invalid').removeClass('is-invalid');
+
+                            // Reload the app_list table
+                            if ($('#patient_list').length) {
+                                $('#patient_list').DataTable().ajax.reload();
+                            }
                             $submitBtn.prop('disabled', false);
                             $restBtn.prop('disabled', false);
                         } else if (response.code === 200) {

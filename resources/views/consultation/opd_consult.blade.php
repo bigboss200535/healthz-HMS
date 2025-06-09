@@ -39,7 +39,6 @@
                 <table class="table">
                   <form id="consultation_form" method="post">
                       @csrf
-
                   <input type="text" value="{{ $attendance->episode_id }}" id="episode_id" name="episode_id" hidden>
                   <input type="text" value="{{ $attendance->attendance_id }}" id="attendance_id" name="attendance_id" hidden>
                   <input type="text" value="{{ $attendance->gender_id }}" id="gender_id" name="gender_id" hidden>
@@ -184,7 +183,7 @@
                      <div class="btn-group">
                         <!-- <button type="button" data-bs-toggle='modal' data-bs-target="#claims_check_code" class="btn btn-sm btn-info">GET CCC </button> -->
                         <!-- <button type="button" class="btn btn-sm btn-warning edit-btn">Review</button> -->
-                        <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">Continue</button>
+                        <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">Continue To Consult</button>
                      </div>
                   </td>
                 </tr>
