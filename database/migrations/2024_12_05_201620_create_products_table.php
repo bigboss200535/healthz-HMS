@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('prescription_qty', 10)->nullable();
             $table->string('store_id', 50)->nullable();
             $table->string('product_class_id', 50)->nullable();
+            $table->string('product_class', 50)->nullable();
             $table->string('manufacturer', 50)->nullable();
             $table->string('nhis_id', 50)->nullable();
             $table->string('nhis_cover', 50)->nullable()->default('No');
@@ -53,14 +54,13 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            // key
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('store_id')->references('store_id')->on('stores');
             $table->foreign('gender_id')->references('gender_id')->on('gender');
             $table->foreign('age_id')->references('age_id')->on('ages');
             $table->foreign('product_class_id')->references('product_class_id')->on('product_class');
-             $table->foreign('product_type_id')->references('product_type_id')->on('product_type');
+            $table->foreign('product_type_id')->references('product_type_id')->on('product_type');
         });
     }
 

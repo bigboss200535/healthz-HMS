@@ -213,5 +213,11 @@ VALUES
 	(30,'Any substance history?',12),
 	(31,'Any forensic history?',13),
 	(32,'Any premorbid personality history?',14);
-
+	
+INSERT INTO `product_stocked` (`product_id`, `stocked_id`, `unit_price`, `stock_level`, `store_id`, `expiry_date`, `batch`) 
+	VALUES
+	('P000001', 'OO1','10.0', '1000', '0012', '2025-12-01', '012901'),
+	('P000002', 'OO2','13.2', '200', '0012', '2025-12-01', '01982'),
+	('P000004', 'OO4', '20', '19', '0012', '2025-12-01', '19920'),
+	('P000005', 'OO5', '31.17', '20', '0012', '2025-12-01', '0872');
 	COMMIT;
