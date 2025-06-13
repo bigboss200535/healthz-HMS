@@ -7,7 +7,7 @@ use App\Models\Patient;
 use App\Models\PatientAttendance;
 use App\Models\Stores;
 use App\Models\User;
-use App\Models\Diagnosis;
+use App\Models\PatientDiagnosis;
 use App\Models\Claim;
 use App\Models\Product;
 use App\Models\Consultation;
@@ -99,7 +99,7 @@ class ConsultationController extends Controller
                     $consultation->age_id = $validated_data['age_id'];
                     $consultation->patient_age = $validated_data['patient_age'];
                     $consultation->clinic = $validated_data['clinic'];
-                    $consultation->patient_status = '2' ?? $validated_data['patient_status_id'];
+                    $consultation->patient_status_id = '2' ?? $validated_data['patient_status_id'];
                     $consultation->sponsor_type_id = $validated_data['sponsor_type'];
                     $consultation->sponsor_id = $validated_data['sponsor'];
                     $consultation->episode_id = $validated_data['episode_id'];
@@ -316,7 +316,14 @@ class ConsultationController extends Controller
             ]);
         }
 
-        return view('consultation.opd_consult', compact('consultation_id', 'attendance', 'doctors', 'con_room', 'systemic', 'clinical_history', 'grouped_questions'));
+        $diagnosis_history = PatientDiagnosis::where('patient_diagnosis.archived','No')
+            ->where('patient_diagnosis.patient_id', $attendance->patient_id)
+            ->join('users', 'users.user_id', '=', 'patient_diagnosis.doctor_id')
+            ->join('diagnosis', 'diagnosis.diagnosis_id', 'patient_diagnosis.diagnosis_id')
+            ->select('users.user_fullname', 'diagnosis.diagnosis', 'patient_diagnosis.icd_10', 'patient_diagnosis.gdrg_code', 'patient_diagnosis.entry_date')
+            ->get();
+
+        return view('consultation.opd_consult', compact('diagnosis_history', 'consultation_id', 'attendance', 'doctors', 'con_room', 'systemic', 'clinical_history', 'grouped_questions'));
     }
 
 

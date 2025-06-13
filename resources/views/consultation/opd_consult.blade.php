@@ -173,32 +173,20 @@
                   <input type="date" class="form-control" id="consulting_date" name="consulting_date" value="{{ $today }}">
                 </td>
               </tr>
-               <!-- <tr> 
-                <td><b> Outcome</b></td>
-                  <td>
-                  <select name="consulting_outcome" id="consulting_outcome" class="form-control">
-                             <option selected disabled></option>
-                            <option value="PENDING DIAGNOSTIC">PENDING DIAGNOSTIC</option>
-                            <option value="DISCHARGED">DISCHARGED</option>
-                            <option value="DISCHARGED AGAINST MEDICAL ADVICE">DISCHARGED AGAINST MEDICAL ADVICE</option>
-                      </select> 
-                      
-                  </td>
-              </tr> -->
                <tr>
-                <td><label for=""></label></td>
+                <td><b>Action</b></td>
                   <td>
-                     <!-- <div class="btn-group"> -->
-                        <!-- <button type="button" data-bs-toggle='modal' data-bs-target="#claims_check_code" class="btn btn-sm btn-info">GET CCC </button> -->
-                       
                         <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">Continue</button>
+                  </td>
+                </tr>
+                <tr>
+                <td><label for="">Outcome</label></td>
+                  <td>
                         <button type="button" disabled class="btn btn-sm btn-danger" id="discharge_patient">Discharge</button>
-                     <!-- </div> -->
                   </td>
                 </tr>
             </table>
           </form>
-           <!-- </p> -->
           </div>
         </div>
       </div>
@@ -763,8 +751,26 @@
                                                                               <div class="col-md">
                                                                                 <div class="row">
                                                                                       <div class="col-12" >
-
-                                                                                      <table class="table table-responsive" id="">
+                                                                                         @foreach($diagnosis_history as $p_diagnosis) 
+                                                                                          <ul class="timeline timeline-outline mb-0">
+                                                                                              <li class="timeline-item timeline-item-transparent border-dashed">
+                                                                                                <span class="timeline-point timeline-point-primary"></span>
+                                                                                                <div class="timeline-event">
+                                                                                                  <div class="timeline-header mb-3">
+                                                                                                    <h6 class="mb-0">Doctor: <label>Dr. Ansah Sasraku Jnr</label></h6>
+                                                                                                    <small class="text-body-dark"><label><b>System</b>: GENERAL/CONSTITUTIONAL</label> </small>
+                                                                                                    <small class="text-body-dark"><label><b>SYMPTOM:</b> FEVER</label> </small>
+                                                                                                    <small class="text-body-dark"><label><b>DATE:</b> 12/03/2025</label> </small>
+                                                                                                    <small class="text-body-dark">
+                                                                                                      <a href="#" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i> </a>
+                                                                                                      <!-- <button type="button" class="btn btn-sm btn-danger">Delete</button> -->
+                                                                                                    </small>
+                                                                                                  </div>
+                                                                                                  <p class="mb-2"><b>REMARKS:</b> Invoices have been paid to the company</p>
+                                                                                                </div>
+                                                                                              </li>
+                                                                                            </ul>
+                                                                                      <!-- <table class="table table-responsive" id="">
                                                                                         <thead>
                                                                                           <tr>
                                                                                             <th>Sn</th>
@@ -787,7 +793,7 @@
                                                                                             <th>Action</th>
                                                                                           </tr>
                                                                                         </tfoot>
-                                                                                    </table>
+                                                                                    </table> -->
                                                                                       </div>                                                                                    
                                                                                 </div>
                                                                             </div>

@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('doctor_id', 50)->nullable();
             $table->string('user_id', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
-            $table->string('added_id', 100)->nullable();
+            $table->string('added_id', 50)->nullable();
             $table->timestamp('added_date')->nullable();
             $table->string('updated_by', 100)->nullable();
             $table->string('status', 100)->default('Active')->index();

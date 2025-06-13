@@ -21,6 +21,11 @@ class PatientDiagnosis extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function doctors()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function facility()
     {
         return $this->belongsTo(Facility::class, 'facility_id');
