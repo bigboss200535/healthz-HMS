@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        
         Schema::create('service_attendance_type', function (Blueprint $table) {
             $table->string('attendance_type_id', 50)->primary();
             $table->string('attendance_type',150); 
@@ -35,10 +36,11 @@ return new class extends Migration
             $table->string('archived', 100)->default('No');
             $table->date('archived_date')->nullable();
             $table->string('archived_by', 100)->nullable();
+            // key
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('age_id')->references('age_id')->on('ages');
-            // $table->foreign('clinic_id')->references('clinic_id')->on('clinics');
-             $table->foreign('patient_status_id')->references('patient_status_id')->on('patient_statuses');
+            $table->foreign('clinic_id')->references('clinic_id')->on('clinics');
+            $table->foreign('patient_status_id')->references('patient_status_id')->on('patient_statuses');
             // $table->foreign('adult_code_id')->references('service_fee_id')->on('services_fee');
             $table->foreign('gender_id')->references('gender_id')->on('gender');
         });

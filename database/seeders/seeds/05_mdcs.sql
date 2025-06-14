@@ -1,5 +1,6 @@
 
-INSERT INTO `nhia_mdcs` (`mdcs_id`, `code`, `mdc`, `age_id`, `service_type_id`, `gender_id`, `is_mdc`, `is_capitation`, `specialty_code`) VALUES
+INSERT INTO `nhia_mdcs` (`mdcs_id`, `code`, `mdc`, `age_id`, `service_type_id`, `gender_id`, `is_mdc`, `is_capitation`, `specialty_code`) 
+VALUES
 	('1', 'ASUR', 'ADULT SURGERY', '2', '3', '1', '1', 'No', 'ASUR'),
 	('2', 'DENT', 'DENTAL AND MAXILLOFACIAL SURGERY', '3', '3', '1', '1', 'No', 'DENT'),
 	('3', 'ENTH', 'EAR, NOSE AND THROAT SURGERY', '3', '3', '1', '1', 'No', 'ENTH'),

@@ -17,8 +17,7 @@ class SponsorsSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::inRandomOrder()->first(); 
-
+        // $user = User::inRandomOrder()->first(); 
 
         // $sponsor = Sponsors::create([
         //     'sponsor_type_id' => 'P001',

@@ -145,7 +145,7 @@ class PatientController extends Controller
                             'lastname' => strtoupper($validated_data['lastname']),
                             'birth_date' => $validated_data['birth_date'],
                             'gender_id' => $validated_data['gender_id'],
-                            'occupation' => strtoupper($validated_data['occupation'] ?? ''),
+                            'occupation_id' => $validated_data['occupation'] ?? '',
                             'education' => strtoupper($validated_data['education']),
                             'religion_id' => $validated_data['religion'],
                             'nationality_id' => $validated_data['nationality'],
@@ -349,29 +349,31 @@ class PatientController extends Controller
        $patient = Patient::where('patient_info.patient_id', $patient_id)
             ->join('gender', 'patient_info.gender_id', '=', 'gender.gender_id')
             ->join('patient_nos', 'patient_nos.patient_id', '=', 'patient_info.patient_id')
+            ->join('occupation', 'occupation.occupation_id', '=', 'patient_info.occupation_id')
             ->select(
-                'patient_info.patient_id',
-                'patient_info.title_id',
-                'patient_info.firstname',
-                'patient_info.middlename',
-                'patient_info.lastname',
-                'patient_info.birth_date',
-                'patient_info.gender_id',
-                'patient_info.occupation',
-                'patient_info.religion_id as religion',
-                'patient_info.nationality_id as nationality',
-                'patient_info.ghana_card',
-                'patient_info.education',
-                'patient_info.telephone',
-                'patient_info.work_telephone',
-                'patient_info.email',
-                'patient_info.address',
-                'patient_info.town',
-                'patient_info.region',
-                'patient_nos.opd_number',
-                'patient_nos.clinic_id as folder_clinic',
-                'patient_info.opd_type',
-                DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as patient_age'))
+                    'patient_info.patient_id',
+                    'patient_info.title_id',
+                    'patient_info.firstname',
+                    'patient_info.middlename',
+                    'patient_info.lastname',
+                    'patient_info.birth_date',
+                    'patient_info.gender_id',
+                    'patient_info.occupation_id',
+                    'occupation.occupation',
+                    'patient_info.religion_id as religion',
+                    'patient_info.nationality_id as nationality',
+                    'patient_info.ghana_card',
+                    'patient_info.education',
+                    'patient_info.telephone',
+                    'patient_info.work_telephone',
+                    'patient_info.email',
+                    'patient_info.address',
+                    'patient_info.town',
+                    'patient_info.region',
+                    'patient_nos.opd_number',
+                    'patient_nos.clinic_id as folder_clinic',
+                    'patient_info.opd_type',
+                    DB::raw('TIMESTAMPDIFF(YEAR, patient_info.birth_date, CURDATE()) as patient_age'))
             ->first();
 
     if (!$patient) {

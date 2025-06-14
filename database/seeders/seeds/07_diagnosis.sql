@@ -999,4 +999,4 @@ INSERT INTO `diagnosis` (`diagnosis_code`, `diagnosis_id`, `diagnosis`, `class_i
 	('997', 'DIA000997', 'VULVOVAGINAL CANDIDIASIS', '6', '6', 'B37.3', 'OBGY09A', '', '3', '3', 'No', 'Yes', '197.8', '248.43', '', 'PAED39C'),
 	('998', 'DIA000998', 'YAWS', '1', '7', 'A66', 'MEDI35A', '', '3', '1', 'No', 'Yes', '672.17', '423.39', 'MEDI35A', 'PAED43C'),
 	('999', 'DIA000999', 'ZOSTER (HERPES ZOSTER)', '7', '0', 'B02', 'MEDI31A', '', '2', '1', 'No', 'Yes', '360.43', '248.43', 'MEDI31A', 'PAED39C'),
-	('1000', 'DIA001000', 'ZOSTER WITHOUT COMPLICATIONS', '7', '8', 'B02.9', 'MEDI31A', '', '2', '1', 'No', 'Yes', '360.43', '248.43', 'MEDI31A', 'PAED39C');
+	('1000','DIA001000', 'ZOSTER WITHOUT COMPLICATIONS', '7', '8', 'B02.9', 'MEDI31A', '', '2', '1', 'No', 'Yes', '360.43', '248.43', 'MEDI31A', 'PAED39C');

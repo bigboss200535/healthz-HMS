@@ -33,7 +33,7 @@ class StoreSeeder extends Seeder
 
         $data = Stores::create([
             'store_id' => '0017',
-            'store' => 'PHARMACY TWO',
+            'store' => 'PHARMACY',
             'added_date' => now(),
             'status' => 'Active',
             'archived' => 'No',

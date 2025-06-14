@@ -1,4 +1,5 @@
-INSERT INTO `diagnosis_icd_groups` (`icd_group_id`, `group`) VALUES
+INSERT INTO `diagnosis_icd_groups` (`icd_group_id`, `group`) 
+VALUES
 	('1', 'BENIGN NEOPLASMS'),
 	('2', 'BLOOD DISORDERS'),
 	('3', 'CIRCULATORY SYSTEM'),

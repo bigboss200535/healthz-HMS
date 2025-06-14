@@ -1,5 +1,5 @@
-INSERT INTO `services` (service_id, service_name, ser_no, gender_id, age_id, patient_type, is_store, 
-is_ward, is_morgue, is_direct_service, is_active) 
+INSERT INTO `services` (`service_id`, `service_name`, `ser_no`, `gender_id`, `age_id`, `patient_type`, `is_store`, 
+`is_ward`, `is_morgue`, `is_direct_service`, `is_active`) 
 
 VALUES
 	('0001', 'LABORATORY', '1', '1', '3', '1', 'Yes', 'No', 'No', 'Yes', 'Yes'),

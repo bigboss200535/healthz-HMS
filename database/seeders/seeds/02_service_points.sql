@@ -1,4 +1,5 @@
-INSERT INTO `service_points` (service_point_id, clinic_id,service_points, attendance_type_id, is_active, folder_prefix, folder_lenght, patient_type, gender_id, age_id, year_lenght, allow_capitation, queue_time_base_on) VALUES
+INSERT INTO `service_points` (service_point_id, clinic_id,service_points, attendance_type_id, is_active, folder_prefix, folder_lenght, patient_type, gender_id, age_id, year_lenght, allow_capitation, queue_time_base_on) 
+VALUES
 	('SP01', 'C01', 'GENERAL', 'AT1', 'Yes', 'G', '6', '1', '1', '3', '2', 'No', 'SERVICE REQUEST'),
 	('SP02', 'C09', 'GYNAE SCAN', 'AT9', 'No', 'A', '6', '1', '1', '3', '2', 'No', 'SERVICE REQUEST'),
 	('SP03', 'C11', 'DENTAL', 'AT11', 'No', 'M', '6', '1', '1', '3', '2', 'No', 'SERVICE REQUEST'),

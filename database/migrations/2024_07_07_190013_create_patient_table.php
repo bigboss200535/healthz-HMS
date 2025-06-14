@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('fullname')->virtualAs("CONCAT(firstname, ' ', middlename, ' ', lastname)");
             $table->date('birth_date');
             $table->string('gender_id', 50)->nullable();
-            $table->string('occupation', 100)->nullable();
+            $table->string('occupation_id', 50)->nullable();
             $table->string('education', 100)->nullable();
             $table->string('religion_id', 50)->nullable();
             $table->string('nationality_id', 50)->nullable();
@@ -62,6 +62,7 @@ return new class extends Migration
             $table->foreign('religion_id')->references('religion_id')->on('religion');
             $table->foreign('title_id')->references('title_id')->on('title');
             $table->foreign('gender_id')->references('gender_id')->on('gender');
+            $table->foreign('occupation_id')->references('occupation_id')->on('occupation');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('nationality_id')->references('nationality_id')->on('nationality');
         });

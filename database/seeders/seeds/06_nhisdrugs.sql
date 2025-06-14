@@ -1,6 +1,6 @@
-
 INSERT INTO `nhis_drugs` (nhis_id, drug_name, pricing_unit, price, prescription_level, is_active, pricing_factor) 
-VALUES ('5FLUORIN1','5-Fluorouracil Injection, 50 mg/mL','10 mL',20.4,'D','Yes',0),
+VALUES 
+	('5FLUORIN1','5-Fluorouracil Injection, 50 mg/mL','10 mL',20.4,'D','Yes',0),
 	('AACETYLIN1','Acetylcysteine Injection, 200 mg/mL','1 mL',65.52,'B1','Yes',0),
 	('ACETAZIN1','Acetazolamide Injection, 500 mg','Ampoule',15.6,'C','Yes',0),
 	('ACETAZTA1','Acetazolamide Tablet, 250 mg','Tablet',0.55,'C','Yes',1),
