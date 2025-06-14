@@ -106,8 +106,8 @@ class PatientController extends Controller
             'opd_number' => 'nullable|string|max:255',
             'sponsor_type_id' => 'nullable|string|max:255',
             'dependant' => 'nullable',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
+            'card_start_date' => 'nullable|date',
+            'card_end_date' => 'nullable|date',
         ]);
 
         // Check if the patient already exists
@@ -202,8 +202,8 @@ class PatientController extends Controller
                                 'sponsor_type_id' => $validated_data['sponsor_type_id'],
                                 'sponsor_id' => $validated_data['sponsor_id'],
                                 'member_no' => $validated_data['member_no'],
-                                'start_date' => $validated_data['start_date'],
-                                'end_date' => $validated_data['end_date'],
+                                'start_date' => $validated_data['card_start_date'],
+                                'end_date' => $validated_data['card_end_date'],
                                 'priority' => '1' ?? '0',
                                 'dependant' => $validated_data['dependant'],
                                 'user_id' =>  $user_id,
