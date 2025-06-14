@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('archived_id', 50)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            // Foreign key constraint
+            // Foreign key 
             $table->foreign('user_roles_id')->references('user_roles_id')->on('user_roles');
             $table->foreign('role_id')->references('role_id')->on('permission_role');
             $table->foreign('permission_id')->references('permission_id')->on('permissions');

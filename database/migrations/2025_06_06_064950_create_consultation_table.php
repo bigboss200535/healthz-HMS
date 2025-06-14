@@ -46,7 +46,6 @@ return new class extends Migration
             $table->string('archived_id', 50)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-
             // foreign keys
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');

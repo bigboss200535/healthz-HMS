@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('clinical_history', 150)->nullable();
             $table->string('gender_id', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
-             $table->string('age_id', 50)->nullable();
+            $table->string('age_id', 50)->nullable();
             $table->string('user_id', 50)->nullable();
             $table->string('order_style', 50)->nullable();
             $table->string('added_id', 50)->nullable();
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('archived_id', 50)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
-            // Foreign key constraint
+            // Foreign key
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('age_id')->references('age_id')->on('ages');

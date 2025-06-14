@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('education', 100)->nullable();
             $table->string('religion_id', 50)->nullable();
             $table->string('nationality_id', 50)->nullable();
-             $table->string('ghana_card', 50)->nullable();
+            $table->string('ghana_card', 50)->nullable();
             $table->string('old_folder', 100)->nullable();
             $table->string('death_status', 100)->default('No');
             $table->date('death_status_date', 100)->nullable();
@@ -57,6 +57,7 @@ return new class extends Migration
             $table->string('archived_id', 100)->nullable();
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
+            // key
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('religion_id')->references('religion_id')->on('religion');
             $table->foreign('title_id')->references('title_id')->on('title');

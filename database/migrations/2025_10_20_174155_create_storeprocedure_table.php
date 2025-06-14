@@ -16,7 +16,6 @@ return new class extends Migration
     public function up()
     {
         
-
         DB::unprepared(
             'CREATE PROCEDURE IF NOT EXISTS `GetAgeGroup`(
                 IN `input_age` INT) 
@@ -91,11 +90,11 @@ return new class extends Migration
 
                         -- Check if an episode exists for the given criteria
                         SELECT COUNT(*) INTO episode_exists 
-                        FROM episodes
-                        WHERE patient_id = in_patient_id 
-                        AND pat_no = in_pat_number 
-                        AND attendance_date = in_request_date
-                        AND (in_claims_code IS NULL OR claims_code = in_claims_code);
+                            FROM episodes
+                            WHERE patient_id = in_patient_id 
+                            AND pat_no = in_pat_number 
+                            AND attendance_date = in_request_date
+                            AND (in_claims_code IS NULL OR claims_code = in_claims_code);
 
                         -- If episode exists, return the details; otherwise, return nothing
                         IF episode_exists > 0 THEN
