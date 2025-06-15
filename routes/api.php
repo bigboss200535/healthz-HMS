@@ -6,6 +6,7 @@ use App\Http\Controllers\MedicationsController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ExternalCallController;
 use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\PrescriptionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,6 +24,7 @@ Route::get('get-diagnosis/{attendance_id}', [DiagnosisController::class, 'get_di
 Route::get('search-diagnosis', [DiagnosisController::class, 'search_diagnosis']);
 Route::get('/getsponsortype', [App\Http\Controllers\SponsorController::class, 'get_sponsors_by_type'])->name('get.sponsors.by.type');
 Route::post('claims_code', [ExternalCallController::class, 'validateMemberAndGenerateCCC']);  
+Route::post('/medication/search', [PrescriptionController::class, 'search_medications']);
 // Route::get('edit-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'edit_diagnosis']);
 
 

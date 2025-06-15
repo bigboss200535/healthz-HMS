@@ -78,7 +78,7 @@ class PrescriptionController extends Controller
             ->where('opd_number', $opd_number)
             ->orderBy('attendance_id', 'desc')
             ->first();
-
+            
          // Fetch prescriptions
         $prescriptions = ProductStock::where('product_stocked.archived', 'No')
             ->where('product_stocked.status', 'Active')
@@ -102,7 +102,6 @@ class PrescriptionController extends Controller
             ->limit(50)
             ->get();
 
-             return response()->json($prescriptions);
-
+            return response()->json($prescriptions);
     }
 }

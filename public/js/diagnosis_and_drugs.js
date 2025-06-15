@@ -288,14 +288,13 @@ $(document).on('click', '.delete-diagnosis', function() {
 refreshDiagnosisTable();
 
 
-
 // ********************************************** PRESCRIPTIONS ***********************************************************************
 // PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE 
 $('#prescription_search').on('input', function() {
         let query = $(this).val();
         if (query.length >= 2) {
             $.ajax({
-                url: '/medication/search',
+                url: '/api/medication/search',
                 method: 'POST',
                 data: {
                     prescription_query: query,
@@ -324,7 +323,6 @@ $('#prescription_search').on('input', function() {
                         
                         medicationList.append(listItem);
                     });
-                    
                     $('#prescription_search').after(medicationList);
                 },
                 error: function(xhr) {
@@ -340,7 +338,7 @@ $('#prescription_search').on('input', function() {
         e.preventDefault();
         
         $.ajax({
-            url: '/save-prescription',
+            url: 'api/medication/save',
             method: 'POST',
             data: $(this).serialize(),
             success: function(response) {
