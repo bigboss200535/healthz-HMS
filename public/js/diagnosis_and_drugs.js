@@ -286,83 +286,152 @@ $(document).on('click', '.delete-diagnosis', function() {
 
 // Initialize the diagnosis table on page load
 refreshDiagnosisTable();
+// ********************************************** END DIAGNOSIS ***********************************************************************
 
-
-// ********************************************** PRESCRIPTIONS ***********************************************************************
+// ********************************************** START PRESCRIPTIONS ***********************************************************************
 // PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE PRESCRIPTION SIDE 
-$('#prescription_search').on('input', function() {
-        let query = $(this).val();
-        if (query.length >= 2) {
-            $.ajax({
-                url: '/api/medication/search',
-                method: 'POST',
-                data: {
-                    prescription_query: query,
-                    opd_number: $('#prescription_opdnumber').val(),
-                    patient_id: $('#prescription_patient_id').val(),
-                    _token: $('input[name="_token"]').val()
-                },
-                success: function(response) {
-                    let medicationList = $('<ul class="list-group position-absolute"></ul>');
-                   
-                    response.forEach(function(item) {
-                        let listItem = $('<li class="list-group-item"   style="background: white; overflow-y:auto;border: 2px solid #ddd" list-group-item-action"></li>')
-                            .text(item.product_name)
-                            .data('medication', item);
-                            
-                        listItem.on('click', function() {
-                            let med = $(this).data('medication');
-                            $('#prescription_search').val(med.product_name);
-                            $('#prescription_product_id').val(med.product_id);
-                            $('#prescription_dosage').val(med.pres_quanity_per_issue_unit);
-                            $('#prescription_price').val(med.cash_price);
-                            $('#prescription_presentation').val(med.presentation);
-                            // $('#prescription_gdrg').val(med.nhis_amount);
-                            medicationList.remove();
-                        });
-                        
-                        medicationList.append(listItem);
-                    });
-                    $('#prescription_search').after(medicationList);
-                },
-                error: function(xhr) {
-                    console.error('Error searching medications:', xhr);
-                }
-            });
-        }
+
+// Initialize prescription search with custom dropdown
+let prescriptionSearchTimeout;
+let prescriptionResultsDiv = $('<div id="prescription_results" class="prescription-results"></div>')
+    .insertAfter('#prescription_search')
+    .hide()
+    .css({
+        'position': 'absolute',
+        'z-index': '1000',
+        'background': 'white',
+        'border': '2px solid #ddd',
+        'max-height': '200px',
+        'overflow-y': 'auto',
+        'width': '90%'
     });
 
+$('#prescription_search').on('input', function() {
+    let searchTerm = $(this).val().trim();
+    clearTimeout(prescriptionSearchTimeout);
 
-    // Form submission
-    $('#add_prescription_form').on('submit', function(e) {
-        e.preventDefault();
-        
+    if (searchTerm.length < 2) {
+        prescriptionResultsDiv.hide();
+        return;
+    }
+
+    prescriptionSearchTimeout = setTimeout(function() {
         $.ajax({
-            url: 'api/medication/save',
+            url: '/api/medication/search',
             method: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    $('.alert-container').html(
-                        '<div class="alert alert-success">Prescription saved successfully!</div>'
-                    );
-                    $('#add_prescription_form')[0].reset();
-                    // Optionally refresh prescriptions list if you have one
-                } else {
-                    $('.alert-container').html(
-                        '<div class="alert alert-danger">' + response.message + '</div>'
-                    );
-                }
+            data: { 
+                prescription_query: searchTerm,
+                patient_id: $('#prescription_patient_id').val(),
+                opd_number: $('#prescription_opdnumber').val(),
+                _token: $('input[name="_token"]').val()
             },
-            error: function(xhr) {
-                $('.alert-container').html(
-                    '<div class="alert alert-danger">Error saving prescription. Please try again.</div>'
-                );
+            beforeSend: function() {
+                prescriptionResultsDiv.html('<div class="p-2 text-center">Searching medications...</div>').show();
+            },
+            success: function(data) {
+                if (data.length === 0) {
+                    prescriptionResultsDiv.html('<div class="p-2 text-center">No medications found</div>');
+                    return;
+                }
+                
+                let results = data.map(function(item) {
+                    return `<div class="prescription-item p-2 cursor-pointer hover:bg-gray-100" 
+                                data-id="${item.product_id}" 
+                                data-name="${item.product_name}"
+                                data-dosage="${item.pres_quanity_per_issue_unit || ''}"
+                                data-price="${item.cash_price || 0}"
+                                data-presentation="${item.presentation || ''}">
+                                <div class="font-semibold">${item.product_name}</div>
+                                <div class="text-sm text-muted">${item.presentation || ''} | Dosage: ${item.pres_quanity_per_issue_unit || 'N/A'} | Stock Level: ${item.stock_level || 'N/A'}</div>
+                            </div>`;
+                }).join('');
+                
+                prescriptionResultsDiv.html(results).show();
+            },
+            error: function() {
+                prescriptionResultsDiv.html('<div class="p-2 text-center text-red-600">Error fetching results</div>');
             }
         });
-    });
+    }, 300);
+});
 
-    // Calculate end date when duration changes
+// Handle click outside to close results
+$(document).on('click', function(e) {
+    if (!$(e.target).closest('#prescription_search, #prescription_results').length) {
+        prescriptionResultsDiv.hide();
+    }
+});
+
+// Handle prescription selection
+$(document).on('click', '.prescription-item', function() {
+    const id = $(this).data('id');
+    const name = $(this).data('name');
+    const dosage = $(this).data('dosage');
+    const price = $(this).data('price');
+    const presentation = $(this).data('presentation');
+    
+    $('#prescription_search').val(name);
+    $('#prescription_product_id').val(id);
+    $('#prescription_dosage').val(dosage);
+    $('#prescription_price').val(price);
+    $('#prescription_presentation').val(presentation);
+    
+    prescriptionResultsDiv.hide();
+});
+
+// Form submission
+$('#add_prescription_form').on('submit', function(e) {
+    e.preventDefault();
+    
+    // Clear previous error messages
+    $('.alert-container').empty();
+    
+    // Validate required fields
+    if (!$('#prescription_product_id').val() || !$('#prescription_search').val()) {
+        $('.alert-container').html(
+            '<div class="alert alert-danger">Please select a medication from the search results</div>'
+        );
+        return;
+    }
+    
+    if (!$('#prescription_dosage').val() || !$('#prescription_quantity').val() || !$('#prescription_duration').val()) {
+        $('.alert-container').html(
+            '<div class="alert alert-danger">Please fill in all required fields</div>'
+        );
+        return;
+    }
+
+    // Disable form submission button to prevent double submission
+    const submitBtn = $(this).find('button[type="submit"]');
+    const originalBtnText = submitBtn.html();
+    submitBtn.prop('disabled', true).html('<i class="bx bx-loader bx-spin"></i> Saving...');
+    
+    $.ajax({
+        url: '/api/medication/save',
+        method: 'POST',
+        data: $(this).serialize(),
+        success: function(response) {
+            if (response.success) {
+                toastr.success('Prescription saved successfully!');
+                submitBtn.prop('disabled', false).html(originalBtnText);
+                $('#add_prescription_form')[0].reset();
+                $('#prescription_product_id').val('');
+                // Optionally refresh prescriptions list if you have one
+            } else {
+                toastr.error(response.message || 'Error saving prescription');
+                submitBtn.prop('disabled', false).html(originalBtnText);
+            }
+        },
+        error: function(xhr) {
+            const errorMsg = xhr.responseJSON?.message || 'Error saving prescription. Please try again.';
+            toastr.error(errorMsg);
+            submitBtn.prop('disabled', false).html(originalBtnText);
+        }
+    });
+});
+
+
+// Calculate end date when duration changes
     $('#prescription_duration').on('change', function() {
         let startDate = new Date($('#prescription_start_date').val());
         let duration = parseInt($(this).val());
