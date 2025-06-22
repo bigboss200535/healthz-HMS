@@ -33,6 +33,30 @@ Route::post('/medication/search', [PrescriptionController::class, 'search_medica
 // Route::get('delete-prescription', [MedicationsController::class, 'delete_prescription']);
 // Route::get('edit-prescription', [MedicationsController::class, 'edit_prescription']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+Route::post('/tokens', [ApiTokenController::class, 'create'])
+    ->middleware('auth:sanctum');
+
+Route::get('/tokens', [ApiTokenController::class, 'index'])
+    ->middleware('auth:sanctum');
+
+Route::put('/tokens/{token}', [ApiTokenController::class, 'update'])
+    ->middleware('auth:sanctum');
+
+Route::delete('/tokens/{token}', [ApiTokenController::class, 'deleteToken'])
+    ->middleware('auth:sanctum');
+
+Route::delete('/tokens', [ApiTokenController::class, 'deleteAllTokens'])
+    ->middleware('auth:sanctum');
+    
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('/secure-data', function () {
+        return response()->json(['message' => 'Authenticated request!']);
+    });
 });

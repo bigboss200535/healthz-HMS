@@ -37,8 +37,8 @@ class UpdateSponsorStatusCommand extends Command
         PatientSponsor::where(function ($query) use ($currentDate){
             $query->where('end_date', '<', $currentDate)
                   ->orWhere('start_date', '>', $currentDate);
-
         })->update(['status' => 'Inactive']);
+
         $this->info('Patient Sponsor status Update Successfully');
     }
 }
