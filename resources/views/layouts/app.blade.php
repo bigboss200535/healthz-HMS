@@ -409,5 +409,121 @@ $(document).ready(function() {
     }
 });
 </script>
+<script>
+    $(document).ready(function() {
+    // Get patient ID after DOM is ready
+    const patient_Id = $('#patient_id').val();
+
+    if (!patient_Id) {
+        console.error('Patient id is missing.');
+        return;
+    }
+
+    // Reusable function to initialize DataTables with additional safety check
+    function initializeDataTable(table_id, columns) {
+        if (!$(table_id).length) {
+            console.warn(`Table ${table_id} not found`);
+            return null;
+        }
+        
+        if ($.fn.DataTable.isDataTable(table_id)) {
+            $(table_id).DataTable().destroy();
+            console.log(`Destroyed existing DataTable instance for ${table_id}`);
+        }
+        
+        return $(table_id).DataTable({
+            paging: true,
+            pageLength: 5,
+            searching: true,
+            ordering: true,
+            responsive: true,
+            autoWidth: false,
+            columns: columns
+        });
+    }
+
+    // Helper function to format dates
+    function formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        try {
+            const date = new Date(dateString);
+            return isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString();
+        } catch (e) {
+            return 'N/A';
+        }
+    }
+
+    // Initialize table
+    const currentattendanceTable = initializeDataTable('#current_attendance', [
+        { data: 'attendance_id' },
+        { data: 'attendance_date' },
+        { data: 'full_age' },
+        { data: 'pat_clinic' },
+        { data: 'sponsor' },
+        { data: 'attendance_type' },
+        { 
+            data: 'service_issued',
+            render: function (data, type, row) {
+                if (data === '0') {
+                    return '<span class="badge bg-label-danger me-1">Unassigned</span>';
+                } else if (data === '1') {
+                    return '<span class="badge bg-label-success me-1">Assigned</span>';
+                }
+                return data;
+            }
+        },
+        { data: 'actions', orderable: false }
+    ]);
+
+    // Fetch and populate data
+    function fetchCurrentAttendanceData() {
+        fetch(`/patient/current-attendance/${patient_Id}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(currentResponse => {
+                if (currentattendanceTable) {
+                    currentattendanceTable.clear().rows.add(currentResponse.map(current_attendance => ({
+                        attendance_id: `<a href="/attendance/${current_attendance.attendance_id}">${current_attendance.attendance_id}</a>`,
+                        attendance_date: formatDate(current_attendance.attendance_date),
+                        full_age: current_attendance.full_age || 'N/A',
+                        pat_clinic: current_attendance.pat_clinic || 'N/A',
+                        sponsor: current_attendance.sponsor || 'N/A',
+                        attendance_type: current_attendance.attendance_type || 'N/A',
+                        service_issued: current_attendance.service_issued || '0',
+                        actions: `
+                            <div class="dropdown" align="center">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/consultation/opd-consultation/${current_attendance.attendance_id}">
+                                        <i class="bx bx-detail me-1"></i> Consult
+                                    </a>
+                                    <a class="dropdown-item" href="/patients/${patient_Id}">
+                                        <i class="bx bx-play me-1"></i> Hold
+                                    </a>
+                                    <a class="dropdown-item" href="/patients/${patient_Id}">
+                                        <i class="bx bx-trash me-1"></i> Delete
+                                    </a>
+                                </div>
+                            </div>
+                        `
+                    }))).draw();
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching current attendance data:', error);
+            });
+    }
+
+    // Initial fetch
+    fetchCurrentAttendanceData();
+
+    // Optional: Refresh data periodically with separate intervals if needed
+    // setInterval(fetchCurrentAttendanceData, 10000);
+});
+</script>
 </body>
 </html>
