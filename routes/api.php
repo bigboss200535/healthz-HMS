@@ -24,9 +24,15 @@ Route::get('get-diagnosis/{attendance_id}', [DiagnosisController::class, 'get_di
 Route::get('search-diagnosis', [DiagnosisController::class, 'search_diagnosis']);
 Route::get('/getsponsortype', [App\Http\Controllers\SponsorController::class, 'get_sponsors_by_type'])->name('get.sponsors.by.type');
 Route::post('claims_code', [ExternalCallController::class, 'validateMemberAndGenerateCCC']);  
-Route::post('/medication/search', [PrescriptionController::class, 'search_medications']);
+
+
 // Route::get('edit-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'edit_diagnosis']);
 
+Route::prefix('prescriptions')->group(function (){
+    Route::get('/get-prescriptions/{attendance_id}', [PrescriptionController::class, 'get_patient_prescriptions']);
+    Route::post('/search', [PrescriptionController::class, 'search_medications']);
+   
+    });
 
 // Route::post('save-prescription', [MedicationsController::class, 'save_prescription']);
 // Route::get('get-prescription', [MedicationsController::class, 'get_prescription']);

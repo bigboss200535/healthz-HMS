@@ -22,6 +22,8 @@ return new class extends Migration
             $table->timestamp('attendance_time')->nullable();
             $table->date('entry_date')->nullable();
             $table->string('age_group_id', 50)->nullable();
+            $table->string('presentation', 50)->nullable();
+            $table->string('age_id', 50)->nullable();
             $table->string('episode_id', 200)->nullable();
             $table->float('unit_price', 50)->nullable();
             $table->string('product_id', 50)->nullable();
@@ -38,8 +40,8 @@ return new class extends Migration
             $table->float('quantity_given', 50)->nullable();
             $table->float('quantity_serve', 50)->nullable();
             $table->string('gdrg_code', 50)->nullable();
-            $table->string('doctor_id', 10)->nullable();
-            $table->string('user_id', 10)->nullable();
+            $table->string('doctor_id', 50)->nullable();
+            $table->string('user_id', 50)->nullable();
             $table->string('facility_id', 50)->nullable();
             $table->string('added_id', 100)->nullable();
             $table->timestamp('added_date')->nullable();

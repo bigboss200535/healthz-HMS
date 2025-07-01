@@ -808,31 +808,33 @@
                                                                     <div class="tab-pane fade  show active" id="navs_prescriptions" role="tabpanel">  <!--------------prescriptions -->
                                                                         <div class="row g-6 mb-12">
                                                                               <div class="col-md">
-                                                                                <div class="row">
-                                                                                    <div class="col-6">
-                                                                                        <button type="button" data-bs-toggle='modal' data-bs-target="#add_prescriptions" class="btn btn-sm btn-primary">ADD PRESCRIPTIONS</button>
-                                                                                        <!-- <button type="button" data-bs-toggle='modal' data-bs-target="#prescription_history" class="btn btn-sm btn-danger">PRESCRIPTION HISTORY</button> -->
-                                                                                      </div>
-                                                                                      
+                                                                                <div class="row">                          
                                                                                       <div class="col-12" >
+                                                                                        <button type="button" data-bs-toggle='modal' data-bs-target="#add_prescriptions" class="btn btn-sm btn-primary">ADD PRESCRIPTIONS</button>
                                                                                       <table class="table table-responsive" id="prescriptions_list">
                                                                                             <thead>
                                                                                               <tr>
                                                                                                 <th>Sn</th>
                                                                                                 <th>Prescription</th>
-                                                                                                <th>Doctor</th>
+                                                                                                <th>Prescription Qty</th>
+                                                                                               
                                                                                                 <th>Prescription date</th>
+                                                                                                 <th>Doctor</th>
                                                                                                 <th>Sponsor Type</th>
+                                                                                                <th>Prescription Type</th>
                                                                                                 <th>Action</th>
                                                                                               </tr>
                                                                                             </thead>
                                                                                             <tfoot>
-                                                                                            <tr>
+                                                                                             <tr>
                                                                                                 <th>Sn</th>
                                                                                                 <th>Prescription</th>
-                                                                                                <th>Doctor</th>
+                                                                                                <th>Prescription Qty</th>
+                                                                                               
                                                                                                 <th>Prescription date</th>
+                                                                                                 <th>Doctor</th>
                                                                                                 <th>Sponsor Type</th>
+                                                                                                <th>Prescription Type</th>
                                                                                                 <th>Action</th>
                                                                                               </tr>
                                                                                             </tfoot>
@@ -1028,7 +1030,7 @@
                       </div>
                     </div>
                     <div class="col-12 text-center">
-                      <button type="submit" class="btn btn-primary me-3"><i class="bx bx-save"></i>Add</button>
+                      <button type="submit" class="btn btn-primary me-3"><i class="bx bx-save"></i>Submit</button>
                       <button type="reset" class="btn btn-info" data-bs-dismiss="modal" aria-label="Close"><i class="bx bx-x"></i>Close</button>
                     </div>
                   </form>
@@ -1036,9 +1038,9 @@
               </div>
             </div>
           </div>
-          <!--/ diagnosis Modal -->
+          <!--/ PATIENT DIAGNOSIS MODAL -->
 
-           <!-- prescription Modal -->
+           <!-- PATIENT PRESCRIPTION MODAL -->
            <div class="modal fade" id="add_prescriptions" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
@@ -1046,23 +1048,27 @@
                   <div class="mb-6">
                     <h4 class="address-title mb-2">Medications / Prescriptions</h4>
                   </div>
-                    <div class="alert-container"></div>
+                    <div class="alert-container-drug"></div>
                   <form id="add_prescription_form" class="row g-6" onsubmit="return false">
-                    @csrf
+                      @csrf
+                     <input type="text" id="prescription_attendance_id" name="prescription_attendance_id" value="{{ $attendance->attendance_id }}" hidden>
                      <input type="text" id="prescription_opdnumber" name="prescription_opdnumber" value="{{ $attendance->opd_number }}" hidden>
                      <input type="text" id="prescription_patient_id" name="prescription_patient_id" value="{{ $attendance->patient_id }}" hidden>
                      <input type="text" id="prescription_product_id" name="prescription_product_id" hidden>
-                    <div id="success_diplay" class="container mt-6"></div>
+                     <input type="text" name="prescription_presentation_input" id="prescription_presentation_input" hidden> 
+                     <input type="text" name="prescription_base_unit" id="prescription_base_unit" hidden> 
+                    
+                     <div id="success_diplay" class="container mt-6"></div>
+
                     <div class="col-12 col-md-12">
                       <label class="form-label" for="prescription_search">Search Medications</label>
-                      <input type="text" id="prescription_search" name="prescription_search" class="form-control" placeholder="Enter Medication"/>
+                      <input type="text" id="prescription_search" name="prescription_search" class="form-control" placeholder="Enter Medication" autocomplete="off"/>
                     </div>
                     <div class="col-12 col-md-3">
                       <label class="form-label" for="prescription_dosage">Dosage</label>
                       <div class="input-group">
                       <input type="text" class="form-control" name="prescription_dosage" id="prescription_dosage"/>
                       <span class="input-group-text" id="prescription_presentation"> </span>
-                      <input type="text" name="prescription_presentation_input" id="prescription_presentation_input" hidden> 
                       </div>
                     </div>
                     <div class="col-12 col-md-3">
@@ -1070,10 +1076,10 @@
                       <select name="prescription_frequency" id="prescription_frequency" class="form-control" required>
                         <option selected disabled>-Select-</option>
                             @php
-                                $frequencies = \App\Models\Frequencies::orderBy('frequency_id', 'asc')->get();
+                                $frequencies = \App\Models\Frequencies::get();
                             @endphp
                             @foreach($frequencies as $frequency)
-                                <option value="{{ $frequency->frequency_id }}">{{ $frequency->frequencies }}</option>
+                                <option value="{{ $frequency->frequencies }}">{{ $frequency->frequencies }}</option>
                             @endforeach
                      </select>
                     </div>
@@ -1081,9 +1087,9 @@
                       <label class="form-label" for="prescription_duration">Duration</label>
                      <select name="prescription_duration" id="prescription_duration" class="form-control" required>
                        <option disabled selected>-Select-</option>
-                        @for($i = 1; $i <= 120; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                        @endfor
+                          @for($i = 1; $i <= 120; $i++)
+                              <option value="{{ $i }}">{{ $i }}</option>
+                          @endfor
                      </select>
                     </div>
                     <div class="col-12 col-md-3">
@@ -1092,7 +1098,7 @@
                     </div>
                     <div class="col-12 col-md-3">
                       <label class="form-label" for="prescription_price">Unit Price</label>
-                      <input type="text" id="prescription_price" name="prescription_price" class="form-control" disabled />
+                      <input type="text" id="prescription_price" name="prescription_price" class="form-control" readonly />
                     </div>
                     <div class="col-12 col-md-3">
                       <label class="form-label" for="prescription_type">Type</label>
@@ -1103,11 +1109,11 @@
                     </div>
                     <div class="col-12 col-md-3">
                       <label class="form-label" for="prescription_start_date">Prescription Date</label>
-                      <input type="date" id="prescription_start_date" name="prescription_start_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"  disabled/>
+                      <input type="date" id="prescription_start_date" name="prescription_start_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"  readonly/>
                     </div>
                     <div class="col-12 col-md-3">
                       <label class="form-label" for="prescription_end_date">End Date</label>
-                      <input type="date" id="prescription_end_date" name="prescription_end_date" class="form-control" disabled />
+                      <input type="date" id="prescription_end_date" name="prescription_end_date" class="form-control" readonly />
                     </div>
                     <div class="col-12 col-md-6">
                       <label class="form-label" for="prescription_sponsor">Sponsor</label>
@@ -1116,9 +1122,9 @@
                                 $sponsors = \App\Models\SponsorType::orderBy('sponsor_type_id', 'asc')->get();
                             @endphp
                             @foreach($sponsors as $sponsor_type)
-                                <option value="{{ $sponsor_type->sponsor_type }}">{{ $sponsor_type->sponsor_type }}</option>
+                                <option value="{{ $sponsor_type->sponsor_type_id }}">{{ $sponsor_type->sponsor_type }}</option>
                             @endforeach
-                         <option value="CASH">CASH PAYMENT</option>
+                         <option value="P001">CASH PAYMENT</option>
                       </select>
                     </div>
                     <div class="col-12 col-md-6">
@@ -1130,7 +1136,7 @@
                       </div>
                     </div>
                     <div class="col-12 text-center">
-                      <button type="submit" class="btn btn-primary me-3"><i class="bx bx-save"></i> Add</button>
+                      <button type="submit" class="btn btn-primary me-3"><i class="bx bx-save"></i> Submit</button>
                       <button type="reset" class="btn btn-info" data-bs-dismiss="modal" aria-label="Close"><i class="bx bx-x"></i> Close</button>
                     </div>
                   </form>
@@ -1138,5 +1144,5 @@
               </div>
             </div>
           </div>
-          <!--/ prescription Modal -->
+          <!--/ PRESCRIPTION MODAL -->
 </x-app-layout>

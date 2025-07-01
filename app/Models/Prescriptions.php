@@ -18,12 +18,14 @@ class Prescriptions extends Model
     protected $fillable = [
         'prescriptions_id',
         'attendance_id',
+        'patient_id',
+        'opd_number',
+         'product_id',
         'attendance_date',
         'attendance_time',
         'entry_date',
         'episode_id',
         'unit_price',
-        'product_id',
         'prescription_type',
         'start_date',
         'end_date',
@@ -53,6 +55,11 @@ class Prescriptions extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function sponsors()
+    {
+        return $this->belongsTo(User::class, 'sponsor_id');
     }
 
     public function stores()

@@ -596,8 +596,6 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
 
   // __________________________________________________________________________________________________________________________________________________________
 
-
-  $(document).ready(function () {
     // Handle input event on the diagnosis field
     $('#prescription_add').on('input', function () {
 
@@ -611,23 +609,23 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
 
       // Send an AJAX request to fetch matching diagnoses
       $.ajax({
-        url: '/services/add-prescription', 
+        url: '/prescriptions/search', 
         method: 'POST',
         data: {
           _token: $('input[name="_token"]').val(), // CSRF token
-          prescription: prescription, // Diagnosis search term
+          prescription: prescription, // prescription search term
           opd_number: opd_number, 
         },
         success: function (response) {
           if (response.length > 0) {
-            // Sort the diagnoses alphabetically by the diagnosis name
-            const sorted_drugs = response.sort((a, b) => a.diagnosis.localeCompare(b.diagnosis));
+            // Sort the prescription alphabetically by the prescription name
+            const sorted_drugs = response.sort((a, b) => a.prescription.localeCompare(b.prescription));
 
             $('#drug_results').html('');
            
             sorted_drugs.forEach((drugs) => {
               $('#drug_results').append(
-                `<div class="diagnosis-item p-2 border-bottom" 
+                `<div class="prescription-item p-2 border-bottom" 
                       data-product_name="${drugs.product_name}" 
                       data-average_unit_price="${drugs.average_unit_price}">
                    ${drugs.product_name} (${drugs.average_unit_price}) | 
@@ -638,7 +636,6 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
 
             // Handle selection of a diagnosis
             $('.drug-item').on('click', function () {
-              // const icd_10 = $(this).data('icd_10');
               // const gdrg_code = $(this).data('gdrg_code');
               const average_unit_price = $(this).data('average_unit_price');
               const product_name = $(this).data('product_name');
@@ -646,9 +643,6 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
               // Populate the form fields
               $('#average_unit_price').val(average_unit_price);
               $('#product_name').val(product_name);
-              // $('#diagnosis_fee').val(fee);
-              // $('#diagnosis_name').val(diagnosis);
-
               // Clear the results container
               $('#drug_results').html('');
             });
@@ -658,12 +652,12 @@ $('#claims_check_code').on('hidden.bs.modal', function () {
           }
         },
         error: function (xhr, status, error) {
-          console.error('Error fetching diagnosis details:', error);
-          $('#_results').html('<div class="text-danger">An error occurred while fetching diagnoses.</div>');
+          console.error('Error fetching Prescription details:', error);
+          $('#_results').html('<div class="text-danger">An error occurred while fetching Prescription.</div>');
         },
       });
     });
-  });
+  // });
 
 
 

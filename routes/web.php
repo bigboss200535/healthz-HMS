@@ -111,7 +111,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve'])->middleware('auth'); 
         Route::post('/service_request', [ServiceRequestController::class, 'store']);
         Route::post('/add-diagnosis', [DiagnosisController::class, 'add_diagnosis']);
-        Route::post('/add-prescription', [PrescriptionController::class, 'add_medicine']);
+       
     });
 
     Route::prefix('reports')->group(function () {
@@ -155,9 +155,12 @@ Route::middleware('auth')->group(function () {
         // Route::get('patient', [ReportsController::class, 'patient']);
     });
 
-    Route::prefix('medication')->group(function (){
+    Route::prefix('prescriptions')->group(function (){
         // Route::post('/search', [PrescriptionController::class, 'search_medications']);
-        Route::post('/save', [PrescriptionController::class, 'save_medications']);
+        Route::post('/save', [PrescriptionController::class, 'store']);
+        Route::post('/search', [PrescriptionController::class, 'add_medicine']);
+        Route::get('/get-prescriptions/{attendance_id}', [PrescriptionController::class, 'get_patient_prescriptions']);
+        Route::get('/delete/{prescriptions_id}', [PrescriptionController::class, 'delete_prescription']);
     });
 
     // Route::prefix('consultation')->group(function () {
@@ -181,12 +184,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/save-ccc', [NotificationController::class, 'send_sms'])->name('notifications.save-ccc');
     });
 
-    Route::delete('delete-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'delete_diagnosis']);
+    
     // Route::get('get-diagnosis/{attendance_id}', [DiagnosisController::class, 'get_diagnosis']);
     // Route::get('search-diagnosis', [DiagnosisController::class, 'search_diagnosis']);
     Route::post('add-diagnosis', [DiagnosisController::class, 'add_diagnosis']);
     Route::get('search-prescription', [MedicationsController::class, 'search_prescription']);
 
+    Route::prefix('diagnosis')->group(function () {
+       Route::get('/delete-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'delete_diagnosis']);
+    });
     // Route::post('code_generate', [ExternalCallController::class, 'claims_check_code']);
 
     // Route::prefix('reports')->group(function () {

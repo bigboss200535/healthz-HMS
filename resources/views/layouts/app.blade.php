@@ -64,6 +64,8 @@
                              <!-- / Content -->
                               <!-- Footer -->
                              @include('layouts.footer')
+                             <!-- Footer -->
+                              <!-- modal forms -->
                              @include('layouts.modal.forms')
                        <div class="content-backdrop fade"></div>
                     </div>
@@ -133,7 +135,9 @@
             $('#system_table').DataTable();
             $('#attendance_details').DataTable();   
             $('#claims_code_list').DataTable();
-            $('#prescriptions_list').DataTable(); 
+            // $('#prescriptions_list').DataTable({
+            //       searching: false
+            //   }); 
             $('#patient_sponsor').DataTable();
             $('#service_request').DataTable();
             $('#appointments').DataTable();
