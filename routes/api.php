@@ -31,7 +31,6 @@ Route::post('claims_code', [ExternalCallController::class, 'validateMemberAndGen
 Route::prefix('prescriptions')->group(function (){
     Route::get('/get-prescriptions/{attendance_id}', [PrescriptionController::class, 'get_patient_prescriptions']);
     Route::post('/search', [PrescriptionController::class, 'search_medications']);
-   
     });
 
 // Route::post('save-prescription', [MedicationsController::class, 'save_prescription']);
