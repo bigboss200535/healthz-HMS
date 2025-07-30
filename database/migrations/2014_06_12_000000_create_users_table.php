@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->string('user_id', 50)->primary();
-            $table->string('username', 150);
+            $table->string('username', 150)->index();
             $table->string('password', 100);
             $table->string('oldpassword', 100);
             $table->string('title', 50)->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('gender_id', 50);
             $table->string('user_roles_id', 50)->nullable();
             $table->string('mode', 50)->default('New')->nullable();
-            $table->string('email')->nullable()->unique();
+            $table->string('email')->nullable()->unique()->index();
             $table->string('email_verified', 20)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('facility_id', 50)->nullable();

@@ -111,7 +111,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
    Route::prefix('notifications')->group(function () {
         Route::get('/sms-list', [NotificationController::class, 'index'])->name('notifications.sms-list');
-        Route::post('/send-sms', [NotificationController::class, 'send_sms'])->name('notifications.send-sms');
+        Route::post('/send-sms', [NotificationController::class, 'send_sms'])->name('notifications.send-sms')
+         ->middleware('throttle:3,1'); //3 requests per 1 minute
         Route::get('/sms-setup', [NotificationController::class, 'index']);
         Route::get('/email-setup', [NotificationController::class, 'index']);
         Route::get('/emails', [NotificationController::class, 'index']);
@@ -119,6 +120,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Route::get('patient', [ReportsController::class, 'patient']);
         
     });
+
 
    Route::prefix('nurses')->group(function () {
         Route::get('/general-vitals', [NursesNotesController::class, 'general_vitals']);
