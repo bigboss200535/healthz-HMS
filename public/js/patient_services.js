@@ -34,8 +34,8 @@ $(document).ready(function () {
       const $closeBtn = $('#reset_close');
       const service_requests = Object.fromEntries(formData.entries());
 
-      if (!service_requests.clinic_code || service_requests.clinic_code === "-Select-"){
-        $('#clinic_code').addClass('is-invalid').focus();
+      if (!service_requests.service_point_id || service_requests.service_point_id === "-Select-"){
+        $('#service_point_id').addClass('is-invalid').focus();
         return false;
       }
 
@@ -264,9 +264,9 @@ $(document).ready(function () {
 
 //       let isValid = true;
       
-//       if ($('#clinic_code').val() === '-Select-') {
-//          $('#clinic_code').addClass('is-invalid');
-//          $('#clinic_code').after('<div class="invalid-feedback">Please select a clinic.</div>');
+//       if ($('#service_point_id').val() === '-Select-') {
+//          $('#service_point_id').addClass('is-invalid');
+//          $('#service_point_id').after('<div class="invalid-feedback">Please select a clinic.</div>');
 //         isValid = false;
 //       }
 
@@ -324,7 +324,7 @@ $(document).ready(function () {
 //     });
 //   });
 // ************************************ clinic dropdown dynamically **************************************************************
-  $(document).on('change', '#clinic_code', function() {
+  $(document).on('change', '#service_point_id', function() {
     var clinic_id = $(this).val();
 
     $('#service_type').empty().append('<option disabled selected>-Select-</option>');

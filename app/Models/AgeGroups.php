@@ -32,4 +32,15 @@ class AgeGroups extends Model
         'archived_by',
         'archived_date'
     ];
+
+    
+    public static function get_category_from_age($age_in_years)
+    {
+        return self::where('min_age', '<=', $age_in_years)
+                ->where('max_age', '>=', $age_in_years)
+                // ->where('status', 'Active')
+                ->where('archived', 'No')
+                ->first();
+    }
+
 }

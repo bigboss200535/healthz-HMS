@@ -17,16 +17,17 @@ class SponsorsSeeder extends Seeder
      */
     public function run()
     {
-        // $user = User::inRandomOrder()->first(); 
+        $user = User::inRandomOrder()->first(); 
 
-        // $sponsor = Sponsors::create([
-        //     'sponsor_type_id' => 'P001',
-        //     'sponsor_type' => 'CASH',
-        //     'user_id' => $user->user_id,
-        //     'added_date' => now(),
-        //     'status' => 'Active',
-        //     'archived' => 'No',
-        // ]);
+        $sponsor = Sponsors::create([
+            'sponsor_id' => '100',
+            'sponsor_type_id' => 'P001',
+            'sponsor_name' => 'CASH PAYMENT',
+            'user_id' => 'a2c362bf-56df-4337-be34-0062ffae8bd5',
+            'added_date' => now(),
+            'status' => 'Active',
+            'archived' => 'No',
+        ]);
 
         $sponsor = Sponsors::create([
             'sponsor_id' => '000',

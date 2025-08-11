@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('age_id', 50)->nullable()->index(); 
             $table->string('gender_id', 50)->nullable()->index(); 
             $table->string('full_age', 50)->nullable(); 
-            $table->string('age_group_category', 50)->nullable(); 
+            $table->string('age_group_id')->nullable();
+            // $table->string('age_group_category', 50)->nullable(); 
             $table->string('status_code', 50)->nullable(); 
             $table->string('request_type', 20)->default('INWARD'); //inward and outward
             $table->string('service_id', 50)->nullable(); 
@@ -36,7 +37,7 @@ return new class extends Migration
             $table->string('episode_id', 50)->nullable(); 
             $table->string('sponsor_type_id', 50)->nullable(); 
             $table->string('sponsor_id', 50)->nullable(); 
-            $table->string('clinic_code', 50)->nullable(); 
+            $table->string('service_point_id', 50)->nullable(); 
             $table->string('records_no', 50)->nullable(); 
             $table->string('attendance_no', 50)->nullable(); 
             $table->float('cash_amount',10)->default(0.00);
@@ -64,6 +65,10 @@ return new class extends Migration
             $table->foreign('status_code')->references('patient_status_id')->on('patient_statuses');
             $table->foreign('age_id')->references('age_id')->on('ages');
             $table->foreign('gender_id')->references('gender_id')->on('gender');
+            $table->foreign('sponsor_type_id')->references('sponsor_type_id')->on('sponsor_type');
+            $table->foreign('sponsor_id')->references('sponsor_id')->on('sponsors');
+            $table->foreign('age_group_id')->references('age_group_id')->on('age_groups');
+            $table->foreign('service_point_id')->references('service_point_id')->on('service_points');
         });
 
     }

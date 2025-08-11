@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    
     public function index()
     {
         $user = User::where('users.archived', 'No')->where('users.status', '=','Active')
@@ -208,5 +209,12 @@ class UserController extends Controller
                 ->get();
     
         return view('users.permissions.index', compact('user', 'permissions'));
+    }
+
+
+    private function get_user_by_id()
+    {
+        return $user = User::where('user_id', Auth::user()->user_id)
+            ->first();
     }
 }

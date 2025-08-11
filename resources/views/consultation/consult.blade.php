@@ -85,7 +85,51 @@
                              </tr>
                            </thead>
                            <tbody>
-                             <!-- Table body will be populated via AJAX -->
+                            @php
+                              $counter = 1;
+                            @endphp
+
+                            @foreach($waiting as $patients)
+                            <tr>
+                              <td>{{ $counter++ }}</td>
+                              <td>{{ $patients->attendance_date }}</td>
+                              <td>{{ $patients->fullname }}</td>
+                              <td></td>
+                              <td>
+                                  @if(in_array($patients->gender_id, ['2', '3']))
+                                      {{ $patients->gender }}
+                                  @endif
+                              </td>
+                              <td>{{ $patients->full_age }}</td>
+                              <td> <span class="badge bg-label-info me-1">{{ $patients->sponsor_type }}</span></td>
+                              <td>{{ $patients->clinic }}</td>
+                              <td class="text-nowrap text-sm-end" align="left">
+                                  @if($patients->status === 'Active')
+                                  <span class="badge bg-label-info me-1">Active</span>
+                                  @elseif ($patients->status === 'Inactive')
+                                  <span class="badge bg-label-danger me-1">Inactive</span>
+                                  @endif
+                              </td>
+                              <td class="text-lg-center">
+                                  <div class="dropdown" align="center">
+                                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                              <i class="bx bx-dots-vertical-rounded"></i>
+                                          </button>
+                                            <div class="dropdown-menu">
+                                                  <a class="dropdown-item" href="#">
+                                                    <i class="bx bx-edit-alt me-1"></i> Consult
+                                                  </a>
+                                                  <a class="dropdown-item" href="">
+                                                    <i class="bx bx-pause me-1"></i> Hold
+                                                  </a>
+                                                  <a class="dropdown-item product_delete_btn" data-id="{{ $patients->product_id}}" href="#">
+                                                      <i class="bx bx-trash me-1"></i> Delete
+                                                  </a>
+                                            </div>
+                                   </div>  
+                              </td>
+                          </tr>
+                            @endforeach
                            </tbody>
                            <tfoot>
                              <tr>

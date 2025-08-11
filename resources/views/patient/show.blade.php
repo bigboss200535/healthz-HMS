@@ -64,7 +64,7 @@
                     </tr>
                     <tr>
                       <td><b>Fullname</b></td>
-                      <td>{{ $patients->fullname }}</td>
+                      <td>{{ strtoupper($patients->fullname) }}</td>
                     </tr>
                     <tr>
                       <td><b>Gender</b></td>
@@ -405,13 +405,13 @@
           @csrf
           <div id="success_diplay" class="container mt-6"></div>
             <input type="text" name="patient_id" id="patient_id" value="{{ $patients->patient_id }}" hidden>
-            <input type="text" name="service_id" id="service_id" hidden>
-            <input type="text" name="service_fee_id" id="service_fee_id" hidden>
-            <input type="text" name="top_up" id="top_up" value="0.00" hidden>
-            <input type="text" name="opd_number" id="opd_number" value="{{ $patients->opd_number}}" hidden>
+            <input type="text" name="service_id" id="service_id">
+            <input type="text" name="service_fee_id" id="service_fee_id">
+            <input type="text" name="top_up" id="top_up" value="0.00" >
+            <input type="text" name="opd_number" id="opd_number" value="{{ $patients->opd_number}}" >
           <div class="col-12 col-md-6">
-            <label class="form-label" for="clinic_code">Service Clinic</label>
-             <select name="clinic_code" id="clinic_code" class="form-control">
+            <label class="form-label" for="service_point_id">Service Clinic</label>
+             <select name="service_point_id" id="service_point_id" class="form-control">
                 <option>-Select-</option>
                 @foreach($clinic_attendance as $clinics)                                        
                   <option value="{{ $clinics->service_point_id }}">{{ $clinics->service_points }}</option>

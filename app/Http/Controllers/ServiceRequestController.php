@@ -10,6 +10,7 @@ use App\Models\PatientAttendance;
 use App\Models\PatientSponsor;
 use App\Models\ServicePoints;
 use App\Models\ServiceRequest;
+use App\Models\AgeGroups;
 use App\Models\SponsorType;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -20,11 +21,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 
-
-
 class ServiceRequestController extends Controller
 {
-     public function index()
+    public function index()
     {
        
     }
@@ -37,11 +36,11 @@ class ServiceRequestController extends Controller
     public function store(Request $request)
     {
         
-            try {
-                $validated_data = $request->validate([
+       try {
+              $validated_data = $request->validate([
                     'patient_id' => 'required|max:50',
                     'opd_number' => 'required|max:50',
-                    'clinic_code' => 'required|string',
+                    'service_point_id' => 'required|string',
                     'service_type' => 'required|string',
                     'credit_amount' => 'nullable',
                     'cash_amount' => 'nullable',
@@ -53,11 +52,9 @@ class ServiceRequestController extends Controller
                     'attendance_type' => 'nullable|string|max:50', 
                 ]);
 
-        // \Log::info('Validated Data:', $validated_data);
-
-        $patient = Patient::where('archived', 'No')
+       $patient = Patient::where('archived', 'No')
             ->where('patient_id', $request->input('patient_id'))
-            ->select('patient_id', 'birth_date', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
+            ->select('gender_id', 'patient_id', 'birth_date', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
             ->first();
 
         if(!$patient) {
@@ -76,16 +73,21 @@ class ServiceRequestController extends Controller
 
             if (!$sponsor) {
                 $sponsor = (object) [
-                    'sponsor_id' => '',
+                    'sponsor_id' => '100',
                     'sponsor_type_id' => 'P001',
                 ];
                 $insured = '0';
             }
 
-        // $age_full = $this->get_age_full($patient->birth_date);
         $ages = $this->get_age_id($patient->birth_date);
-        $old_episode_id = 0;
+
+        $age_group = AgeGroups::get_category_from_age($patient->patient_age);
+
+        $count_no =  DB::table('patient_attendance')->count();
+        $records_no = $count_no + 1;
+
         $today = date('Y-m-d');
+
                 DB::beginTransaction();
                
 
@@ -100,7 +102,7 @@ class ServiceRequestController extends Controller
                     'patient_id' => $validated_data['patient_id'],
                     'pat_number' => $validated_data['opd_number'],
                     'request_date' => now(),
-                    'episode_clinic' => $validated_data['clinic_code'],
+                    'episode_clinic' => $validated_data['service_point_id'],
                     'code' => $new_episode_id,
                     'user_id' => Auth::user()->user_id,
                     'added_date' => now()
@@ -114,9 +116,11 @@ class ServiceRequestController extends Controller
                     'full_age' => $this->get_age_full($patient->birth_date),
                     'service_id' => $validated_data['service_id'] ?? 0, 
                     'service_fee_id' => $validated_data['service_fee_id'] ?? 0, 
-                    'clinic_code' => $validated_data['clinic_code'],
+                    'service_point_id' => $validated_data['service_point_id'],
                     'service_type' => $validated_data['service_type'],
                     'age_id' => $ages->age_id,
+                    'gender_id' => $patient->gender_id,
+                    'age_group_id' => $age_group->age_group_id,
                     'request_type' => 'INWARD',
                     'episode_id' => $new_episode_id ?? $check_episode_today->episode_id,
                     'sponsor_type_id' => $sponsor->sponsor_type_id ?? 'P001',
@@ -127,10 +131,13 @@ class ServiceRequestController extends Controller
                     'status_code' => $status_code ?? '2',
                     'insured' => $insured ?? '0',
                     'service_issued' => '0',
+                    'records_no' => $records_no,
                     'attendance_date' => $validated_data['attendance_date'],
                     'attendance_type' => $validated_data['attendance_type'],
                     'attendance_time' => now(),
                     'added_date' => now(),
+                    'facility_id' => Auth::user()->facility_id ?? '',
+                    'added_by' => Auth::user()->user_fullname,
                     'user_id' => Auth::user()->user_id,
                     'added_id' => Auth::user()->user_id,
                 ]);
@@ -202,13 +209,13 @@ class ServiceRequestController extends Controller
     public function gettarrifs($service_id, Request $request)
     {
         // $fee_column = 0;
-        $patients = Patient::where('archived', 'No')
+        $patient = Patient::where('archived', 'No')
             ->where('patient_id', $request->input('patient_id'))
             ->select('patient_id', 'fullname', 'birth_date', 'telephone', 'gender_id', 'nationality_id', 
                      DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age'))
             ->first();
         
-        $sponsor = PatientSponsor::where('patient_id', $request->input('patient_id'))
+        $sponsor = PatientSponsor::where('patient_id', $patient->patient_id)
             ->where('archived', 'No')
             ->where('priority', 1)
             ->where('is_active', 'Yes')
@@ -216,7 +223,7 @@ class ServiceRequestController extends Controller
 
             if (!$sponsor) {
                 $sponsor = (object) [
-                    'sponsor_id' => '',
+                    'sponsor_id' => '100',
                     'sponsor_type_id' => 'P001',
                 ];
                 $insured = '0';
@@ -237,8 +244,8 @@ class ServiceRequestController extends Controller
         }
 
         // Calculate age group directly from patient's birth date
+        $result = DB::select('CALL GetAgeGroup(?);', [$patient->age]);
 
-        $result = DB::select('CALL GetAgeGroup(?);', [$patients->age]);
         $age_type = $result[0]->age_description ?? null;
 
         // Check if a valid age group was found
@@ -255,23 +262,26 @@ class ServiceRequestController extends Controller
         
         if ($sponsor->sponsor_type_id == 'P001') 
         {
-            $fee_column = $patients->nationality_id == '10001' ? 'cash_amount' : 'foreigners_amount';
-            // $fee_column = 0;
+            $fee_column = $patient->nationality_id == '10001' ? 'cash_amount' : 'foreigners_amount';
+            $topup = 0;
         }
          elseif ($sponsor->sponsor_type_id == 'N002') 
         {
             $fee_column = $age_type === 'ADULT' ? 'nhis_adult' : 'nhis_child';
             $cash_amount = 0 ;
+            $topup = 0;
         }
          elseif ($sponsor->sponsor_type_id == 'PC04') 
         {
             $fee_column = 'company_amount';
             // $cash_amount = 0 ;
+            $topup = 0;
         }
          elseif ($sponsor->sponsor_type_id == 'PI03') 
         {
             $fee_column = 'private_amount';
             // $cash_amount = 0 ;
+            $topup = 0;
         } 
         else {
             return response()->json([
@@ -295,17 +305,37 @@ class ServiceRequestController extends Controller
         }
 
         // Map fee charges
-    $fee_charges = $fee_charges->map(function ($item) use ($fee_column, $code_column) {
-        $item->nhis_amount = $item->$fee_column;
-        unset($item->$fee_column);
-        $item->gdrg = $item->$code_column;
-        unset($item->$code_column);
-        return $item;
+        // $fee_charges = $fee_charges->map(function ($item) use ($fee_column, $code_column) {
+        //     $item->nhis_amount = $item->$fee_column;
+        //     unset($item->$fee_column);
+        //     $item->gdrg = $item->$code_column;
+        //     unset($item->$code_column);
+        //     return $item;
+        // });
+
+        // return response()->json([
+        //     'success' => true,
+        //     'result' => $fee_charges
+        // ]);
+
+        // Transform the collection properly
+    $transformed_charges = $fee_charges->map(function ($item) use ($fee_column, $code_column) {
+        return [
+            'nhis_amount' => $item->$fee_column ?? null,
+            'gdrg' => $item->$code_column ?? null,
+            'cash_amount' => $item->cash_amount ?? null,
+            'topup_amount' => $topup ?? null,
+            'allow_nhis' => $item->allow_nhis ?? null,
+            'allow_topup' => $item->allow_topup ?? null,
+            'editable' => $item->editable ?? null,
+            'service_id' => $item->service_id ?? null,
+            'service_fee_id' => $item->service_fee_id ?? null
+        ];
     });
 
     return response()->json([
         'success' => true,
-        'result' => $fee_charges
+        'result' => $transformed_charges->toArray() // Convert to array explicitly
     ]);
     }
 
@@ -376,5 +406,6 @@ class ServiceRequestController extends Controller
             'result' => $service_requests
         ]);
     }
+
 
 }

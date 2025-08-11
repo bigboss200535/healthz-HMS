@@ -328,24 +328,32 @@ class ConsultationController extends Controller
         $start_date = $request->input('start_date', date('Y-m-d'));
         $end_date = $request->input('end_date', date('Y-m-d'));
 
-            $all = PatientAttendance::where('patient_attendance.archived','No')
+            $waiting = PatientAttendance::where('patient_attendance.archived','No')
                 ->join('sponsor_type', 'patient_attendance.sponsor_type_id', '=', 'sponsor_type.sponsor_type_id')
                 ->join('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
                 ->join('gender', 'gender.gender_id', '=', 'patient_info.gender_id')
-                ->join('sponsors', 'patient_attendance.sponsor_id', '=', 'sponsors.sponsor_id')
+                // ->join('sponsors', 'patient_attendance.sponsor_id', '=', 'sponsors.sponsor_id')
                 ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.service_type')
-                ->select('patient_attendance.attendance_id','patient_info.fullname', 'patient_attendance.opd_number', 
-                        'patient_attendance.attendance_date', 'sponsors.sponsor_name',
-                        'patient_attendance.full_age', 'gender.gender', 'service_attendance_type.attendance_type as pat_clinic', 
-                        'sponsor_type.sponsor_type as sponsor', 'sponsor_type.sponsor_type_id',
+                ->select(
+                        'patient_attendance.attendance_id',
+                         DB::raw('upper(patient_info.fullname) as fullname'),
+                        'patient_info.gender_id', 
+                        'patient_attendance.opd_number', 
+                        'patient_attendance.attendance_date', 
+                        'patient_attendance.status', 
+                        // 'sponsors.sponsor_name',
+                        'patient_attendance.full_age', 'gender.gender', 'service_attendance_type.attendance_type as clinic', 
+                        // 'sponsor_type.sponsor_type as sponsor', 
+                        'sponsor_type.sponsor_type_id as sponsor_type_id',
+                        'sponsor_type.sponsor_type as sponsor_type',
                         'patient_attendance.service_issued' ,'patient_attendance.attendance_type')
-                ->where('patient_attendance.archived', 'No')
-                ->whereIn('patient_attendance.service_issued', ['0', '1'])
-                ->whereBetween('patient_attendance.attendance_date', [$start_date, $end_date])
+                // ->whereIn('patient_attendance.service_issued', ['0', '1'])
+                // ->whereBetween('patient_attendance.attendance_date', [$start_date, $end_date])
+                 
                 ->orderBy('patient_attendance.attendance_id', 'desc')
                 ->get();
 
-            return view('consultation.consult', compact('all')); 
+            return view('consultation.consult', compact('waiting')); 
     }
     
     /**

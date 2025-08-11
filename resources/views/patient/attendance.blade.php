@@ -61,7 +61,7 @@
                             <tr>
                               <td>{{ $counter++ }}</td>
                               <td>{{ \Carbon\Carbon::parse($patients->attendance_date)->format('d-m-Y') }}</td>
-                              <td>{{ $patients->fullname }}</td>
+                              <td>{{ strtoupper($patients->fullname) }}</td>
                               <td>{{ $patients->opd_number }}</td>
                               <td>{{ $patients->gender }}</td>
                               <td>{{ $patients->full_age }}</td>
@@ -76,7 +76,7 @@
                                   <span class="badge bg-label-primary me-1">{{ $patients->sponsor_name}}</span>
                                   @endif
                               </td>
-                              <td>{{ $patients->pat_clinic}}</td>
+                              <td>{{ $patients->type_of_attendance}}</td>
                               <td>
                                   @if($patients->service_issued === '0')
                                   <span class="badge bg-label-danger me-1">PENDING</span>

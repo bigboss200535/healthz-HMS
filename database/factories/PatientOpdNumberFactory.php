@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Patient;
 use App\Models\User;
 use App\Models\Clinic;
+use App\Models\Facility;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 
@@ -23,6 +24,7 @@ class PatientOpdNumberFactory extends Factory
         $user = User::inRandomOrder()->first();
         $patient = Patient::inRandomOrder()->first();
         $clinic = Clinic::inRandomOrder()->first();
+         $facility = Facility::inRandomOrder()->first();
 
         return [
             // 'patient_id' => $patient->patient_id,
@@ -31,6 +33,7 @@ class PatientOpdNumberFactory extends Factory
             'user_id' =>  $user->user_id,
             'registration_date' => now(),
             'registration_time' => now(),
+            'facility_id' => $facility->facility_id,
             'year' => date('Y'),
             'month' => date('m'),
             'added_date' => now(),
