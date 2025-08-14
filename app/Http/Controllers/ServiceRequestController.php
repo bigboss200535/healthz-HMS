@@ -87,17 +87,14 @@ class ServiceRequestController extends Controller
         $count_no =  DB::table('patient_attendance')->count();
         $records_no = $count_no + 1;
 
-        // $today = date('Y-m-d');
-
         $today = TimeManagement::todayDate();
 
-                DB::beginTransaction();
+        DB::beginTransaction();
                
+        $old_episode_id = Episode::get()->count();
+        $new_episode_id = $old_episode_id + 1;
 
-                $old_episode_id = Episode::get()->count();
-                $new_episode_id = $old_episode_id + 1;
-
-                $check_episode_today = Episode::where('patient_id', $validated_data['patient_id'])->where('added_date', $today)->get();
+        $check_episode_today = Episode::where('patient_id', $validated_data['patient_id'])->where('added_date', $today)->get();
 
                 if(!$check_episode_today){
                     $new_episode = Episode::create([

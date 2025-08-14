@@ -61,7 +61,7 @@ return new class extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('sponsor_type');
+        Schema::dropIfExists('sponsor_type');
         Schema::dropIfExists('sponsors');
     }
 };

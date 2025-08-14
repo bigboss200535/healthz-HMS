@@ -54,6 +54,7 @@ return new class extends Migration
             $table->foreign('age_group_id')->references('age_group_id')->on('age_groups');
             $table->foreign('sponsor_id')->references('sponsor_id')->on('sponsors');
             $table->foreign('sponsor_type_id')->references('sponsor_type_id')->on('sponsor_type');
+             $table->foreign('attendance_id')->references('attendance_id')->on('patient_attendance');
         });
     }
 
