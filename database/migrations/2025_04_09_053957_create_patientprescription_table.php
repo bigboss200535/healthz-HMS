@@ -57,6 +57,7 @@ return new class extends Migration
             $table->foreign('added_id')->references('user_id')->on('users');
             $table->foreign('archived_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
+            $table->foreign('age_id')->references('age_id')->on('ages');
             $table->foreign('age_group_id')->references('age_group_id')->on('age_groups');
             $table->foreign('sponsor_id')->references('sponsor_id')->on('sponsors');
             $table->foreign('product_id')->references('product_id')->on('products');

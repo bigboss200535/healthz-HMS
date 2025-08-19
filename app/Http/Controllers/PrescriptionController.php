@@ -43,7 +43,7 @@ class PrescriptionController extends Controller
             'prescription_product_id' => 'nullable|min:3',
             'prescription_attendance_id' => 'string|min:1',
             // 'consulting_date' => 'nullable|min:3|max:50',
-            'age_id' => 'nullable|min:1',
+            // 'age_id' => 'nullable|min:1',
             'episode_id' => 'nullable|min:3',
             'prescription_price' => 'nullable|min:1',
             'prescription_presentation_input' => 'nullable',
@@ -70,7 +70,7 @@ class PrescriptionController extends Controller
               ->where('archived', 'No')
               ->first();
 
-          $prescription_id = $this->prescription_id($request);   
+        $prescription_id = $this->prescription_id($request);   
 
         try {
              DB::beginTransaction();
@@ -85,12 +85,13 @@ class PrescriptionController extends Controller
                     'attendance_time' => now(),
                     'entry_date' => now(),
                     'age_group_id' => $attendance->age_group_id,
-                    // 'age_id' => $validated_data['age_id'],
+                    'age_id' => $attendance->age_id,
                     'episode_id' => '' ?? $validated_data['episode_id'],
                     'unit_price' => $validated_data['prescription_price'],
                     'presentation' => $validated_data['prescription_presentation_input'],
                     'prescription_type' => $validated_data['prescription_type'],
                     'dosage' => $validated_data['prescription_dosage'],
+                    'sponsor_id' => $validated_data['prescription_sponsor'],
                     'sponsor_type_id' => $validated_data['prescription_sponsor'],
                     'frequencies' => $validated_data['prescription_frequency'],
                     'duration' => $validated_data['prescription_duration'],
@@ -107,7 +108,6 @@ class PrescriptionController extends Controller
                     'added_id' => Auth::user()->user_id,
                     'user_id' => Auth::user()->user_id,
                     'facility_id' => Auth::user()->facility_id ?? '',
-                    
                 ]);
                  
                 DB::commit();
