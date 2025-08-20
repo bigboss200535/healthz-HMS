@@ -63,7 +63,8 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class,
             UserCategoryAccessLevelSeeder::class,
             // UserPermissionsSeeder::class,
-            UserPermissionTestSeeder::class
+            UserPermissionTestSeeder::class,
+            IssueStatusSeeder::class
         ]);
 
         $users = \App\Models\User::factory(1000)->create();

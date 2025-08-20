@@ -92,7 +92,7 @@ class PrescriptionController extends Controller
                     'prescription_type' => $validated_data['prescription_type'],
                     'dosage' => $validated_data['prescription_dosage'],
                     'sponsor_id' => $validated_data['prescription_sponsor'],
-                    'sponsor_type_id' => $validated_data['prescription_sponsor'],
+                    // 'sponsor_type_id' => $validated_data['prescription_sponsor'],
                     'frequencies' => $validated_data['prescription_frequency'],
                     'duration' => $validated_data['prescription_duration'],
                     'quantity_given' => $validated_data['prescription_qty'],

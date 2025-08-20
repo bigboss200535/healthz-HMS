@@ -1117,14 +1117,31 @@
                     </div>
                     <div class="col-12 col-md-6">
                       <label class="form-label" for="prescription_sponsor">Sponsor</label>
+                         <!-- <option value="100">CASH PAYMENT</option> -->
+
                       <select name="prescription_sponsor" id="prescription_sponsor" class="form-control">
                             @php
-                                $sponsors = \App\Models\SponsorType::orderBy('sponsor_type_id', 'asc')->get();
+                                $patient_sponsor = \App\Models\PatientSponsor::where('patient_id', $attendance->patient_id)
+                                   ->where('is_active', 'Yes') 
+                                   ->first();
+
+                                   if(!$patient_sponsor)
+                                   {
+                                      $sponsors = \App\Models\Sponsors::where('sponsor_id', '100')->get();
+                                   }else 
+                                   {
+                                      $sponsors = \App\Models\PatientSponsor::where('patient_sponsorship.archived', 'No')
+                                        ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_sponsorship.sponsor_id')
+                                      
+                                        ->where('patient_sponsorship.patient_id', $attendance->patient_id )
+                                        ->get();
+                                   }
+                                
                             @endphp
-                            @foreach($sponsors as $sponsor_type)
-                                <option value="{{ $sponsor_type->sponsor_type_id }}">{{ $sponsor_type->sponsor_type }}</option>
+
+                            @foreach($sponsors as $sponsor)
+                                <option value="{{ $sponsor->sponsor_id }}">{{ $sponsor->sponsor_name }}</option>
                             @endforeach
-                         <option value="P001">CASH PAYMENT</option>
                       </select>
                     </div>
                     <div class="col-12 col-md-6">

@@ -49,6 +49,7 @@
                                   <th>Patient Age</th>
                                   <th>Attendance Sponsor</th>
                                   <th>Attendance Clinic</th>
+                                  <th>Added By</th>
                                   <th>Status</th>
                                   <th></th>
                               </tr>
@@ -77,13 +78,8 @@
                                   @endif
                               </td>
                               <td>{{ $patients->type_of_attendance}}</td>
-                              <td>
-                                  @if($patients->service_issued === '0')
-                                  <span class="badge bg-label-danger me-1">PENDING</span>
-                                  @elseif ($patients->service_issued === '1')
-                                  <span class="badge bg-label-success me-1">ISSUED</span>
-                                  @endif 
-                              </td>
+                              <td>{{ strtoupper($patients->user_fullname) }}</td>
+                              <td><span class="badge bg-label-{{ $patients->color_code }} me-1">{{ strtoupper($patients->issue_value) }}</span></td>
                               <td> 
                                 <div class="dropdown" align="center">
                                       <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -92,7 +88,7 @@
                                             <div class="dropdown-menu">
                                                  
                                                   <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
-                                                      <i class="bx bx-edit-alt me-1"></i> Edit Attendance
+                                                      <i class="bx bx-edit-alt me-1"></i> Consult Attendance
                                                   </a>
                                                   <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
                                                       <i class="bx bx-trash me-1"></i> Delete Attendance
@@ -113,6 +109,7 @@
                                   <th>Patient Age</th>
                                   <th>Attendance Sponsor</th>
                                   <th>Attendance Clinic</th>
+                                  <th>Added By</th>
                                   <th>Status</th>
                                   <th></th>
                               </tr>

@@ -126,7 +126,7 @@ class ServiceRequestController extends Controller
                     'gdrg_code' => $validated_data['gdrg_code'],
                     'status_code' => $status_code ?? '2',
                     'insured' => $insured ?? '0',
-                    'service_issued' => '0',
+                    'issue_id' => '0',
                     'records_no' => $this->get_records_no(),
                     'attendance_date' => $validated_data['attendance_date'],
                     'attendance_type' => $validated_data['attendance_type'],

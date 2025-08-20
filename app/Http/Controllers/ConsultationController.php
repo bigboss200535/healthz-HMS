@@ -123,7 +123,7 @@ class ConsultationController extends Controller
             
                     // Update patient attendance status if needed
                  PatientAttendance::where('attendance_id', $validated_data['attendance_id'])
-                        ->update(['service_issued' => '1']);
+                        ->update(['issue_id' => '1']);
 
                 DB::commit();
             
@@ -185,7 +185,7 @@ class ConsultationController extends Controller
                     'clinics.clinic_name as pat_clinic',
                     'sponsors.sponsor_name as sponsor'
                 )
-                ->where('patient_attendance.service_issued', '2')
+                ->where('patient_attendance.issue_id', '2')
                 ->get();
             
             $patients = $patients->map(function ($patient, $key) {
@@ -199,10 +199,10 @@ class ConsultationController extends Controller
     public function holdAttendance($id)
     {
             try {
-                // Update the service_issued field to '2' for on-hold status
+                // Update the issue_id field to '2' for on-hold status
                 DB::table('patient_attendance')
                     ->where('attendance_id', $id)
-                    ->update(['service_issued' => '2']);
+                    ->update(['issue_id' => '2']);
                 
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {
@@ -213,10 +213,10 @@ class ConsultationController extends Controller
     public function resumeAttendance($id)
     {
             try {
-                // Update the service_issued field back to '0' for pending status
+                // Update the issue_id field back to '0' for pending status
                 DB::table('patient_attendance')
                     ->where('attendance_id', $id)
-                    ->update(['service_issued' => '0']);
+                    ->update(['issue_id' => '0']);
                 
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {
@@ -367,8 +367,8 @@ class ConsultationController extends Controller
                         // 'sponsor_type.sponsor_type as sponsor', 
                         'sponsor_type.sponsor_type_id as sponsor_type_id',
                         'sponsor_type.sponsor_type as sponsor_type',
-                        'patient_attendance.service_issued' ,'patient_attendance.attendance_type')
-                // ->whereIn('patient_attendance.service_issued', ['0', '1'])
+                        'patient_attendance.issue_id' ,'patient_attendance.attendance_type')
+                // ->whereIn('patient_attendance.issue_id', ['0', '1'])
                 // ->whereBetween('patient_attendance.attendance_date', [$start_date, $end_date])
                  
                 ->orderBy('patient_attendance.attendance_id', 'desc')
@@ -392,8 +392,8 @@ class ConsultationController extends Controller
                         // 'sponsor_type.sponsor_type as sponsor', 
                         'sponsor_type.sponsor_type_id as sponsor_type_id',
                         'sponsor_type.sponsor_type as sponsor_type',
-                        'patient_attendance.service_issued' ,'patient_attendance.attendance_type')
-                // ->whereIn('patient_attendance.service_issued', ['0', '1'])
+                        'patient_attendance.issue_id' ,'patient_attendance.attendance_type')
+                // ->whereIn('patient_attendance.issue_id', ['0', '1'])
                 // ->whereBetween('patient_attendance.attendance_date', [$start_date, $end_date])
                  
                 ->orderBy('patient_attendance.attendance_id', 'desc')
@@ -417,8 +417,8 @@ class ConsultationController extends Controller
                         // 'sponsor_type.sponsor_type as sponsor', 
                         'sponsor_type.sponsor_type_id as sponsor_type_id',
                         'sponsor_type.sponsor_type as sponsor_type',
-                        'patient_attendance.service_issued' ,'patient_attendance.attendance_type')
-                // ->whereIn('patient_attendance.service_issued', ['0', '1'])
+                        'patient_attendance.issue_id' ,'patient_attendance.attendance_type')
+                // ->whereIn('patient_attendance.issue_id', ['0', '1'])
                 // ->whereBetween('patient_attendance.attendance_date', [$start_date, $end_date])
                  
                 ->orderBy('patient_attendance.attendance_id', 'desc')
@@ -442,8 +442,8 @@ class ConsultationController extends Controller
                         // 'sponsor_type.sponsor_type as sponsor', 
                         'sponsor_type.sponsor_type_id as sponsor_type_id',
                         'sponsor_type.sponsor_type as sponsor_type',
-                        'patient_attendance.service_issued' ,'patient_attendance.attendance_type')
-                // ->whereIn('patient_attendance.service_issued', ['0', '1'])
+                        'patient_attendance.issue_id' ,'patient_attendance.attendance_type')
+                // ->whereIn('patient_attendance.issue_id', ['0', '1'])
                 // ->whereBetween('patient_attendance.attendance_date', [$start_date, $end_date])
                  
                 ->orderBy('patient_attendance.attendance_id', 'desc')
@@ -481,11 +481,11 @@ class ConsultationController extends Controller
                     'service_attendance_type.attendance_type as pat_clinic', 
                     'sponsor_type.sponsor_type as sponsor', 
                     'sponsor_type.sponsor_type_id',
-                    'patient_attendance.service_issued',
+                    'patient_attendance.issue_id',
                     'patient_attendance.attendance_type'
                 )
                 ->where('patient_attendance.archived', 'No')
-                ->whereIn('patient_attendance.service_issued', ['0', '1'])
+                ->whereIn('patient_attendance.issue_id', ['0', '1'])
                 ->whereBetween('patient_attendance.attendance_date', [$start_date, $end_date])
                 ->orderBy('patient_attendance.attendance_id', 'desc')
                 ->get();

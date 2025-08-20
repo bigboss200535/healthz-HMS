@@ -222,6 +222,7 @@ return new class extends Migration
             $table->string('archived_by', 100)->nullable();
             $table->date('archived_date', 100)->nullable();
             // key
+             $table->foreign('added_id')->references('user_id')->on('users');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
             $table->foreign('sponsor_id')->references('sponsor_id')->on('sponsors');
@@ -246,7 +247,7 @@ return new class extends Migration
             $table->string('service_fee_id', 50)->nullable(); 
             $table->string('attendance_type_id', 50)->nullable(); 
             $table->string('insured', 50)->nullable()->default('No'); 
-            $table->string('service_issued', 50)->default('0'); 
+            $table->string('issue_id', 50)->default('0'); 
             $table->string('attendance_type', 50)->nullable(); 
             $table->string('episode_id', 50)->nullable(); 
             $table->string('sponsor_type_id', 50)->nullable(); 
@@ -271,7 +272,9 @@ return new class extends Migration
             $table->date('archived_date')->nullable();
             $table->string('archived_by', 100)->nullable();
             // $table->primary(['attendance_id', 'added_date']);
+
             // key
+            $table->foreign('added_id')->references('user_id')->on('users');
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('facility_id')->references('facility_id')->on('facility');
             $table->foreign('patient_id')->references('patient_id')->on('patient_info');
@@ -285,6 +288,8 @@ return new class extends Migration
             $table->foreign('attendance_type_id')->references('attendance_type_id')->on('service_attendance_type');
             $table->foreign('service_id')->references('service_id')->on('services');
             $table->foreign('service_fee_id')->references('service_fee_id')->on('services_fee');
+            $table->foreign('issue_id')->references('issue_id')->on('consultation_issue_status');
+            
         });
     }
 

@@ -78,9 +78,9 @@
                               </td>
                               <td>{{ $patients->pat_clinic}}</td>
                               <td>
-                                  @if($patients->service_issued === '0')
+                                  @if($patients->issue_id === '0')
                                   <span class="badge bg-label-danger me-1">PENDING</span>
-                                  @elseif ($patients->service_issued === '1')
+                                  @elseif ($patients->issue_id === '1')
                                   <span class="badge bg-label-success me-1">ISSUED</span>
                                   @endif 
                               </td>
