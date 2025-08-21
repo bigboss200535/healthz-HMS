@@ -817,8 +817,8 @@
                                                                                                 <th>Sn</th>
                                                                                                 <th>Prescription</th>
                                                                                                 <th>Prescription Qty</th>
-                                                                                                <th>Doctor</th>
                                                                                                 <th>Prescription date</th>
+                                                                                                 <th>Doctor</th>
                                                                                                 <th>Sponsor Type</th>
                                                                                                 <th>Prescription Type</th>
                                                                                                 <th>Action</th>
@@ -1103,8 +1103,8 @@
                     <div class="col-12 col-md-3">
                       <label class="form-label" for="prescription_type">Type</label>
                       <select name="prescription_type" id="prescription_type" class="form-control">
-                        <option value="INWARD" selected>IN-WARD</option>
-                        <option value="OUTWARD">OUT-WARD</option>
+                        <option value="INWARD" selected>INWARD</option>
+                        <option value="OUTWARD">OUTWARD</option>
                       </select>
                     </div>
                     <div class="col-12 col-md-3">
@@ -1113,36 +1113,33 @@
                     </div>
                     <div class="col-12 col-md-3">
                       <label class="form-label" for="prescription_end_date">End Date</label>
-                      <input type="date" id="prescription_end_date" name="prescription_end_date" class="form-control" readonly />
+                      <input type="date" id="prescription_end_date" name="prescription_end_date" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly />
                     </div>
                     <div class="col-12 col-md-6">
                       <label class="form-label" for="prescription_sponsor">Sponsor</label>
-                         <!-- <option value="100">CASH PAYMENT</option> -->
+                        <select name="prescription_sponsor" id="prescription_sponsor" class="form-control">
+                              @php
+                                  $patient_sponsor = \App\Models\PatientSponsor::where('patient_id', $attendance->patient_id)
+                                      ->where('is_active', 'Yes') 
+                                      ->first();
 
-                      <select name="prescription_sponsor" id="prescription_sponsor" class="form-control">
-                            @php
-                                $patient_sponsor = \App\Models\PatientSponsor::where('patient_id', $attendance->patient_id)
-                                   ->where('is_active', 'Yes') 
-                                   ->first();
+                                    if(!$patient_sponsor)
+                                    {
+                                        $sponsors = \App\Models\Sponsors::where('sponsor_id', '100')->get();
+                                    }else 
+                                    {
+                                        $sponsors = \App\Models\PatientSponsor::where('patient_sponsorship.archived', 'No')
+                                          ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_sponsorship.sponsor_id')
+                                          ->where('patient_sponsorship.patient_id', $attendance->patient_id )
+                                          ->get();
+                                    }
+                                  
+                              @endphp
 
-                                   if(!$patient_sponsor)
-                                   {
-                                      $sponsors = \App\Models\Sponsors::where('sponsor_id', '100')->get();
-                                   }else 
-                                   {
-                                      $sponsors = \App\Models\PatientSponsor::where('patient_sponsorship.archived', 'No')
-                                        ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_sponsorship.sponsor_id')
-                                      
-                                        ->where('patient_sponsorship.patient_id', $attendance->patient_id )
-                                        ->get();
-                                   }
-                                
-                            @endphp
-
-                            @foreach($sponsors as $sponsor)
-                                <option value="{{ $sponsor->sponsor_id }}">{{ $sponsor->sponsor_name }}</option>
-                            @endforeach
-                      </select>
+                              @foreach($sponsors as $sponsor)
+                                  <option value="{{ $sponsor->sponsor_id }}">{{ $sponsor->sponsor_name }}</option>
+                              @endforeach
+                        </select>
                     </div>
                     <div class="col-12 col-md-6">
                       <label class="form-label" for="prescription_gdrg">Drug G-RDG</label>

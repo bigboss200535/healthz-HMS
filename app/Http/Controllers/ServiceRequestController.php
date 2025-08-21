@@ -34,17 +34,7 @@ class ServiceRequestController extends Controller
         
     }
 
-    private function episode_id()
-    {
-        $row_count = PatientAttendance::count();
-        $new_number = $row_count + 1;
-        return str_pad($new_number, 6, '0', STR_PAD_LEFT);
-
-        $old_episode_id = Episode::get()->count();
-        $new_episode_id = $old_episode_id + 1;
-    }
-
-
+    
     public function store(Request $request)
     {
        try {
@@ -62,9 +52,23 @@ class ServiceRequestController extends Controller
                     'attendance_date' => 'required|date',
                     'attendance_type' => 'nullable|string|max:50', 
                 ]);
+            
+            // Authorization check
+            // if (!Auth::user()->can('create_service_request')) {
+            //     return response()->json([
+            //         'status' => 'error',
+            //         'message' => 'Unauthorized to create service requests'
+            //     ], 403);
+            // }
 
-            $patient_detail = $this->patient_by_id($request->input('patient_id'));
+            $patient_detail = $this->patient_by_id($validated_data['patient_id']);
 
+                if (!$patient_detail) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Patient not found'
+                    ], 404);
+                }
             $sponsor = PatientSponsor::where('opd_number', $validated_data['opd_number'])
                     ->where('archived', 'No')
                     ->where('priority', 1)
@@ -72,38 +76,18 @@ class ServiceRequestController extends Controller
                     ->select('sponsor_id', 'sponsor_type_id')
                     ->first();
 
-                    if (!$sponsor) {
-                        $sponsor = (object) [
-                            'sponsor_id' => '100',
-                            'sponsor_type_id' => 'P001',
-                        ];
-                        $insured = '0';
-                    }
+            // Validate sponsor fallback logic
+            $default_sponsor = $this->get_default_sponsor();
+            $sponsor_type_id = $sponsor->sponsor_type_id ?? $default_sponsor->sponsor_type_id;
+            $sponsor_id = $sponsor->sponsor_id ?? $default_sponsor->sponsor_id;
+            $insured = $sponsor ? '1' : '0';
 
             $ages = $this->get_age_id($patient_detail->birth_date);
             $age_group = AgeGroups::get_category_from_age($patient_detail->patient_age);
             $today = TimeManagement::today_date();
 
         DB::beginTransaction();
-               
-            $old_episode_id = Episode::get()->count();
-            $new_episode_id = $old_episode_id + 1;
 
-            $check_episode_today = Episode::where('patient_id', $validated_data['patient_id'])->where('added_date', $today)->get();
-
-                if(!$check_episode_today){
-                    $new_episode = Episode::create([
-                    'episode_id' => $new_episode_id,
-                    'patient_id' => $validated_data['patient_id'],
-                    'pat_number' => $validated_data['opd_number'],
-                    'request_date' => now(),
-                    'episode_clinic' => $validated_data['service_point_id'],
-                    'code' => $new_episode_id,
-                    'user_id' => Auth::user()->user_id,
-                    'added_date' => now()
-                ]);
-                }
-              
                  $service_request = PatientAttendance::create([
                     'attendance_id' => $this->get_attendance_id(),
                     'patient_id' => $validated_data['patient_id'],
@@ -118,14 +102,15 @@ class ServiceRequestController extends Controller
                     'gender_id' => $patient_detail->gender_id,
                     'age_group_id' => $age_group->age_group_id,
                     'request_type' => 'INWARD',
-                    'episode_id' => $new_episode_id ?? $check_episode_today->episode_id,
-                    'sponsor_type_id' => $sponsor->sponsor_type_id ?? 'P001',
-                    'sponsor_id' => $sponsor->sponsor_id ?? '',
+                    'episode_id' => '0',
+                    'attendance_no' => date('Ymdhis'),
+                    'sponsor_type_id' => $sponsor_type_id,
+                    'sponsor_id' => $sponsor_id,
                     'credit_amount' => $validated_data['credit_amount'],
                     'cash_amount' => $validated_data['cash_amount'],
                     'gdrg_code' => $validated_data['gdrg_code'],
                     'status_code' => $status_code ?? '2',
-                    'insured' => $insured ?? '0',
+                    'insured' => $insured,
                     'issue_id' => '0',
                     'records_no' => $this->get_records_no(),
                     'attendance_date' => $validated_data['attendance_date'],
@@ -148,6 +133,11 @@ class ServiceRequestController extends Controller
             } catch (\Exception $e) {
                 DB::rollBack();
                 
+                        Log::error('Service request creation failed: ' . $e->getMessage(), [
+                        'user_id' => Auth::id(),
+                        'patient_id' => $request->input('patient_id')
+                    ]);
+
                 return response()->json([
                     'status' => 'error',
                     'message' => 'An error occurred while processing your request',
@@ -155,38 +145,6 @@ class ServiceRequestController extends Controller
                 ], 500);
             }
     
-    }
-
-    private function patient_by_id($patient_id)
-    {
-         $patient = Patient::where('archived', 'No')
-            ->where('patient_id', $patient_id)
-            ->select('birth_date', 'patient_id', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
-            ->first();
-
-        if(!$patient) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Patient not found'
-                ], 404);
-         }else if($patient){
-            return $patient;
-        }
-    }
-
-    private function get_attendance_id()
-    {
-          $old_episode_id = PatientAttendance::get()->count();
-          $new_id = $old_episode_id + 1;
-          $attendance_id = str_pad($new_id, 7, '0', STR_PAD_LEFT);
-          return 'A' .$attendance_id;
-    }
-
-     private function get_records_no()
-    {
-          $old_episode_id = PatientAttendance::get()->count();
-          $new_id = $old_episode_id + 1;
-          return $new_id;
     }
 
     public function show(Request $request, $clinic_id)
@@ -332,20 +290,6 @@ class ServiceRequestController extends Controller
             ], 404);
         }
 
-        // Map fee charges
-        // $fee_charges = $fee_charges->map(function ($item) use ($fee_column, $code_column) {
-        //     $item->nhis_amount = $item->$fee_column;
-        //     unset($item->$fee_column);
-        //     $item->gdrg = $item->$code_column;
-        //     unset($item->$code_column);
-        //     return $item;
-        // });
-
-        // return response()->json([
-        //     'success' => true,
-        //     'result' => $fee_charges
-        // ]);
-
         // Transform the collection properly
         $transformed_charges = $fee_charges->map(function ($item) use ($fee_column, $code_column) {
             return [
@@ -367,11 +311,73 @@ class ServiceRequestController extends Controller
     ]);
     }
 
-    public function get_episode_no($patient_id)
+    
+    public function patient_requests($patient_id)
     {
-        $patient_status = Patient::where('death_status', '=', 'No')
-            ->where('patient_id', $patient_id)
-            ->first();        
+        // if (!Auth::user()->can('view_patient_requests', $patient_id)) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Unauthorized to view patient requests'
+        //     ], 403);
+        // }
+
+        $service_requests = PatientAttendance::where('patient_id', $patient_id)
+            ->where('archived', 'No')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'result' => $service_requests
+        ]);
+    }
+
+    private function get_default_sponsor()
+    {
+        return (object) [
+            'sponsor_id' => '100',
+            'sponsor_type_id' => 'P001',
+        ];
+    }
+
+    private function episode_id()
+    {
+        $row_count = PatientAttendance::count();
+        $new_number = $row_count + 1;
+        return str_pad($new_number, 6, '0', STR_PAD_LEFT);
+
+        $old_episode_id = Episode::get()->count();
+        $new_episode_id = $old_episode_id + 1;
+    }
+
+    private function get_episode_no(Request $request, $patient_id)
+    {
+        $check_episode = Episode::where('patient_id', $validated_data['patient_id'])
+           ->where('added_date', TimeManagement::today_date())
+           ->get();
+
+        $episode = 0;  
+        $episode = Episode::get()->count();
+        $new_episode_id = $episode + 1;
+
+           if(!$check_episode )
+           {
+                $data = Episode::create([
+                    'episode_id' => $new_episode_id,
+                    'patient_id' => $patient_id,
+                    'pat_number' => $opd_number,
+                    'episode_clinic' => $service_point_id,
+                    'code' => $new_episode_id,
+                    'user_id' => Auth::user()->user_id,
+                    'added_date' => now(),
+                    'request_date' => now(),
+                   ]);
+           }else{
+                return response()->json([
+                    'episode_id' => '0',
+                    'patient_id' => $patient_id
+                    ],);
+        
+           }  
     }
 
     private function get_age_full($birthdate)
@@ -416,17 +422,37 @@ class ServiceRequestController extends Controller
         return $ages;
     }
 
-    public function patient_requests($patient_id)
+    private function get_attendance_id()
     {
-        $service_requests = PatientAttendance::where('patient_id', $patient_id)
-            ->where('archived', 'No')
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'result' => $service_requests
-        ]);
+          $old_episode_id = PatientAttendance::get()->count();
+          $new_id = $old_episode_id + 1;
+          $attendance_id = str_pad($new_id, 7, '0', STR_PAD_LEFT);
+          return 'A' .$attendance_id;
     }
 
+    private function get_records_no()
+    {
+          $old_episode_id = PatientAttendance::get()->count();
+          $new_id = $old_episode_id + 1;
+          return $new_id;
+    }
 
+    private function patient_by_id($patient_id)
+    {
+         $patient = Patient::where('archived', 'No')
+            ->where('patient_id', $patient_id)
+            ->select('birth_date', 'patient_id', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
+            ->first();
+
+        if(!$patient) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Patient not found'
+                ], 404);
+         }else if($patient){
+            return $patient;
+        }
+    }
+
+   
 }

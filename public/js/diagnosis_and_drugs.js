@@ -520,9 +520,9 @@ $(document).on('click', '.delete-prescription', function() {
                             <td class="text-center">${index + 1}</td>
                             <td>${item.product_name} <span class="badge bg-label-primary">${item.dosage} ${item.unit_measure ?? ''} ${item.frequencies ?? ''} FOR ${item.duration ?? ''} DAY(S)</span></td>
                             <td>${item.quantity_given}</td>
-                             <td>${item.doctor}</td>
                              <td>${item.entry_date}</td>
-                            <td>-</td>
+                            <td>${item.doctor}</td>
+                            <td>${item.sponsor_name}</td>
                             <td>${item.prescription_type}</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">

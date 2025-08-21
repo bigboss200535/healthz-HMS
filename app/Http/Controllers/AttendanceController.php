@@ -85,11 +85,13 @@ class AttendanceController extends Controller
                 ->join('sponsors', 'patient_attendance.sponsor_id', '=', 'sponsors.sponsor_id')
                 ->join('service_attendance_type', 'service_attendance_type.attendance_type_id', '=', 'patient_attendance.attendance_type_id')
                 ->select('patient_attendance.attendance_id','patient_info.fullname', 'patient_attendance.opd_number', 
-                        'patient_attendance.attendance_date', 'sponsors.sponsor_name', 'sponsor_type.sponsor_type', 'sponsor_type.sponsor_type_id',
-                        'patient_attendance.full_age', 'gender.gender', 'service_attendance_type.attendance_type as type_of_attendance', 
-                        'patient_attendance.issue_id' ,'patient_attendance.attendance_type', 'consultation_issue_status.issue_value', 
-                        'consultation_issue_status.color_code', 'users.user_fullname')
+                        'patient_attendance.attendance_date', 'sponsors.sponsor_name', 'sponsor_type.sponsor_type', 
+                        'sponsor_type.sponsor_type_id', 'patient_attendance.full_age', 'gender.gender', 
+                        'service_attendance_type.attendance_type as type_of_attendance', 
+                        'patient_attendance.issue_id' ,'patient_attendance.attendance_type', 
+                        'consultation_issue_status.issue_value', 'consultation_issue_status.color_code', 'users.user_fullname')
                 ->where('patient_attendance.archived', 'No')
+                // ->where('patient_attendance.archived', 'No')
                 ->orderBy('patient_attendance.attendance_id', 'desc')
                 ->get();
 

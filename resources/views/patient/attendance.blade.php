@@ -86,13 +86,23 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                       </button>
                                             <div class="dropdown-menu">
-                                                 
-                                                  <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
-                                                      <i class="bx bx-edit-alt me-1"></i> Consult Attendance
-                                                  </a>
-                                                  <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
-                                                      <i class="bx bx-trash me-1"></i> Delete Attendance
-                                                  </a>
+
+                                                 @if($patients->issue_id === '0')
+                                                      <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
+                                                          <i class="bx bx-edit-alt me-1"></i> Consult
+                                                      </a>
+                                                      <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
+                                                          <i class="bx bx-trash me-1"></i> Delete
+                                                      </a>
+                                                 @elseif ($patients->issue_id === '1')
+                                                 <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
+                                                          <i class="bx bx-edit-alt me-1"></i> Consult
+                                                      </a>
+                                                      <!-- <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
+                                                          <i class="bx bx-trash me-1"></i> Delete Attendance
+                                                      </a> -->
+                                                  @endif
+                                                  
                                              </div>
                                   </div>
                                 </td>

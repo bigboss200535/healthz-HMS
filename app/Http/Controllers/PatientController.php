@@ -28,6 +28,7 @@ use App\Models\PatientRelations;
 use App\Models\Nationality;
 use Carbon\Carbon;
 use App\Models\Sponsor;
+use App\Helpers\TimeManagement;
 
 
 class PatientController extends Controller
@@ -138,7 +139,7 @@ class PatientController extends Controller
                         $transaction_id = date('YmdHis');
                         $user_id = Auth::user()->user_id;
                         
-                        // $patient = new Patient([
+                        // new patient 
                             Patient::create([
                             'patient_id' => $patient_id_no,
                             'title_id' => strtoupper($validated_data['title']),

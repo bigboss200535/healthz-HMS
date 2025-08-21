@@ -135,7 +135,7 @@ class PrescriptionController extends Controller
             ->where('patient_prescription.attendance_id',$attendance_id)
             ->join('products', 'products.product_id', '=', 'patient_prescription.product_id')
             ->join('users', 'users.user_id', '=', 'patient_prescription.user_id')
-            // ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_prescription.sponsor_id')
+            ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_prescription.sponsor_id')
             ->select('patient_prescription.prescriptions_id',
                     //  'patient_prescription.attendance_id', 
                      'products.product_name', 
@@ -155,7 +155,7 @@ class PrescriptionController extends Controller
                     //  'patient_prescription.quantity_given',
                       'patient_prescription.prescription_type',
                      'patient_prescription.added_id',
-                    //  'sponsors.sponsor_name',
+                     'sponsors.sponsor_name',
                       \DB::raw('UPPER(users.user_fullname) as doctor')
                    )
                     

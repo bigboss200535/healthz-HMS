@@ -62,7 +62,7 @@ class DiagnosisController extends Controller
     public function search_diagnosis(Request $request)
     {
         $opd_number = $request->input('opd_number');
-        $patient_id = $request->input('patient_id');
+        // $patient_id = $request->input('patient_id');
         $diagnosis_query = $request->input('diagnosis_query');
 
         $start = '&'. $diagnosis_query;
@@ -98,6 +98,7 @@ class DiagnosisController extends Controller
             ->get();
 
         return response()->json($diagnosis);
+
     }
 
 
