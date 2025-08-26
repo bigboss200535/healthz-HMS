@@ -13,4 +13,5 @@ class Services extends Model
     public $timestamps = false;
     protected $keyType = 'string';
     public $incrementing= false;
+    
 }

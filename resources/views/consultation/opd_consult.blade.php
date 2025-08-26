@@ -898,7 +898,7 @@
                                                 <form class="browser-default-validation">
                                                   <div class="row">
                                                     <div class="col-12">
-                                                      <button type="button" data-bs-toggle='modal' data-bs-target="#add_" class="btn btn-sm btn-primary">REQUEST NEW SERVICE</button>
+                                                      <button type="button" data-bs-toggle='modal' data-bs-target="#add_investigations" class="btn btn-sm btn-primary">REQUEST NEW SERVICE</button>
                                       
                                                     </div>
                                                   </div>
@@ -1134,4 +1134,93 @@
             </div>
           </div>
           <!--/ PRESCRIPTION MODAL -->
+          
+          <!-- PATIENT INVESTIGATIONS MODAL -->
+           <div class="modal fade" id="add_investigations" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div class="mb-6">
+                    <h4 class="address-title mb-2">Investigations</h4>
+                  </div>
+                    <div class="alert-container-drug"></div>
+                  <form id="add_prescription_form" class="row g-6" onsubmit="return false">
+                      @csrf
+                     <input type="text" id="prescription_attendance_id" name="prescription_attendance_id" value="{{ $attendance->attendance_id }}" hidden>
+                     <input type="text" id="prescription_opdnumber" name="prescription_opdnumber" value="{{ $attendance->opd_number }}" hidden>
+                     <input type="text" id="prescription_patient_id" name="prescription_patient_id" value="{{ $attendance->patient_id }}" hidden>
+                     <input type="text" id="prescription_product_id" name="prescription_product_id" hidden>
+                     <input type="text" name="prescription_presentation_input" id="prescription_presentation_input" hidden> 
+                     <input type="text" name="prescription_base_unit" id="prescription_base_unit" hidden> 
+                    
+                     <div id="success_display" class="container mt-6"></div>
+
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="prescription_price">Service Type</label>
+                       <select class="form-control">
+                        <option selected disabled>-Select-</option>
+                         @foreach($services as $service_type)                                        
+                                  <option value="{{ $service_type->service_id}}">{{ $service_type->service_name }}</option>
+                         @endforeach
+                      </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="prescription_start_date">Service</label>
+                      <input type="text" id="prescription_start_date" name="prescription_start_date" class="form-control"/>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="prescription_price">Cash Amount</label>
+                        <input type="text" id="prescription_start_date" name="prescription_start_date" class="form-control"/>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="prescription_start_date">Credit Amount</label>
+                      <input type="text" id="prescription_start_date" name="prescription_start_date" class="form-control"/>
+                    </div>
+                    
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="prescription_sponsor">Sponsor</label>
+                        <select name="prescription_sponsor" id="prescription_sponsor" class="form-control">
+                              @php
+                                  $patient_sponsor = \App\Models\PatientSponsor::where('patient_id', $attendance->patient_id)
+                                      ->where('is_active', 'Yes') 
+                                      ->first();
+
+                                    if(!$patient_sponsor)
+                                    {
+                                        $sponsors = \App\Models\Sponsors::where('sponsor_id', '100')->get();
+                                    }else 
+                                    {
+                                        $sponsors = \App\Models\PatientSponsor::where('patient_sponsorship.archived', 'No')
+                                          ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_sponsorship.sponsor_id')
+                                          ->where('patient_sponsorship.patient_id', $attendance->patient_id )
+                                          ->get();
+                                    }
+                                  
+                              @endphp
+
+                              @foreach($sponsors as $sponsor)
+                                  <option value="{{ $sponsor->sponsor_id }}">{{ $sponsor->sponsor_name }}</option>
+                              @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label" for="prescription_gdrg">Date</label>
+                      <input type="text" id="service_date" name="service_date" min="{{ date('Y-m-d', strtotime('-1 month')) }}" 
+                               max="{{ date('Y-m-d', strtotime('+1 month')) }}" value="<?php echo date('Y-m-d'); ?>" class="form-control" />
+                    </div>
+                    
+                    <div class="col-12">
+                      <div class="form-check form-switch my-2 ms-2">
+                      </div>
+                    </div>
+                    <div class="col-12 text-center">
+                      <button type="submit" class="btn btn-primary me-3"><i class="bx bx-save"></i> Submit</button>
+                      <button type="reset" class="btn btn-info" data-bs-dismiss="modal" aria-label="Close"><i class="bx bx-x"></i> Close</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/ INVESTIGATIONS MODAL -->
 </x-app-layout>

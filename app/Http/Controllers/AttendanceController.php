@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PatientAppointments;
+
 use App\Models\PatientAttendance;
 // use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
@@ -97,25 +97,6 @@ class AttendanceController extends Controller
                 ->get();
 
             return view('patient.attendance', compact('all')); 
-    }
-
-    public function appointments()
-    {
-
-        $appointments = PatientAppointments::where('patient_appointment.archived','No')
-                ->join('patient_info', 'patient_info.patient_id', '=', 'patient_appointment.patient_id')
-                ->join('gender', 'gender.gender_id', '=', 'patient_info.gender_id')
-                ->select(
-                    // 'patient_appointment.attendance_id',
-                    'patient_info.fullname', 'patient_appointment.opd_number', 
-                        'patient_appointment.appointment_date',
-                        // 'sponsor_type.sponsor_type', 'sponsor_type.sponsor_type_id',
-                        // 'patient_appointment.full_age', 
-                        'gender.gender')
-                ->orderBy('patient_appointment.appointment_id', 'desc')
-                ->get();
-
-            return view('patient.appointments', compact('appointments')); 
     }
 
      

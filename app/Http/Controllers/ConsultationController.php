@@ -6,6 +6,7 @@ use App\Models\ConsultingRoom;
 use App\Models\Patient;
 use App\Models\PatientAttendance;
 use App\Models\Stores;
+use App\Models\Services;
 use App\Models\User;
 use App\Models\PatientDiagnosis;
 use App\Models\Claim;
@@ -277,6 +278,7 @@ class ConsultationController extends Controller
     
         $attendance = $attendance_query->first();
         
+        $services = Services::where('archived', 'No')->get();
         // Fetch consulting rooms
         $consulting_room = ConsultingRoom::where('Archived', 'No')
             ->where('status', 'Active')
@@ -335,7 +337,7 @@ class ConsultationController extends Controller
             ->select('users.user_fullname as doctor', 'diagnosis.diagnosis', 'patient_diagnosis.icd_10', 'patient_diagnosis.gdrg_code', 'patient_diagnosis.entry_date')
             ->get();
 
-        return view('consultation.opd_consult', compact('diagnosis_history', 'consultation_id', 'attendance', 'doctors', 'consulting_room', 'systemic', 'clinical_history', 'grouped_questions'));
+        return view('consultation.opd_consult', compact('services', 'diagnosis_history', 'consultation_id', 'attendance', 'doctors', 'consulting_room', 'systemic', 'clinical_history', 'grouped_questions'));
     }
 
 

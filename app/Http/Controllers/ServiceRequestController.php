@@ -441,7 +441,7 @@ class ServiceRequestController extends Controller
     {
          $patient = Patient::where('archived', 'No')
             ->where('patient_id', $patient_id)
-            ->select('birth_date', 'patient_id', DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
+            ->select('birth_date', 'patient_id', 'gender_id' ,DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
             ->first();
 
         if(!$patient) {

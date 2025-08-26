@@ -14,11 +14,6 @@ class PatientAppointments extends Model
     protected $keyType = 'string';
     public $incrementing= false;
 
-    public function users()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
     protected $fillable = [
         'appointment_id',
         'patient_id',
@@ -41,4 +36,14 @@ class PatientAppointments extends Model
         'archived_date',
         '_token'
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
 }

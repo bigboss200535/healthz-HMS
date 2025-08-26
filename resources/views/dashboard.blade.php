@@ -63,7 +63,7 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">Out Patient</p>
-                            <h4 class="text-primary mb-0">{{ $out_patient }}</h4>
+                            <h4 class="text-primary mb-0">{{ $out_patient ?? 0 }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">
@@ -76,7 +76,7 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">In-Patient</p>
-                            <h4 class="text-info mb-0">{{ $in_patient }}</h4>
+                            <h4 class="text-info mb-0">{{ $in_patient ?? 0 }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">
@@ -89,7 +89,7 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">Appointments </p>
-                            <h4 class="text-warning mb-0">0</h4>
+                            <h4 class="text-warning mb-0">{{ $appointments  }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">

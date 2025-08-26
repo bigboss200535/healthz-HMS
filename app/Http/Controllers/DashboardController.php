@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Patient;
 use App\Models\PatientAttendance;
+use App\Models\PatientAppointments;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -14,8 +16,23 @@ class DashboardController extends Controller
         $today = date('Y-m-d');
         
         $out_patient = PatientAttendance::where('archived', 'No')->where('attendance_date', $today)->count();
-        $in_patient = DB::table('patient_admissions')->where('archived', 'No')->count();
 
+        $in_patient = DB::table('patient_admissions')->where('archived', 'No')->count();
+        
+        // general appointments
+        $appointments = PatientAppointments::where('archived', 'No')->count();
+        
+        //today's appointments 
+        $today_appointments = PatientAppointments::with('patients_info')
+            ->whereDate('appointment_date', now()->toDateString())
+            ->orderBy('appointment_date')
+            ->take(5)
+            ->get();
+
+        // recent patient
+        $recent_patient = Patient::where('archived', 'No')->take(5)->get();
+       
+        // greetings
         $current_hour = Carbon::now()->format('H');
 
             if($current_hour>=0 && $current_hour<=12)
@@ -34,8 +51,10 @@ class DashboardController extends Controller
                 $greeting = 'Hello!';
             }
 
-        return view('dashboard', compact('greeting', 'in_patient', 'out_patient'));
+        return view('dashboard', compact('greeting', 'in_patient', 'out_patient', 'appointments'));
     }
+
+
 
     
 }

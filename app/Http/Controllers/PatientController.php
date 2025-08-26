@@ -83,7 +83,7 @@ class PatientController extends Controller
             'middlename' => 'nullable|string|max:255',
             'lastname' => 'required|string|min:3|max:255',
             'birth_date' => 'required|date',
-            'gender_id' => 'required|max:255',
+            'gender_id' => 'required|in:2,3',
             'occupation' => 'nullable|string|max:255',
             'education' => 'required|string|min:3|max:255',
             'religion' => 'nullable|min:3|max:255',
@@ -667,4 +667,13 @@ class PatientController extends Controller
          return response()->json($recent_patient);
     }
       
+    public function exports()
+    {
+        $patients = Patient::all();
+        $filename = 'patients_' . date('Y-m-d') . '.csv';
+
+        $header = [
+            'Content-Type'
+        ];
+    }
 }
