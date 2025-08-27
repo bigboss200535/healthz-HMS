@@ -95,7 +95,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/opd-consultation/{attendance_id}', [ConsultationController::class, 'opd_consult']);
         Route::get('/ipd-consultation/{attendance_id}', [ConsultationController::class, 'ipd_consult']);
         Route::post('/save', [ConsultationController::class, 'store'])->name('consultation.store');
-        Route::get('/consult', [ConsultationController::class, 'consult']);
+        Route::get('/list', [ConsultationController::class, 'index']);
         Route::get('/get-systemic-symptoms/{systemic_id}', [ConsultationController::class, 'getSystemicSymptoms']); // Route for fetching symptoms
         // Route::get('patient', [ReportsController::class, 'patient']);
     });

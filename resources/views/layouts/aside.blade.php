@@ -151,7 +151,7 @@ $userController = new UserController();// $access = $userController->permissions
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{ url('consultation/consult') }}" class="menu-link">
+          <a href="{{ url('consultation/list') }}" class="menu-link">
             <div class="text-truncate" data-i18n="List">Consultations</div>
           </a>
         </li>
