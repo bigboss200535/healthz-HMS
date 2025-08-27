@@ -30,9 +30,9 @@ class AppointmentController extends Controller
         }
         
         // Apply date filters if provided
-        if ($request->filled('start_date') && $request->filled('end_date')) {
-            $start_date = $request->input('start_date');
-            $end_date = $request->input('end_date');
+        if ($request->filled('appoint_start_date') && $request->filled('appoint_end_date')) {
+            $start_date = $request->input('appoint_start_date');
+            $end_date = $request->input('appoint_end_date');
             $query->whereBetween('patient_appointment.appointment_date', [$start_date, $end_date]);
         }
         
