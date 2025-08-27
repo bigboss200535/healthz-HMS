@@ -124,7 +124,7 @@
                                                   <a class="dropdown-item" href="/consultation/opd-consultation/{{ $wait->attendance_id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Consult
                                                   </a>
-                                                  <a class="dropdown-item" href="">
+                                                  <a class="dropdown-item" href="#" data-id="{{ $wait->attendance_id}}">
                                                     <i class="bx bx-pause me-1"></i> Hold
                                                   </a>
                                                   <a class="dropdown-item product_delete_btn" data-id="{{ $wait->patient_id}}" href="#">
@@ -224,7 +224,7 @@
                                                   <a class="dropdown-item" href="/consultation/opd-consultation/{{ $pend->attendance_id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Consult
                                                   </a>
-                                                  <a class="dropdown-item" href="">
+                                                  <a class="dropdown-item hold_attendance_btn" href="#">
                                                     <i class="bx bx-pause me-1"></i> Hold
                                                   </a>
                                                   <a class="dropdown-item product_delete_btn" data-id="{{ $pend->patient_id}}" href="#">
@@ -325,7 +325,7 @@
                                                     <i class="bx bx-edit-alt me-1"></i> Consult
                                                   </a>
                                                   <a class="dropdown-item" href="">
-                                                    <i class="bx bx-pause me-1"></i> Hold
+                                                    <i class="bx bx-pause me-1"></i> UnHold
                                                   </a>
                                                   <a class="dropdown-item product_delete_btn" data-id="{{ $hold->patient_id}}" href="#">
                                                       <i class="bx bx-trash me-1"></i> Delete
@@ -436,29 +436,29 @@
 <script>
 $(document).ready(function() {
     // Initialize DataTables
-    const appListTable = $('#app_list').DataTable({
-        processing: true,
-        serverSide: false,
-        searching: true,
-        paging: true,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
-    });
+    // const appListTable = $('#app_list').DataTable({
+    //     processing: true,
+    //     serverSide: false,
+    //     searching: true,
+    //     paging: true,
+    //     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+    // });
     
-    const diagnosticsTable = $('#diagnostics_list').DataTable({
-        processing: true,
-        serverSide: false,
-        searching: true,
-        paging: true,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
-    });
+    // const diagnosticsTable = $('#diagnostics_list').DataTable({
+    //     processing: true,
+    //     serverSide: false,
+    //     searching: true,
+    //     paging: true,
+    //     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+    // });
     
-    const onHoldTable = $('#patient_list').DataTable({
-        processing: true,
-        serverSide: false,
-        searching: true,
-        paging: true,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
-    });
+    // const onHoldTable = $('#patient_list').DataTable({
+    //     processing: true,
+    //     serverSide: false,
+    //     searching: true,
+    //     paging: true,
+    //     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+    // });
     
     $('#patient_services').DataTable();
     $('#patient_sponsor').DataTable();

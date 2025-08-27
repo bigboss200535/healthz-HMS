@@ -91,7 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('consultation')->group(function () {
         Route::get('/opd-waiting', [ConsultationController::class, 'getWaitingList'])->name('patient.waiting.list'); // AJAX endpoint for waiting list
         Route::get('/pending-diagnostics', [ConsultationController::class, 'getPendingDiagnostics'])->name('patient.pending.diagnostics'); // AJAX endpoint for pending diagnostics
-        Route::get('/on-hold-patients', [ConsultationController::class, 'getOnHoldPatients'])->name('patient.on.hold'); // AJAX endpoint for on-hold patients
+        Route::get('/on-hold-patients', [ConsultationController::class, 'get_on_hold_patients'])->name('patient.on.hold'); // AJAX endpoint for on-hold patients
         Route::get('/opd-consultation/{attendance_id}', [ConsultationController::class, 'opd_consult']);
         Route::get('/ipd-consultation/{attendance_id}', [ConsultationController::class, 'ipd_consult']);
         Route::post('/save', [ConsultationController::class, 'store'])->name('consultation.store');

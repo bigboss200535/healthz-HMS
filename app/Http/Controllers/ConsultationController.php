@@ -283,7 +283,7 @@ class ConsultationController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getOnHoldPatients(Request $request)
+    public function get_on_hold_patients(Request $request)
     {
         try {
             $start_date = $request->input('start_date', date('Y-m-d'));

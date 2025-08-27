@@ -156,6 +156,14 @@ $userController = new UserController();// $access = $userController->permissions
           </a>
         </li>
       </ul>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <div class="text-truncate" data-i18n="List">Eye Refractions</div>
+          </a>
+        </li>
+      </ul>
+      
     </li>
     @endif
     @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
