@@ -41,7 +41,7 @@ class ConsultationController extends Controller
                         'patient_attendance.opd_number', 
                         'patient_attendance.attendance_date', 
                         'patient_attendance.status', 
-                        'sponsors.sponsor_name',
+                        'sponsors.sponsor_name', 'patient_attendance.pat_age',
                         'patient_attendance.full_age', 'gender.gender', 'service_attendance_type.attendance_type as clinic', 
                         // 'sponsor_type.sponsor_type as sponsor', 
                         'sponsor_type.sponsor_type_id as sponsor_type_id',
@@ -70,7 +70,7 @@ class ConsultationController extends Controller
     {
         try {
             $attendance = PatientAttendance::findOrFail($attendance_id);
-            $attendance->issue_id = '2'; // 2 for hold status
+            $attendance->issue_id = '4'; // 2 for hold status
             $attendance->save();
             
             return response()->json([
@@ -95,7 +95,7 @@ class ConsultationController extends Controller
     {
         try {
             $attendance = PatientAttendance::findOrFail($attendance_id);
-            $attendance->issue_id = '0'; // 0 for normal status
+            $attendance->issue_id = '2'; // 0 for normal status
             $attendance->save();
             
             return response()->json([

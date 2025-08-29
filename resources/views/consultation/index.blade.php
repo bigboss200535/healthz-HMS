@@ -6,7 +6,7 @@
     <div class="card-body card-widget-separator">
       <div class="row gy-4 gy-sm-1">
         <div class="col-sm-6 col-lg-12">
-            <h4 class="text-muted text-center">-Kingly navigate a menu to display attendace-</h4>
+            <h4 class="text-primary text-center">-Kingly Navigate a menu to display Attendance-</h4>
         </div>
       </div>
     </div>
@@ -78,15 +78,15 @@
                            <thead>
                              <tr>
                                <th>SN</th>
-                               <th>Attenance Date</th>
+                               <th>Time</th>
+                               <th>Date</th>
                                <th>Patient Name</th>
                                <th>OPD #</th>
                                <th>Gender</th>
                                <th>Patient Age</th>
-                               <th>Attendance Sponsor</th>
-                               <th>Attendance Clinic</th>
-                               <th>Attendance Status </th>
-                               <th>Action</th>
+                               <th>Sponsor</th>
+                               <th>Clinic</th>
+                               <th></th>
                              </tr>
                            </thead>
                            <tbody>
@@ -98,6 +98,7 @@
                             <tr>
                               <td>{{ $counter++ }}</td>
                               <td>{{ \Carbon\Carbon::parse($wait->attendance_date)->format('d-m-Y') }}</td>
+                               <td>{{ \Carbon\Carbon::parse($wait->attendance_time)->format('h:i A') }}</td>
                               <td>{{ $wait->fullname }}</td>
                               <td>{{ $wait->opd_number }}</td>
                               <td>
@@ -105,16 +106,9 @@
                                       {{ $wait->gender }}
                                   @endif
                               </td>
-                              <td>{{ $wait->full_age }}</td>
+                              <td>{{ $wait->pat_age }}</td>
                               <td> <span class="badge bg-label-info me-1">{{ $wait->sponsor_type }}</span></td>
                               <td>{{ $wait->clinic }}</td>
-                              <td class="text-nowrap text-sm-end" align="left">
-                                  @if($wait->status === 'Active')
-                                  <span class="badge bg-label-info me-1">Active</span>
-                                  @elseif ($wait->status === 'Inactive')
-                                  <span class="badge bg-label-danger me-1">Inactive</span>
-                                  @endif
-                              </td>
                               <td class="text-lg-center">
                                   <div class="dropdown" align="center">
                                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -139,15 +133,16 @@
                            <tfoot>
                              <tr>
                                <th>SN</th>
-                               <th>Attenance Date</th>
+                               <th>Time</th>
+                               <th>Date</th>
                                <th>Patient Name</th>
                                <th>OPD #</th>
                                <th>Gender</th>
                                <th>Patient Age</th>
-                               <th>Attendance Sponsor</th>
-                               <th>Attendance Clinic</th>
-                               <th>Attendance Status </th>
-                               <th>Action</th>
+                               <th>Sponsor</th>
+                               <th>Clinic</th>
+                               <!-- <th>Attendance Status </th> -->
+                               <th></th>
                              </tr>
                            </tfoot>
                        </table>
@@ -275,15 +270,15 @@
                             <thead>
                              <tr>
                                <th>SN</th>
-                               <th>Attenance Date</th>
+                               <th>Time</th>
+                               <th>Date</th>
                                <th>Patient Name</th>
                                <th>OPD #</th>
                                <th>Gender</th>
                                <th>Patient Age</th>
-                               <th>Attendance Sponsor</th>
-                               <th>Attendance Clinic</th>
-                               <th>Attendance Status </th>
-                               <th>Action</th>
+                               <th>Sponsor</th>
+                               <th>Clinic</th>
+                               <th></th>
                              </tr>
                            </thead>
                            <tbody>
@@ -294,7 +289,8 @@
                             @foreach($on_hold as $hold)
                             <tr>
                               <td>{{ $counter++ }}</td>
-                              <td>{{ \Carbon\Carbon::parse($pend->attendance_date)->format('d-m-Y') }}</td>
+                              <td>{{ \Carbon\Carbon::parse($hold->attendance_time)->format('h:i A') }}</td>
+                              <td>{{ \Carbon\Carbon::parse($hold->attendance_date)->format('d-m-Y') }}</td>
                               <td>{{ $hold->fullname }}</td>
                               <td>{{ $hold->opd_number }}</td>
                               <td>
@@ -302,16 +298,10 @@
                                       {{ $hold->gender }}
                                   @endif
                               </td>
-                              <td>{{ $hold->full_age }}</td>
+                              <td>{{ $hold->pat_age }}</td>
                               <td> <span class="badge bg-label-info me-1">{{ $hold->sponsor_type }}</span></td>
                               <td>{{ $hold->clinic }}</td>
-                              <td class="text-nowrap text-sm-end" align="left">
-                                  @if($hold->status === 'Active')
-                                  <span class="badge bg-label-info me-1">Active</span>
-                                  @elseif ($hold->status === 'Inactive')
-                                  <span class="badge bg-label-danger me-1">Inactive</span>
-                                  @endif
-                              </td>
+                             
                               <td class="text-lg-center">
                                   <div class="dropdown" align="center">
                                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -336,15 +326,15 @@
                            <tfoot>
                              <tr>
                                <th>SN</th>
-                               <th>Attenance Date</th>
+                               <th>Time</th>
+                               <th>Date</th>
                                <th>Patient Name</th>
                                <th>OPD #</th>
                                <th>Gender</th>
                                <th>Patient Age</th>
-                               <th>Attendance Sponsor</th>
-                               <th>Attendance Clinic</th>
-                               <th>Attendance Status </th>
-                               <th>Action</th>
+                               <th>Sponsor</th>
+                               <th>Clinic</th>
+                               <th></th>
                              </tr>
                            </tfoot>
                           </table>
