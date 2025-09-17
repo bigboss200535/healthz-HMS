@@ -164,7 +164,7 @@ $facility = DB::table('facility')->where('archived', 'No')->value('facility_name
               @endif
               @if(Auth::user()->user_roles_id==='R1' || Auth::user()->user_roles_id==='R2')
               <li>
-                <a class="dropdown-item" href="{{ url('user-profile') }}">
+                <a class="dropdown-item" href="{{ url('/profile/user-profile') }}">
                   <i class="bx bx-user me-2"></i>
                   <span class="align-middle">My Profile</span>
                 </a>
@@ -182,7 +182,7 @@ $facility = DB::table('facility')->where('archived', 'No')->value('facility_name
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="{{ url('/password-change') }}">
+                <a class="dropdown-item" href="{{ url('profile/password-change') }}">
                   <i class="bx bx-lock me-2"></i>
                   <span class="align-middle">Change Password</span>
                 </a>

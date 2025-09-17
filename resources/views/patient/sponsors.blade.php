@@ -40,7 +40,7 @@
                             @foreach($sponsor_list as $patients)
                             <tr>
                               <td>{{ $counter++ }}</td>
-                              <td>{{ $patients->fullname }}</td>
+                              <td>{{ strtoupper($patients->fullname) }}</td>
                               <td>{{ $patients->sponsor_type }}</td>
                               <td>
                                     @if($patients->sponsor_type_id === 'PI03')

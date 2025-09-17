@@ -56,7 +56,7 @@
                     </tr>
                     <tr>
                       <td><b>Fullname</b></td>
-                      <td>{{ $user->user_fullname }}</td>
+                      <td>{{ strtoupper($user->user_fullname) }}</td>
                     </tr>
                     <tr>
                       <td><b>Gender</b></td>
@@ -229,11 +229,11 @@
             </tr> -->
             <tr>
               <td colspan="2" align="center">
-                <div class="btn-group">
-
-                        <button type="button" class="btn btn-sm btn-warning">EDIT DETAILS</button>
+                <!-- <div class="btn-group"> -->
+                        <button type="button" class="btn btn btn-info">CHANGE PASSWORD</button>
+                        <button type="button" class="btn btn btn-warning">EDIT DETAILS</button>
                         <!-- <button type="button" data-bs-toggle='modal' data-bs-target="#addattendance" class="btn btn-sm btn-primary">NEW ATTENDANCE</button> -->
-                </div>
+                <!-- </div> -->
               </td>
                 
             </tr>

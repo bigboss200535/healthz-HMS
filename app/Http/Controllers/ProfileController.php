@@ -18,9 +18,10 @@ class ProfileController extends Controller
     
      public function index(Request $request): View
      {
-        $user = User::where('archived', 'No')
-            ->where('status', '=','Active')
-            ->where('user_id', Auth::user()->user_id)
+        $user = User::where('users.archived', 'No')
+            ->join('gender', 'gender.gender_id', '=', 'users.gender_id')
+            ->where('users.status', '=', 'Active')
+            ->where('users.user_id', Auth::user()->user_id)
             ->first();
             
         return view('profile.index', compact('user'));

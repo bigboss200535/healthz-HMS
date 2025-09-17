@@ -12,7 +12,7 @@
         </div>
       </div>
   <div class="row">
-   <div class="col-12 col-lg-8">
+   <div class="col-12 col-lg-12">
       <div class="card mb-4">
         <div class="card-header">
           <h5 class="card-tile mb-0"><b>Password Infomation</b></h5>
@@ -46,27 +46,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-lg-4">
-      <div class="card mb-4">
-        <div class="card-body">
-            <img src="{{ asset('img/undraw/login.svg') }}" alt="" height="120px">
-            <br>
-        </div>
-      </div>
-    </div>
-    <!-- <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-            @if (session('status') === 'password-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
-            @endif
-        </div> -->
+    
     <div class="d-flex align-content-center flex-wrap gap-3">
       <button type="submit" class="btn btn-primary">Update</button>
     </div>

@@ -68,7 +68,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $users = \App\Models\User::factory(1000)->create();
-        $patients = \App\Models\Patient::factory(200)->create();
+        $patients = \App\Models\Patient::factory(500)->create();
         // $relations = \App\Models\Relation::factory(700)->create();
 
             foreach ($patients as $patient) {
