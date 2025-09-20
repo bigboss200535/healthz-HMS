@@ -32,14 +32,20 @@ class Claim extends Model
 
     protected $fillable = [
         'claim_id',
-        'description',
-        'gender_id',
-        'age_id',
-        'child_code',
-        'adult_code',
+        'Opd_number',
+        'age',
+        'attendance_id',
+        'birth_date',
+        'pat_status',
+        'attendance_date',
+        'claim_start_date',
+        'claim_month',
+        'claim_year',
+        'claims_end_date',
         'user_id',
-        'added_id',
-        'added_date',
+
+
+
         'updated_by',
         'status',
         'archived',

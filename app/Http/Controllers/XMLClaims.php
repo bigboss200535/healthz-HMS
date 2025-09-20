@@ -82,7 +82,7 @@ class ExportController extends Controller
             }
 
             // Add principal GDRG if exists
-            if ($claim->principal_gdrg) {
+            if ($claim->principal_gdrg=='Yes') {
                 $claimNode->addChild('principalGDRG', $claim->principal_gdrg);
             }
         }

@@ -20,11 +20,12 @@ return new class extends Migration
             $table->string('attendance_id', 50)->nullable();
             $table->date('birth_date');
             $table->string('pat_status', 10)->nullable();
-            $table->date('attendance_date', 10)->nullable();
-            $table->date('claim_start_date', 10)->nullable();
-            $table->date('claim_month', 10)->nullable();
-            $table->date('claim_year', 10)->nullable();
-            $table->date('claims_end_date', 10)->nullable();
+            $table->date('attendance_date')->nullable();
+            $table->date('claims_end_date')->nullable();
+            $table->date('claim_start_date')->nullable();
+            $table->date('claim_month')->nullable();
+            $table->date('claim_year')->nullable();
+           
             $table->string('user_id', 50)->nullable();
             $table->string('no_of_visits', 10)->nullable();
             $table->string('sponsor_id', 10)->nullable();

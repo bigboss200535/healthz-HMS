@@ -55,6 +55,7 @@ class ClaimsNhisController extends Controller
     public function generate_vetting_claims()
     {
         $lock = Cache::lock('generate_claims', 360);
+        
             if($lock->get())
             {
                 try {

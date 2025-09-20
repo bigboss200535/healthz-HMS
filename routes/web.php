@@ -212,8 +212,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::post('code_generate', [ExternalCallController::class, 'claims_check_code']);
     Route::get('/profile/user-profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/change_password', [ProfileController::class, 'change_password'])->name('profile.password_update');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-     Route::get('/profile/password-change', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/password-change', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy')
         ->missing(function (Request $request){

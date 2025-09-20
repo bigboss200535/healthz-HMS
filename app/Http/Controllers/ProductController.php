@@ -107,18 +107,19 @@ class ProductController extends Controller
     private function product_id(Request $request)
     {
         // Retrieve the count of existing
-        $count_payers = Product::count();
+        $count_product = Product::count();
+        
         // Extract the initials from the request
-        $surname_initial = strtoupper(substr($request->input('product_name'), 0, 1));
-        $firstname_initial = strtoupper(substr($request->input('category_status'), 0, 1));
-        $count_plus_one = $count_payers + 1;
+        $product_initial = strtoupper(substr($request->input('product_name'), 0, 1));
+        $category_initial = strtoupper(substr($request->input('category_status'), 0, 1));
+        $count_plus_one = $count_product + 1;
         $currentHour = date('H');
         $currentDay = date('d');
         $currentMonth = date('m');
         $currentYear = date('Y');
         $desiredLength = 4;
         $formatted_id = str_pad($count_plus_one, $desiredLength, '0', STR_PAD_LEFT);
-        $product_id = $surname_initial.$formatted_id.$firstname_initial.$currentHour.$currentDay.$currentMonth.$currentYear;
+        $product_id = $product_initial.$formatted_id.$category_initial.$currentHour.$currentDay.$currentMonth.$currentYear;
         return $product_id;
     }
 
