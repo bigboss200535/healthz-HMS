@@ -132,7 +132,7 @@
                       <h3>Menu</h3>
                         <div class="card" style="border-color: black; border-width:2px">
                         <div class="card-body text-center">
-                          <div >
+                          <div>
                               <a href="{{ route('patients.index') }}" class="btn btn-dark"><i class="bx bx-search"></i>Search Patient</a>
                               <a href="{{ route('patients.create') }}" class="btn btn-info"><i class="bx bx-plus"></i>Register New Patient</a>
                               <a href="{{ url('patient/add-appointment') }}" class="btn btn-dark"><i class="bx bx-plus"></i>Book Appointment</a>

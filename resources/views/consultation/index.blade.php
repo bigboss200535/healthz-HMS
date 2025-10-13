@@ -374,7 +374,6 @@
   </div>
 </div>
 </div>        
-
 <script>
 // $(document).ready(function() {
     // Handle Hold button click

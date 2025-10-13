@@ -35,6 +35,7 @@ class User extends Authenticatable
         'othername', 
         'gender_id',
         'oldpassword',
+        'last_login',
         'salt',
         'facility_id',
         'telephone',

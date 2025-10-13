@@ -43,7 +43,6 @@
                   <div class="card-body">
                     <form id="patient_info_create" method="post" onsubmit="return false">
                      @csrf
-                
                     <meta name="csrf-token" content="{{ csrf_token() }}">
                     <div class="row mb-3">
                       <input type="text" id="pat_id" name="pat_id" hidden>
@@ -357,17 +356,16 @@
           </div>
           </div>   
 
-<script>
-    document.getElementById('addEmergencyContact').addEventListener('click', function() {
-        const container = document.getElementById('emergencyContactsContainer');
-        const newContact = document.querySelector('.emergency-contact').cloneNode(true);
-        
-        // Clear input values in the new row
-        newContact.querySelectorAll('input').forEach(input => input.value = '');
-        newContact.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
-        
-        container.appendChild(newContact);
-    });
-</script>
-
+    <script>
+        document.getElementById('addEmergencyContact').addEventListener('click', function() {
+            const container = document.getElementById('emergencyContactsContainer');
+            const newContact = document.querySelector('.emergency-contact').cloneNode(true);
+            
+            // Clear input values in the new row
+            newContact.querySelectorAll('input').forEach(input => input.value = '');
+            newContact.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+            
+            container.appendChild(newContact);
+        });
+    </script>
 </x-app-layout>

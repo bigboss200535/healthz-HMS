@@ -98,7 +98,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/ipd-consultation/{attendance_id}', [ConsultationController::class, 'ipd_consult']);
         Route::post('/save', [ConsultationController::class, 'store'])->name('consultation.store');
         Route::get('/list', [ConsultationController::class, 'index']);
-        Route::get('/get-systemic-symptoms/{systemic_id}', [ConsultationController::class, 'getSystemicSymptoms']); // Route for fetching symptoms
+        Route::get('/get-systemic-symptoms/{systemic_id}', [ConsultationController::class, 'get_systemic_symptoms']); // Route for fetching symptoms
         // Hold and Unhold routes
     Route::post('/hold-attendance/{attendance_id}', [ConsultationController::class, 'hold_attendance']);
     Route::post('/unhold-attendance/{attendance_id}', [ConsultationController::class, 'unhold_attendance']);
@@ -211,7 +211,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{service_id}/service_tarif', [ServiceRequestController::class, 'gettarrifs']);
         Route::post('/patient_service', [ServiceRequestController::class, 'store']);
         Route::get('/patient_service_data/{patient_id}', [ServiceRequestController::class, 'retrieve'])->middleware('auth'); 
-        Route::post('/service_request', [ServiceRequestController::class, 'store']);
+        Route::post('/service_request', [AttendanceController::class, 'create_attendance']);
+        //  Route::post('/service_request', [ServiceRequestController::class, 'store']);
         Route::post('/add-diagnosis', [DiagnosisController::class, 'add_diagnosis']);
     });
 

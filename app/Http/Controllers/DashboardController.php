@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Patient;
+use App\Models\User;
 use App\Models\PatientAttendance;
 use App\Models\PatientAppointments;
 use Illuminate\Support\Facades\DB;
@@ -26,9 +27,11 @@ class DashboardController extends Controller
         //     // admin 
         // }
 
-        $today = date('Y-m-d');
-        
-        $out_patient = PatientAttendance::where('archived', 'No')->where('attendance_date', $today)->count();
+        $last = User::findOrFail(Auth::user()->user_id);
+        $last->last_login = now(); //last login timestamp
+        $last->save();
+
+        $out_patient = PatientAttendance::where('archived', 'No')->where('attendance_date', date('Y-m-d'))->count();
 
         $in_patient = DB::table('patient_admissions')->where('archived', 'No')->count();
         

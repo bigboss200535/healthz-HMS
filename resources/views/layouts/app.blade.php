@@ -197,7 +197,7 @@
             }
         });
     </script> -->
-<script>
+    <script>
 
               $(document).ready(function() {
                   $('#user_form').submit(function(e) {
@@ -329,22 +329,22 @@
               });
 </script>
 <script>
-$(document).ready(function() {
-    // Handle main permission toggle (is_granted)
-    $(document).on('change', 'table#app_list tbody tr td:first-child input[type="checkbox"]', function() {
-        const checkbox = $(this);
-        const isChecked = checkbox.is(':checked') ? 1 : 0;
-        const row = checkbox.closest('tr');
-        const permissionId = row.find('.dropdown-menu a.product_delete_btn[data-id]').attr('data-id');
-        
-        // If no permission ID found in the row, it's likely the first checkbox
-        if (!permissionId) {
-            console.error('Permission ID not found');
-            return;
-        }
+        $(document).ready(function() {
+            // Handle main permission toggle (is_granted)
+            $(document).on('change', 'table#app_list tbody tr td:first-child input[type="checkbox"]', function() {
+                const checkbox = $(this);
+                const isChecked = checkbox.is(':checked') ? 1 : 0;
+                const row = checkbox.closest('tr');
+                const permissionId = row.find('.dropdown-menu a.product_delete_btn[data-id]').attr('data-id');
+                
+                // If no permission ID found in the row, it's likely the first checkbox
+                if (!permissionId) {
+                    console.error('Permission ID not found');
+                    return;
+                }
 
-        updatePermission(permissionId, { is_granted: isChecked });
-    });
+                updatePermission(permissionId, { is_granted: isChecked });
+            });
 
     // Handle specific permission toggles (read, create, delete, update)
     $(document).on('change', 'table#app_list tbody tr td:nth-child(4) input[type="checkbox"]', function() {
@@ -414,20 +414,20 @@ $(document).ready(function() {
     const patient_Id = $('#patient_id').val();
 
     if (!patient_Id) {
-        console.error('Patient id is missing.');
+        // console.error('Patient id is missing.');
         return;
     }
 
     // Reusable function to initialize DataTables with additional safety check
     function initializeDataTable(table_id, columns) {
         if (!$(table_id).length) {
-            console.warn(`Table ${table_id} not found`);
+            // console.warn(`Table ${table_id} not found`);
             return null;
         }
         
         if ($.fn.DataTable.isDataTable(table_id)) {
             $(table_id).DataTable().destroy();
-            console.log(`Destroyed existing DataTable instance for ${table_id}`);
+            // console.log(`Destroyed existing DataTable instance for ${table_id}`);
         }
         
         return $(table_id).DataTable({

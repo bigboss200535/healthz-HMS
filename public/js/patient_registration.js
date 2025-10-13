@@ -1,6 +1,6 @@
 //*************************************************** */ PATIENT REGISTRATION FORM
 
-const { method } = require("lodash");
+// const { method } = require("lodash");
 
 // Handle form submission
     $('#patient_info_create').on('submit', function(e) {
@@ -75,7 +75,6 @@ const { method } = require("lodash");
             return false;
         }
 
-
         if (!patient_save.sponsor_type_id || patient_save.sponsor_type_id === "-Select-") {
             // if (!patient_save.sponsor_id || patient_save.sponsor_id === "-Select-") {
                 $('#sponsor_type_id').addClass('is-invalid').focus();
@@ -99,7 +98,7 @@ const { method } = require("lodash");
                 $.ajax({
                     url: url,
                     type: method,
-                    data: formData,
+                    data: form_data,
                     processData: false,
                     contentType: false,
                     headers: {

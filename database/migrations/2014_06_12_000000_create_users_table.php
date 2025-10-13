@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('othername', 150);
             $table->string('user_fullname')->virtualAs("CONCAT(firstname, ' ', othername)");
             $table->string('telephone', 50);
+            $table->timestamp('last_login')->nullable();
             $table->string('telephone_verified', 50)->default('No')->nullable();
             $table->string('expiry', 50)->nullable();
             $table->string('locked', 50)->default('No');
