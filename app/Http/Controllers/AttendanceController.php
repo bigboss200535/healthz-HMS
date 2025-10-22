@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Models\PatientAttendance;
-// use App\Http\Controllers\Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\TimeManagement;
-// use App\Models\PatientAttendance;
 use App\Models\PatientSponsor;
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\DB;
+use App\Models\Patient;
+use App\Models\Age;
+use App\Models\AgeGroups;
+use App\Models\PatientAttendance;
+use App\Helpers\TimeManagement;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
+
     public function index(Request $request)
     {
          $query = PatientAttendance::where('patient_attendance.archived','No')
@@ -60,6 +60,7 @@ class AttendanceController extends Controller
          return view('attendance.index', compact('all')); 
     }
 
+
     public function generate_episode(Request $request)
     {
          $today_date = TimeManagement::today_date();
@@ -96,7 +97,6 @@ class AttendanceController extends Controller
                          'sponsor_type.sponsor_type as sponsor', 'patient_attendance.service_type', 'patient_attendance.issue_idd')  
                 ->where('patient_attendance.patient_id', $patient_id)
                 ->orderBy('patient_attendance.attendance_id', 'asc')
-
                 ->get();
 
         return response()->json($all_single_attendance);
@@ -163,7 +163,7 @@ class AttendanceController extends Controller
             }
 
             // Check if service has been issued
-            if ($attendance->issue_idd == 1) {
+            if ($attendance->issue_id == 1) {
                 return response()->json([
                     'message' => 'Service has been issued. Attendance cannot be deleted.',
                     'code' => 403,
@@ -196,7 +196,8 @@ class AttendanceController extends Controller
             }
     }
 
-    public function create_attendance()
+
+    public function create_attendance(Request $request)
     {
        try {
               $validated_data = $request->validate([
@@ -249,7 +250,7 @@ class AttendanceController extends Controller
 
         DB::beginTransaction();
 
-                 $service_request = PatientAttendance::create([
+                $service_request = PatientAttendance::create([
                     'attendance_id' => $this->get_attendance_id(),
                     'patient_id' => $validated_data['patient_id'],
                     'opd_number' => $validated_data['opd_number'],
@@ -308,5 +309,133 @@ class AttendanceController extends Controller
     
     }
 
+    private function patient_by_id($patient_id)
+    {
+         $patient = Patient::where('archived', 'No')
+            ->where('patient_id', $patient_id)
+            ->select('birth_date', 'patient_id', 'gender_id' ,DB::raw('TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as patient_age'))
+            ->first();
+
+        if(!$patient) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Patient not found'
+                ], 404);
+         }else if($patient){
+            return $patient;
+        }
+    }
+
+
+    private function get_default_sponsor()
+    {
+        return (object) [
+            'sponsor_id' => '100',
+            'sponsor_type_id' => 'P001',
+        ];
+    }
+
+
+    private function get_age_full($birthdate)
+    {
+        $dob = Carbon::parse($birthdate); 
+        $today = Carbon::now();
+        $age_in_days = $dob->diffInDays($today);
+
+            if ($age_in_days == 1) {
+                return "1 DAY";
+            } elseif ($age_in_days < 7) {
+                return "$age_in_days DAYS";
+            } elseif ($age_in_days < 14) {
+                return "1 WEEK";
+            } elseif ($age_in_days < 30) {
+                $age_in_weeks = floor($age_in_days / 7);
+                return "$age_in_weeks WEEKS";
+            } elseif ($age_in_days == 30) {
+                return "1 MONTH";
+            } elseif ($age_in_days < 365) {
+                $age_in_months = floor($age_in_days / 30);
+                return "$age_in_months MONTHS";
+            } elseif ($age_in_days == 365) {
+                return "1 YEAR";
+            } else {
+                 $age_in_years = floor($age_in_days / 365);
+                return "$age_in_years YEARS";
+            }
+    }
+
     
+    private function get_attendance_id()
+    {
+          $old_episode_id = PatientAttendance::get()->count();
+          $new_id = $old_episode_id + 1;
+          $attendance_id = str_pad($new_id, 7, '0', STR_PAD_LEFT);
+          return 'A' .$attendance_id;
+    }
+
+
+    private function get_records_no()
+    {
+          $old_episode_id = PatientAttendance::get()->count();
+          $new_id = $old_episode_id + 1;
+          return $new_id;
+    }
+
+
+    private function get_age_id($birthdate)
+    {   
+        $age = Carbon::parse($birthdate)->age;
+        
+        $ages = Age::where('min_age', '<=', $age)
+            ->where('max_age', '>=', $age)
+            ->where('max_age', '>=', $age)
+            ->where('category', '1')
+            ->select('age_id')
+            ->first();
+
+        return $ages;
+    }
+
+    private function episode_id()
+    {
+        $row_count = PatientAttendance::count();
+        $new_number = $row_count + 1;
+        return str_pad($new_number, 6, '0', STR_PAD_LEFT);
+
+        $old_episode_id = Episode::get()->count();
+        $new_episode_id = $old_episode_id + 1;
+    }
+
+    private function get_episode_no(Request $request, $patient_id)
+    {
+        $check_episode = Episode::where('patient_id', $validated_data['patient_id'])
+            ->where('added_date', TimeManagement::today_date())
+            ->get();
+
+        $episode = 0;  
+        $episode = Episode::get()->count();
+        $new_episode_id = $episode + 1;
+
+           if(!$check_episode )
+           {
+                $data = Episode::create([
+                    'episode_id' => $new_episode_id,
+                    'patient_id' => $patient_id,
+                    'pat_number' => $opd_number,
+                    'episode_clinic' => $service_point_id,
+                    'code' => $new_episode_id,
+                    'user_id' => Auth::user()->user_id,
+                    'added_date' => now(),
+                    'request_date' => now(),
+                   ]);
+           }else{
+                return response()->json([
+                    'episode_id' => '0',
+                    'patient_id' => $patient_id
+                    ],);
+        
+           }  
+    }
+
+
 }
