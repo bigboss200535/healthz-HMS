@@ -15,6 +15,7 @@ use App\Models\PatientAttendance;
 use App\Helpers\TimeManagement;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\ServicePoints;
 
 class AttendanceController extends Controller
 {
@@ -487,7 +488,7 @@ class AttendanceController extends Controller
     public function attendance_clinic(Request $request, $opd_number)
     {
         $decoded_opd_number = urldecode($opd_number);
-        $patient_id = $request->get('patient_id'); // Get patient_id from query parameter
+        $patient_id = $request->get('patient_id'); 
 
         \Log::info('Fetching clinics for OPD:', ['opd_number' => $decoded_opd_number, 'patient_id' => $patient_id]);
         

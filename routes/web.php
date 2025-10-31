@@ -75,8 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('patient')->group(function () {
         // Route::get('/attendance-clinic', [AttendanceController::class, 'attendance_clinic'])->where('opd_number', '[A-Z0-9]+/[0-9]+');
-        Route::get('/attendance-clinic/{opd_number}', [AttendanceController::class, 'attendance_clinic']);
-        
+        // Route::get('/attendance-clinic/{opd_number}', [AttendanceController::class, 'attendance_clinic']);
         Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
         Route::get('/fetch', [PatientController::class, 'search_patients'])->name('patient.fetch');
         Route::get('/search', [PatientController::class, 'index'])->name('patient.index');

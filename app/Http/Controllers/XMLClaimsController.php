@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use SimpleXMLElement;
 
-class ExportController extends Controller
+class XMLClaimsContoller extends Controller
 {
     public function downloadXml()
     {

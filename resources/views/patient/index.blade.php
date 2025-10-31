@@ -6,11 +6,10 @@
 
                   <div class="card">
                     <div class="card-body">
-                            <button class="btn btn-danger mb-3" type="button">
+                            <!-- <button class="btn btn-danger mb-3" type="button">
                                 <i class="bx bx-filter"></i> Advanced Search
-                            </button>
+                            </button> -->
                                     <br>
-                                    
                         <!-- <h3>Patient Search</h3> -->
                           <div class="card" style="border-color: black; border-width:2px">
                                   <div align="center" class="col-lg-12"> <div class="mb-3">

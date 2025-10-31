@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class PatientOpdNumber extends Model
 {
-    use HasFactory;
     use HasUuids;
-    
+    use HasFactory;
+       
     protected $table = 'patient_nos';
     // protected $primaryKey = 'patient_id';
     public $timestamps = false;

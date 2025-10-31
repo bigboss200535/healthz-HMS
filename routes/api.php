@@ -7,6 +7,7 @@ use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ExternalCallController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\AttendanceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,7 +28,8 @@ Route::post('claims_code', [ExternalCallController::class, 'validateMemberAndGen
 
 
 // Route::get('edit-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'edit_diagnosis']);
-
+ Route::get('/patient/attendance-clinic/{opd_number}', [AttendanceController::class, 'attendance_clinic'])
+    ->where('opd_number', '.*')->name('patient.attendance.clinics');
 Route::prefix('prescriptions')->group(function (){
     Route::get('/get-prescriptions/{attendance_id}', [PrescriptionController::class, 'get_patient_prescriptions']);
     Route::post('/search', [PrescriptionController::class, 'search_medications']);
