@@ -32,15 +32,14 @@ class PatientFactory extends Factory
         $nationality = Nationality::inRandomOrder()->first(); 
         $occupation = Occupation::inRandomOrder()->first(); 
        
-
         return [
             'patient_id' => Str::uuid(),
             'title_id' => $title->title_id,
             'firstname' => $this->faker->firstName,
-            'middlename' => $this->faker->randomElement(['A.', 'Jackson', 'E.', 'K.', 'Y.', 'Asan', 'T.', 'M.']),
+            'middlename' => $this->faker->randomElement(['Antwi', 'Kwame', 'Eunice', 'Kwabena', 'Yaw', 'Asan', 'T.', 'M.', 'A', 'T.']),
             'lastname' => $this->faker->lastName,
             'birth_date'=>$this->faker->date('Y-m-d'),
-            'gender_id'=> $this->faker->randomElement(['1', '2']),
+            'gender_id'=> $this->faker->randomElement(['2', '3']),
             'telephone' => $this->faker->phoneNumber,
             'occupation_id' => $occupation->occupation_id,
             'education' => $this->faker->randomElement(['None', 'JHS/Middle', 'Primary', 'SHS', 'Tertiary', 'Vocational', 'Technical']),

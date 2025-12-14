@@ -147,7 +147,7 @@ return new class extends Migration
             $table->string('vital_id', 50)->primary();
             $table->string('patient_id',50)->nullable(); 
             $table->string('opd_number',50)->nullable(); 
-            $table->string('pat_age',50); 
+            $table->string('pat_age',50)->nullable(); 
             $table->string('temperature',50)->nullable(); 
             $table->string('height',50)->nullable(); 
             $table->string('weight',50)->nullable(); 
@@ -158,9 +158,10 @@ return new class extends Migration
             $table->string('respiratory_rate',50)->nullable(); 
             $table->string('rdt',50)->nullable();
             $table->string('remarks',300)->nullable();
-            $table->string('fbs_rbs',50);  
+            $table->string('fbs',50)->nullable();  
+            $table->string('rbs',50)->nullable();  
             $table->string('bmi',50)->nullable();  
-            $table->date('request_date'); 
+            $table->date('request_date')->nullable(); 
             $table->timestamp('request_time'); 
             $table->string('facility_id', 50)->nullable();
             $table->string('user_id',50)->nullable();        

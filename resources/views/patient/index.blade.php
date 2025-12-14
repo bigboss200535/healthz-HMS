@@ -213,7 +213,7 @@
                         let genderDisplay = '';
                         if (patient.gender_id === '2' || patient.gender_id === 2) {
                             genderDisplay = 'MALE';
-                        } else if (patient.gender_id === '1' || patient.gender_id === 1) {
+                        } else if (patient.gender_id === '3' || patient.gender_id === 3) {
                             genderDisplay = 'FEMALE';
                         } else if (patient.gender) {
                             genderDisplay = patient.gender.toUpperCase();

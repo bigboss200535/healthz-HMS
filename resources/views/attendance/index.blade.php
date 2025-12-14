@@ -64,7 +64,7 @@
                             @php
                               $counter = 1;
                             @endphp
-                            @foreach($all as $patients)
+                            @foreach($all_attendance as $patients)
                             <tr>
                               <td>{{ $counter++ }}</td>
                               <td>{{ \Carbon\Carbon::parse($patients->attendance_date)->format('d-m-Y') }}</td>
@@ -73,15 +73,15 @@
                               <td>{{ $patients->gender }}</td>
                               <td>{{ $patients->full_age }}</td>
                               <td>
-                                  @if($patients->sponsor_type_id === 'PI03')
-                                  <span class="badge bg-label-info me-1">{{ $patients->sponsor_name}}</span>
-                                  @elseif ($patients->sponsor_type_id === 'N002')
-                                  <span class="badge bg-label-success me-1">{{ $patients->sponsor_name}}</span>
-                                  @elseif ($patients->sponsor_type_id === 'P001')
-                                  <span class="badge bg-label-warning me-1">{{ $patients->sponsor_name}}</span>
-                                  @elseif ($patients->sponsor_type_id === 'PC04')
-                                  <span class="badge bg-label-primary me-1">{{ $patients->sponsor_name}}</span>
-                                  @endif
+                                    @if($patients->sponsor_type_id === 'PI03')
+                                    <span class="badge bg-label-info me-1">{{ $patients->sponsor_name}}</span>
+                                    @elseif ($patients->sponsor_type_id === 'N002')
+                                    <span class="badge bg-label-success me-1">{{ $patients->sponsor_name}}</span>
+                                    @elseif ($patients->sponsor_type_id === 'P001')
+                                    <span class="badge bg-label-warning me-1">{{ $patients->sponsor_name}}</span>
+                                    @elseif ($patients->sponsor_type_id === 'PC04')
+                                    <span class="badge bg-label-primary me-1">{{ $patients->sponsor_name}}</span>
+                                    @endif
                               </td>
                               <td>{{ $patients->type_of_attendance}}</td>
                               <td>{{ strtoupper($patients->user_fullname) }}</td>
@@ -92,23 +92,42 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                       </button>
                                             <div class="dropdown-menu">
-
-                                                 @if($patients->issue_id === '0')
-                                                      <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
+                                                   @if($patients->issue_id === '0') <!--pending-->
+                                                    <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
                                                           <i class="bx bx-edit-alt me-1"></i> Consult
                                                       </a>
                                                       <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
                                                           <i class="bx bx-trash me-1"></i> Delete
                                                       </a>
-                                                 @elseif ($patients->issue_id === '1')
-                                                 <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
+                                                   @elseif ($patients->issue_id === '1') <!--issued-->
+                                                      <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
+                                                          <i class="bx bx-edit-alt me-1"></i> View
+                                                      </a>
+                                                      <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
+                                                          <i class="bx bx-trash me-1"></i> Delete
+                                                      </a>
+                                                   @elseif ($patients->issue_id === '2') <!--waiting-->
+                                                      <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
                                                           <i class="bx bx-edit-alt me-1"></i> Consult
                                                       </a>
-                                                      <!-- <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
-                                                          <i class="bx bx-trash me-1"></i> Delete Attendance
-                                                      </a> -->
+                                                       <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
+                                                          <i class="bx bx-trash me-1"></i> Delete
+                                                      </a>
+                                                    @elseif ($patients->issue_id === '3') <!--completed-->
+                                                      <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
+                                                          <i class="bx bx-edit-alt me-1"></i> View
+                                                      </a>
+                                                      <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
+                                                          <i class="bx bx-trash me-1"></i> Delete
+                                                      </a>
+                                                    @elseif ($patients->issue_id === '4') <!--on hold-->
+                                                      <a class="dropdown-item" href="/consultation/opd-consultation/{{ $patients->attendance_id }}" >
+                                                          <i class="bx bx-edit-alt me-1"></i> Unhold
+                                                      </a>
+                                                      <a class="dropdown-item attendance_delete_btn" data-id="{{ $patients->attendance_id }}" href="#">
+                                                          <i class="bx bx-trash me-1"></i> Delete
+                                                      </a>
                                                   @endif
-                                                  
                                              </div>
                                   </div>
                                 </td>

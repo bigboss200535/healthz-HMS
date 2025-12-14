@@ -35,7 +35,8 @@ class AttendanceController extends Controller
                             'sponsor_type.sponsor_type_id', 'patient_attendance.full_age', 'gender.gender', 
                             'service_attendance_type.attendance_type as type_of_attendance', 
                             'patient_attendance.issue_id' ,'patient_attendance.attendance_type', 
-                            'consultation_issue_status.issue_value', 'consultation_issue_status.color_code', 'users.user_fullname')
+                            'consultation_issue_status.issue_value', 'consultation_issue_status.color_code', 
+                            'users.user_fullname')
                     ->where('patient_attendance.archived', 'No');
 
          // Apply search filter if provided
@@ -57,9 +58,9 @@ class AttendanceController extends Controller
          }
 
          // Get the filtered results
-         $all = $query->orderBy('patient_attendance.attendance_id', 'desc')->get();
+         $all_attendance = $query->orderBy('patient_attendance.attendance_id', 'desc')->get();
 
-         return view('attendance.index', compact('all')); 
+         return view('attendance.index', compact('all_attendance')); 
     }
 
 

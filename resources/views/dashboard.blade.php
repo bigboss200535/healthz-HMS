@@ -49,7 +49,7 @@
                       </h5>
                       <div class="col-12 col-lg-12">
                         <p>
-                          Your progress this week is Awesome. Let's keep it up and get a lot of points reward !
+                          Here's what's happening today.
                         </p>
                       </div>
                       <div class="d-flex justify-content-between flex-wrap gap-4 me-12">
@@ -62,8 +62,8 @@
                             </div>
                           </div>
                           <div class="content-right">
-                            <p class="mb-0 fw-medium">Out Patient</p>
-                            <h4 class="text-primary mb-0">{{ $out_patient ?? 0 }}</h4>
+                            <p class="mb-0 fw-medium">Today's Attendance</p>
+                            <h4 class="text-primary mb-0">5{{ $out_patient ?? 0 }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">
@@ -75,8 +75,8 @@
                             </div>
                           </div>
                           <div class="content-right">
-                            <p class="mb-0 fw-medium">In-Patient</p>
-                            <h4 class="text-info mb-0">{{ $in_patient ?? 0 }}</h4>
+                            <p class="mb-0 fw-medium">Active Consultation</p>
+                            <h4 class="text-info mb-0">2{{ $in_patient ?? 0 }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">
@@ -88,7 +88,7 @@
                             </div>
                           </div>
                           <div class="content-right">
-                            <p class="mb-0 fw-medium">Appointments </p>
+                            <p class="mb-0 fw-medium">Pending Claims </p>
                             <h4 class="text-warning mb-0">{{ $appointments  }}</h4>
                           </div>
                         </div>
@@ -102,34 +102,34 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">Appointments </p>
-                            <h4 class="text-warning mb-0">0</h4>
+                            <h4 class="text-warning mb-0">23</h4>
                           </div>
                         </div>
                         
                       </div>
                     </div>
-                    <div class="col-12 col-lg-2 ps-md-4 ps-lg-6">
-                      <div class="d-flex justify-content-between align-items-center">
+                    <!-- <div class="col-12 col-lg-2 ps-md-4 ps-lg-6"> -->
+                       <!-- <div class="d-flex justify-content-between align-items-center">
                         <div>
-                          <div>
+                         <div>
                             <h5 class="mb-1">Time Spendings</h5>
                             <p class="mb-9">Weekly report</p>
-                          </div>
-                          <div class="time-spending-chart">
+                          </div> -->
+                          <!-- <div class="time-spending-chart">
                             <h4 class="mb-2">231<span class="text-body">h</span> 14<span class="text-body">m</span></h4>
                            
-                          </div>
+                          </div> 
                         </div>
-                        <div id="leadsReportChart"></div>
-                      </div>
-                    </div>
+                         <div id="leadsReportChart"></div> 
+                      </div>-->
+                    <!-- </div> -->
                   </div>
                 </div>
                 <!-- Hour chart End  -->
             <!-- <br> -->
                 <div class="card">
                   <div class="card-body">
-                      <h3>Menu</h3>
+                      <h3>Quick Actions</h3>
                         <div class="card" style="border-color: black; border-width:2px">
                         <div class="card-body text-center">
                           <div>
@@ -143,5 +143,7 @@
                         </div>
                   </div>
                 </div>
+
+                
             </div>
     </x-app-layout>
