@@ -1,9 +1,11 @@
 # Healthz – Hospital Administration & Management System
-
+![Dashboard](Screenshot1.png) 
 Healthz is a comprehensive, modular hospital administration and management system designed to streamline daily clinical and administrative workflows. 
 It centralizes patient information, medical records, investigations, consultations, prescriptions, diagnoses, sponsorships, attendance tracking, and claims processing, with native support for XML-based claim generation and submission.
 
 Healthz enhances operational efficiency, reduces manual errors, and provides medical teams with a unified platform for handling patient journeys from registration to billing.
+
+![Patient Search](Screenshot3.png) 
 
 ---
 
@@ -114,3 +116,6 @@ Each investigation includes order details, results, timestamps, staff informatio
 - Automated notifications  
 
 ---
+
+![Patient Registration](Screenshot2.png) 
+![Patient Waiting List](Screenshot4.png) 
