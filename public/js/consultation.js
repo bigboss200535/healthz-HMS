@@ -42,8 +42,8 @@
 
     //SAVING CONSULTATION AJAX 
     // Hide the main consultation content initially
-    
-     $('#discharge_patient').prop('disabled', true);
+     $('#consultation_display').hide(); //hide the main consultation form
+     $('#discharge_patient').prop('disabled', true); //disable discharge button initially
     
     // Handle the Continue button click
     $('#consultation_continue').click(function() {

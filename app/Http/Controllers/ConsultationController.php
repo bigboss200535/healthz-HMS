@@ -474,7 +474,11 @@ class ConsultationController extends Controller
     
         $attendance = $attendance_query->first();
         
-        $services = Services::where('archived', 'No')->get();
+        $allowed_service_ids = ['0001', '0002', '0003', '0011'];
+        $services = Services::where('archived', 'No')
+            ->whereIn('service_id', $allowed_service_ids)
+            ->get();
+
         // Fetch consulting rooms
         $consulting_room = ConsultingRoom::where('Archived', 'No')
             ->where('status', 'Active')
