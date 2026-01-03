@@ -37,6 +37,8 @@ class PrescriptionController extends Controller
 
     public function store(Request $request)
     {
+        
+
         $validated_data = $request->validate([
             'prescription_patient_id' => 'nullable|min:3',
             'prescription_opdnumber' => 'nullable|min:3',
@@ -49,7 +51,7 @@ class PrescriptionController extends Controller
             'prescription_presentation_input' => 'nullable',
             'prescription_type' => 'nullable|min:3|max:50',
             'prescription_dosage' => 'nullable',
-            'prescription_sponsor' => 'nullable',
+            // 'prescription_sponsor' => 'nullable',
             'prescription_frequency' => 'nullable',
             'prescription_duration' => 'nullable',
             'prescription_qty' => 'nullable|min:1|max:50',
@@ -91,8 +93,8 @@ class PrescriptionController extends Controller
                     'presentation' => $validated_data['prescription_presentation_input'],
                     'prescription_type' => $validated_data['prescription_type'],
                     'dosage' => $validated_data['prescription_dosage'],
-                    'sponsor_id' => $validated_data['prescription_sponsor'],
-                    // 'sponsor_type_id' => $validated_data['prescription_sponsor'],
+                    'sponsor_id' => $attendance->sponsor_id,
+                    'sponsor_type_id' => $attendance->sponsor_type_id,
                     'frequencies' => $validated_data['prescription_frequency'],
                     'duration' => $validated_data['prescription_duration'],
                     'quantity_given' => $validated_data['prescription_qty'],

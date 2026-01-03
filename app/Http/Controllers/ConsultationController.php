@@ -122,6 +122,10 @@ class ConsultationController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
         $validated_data = $request->validate([
             'patient_id' => 'required|string|max:255',
             'opd_number' => 'nullable|string|max:255',
@@ -149,7 +153,7 @@ class ConsultationController extends Controller
         $attendance_status->save();
 
         $patient = $this->patient_by_id($request->input('patient_id'));
-        $records_no = intval(Consultation::all()->count()) + 1;
+        // $records_no = intval(Consultation::all()->count()) + 1;
         $age_group = AgeGroups::get_category_from_age($patient->age);
         $consult_id = intval(Consultation::all()->count()) + 1;
 
@@ -409,6 +413,20 @@ class ConsultationController extends Controller
      */
     public function delete_attendance($attendance_id)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        $attendance = PatientAttendance::where('attendance_id', $attendance_id)->first();
+
+        if (!$attendance) {
+            return response()->json(['success' => false, 'message' => 'Attendance record not found.']);
+        }
+
+        if(in_array($attendance->issue_id, ['1', '2'])){
+            return response()->json(['success' => false, 'message' => 'Cannot delete attendance record that has been issued or is in process.']);
+        }
+
         try {
             // Soft delete by setting archived to 'Yes'
             DB::table('patient_attendance')
@@ -425,8 +443,10 @@ class ConsultationController extends Controller
     {   
         // GET CONSULTATION ID BEFORE SAVING 
         $consultation_id = intval(Consultation::all()->count()) + 1;
+
         // CHECK ATTENDANCE TO DISABLE OR ENABLE PATIENT CONSULTATION DETAILS
-        $attendance_check = PatientAttendance::where('attendance_id', $attendance_id)->first();
+        // $attendance_check = PatientAttendance::where('attendance_id', $attendance_id)->first();
+        
         // BASE QUERY FOR PATIENT ATTENDANCE 
         $attendance_query = PatientAttendance::where('patient_attendance.archived', 'No')
             ->join('patient_info', 'patient_info.patient_id', '=', 'patient_attendance.patient_id')
@@ -457,7 +477,7 @@ class ConsultationController extends Controller
                 // return response()->json('Attendance details not found.');
             }
 
-        // Conditionally join sponsor-related tables
+        // Conditionally join sponsor-related tables to display cash for patient with no sponsor
         if ($sponsor_check->sponsor_type_id == 'P001') 
         {
                 $attendance_query->addSelect(
@@ -476,17 +496,18 @@ class ConsultationController extends Controller
     
         $attendance = $attendance_query->first();
         
+        // INVESTIGATIONS SERVICES TO BE DISPLAYED IN CONSULTATION
         $allowed_service_ids = ['0001', '0002', '0003', '0011'];
         $services = Services::where('archived', 'No')
             ->whereIn('service_id', $allowed_service_ids)
             ->get();
 
-        // Fetch consulting rooms
+        // Fetch ALL CONSULTING ROOMS FOR SELECTION
         $consulting_room = ConsultingRoom::where('Archived', 'No')
             ->where('status', 'Active')
             ->get();
     
-        // Fetch doctors
+        // GET AVAILABLE DOCTORS FOR SELECTION
         $doctors = User::where('status', 'Active')
             ->where('archived', 'No')
             // ->where('role_id', 'R10')
@@ -506,7 +527,10 @@ class ConsultationController extends Controller
         $clinical_history_questions = DB::table('clinical_history_question')
             ->where('archived', 'No')
             ->get();
-            
+
+            //FETCH PREVIOUS DIAGNOSIS 
+        // $previous_diagnosis = Diagnosis::where('patient_id', $attendance->patient_id)->get();
+
         // Group questions by clinical_history_id
         $grouped_questions = [];
         foreach ($clinical_history_questions as $question) {
@@ -539,7 +563,7 @@ class ConsultationController extends Controller
             ->select('users.user_fullname as doctor', 'diagnosis.diagnosis', 'patient_diagnosis.icd_10', 'patient_diagnosis.gdrg_code', 'patient_diagnosis.entry_date')
             ->get();
 
-        return view('consultation.opd_consult', compact('services', 'diagnosis_history', 'consultation_id', 'attendance', 'doctors', 'consulting_room', 'systemic', 'clinical_history', 'grouped_questions'));
+        return view('consultation.opd_consult', compact('sponsor_check', 'services', 'diagnosis_history', 'consultation_id', 'attendance', 'doctors', 'consulting_room', 'systemic', 'clinical_history', 'grouped_questions'));
     }
 
 

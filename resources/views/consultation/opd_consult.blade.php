@@ -39,6 +39,7 @@
                 <table class="table">
                   <form id="consultation_form" method="post">
                       @csrf
+                        <!-- <input type="text" value="" id="attendance_check" name="attendance_check" values="{{ $sponsor_check->attendance_id}}">  -->
                         <input type="text" value="" id="patient_status" name="patient_status" hidden>
                         <input type="text" value="{{ $consultation_id }}" id="consultation_id" name="consultation_id" hidden>
                         <input type="text" value="{{ $attendance->episode_id }}" id="episode_id" name="episode_id" hidden>
@@ -172,18 +173,13 @@
                   <input type="date" class="form-control" id="consulting_date" name="consulting_date" value="{{ $today }}">
                 </td>
               </tr>
-               <tr>
-                <td><b>Action</b></td>
-                  <td>
-                        <!-- <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">Proceed</button> -->
-                  </td>
-                </tr>
-                <tr>
+              <tr>
                 <td><b>Outcome</b></td>
                   <td>
-                        <button type="button" disabled class="btn btn-sm btn-danger" id="discharge_patient">Discharge</button>
+                      <!-- <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">Proceed</button> -->
+                      <button type="button" disabled class="btn btn-sm btn-danger" id="discharge_patient">Discharge</button>
                   </td>
-                </tr>
+              </tr>
             </table>
           </form>
           </div>
@@ -194,9 +190,7 @@
 </div>
 <!-- <br> -->
 <!-- Add a message to inform the user what's needed -->
-@php 
-  $doctor = \App\Models\User::where('user_id', $user->user_id)->first();
-@endphp
+
 
     <div class="card mb-6" id="required_fields_message">
         <div class="card-widget-separator-wrapper">
@@ -204,7 +198,7 @@
                    <div class="row gy-4 gy-sm-1">
                        <div class="col-sm-6 col-lg-12">
                           <h6 style="color: red" align='center'><i class="bx bx-info-circle me-1"></i>
-                             Please complete all <b>CONSULTATION</b> details before proceeding
+                             Click <b>Proceed</b> to continue with consultation
                           </h6>
                           <div class="col-sm-6 col-lg-12" align='center'>
                               <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">PROCEED</button>
@@ -707,7 +701,7 @@
                                                           <!-- tab content 1-->
                                                             <div class="tab-content">
                                                               <!-- 1 -->
-                                                                    <div class="tab-pane fade  show active" id="navs_diagnosis" role="tabpanel">  <!--------------prescriptions -->
+                                                                    <div class="tab-pane fade  show active" id="navs_diagnosis" role="tabpanel">  <!-------------- diagnosis -->
                                                                         <div class="row g-6 mb-12">
                                                                               <div class="col-md">
                                                                                 <div class="row">
@@ -764,7 +758,7 @@
                                                                                                   <div class="timeline-header mb-3">
                                                                                                     <h6 class="mb-0">DOCTOR: <label>{{ $p_diagnosis->doctor }}</label></h6>
                                                                                                     <small class="text-body-dark"><label><b>DIAGNOSIS</b> {{ $p_diagnosis->diagnosis }}</label> </small>
-                                                                                                    <small class="text-body-dark"><label><b>SYMPTOM</b> {{ $p_diagnosis->icd_10 }} </label> </small>
+                                                                                                    <small class="text-body-dark"><label><b>ICD</b> {{ $p_diagnosis->icd_10 }} </label> </small>
                                                                                                     <small class="text-body-dark"><label><b>G-DRG</b> {{ $p_diagnosis->gdrg_code }} </label> </small>
                                                                                                     <small class="text-body-dark"><label><b>DATE</b> {{ $p_diagnosis->entry_date }}</label> </small>
                                                                                                   </div>
@@ -843,7 +837,7 @@
                                                                          </div>
                                                                       </div>
                                                                       <!-- 2 -->
-                                                                      <div class="tab-pane fade" id="navs_previous_prescription" role="tabpanel">  <!--------------VITAL SIGNS -->
+                                                                      <div class="tab-pane fade" id="navs_previous_prescription" role="tabpanel">  <!-------------- previous prescription -->
                                                                         <div class="row g-6 mb-12">
                                                                               <div class="col-md">
                                                                                 <div class="row">
@@ -950,7 +944,7 @@
               <div class="modal-content">
                 <div class="modal-body">
                   <div class="mb-6">
-                    <h4>Diagnosis / Diseases</h4>
+                    <h4>Diagnosis</h4>
                   </div>
                   <div class="alert-container"></div>
                   <form id="add_diagnosis_form" class="row g-6" onsubmit="return false">
@@ -1021,7 +1015,7 @@
               <div class="modal-content">
                 <div class="modal-body">
                   <div class="mb-6">
-                    <h4 class="address-title mb-2">Medications / Prescriptions</h4>
+                    <h4 class="address-title mb-2">Prescriptions</h4>
                   </div>
                     <div class="alert-container-drug"></div>
                   <form id="add_prescription_form" class="row g-6" onsubmit="return false">
@@ -1071,11 +1065,11 @@
                       <label class="form-label" for="prescription_qty">Qty</label>
                       <input type="number" id="prescription_qty" name="prescription_qty" class="form-control"/>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-3" hidden>
                       <label class="form-label" for="prescription_price">Unit Price</label>
                       <input type="text" id="prescription_price" name="prescription_price" class="form-control" readonly />
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-3" hidden>
                       <label class="form-label" for="prescription_type">Type</label>
                       <select name="prescription_type" id="prescription_type" class="form-control">
                         <option value="INWARD" selected>INWARD</option>
@@ -1090,33 +1084,13 @@
                       <label class="form-label" for="prescription_end_date">End Date</label>
                       <input type="date" id="prescription_end_date" name="prescription_end_date" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly />
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6" hidden>
                       <label class="form-label" for="prescription_sponsor">Sponsor</label>
                         <select name="prescription_sponsor" id="prescription_sponsor" class="form-control">
-                              @php
-                                  $patient_sponsor = \App\Models\PatientSponsor::where('patient_id', $attendance->patient_id)
-                                      ->where('is_active', 'Yes') 
-                                      ->first();
-
-                                    if(!$patient_sponsor)
-                                    {
-                                        $sponsors = \App\Models\Sponsors::where('sponsor_id', '100')->get();
-                                    }else 
-                                    {
-                                        $sponsors = \App\Models\PatientSponsor::where('patient_sponsorship.archived', 'No')
-                                          ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_sponsorship.sponsor_id')
-                                          ->where('patient_sponsorship.patient_id', $attendance->patient_id )
-                                          ->get();
-                                    }
-                                  
-                              @endphp
-
-                              @foreach($sponsors as $sponsor)
-                                  <option value="{{ $sponsor->sponsor_id }}">{{ $sponsor->sponsor_name }}</option>
-                              @endforeach
+                              
                         </select>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6" hidden>
                       <label class="form-label" for="prescription_gdrg">Drug G-RDG</label>
                       <input type="text" id="prescription_gdrg" name="prescription_gdrg" class="form-control" disabled />
                     </div>
@@ -1173,38 +1147,19 @@
                       <label class="form-label" for="service_name">Service Name</label>
                       <input type="text" id="service_name"  name="service_name" class="form-control"/>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6" hidden>
                       <label class="form-label" for="service_amount">Cash Amount</label>
                         <input type="text" id="service_amount" name="service_amount" class="form-control"/>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-6" hidden>
                       <label class="form-label" for="service_sponsor">Sponsor</label>
                         <select name="service_sponsor" id="service_sponsor" class="form-control">
-                              @php
-                                  $patient_sponsor = \App\Models\PatientSponsor::where('patient_id', $attendance->patient_id)
-                                      ->where('is_active', 'Yes') 
-                                      ->first();
-                                    if(!$patient_sponsor)
-                                    {
-                                        $sponsors = \App\Models\Sponsors::where('sponsor_id', '100')->get();
-                                    }else 
-                                    {
-                                        $sponsors = \App\Models\PatientSponsor::where('patient_sponsorship.archived', 'No')
-                                          ->join('sponsors', 'sponsors.sponsor_id', '=', 'patient_sponsorship.sponsor_id')
-                                          ->where('patient_sponsorship.patient_id', $attendance->patient_id )
-                                          ->get();
-                                    }
-                                  
-                              @endphp
-
-                              @foreach($sponsors as $sponsor)
-                                  <option value="{{ $sponsor->sponsor_id }}">{{ $sponsor->sponsor_name }}</option>
-                              @endforeach
+                              
                         </select>
                     </div>
                     <div class="col-12 col-md-6">
                       <label class="form-label" for="service_date">Date</label>
-                      <input type="text" class="form-control" id="service_date" name="service_date" min="{{ date('Y-m-d', strtotime('-1 month')) }}" 
+                      <input type="date" class="form-control" id="service_date" name="service_date" min="{{ date('Y-m-d', strtotime('-1 month')) }}" 
                                max="{{ date('Y-m-d', strtotime('+1 month')) }}" value="<?php echo date('Y-m-d'); ?>"/>
                     </div>
                     

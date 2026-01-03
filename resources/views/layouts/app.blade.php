@@ -130,19 +130,28 @@
 </script> -->
     <script type="text/javascript">
         $(document).ready( function () {
+
+            // $('#consulting_room, #consulting_type, #consulting_doctors, #consulting_date, #consulting_episode').change(function() {
+            if ($('#consulting_room').val() && $('#consulting_type').val() && $('#consulting_doctors').val() && $('#consulting_date').val() && $('#consulting_episode').val()) 
+            {
+                $('#consultation_display').show();
+                $('#required_fields_message').hide();
+                
+            } else {
+                $('#consultation_display').hide();
+                $('#required_fields_message').show();
+            }
+        // });
+
             $('#app_list').DataTable({
                 searching: false
             });
             $('#product_list').DataTable({
                 searching: false
             });
-            // $('#symptoms-table').DataTable();
             $('#system_table').DataTable();
             $('#attendance_details').DataTable();   
             $('#claims_code_list').DataTable();
-            // $('#prescriptions_list').DataTable({
-            //       searching: false
-            //   }); 
             $('#patient_sponsor').DataTable();
             $('#service_request').DataTable();
             $('#appointments').DataTable();
@@ -157,15 +166,10 @@
             $('#register_list').DataTable();
             $('.sponsor_name').select2();
             $('.diagnosis_search').select2();
-            // $('.sponsor_type_id').select2();
             $('.select_2_dropbox').select2();
-            $('#investigations_table').DataTable();
-            // $('#telephone, #work_telephone, #contact_telephone').inputmask({
-            //     mask: '+233 999 999 9999',
-            //     placeholder: ' ',
-            //     showMaskOnHover: false,
-            //     showMaskOnFocus: true
-            //  });
+            $('#investigations_table').DataTable({
+                  searching: false
+            });
     
      // *****************CHART FOR VITAL SIGNS****************************
             const ctx = document.getElementById('vital_sign_chart');
