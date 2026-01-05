@@ -7,7 +7,7 @@
                     <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     <div class="text-center mb-6">
                     <h4 class="address-title mb-2">Patient Attendance Registration</h4>
-                    <p class="address-subtitle">ADD NEW PATIENT ATTENDANCE</p>
+                    <p class="address-subtitle">Sign in Patient</p>
                     </div>
                     <div class="alert-container"></div>
                     <form id="service_request_form" class="row g-6" onsubmit="return false">

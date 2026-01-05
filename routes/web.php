@@ -43,13 +43,10 @@ use Illuminate\Support\Facades\Redirect;
 |
 */
 
-// redirect for login
 Route::redirect('/', '/login');
 
-// all route within this middleware check for authentications before redirecting
 Route::middleware(['auth', 'verified'])->group(function () {
     
-    // direct route to dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('sponsors', SponsorController::class); 
@@ -119,10 +116,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
      Route::prefix('investigations')->group(function () {
-        Route::post('/save-investigation', [InvestigationsController::class, 'store'])->name('investigations.save');
-        Route::post('/view-patient-investigations', [InvestigationsController::class, 'view_patient_investigations'])->name('investigations.view');
-        Route::get('/delete-investigation/{service_request_id}', [InvestigationsController::class, 'delete_patient_investigation']);
-        //  Route::post('/get-services-by-type', [InvestigationsController::class, 'get_services_by_type']);
+       Route::post('/save-investigation', [InvestigationsController::class, 'store'])->name('investigations.save');
+       Route::post('/view-patient-investigations', [InvestigationsController::class, 'view_patient_investigations'])->name('investigations.view');
+       Route::post('/delete-investigation', [InvestigationsController::class, 'delete_investigation'])->name('investigations.delete');
+    //    Route::post('/get-services-by-type', [InvestigationsController::class, 'get_services_by_type']);
+    });
+
+    Route::prefix('documents')->group(function () {
+        Route::post('/upload', [DocumentUploadController::class, 'upload_document'])->name('documents.upload');
+        Route::get('/list', [DocumentUploadController::class, 'list_patient_documents'])->name('documents.list');
     });
 
     Route::prefix('users')->group(function () {
@@ -219,11 +221,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('diagnosis')->group(function () {
        Route::get('/delete-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'delete_diagnosis']);
-    });
-
-    // Upload patient document using consultations form
-     Route::prefix('documents')->group(function () {
-       Route::post('/upload/{patient_id}', [DocumentUploadController::class, 'upload_document']);
     });
 
 

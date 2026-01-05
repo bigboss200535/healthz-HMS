@@ -271,7 +271,7 @@ if ($sponsor_check->issue_id == 0) {
                                 </li>
                                 <li class="nav-item">
                                   <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs_document" aria-controls="navs_document" aria-selected="false">
-                                    <span class="d-none d-sm-block"><b>Charts /Documents</b></span>
+                                    <span class="d-none d-sm-block"><b>Manage Documents</b></span>
                                   </button>
                                 </li>
                             </ul>
@@ -893,57 +893,8 @@ if ($sponsor_check->issue_id == 0) {
                                                 <h5 class="mb-0">Document Management</h5>
                                             </div>
                                             <div class="card-body">
-
-                                            <!--  -->
-                                            @if($documents->count() > 0)
-                                                          <div class="table-responsive">
-                                                              <table class="table table-hover">
-                                                                  <thead>
-                                                                      <tr>
-                                                                          <th>Document Name</th>
-                                                                          <th>Type</th>
-                                                                          <th>Upload Date</th>
-                                                                          <th>Size</th>
-                                                                          <th>Actions</th>
-                                                                      </tr>
-                                                                  </thead>
-                                                                  <tbody>
-                                                                      @foreach($documents as $document)
-                                                                      <tr>
-                                                                          <td>{{ $document->name }}</td>
-                                                                          <td><span class="badge bg-primary">{{ strtoupper($document->file_type) }}</span></td>
-                                                                          <td>{{ $document->created_at->format('M d, Y') }}</td>
-                                                                          <td>{{ number_format($document->file_size / 1024, 2) }} KB</td>
-                                                                          <td>
-                                                                              <a href="{{ Storage::url($document->file_path) }}" 
-                                                                                target="_blank" 
-                                                                                class="btn btn-sm btn-info">
-                                                                                  <i class="bx bx-show"></i> View
-                                                                              </a>
-                                                                              <a href="{{ route('documents.download', $document->id) }}" 
-                                                                                class="btn btn-sm btn-success">
-                                                                                  <i class="bx bx-download"></i> Download
-                                                                              </a>
-                                                                              <button class="btn btn-sm btn-danger delete-document" 
-                                                                                      data-id="{{ $document->id }}">
-                                                                                  <i class="bx bx-trash"></i> Delete
-                                                                              </button>
-                                                                          </td>
-                                                                      </tr>
-                                                                      @endforeach
-                                                                  </tbody>
-                                                              </table>
-                                                          </div>
-                                                      @else
-                                                          <div class="alert alert-info">
-                                                              No documents uploaded yet. Upload your first document using the form below.
-                                                          </div>
-                                                      @endif
-                                            <!--  -->
-                                              <!-- Document List (will be populated via AJAX) -->
-                                                <div id="document-list">
-                                              <!-- Existing documents will appear here -->
-                                            </div>
+                                               
+                                                                                   
                                                       <!-- Upload Form -->
                                               <form id="document-upload-form" enctype="multipart/form-data">
                                                   @csrf
@@ -957,24 +908,15 @@ if ($sponsor_check->issue_id == 0) {
                                                             required>
                                                       <div class="form-text">Allowed: PDF, JPG, PNG, GIF (Max: 5MB)</div>
                                                   </div>
-                                                  
-                                                  <!-- <div class="mb-3">
-                                                      <label for="document_name" class="form-label">Document Name</label>
-                                                      <input type="text" 
-                                                            class="form-control" 
-                                                            id="document_name" 
-                                                            name="document_name"
-                                                            placeholder="Enter document name"
-                                                            required>
-                                                  </div> -->
-                                                  
+
                                                   <div class="mb-3">
                                                       <label for="document_type" class="form-label">Document Type</label>
                                                       <select class="form-select" id="document_type" name="document_type">
-                                                          <option value="lab_result">Lab Result </option>
-                                                          <option value="x_ray">X-Ray</option>
-                                                          <option value="folder">Folder</option>
-                                                          <option value="other">Other</option>
+                                                         <option disabled selected>Select Document Type</option>
+                                                          <option value="Lab Result">Lab Result </option>
+                                                          <option value="X-Ray">X-Ray</option>
+                                                          <option value="Imaging Report">Imaging Report</option>
+                                                          <option value="Other">Other</option>
                                                       </select>
                                                   </div>
                                                   
@@ -984,7 +926,9 @@ if ($sponsor_check->issue_id == 0) {
                                                   </button>
                                               </form>
                                         </div>
-                                     
+                                      <!-- Document List (will be populated via AJAX when uploaded) -->
+                                                <div id="uploaded_document_list"></div>
+                                              <!-- Existing documents will appear here -->
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="navs_investigations" role="tabpanel">     <!--------------INVESTIGATIONS  -->

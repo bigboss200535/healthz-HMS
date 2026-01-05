@@ -1,14 +1,14 @@
 // $(document).ready(function() {
     // When systemic area is selected
     $('#systemic_review').change(function() {
-        var systemicId = $(this).val();
-        if (systemicId) {
+        var systemic_id = $(this).val();
+        if (systemic_id) {
             // Clear existing table data
             $('#symptoms-table tbody').empty();
             
             // Fetch symptoms for selected systemic area
             $.ajax({
-                url: '/consultation/get-systemic-symptoms/' + systemicId,
+                url: '/consultation/get-systemic-symptoms/' + systemic_id,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -32,7 +32,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('Error fetching symptoms:', error);
+                    // console.error('Error fetching symptoms:', error);
                     $('#symptoms-table tbody').append('<tr><td colspan="4" class="text-center">Error loading symptoms</td></tr>');
                 }
             });
@@ -123,7 +123,7 @@
                 // Show error message
                 toastr.error(errorMessage);
                 
-                console.error('Error:', error);
+                // console.error('Error:', error);
             },
             complete: function() {
                 // Reset button state
@@ -152,10 +152,10 @@ $('#investigation_add').on('input', function () {
     url: '/api/investigations/search', 
     method: 'POST',
     data: {
-      _token: $('input[name="_token"]').val(), // CSRF token
-      investigation_query: investigation, // investigation search term
-      attendance_id: attendance_id,
-      service_id: service_id
+        _token: $('input[name="_token"]').val(), // CSRF token
+        investigation_query: investigation, // investigation search term
+        attendance_id: attendance_id,
+        service_id: service_id
     },
     success: function (response) {
       if (response.length > 0) {
@@ -200,7 +200,7 @@ $('#investigation_add').on('input', function () {
       }
     },
     error: function (xhr, status, error) {
-      console.error('Error fetching investigation details:', error);
+      // console.error('Error fetching investigation details:', error);
       $('#investigation_results').html('<div class="text-danger">An error occurred while fetching investigations.</div>');
     },
   });
@@ -250,7 +250,7 @@ $('#service_id').on('change', function () {
           const service_fee_id = $(this).data('service_fee_id');
           const service_name = $(this).data('service_name');
           const cash_amount = $(this).data('cash_amount');
-           const service_type_id = $(this).data('service_type_id');
+          const service_type_id = $(this).data('service_type_id');
 
           $('#service_name').val(service_name);
           $('#service_amount').val(cash_amount);
@@ -269,12 +269,12 @@ $('#service_id').on('change', function () {
       }
     },
     error: function (xhr, status, error) {
-      console.error('Error fetching services:', error);
       $('#drug_results').html('<div class="text-danger">Error loading services.</div>');
     }
   });
 });
-            // -----------------------INVESTIGATION SUBMISSION FOR SAVING----------------------------
+
+// -----------------------INVESTIGATION SUBMISSION FOR SAVING----------------------------
 // Function to load Investigations into Data Table
 function loadInvestigationsTable() {
   const attendance_id = $('#investigation_attendance_id').val();
@@ -327,7 +327,6 @@ function loadInvestigationsTable() {
       $('#investigations_table tbody').html(tableHtml);
     },
     error: function (xhr, status, error) {
-      console.error('Error loading investigations:', error);
       $('#investigations_table tbody').html('<tr><td colspan="7" class="text-center text-danger">Error loading investigations</td></tr>');
     }
   });
@@ -374,7 +373,6 @@ $('#add_investigation_form').on('submit', function (e) {
       }
     },
     error: function (xhr, status, error) {
-      console.error('Error saving investigation:', error);
       $('.alert-container-drug').html('<div class="alert alert-danger">Error saving Investigation. Please try again.</div>');
     }
   });
@@ -448,11 +446,17 @@ $(document).ready(function() {
     // Handle form submission
     $('#document-upload-form').on('submit', function(e) {
         e.preventDefault();
-        const patient_id = $('#patient_id').val();
+        const patient_id = $('#con_patient_id').val();
+        const opd_number = $('#con_opd_number').val();
         let form_data = new FormData(this);
         let button = $(this).find('button[type="submit"]');
         let spinner = button.find('.spinner-border');
         let upload_text = button.find('.upload-text');
+        
+        // Append CSRF token to FormData
+        form_data.append('_token', $('input[name="_token"]').val());
+        form_data.append('patient_id', patient_id);
+        form_data.append('opd_number', opd_number);
         
         // Show loading state
         spinner.removeClass('d-none');
@@ -460,14 +464,9 @@ $(document).ready(function() {
         button.prop('disabled', true);
         
         $.ajax({
-            url: '/documents/upload/'+ patient_id,
+            url: '/documents/upload',
             type: 'POST',
-            // data: form_data,
-            data: {
-                // _token: $('input[name="_token"]').val(),
-                form_data: form_data,
-                patient_id: patient_id
-            },
+            data: form_data,
             processData: false,
             contentType: false,
             success: function(response) {
@@ -498,11 +497,24 @@ $(document).ready(function() {
     
     // Function to load documents
     function loadDocuments() {
+        const patient_id = $('#patient_id').val();
+        
         $.ajax({
-            url: '/documents/list',
+            url: '/documents/list/' + patient_id,
             type: 'GET',
+            // data: {
+            //     patient_id: patient_id
+            // },
             success: function(response) {
-                $('#document-list').html(response.html);
+                if (response.success) {
+                    $('#uploaded_document_list').html(response.html);
+                } else {
+                    $('#uploaded_document_list').html('<div class="alert alert-danger">' + response.message + '</div>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading documents:', error);
+                $('#uploaded_document_list').html('<div class="alert alert-danger">Error loading documents</div>');
             }
         });
     }
@@ -513,7 +525,7 @@ $(document).ready(function() {
                         ${message}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>`;
-        $('#document-list').prepend(alert);
+        $('#uploaded_document_list').prepend(alert);
     }
 
 
