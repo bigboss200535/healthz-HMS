@@ -177,7 +177,7 @@
                 <td><b>Outcome</b></td>
                   <td>
                       <!-- <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">Proceed</button> -->
-                      <button type="button" disabled class="btn btn-sm btn-danger" id="discharge_patient">Discharge</button>
+                      <button type="button" class="btn btn-sm btn-danger" id="discharge_patient">Consultation Outcome</button>
                   </td>
               </tr>
             </table>
@@ -191,26 +191,38 @@
 <!-- <br> -->
 <!-- Add a message to inform the user what's needed -->
 
-
-    <div class="card mb-6" id="required_fields_message">
-        <div class="card-widget-separator-wrapper">
+@php
+if ($sponsor_check->issue_id == 0) {
+    echo '<div class="card-widget-separator-wrapper">
               <div class="card-body card-widget-separator">
                    <div class="row gy-4 gy-sm-1">
                        <div class="col-sm-6 col-lg-12">
-                          <h6 style="color: red" align='center'><i class="bx bx-info-circle me-1"></i>
+                          <h6 style="color: red" align="center"><i class="bx bx-info-circle me-1"></i>
                              Click <b>Proceed</b> to continue with consultation
                           </h6>
-                          <div class="col-sm-6 col-lg-12" align='center'>
+                          <div class="col-sm-6 col-lg-12" align="center">
                               <button type="button" id="consultation_continue" class="btn btn-sm btn-primary">PROCEED</button>
                           </div>
                         </div>
                    </div>
               </div>
         </div>
-     </div>
+     </div>';
+} else {
+    echo '<div class="card mb-6">';
+}
+@endphp
+    
 <!-- <br> -->
 <!-- The existing consultation display div remains unchanged -->
-<div class="card mb-6" id="consultation_display">
+ @php
+if ($sponsor_check->issue_id == 0) {
+    echo '<div class="card mb-6" id="consultation_display">';
+} else {
+    echo '<div class="card mb-6">';
+}
+@endphp
+<!-- <div class="card mb-6" id="consultation_display"> -->
   <div class="card-widget-separator-wrapper">
     <div class="card-body card-widget-separator">
                 <div class="col-12 pull-right">
@@ -753,7 +765,7 @@
                                                                                           <ul class="timeline timeline-outline mb-0">
                                                                                               @foreach($diagnosis_history as $p_diagnosis) 
                                                                                               <li class="timeline-item timeline-item-transparent border-dashed">
-                                                                                                <span class="timeline-point timeline-point-primary"></span>
+                                                                                                <!-- <span class="timeline-point timeline-point-primary"></span> -->
                                                                                                 <div class="timeline-event">
                                                                                                   <div class="timeline-header mb-3">
                                                                                                     <h6 class="mb-0">DOCTOR: <label>{{ $p_diagnosis->doctor }}</label></h6>
@@ -876,14 +888,105 @@
                                 </div>
                                 
                                 <div class="tab-pane fade" id="navs_document" role="tabpanel">     <!--------------DOCUMENT MANAGEMENT -->
-                                  <p>
-                                              <b>document</b> have been paid to the company 
-                                                I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                                I hate hospitals but all of the staff that helped me today were so helpfully and seemed genuinely concern.
-                                              <a href="#"><i class="bx bx-edit"></i></a>
-                                   </p>
-                                </div>
+                                      <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Document Management</h5>
+                                            </div>
+                                            <div class="card-body">
 
+                                            <!--  -->
+                                            @if($documents->count() > 0)
+                                                          <div class="table-responsive">
+                                                              <table class="table table-hover">
+                                                                  <thead>
+                                                                      <tr>
+                                                                          <th>Document Name</th>
+                                                                          <th>Type</th>
+                                                                          <th>Upload Date</th>
+                                                                          <th>Size</th>
+                                                                          <th>Actions</th>
+                                                                      </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                      @foreach($documents as $document)
+                                                                      <tr>
+                                                                          <td>{{ $document->name }}</td>
+                                                                          <td><span class="badge bg-primary">{{ strtoupper($document->file_type) }}</span></td>
+                                                                          <td>{{ $document->created_at->format('M d, Y') }}</td>
+                                                                          <td>{{ number_format($document->file_size / 1024, 2) }} KB</td>
+                                                                          <td>
+                                                                              <a href="{{ Storage::url($document->file_path) }}" 
+                                                                                target="_blank" 
+                                                                                class="btn btn-sm btn-info">
+                                                                                  <i class="bx bx-show"></i> View
+                                                                              </a>
+                                                                              <a href="{{ route('documents.download', $document->id) }}" 
+                                                                                class="btn btn-sm btn-success">
+                                                                                  <i class="bx bx-download"></i> Download
+                                                                              </a>
+                                                                              <button class="btn btn-sm btn-danger delete-document" 
+                                                                                      data-id="{{ $document->id }}">
+                                                                                  <i class="bx bx-trash"></i> Delete
+                                                                              </button>
+                                                                          </td>
+                                                                      </tr>
+                                                                      @endforeach
+                                                                  </tbody>
+                                                              </table>
+                                                          </div>
+                                                      @else
+                                                          <div class="alert alert-info">
+                                                              No documents uploaded yet. Upload your first document using the form below.
+                                                          </div>
+                                                      @endif
+                                            <!--  -->
+                                              <!-- Document List (will be populated via AJAX) -->
+                                                <div id="document-list">
+                                              <!-- Existing documents will appear here -->
+                                            </div>
+                                                      <!-- Upload Form -->
+                                              <form id="document-upload-form" enctype="multipart/form-data">
+                                                  @csrf
+                                                  <div class="mb-3">
+                                                      <label for="document_file" class="form-label">Upload Document</label>
+                                                      <input type="file" 
+                                                            class="form-control" 
+                                                            id="document_file" 
+                                                            name="document_file"
+                                                            accept=".pdf,.jpg,.jpeg,.png,.gif"
+                                                            required>
+                                                      <div class="form-text">Allowed: PDF, JPG, PNG, GIF (Max: 5MB)</div>
+                                                  </div>
+                                                  
+                                                  <!-- <div class="mb-3">
+                                                      <label for="document_name" class="form-label">Document Name</label>
+                                                      <input type="text" 
+                                                            class="form-control" 
+                                                            id="document_name" 
+                                                            name="document_name"
+                                                            placeholder="Enter document name"
+                                                            required>
+                                                  </div> -->
+                                                  
+                                                  <div class="mb-3">
+                                                      <label for="document_type" class="form-label">Document Type</label>
+                                                      <select class="form-select" id="document_type" name="document_type">
+                                                          <option value="lab_result">Lab Result </option>
+                                                          <option value="x_ray">X-Ray</option>
+                                                          <option value="folder">Folder</option>
+                                                          <option value="other">Other</option>
+                                                      </select>
+                                                  </div>
+                                                  
+                                                  <button type="submit" class="btn btn-primary">
+                                                      <span class="upload-text">Upload Document</span>
+                                                      <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                                                  </button>
+                                              </form>
+                                        </div>
+                                     
+                                    </div>
+                                </div>
                                 <div class="tab-pane fade" id="navs_investigations" role="tabpanel">     <!--------------INVESTIGATIONS  -->
                                     <div class="row g-6 mb-6">
                                           <div class="col-md">
@@ -900,24 +1003,22 @@
                                                     <thead>
                                                       <tr>
                                                         <th>SN</th>
-                                                        <th>Date</th>
                                                         <th>Investigation</th>
-                                                        <th>Service</th>
+                                                        <th>Date</th>
                                                         <th>Doctor</th>
                                                         <th>Status</th>
-                                                        <th>Action</th>
+                                                        <th>Action</th> 
                                                       </tr>
                                                     </thead>
                                                    
                                                     <tfoot>
                                                       <tr>
                                                         <th>SN</th>
-                                                        <th>Date</th>
                                                         <th>Investigation</th>
-                                                        <th>Service</th>
+                                                        <th>Date</th>
                                                         <th>Doctor</th>
                                                         <th>Status</th>
-                                                        <th>Action</th>                                               
+                                                        <th>Action</th>                                              
                                                       </tr>
                                                     </tfoot>
                                                 </table>

@@ -27,6 +27,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ExternalCallController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\InvestigationsController;
+use App\Http\Controllers\DocumentUploadController;
 use Illuminate\Support\Facades\Route;
 use illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -42,10 +43,13 @@ use Illuminate\Support\Facades\Redirect;
 |
 */
 
+// redirect for login
 Route::redirect('/', '/login');
 
+// all route within this middleware check for authentications before redirecting
 Route::middleware(['auth', 'verified'])->group(function () {
     
+    // direct route to dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('sponsors', SponsorController::class); 
@@ -215,6 +219,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('diagnosis')->group(function () {
        Route::get('/delete-diagnosis/{diagnosis_id}', [DiagnosisController::class, 'delete_diagnosis']);
+    });
+
+    // Upload patient document using consultations form
+     Route::prefix('documents')->group(function () {
+       Route::post('/upload/{patient_id}', [DocumentUploadController::class, 'upload_document']);
     });
 
 

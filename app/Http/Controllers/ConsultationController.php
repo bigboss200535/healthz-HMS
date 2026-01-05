@@ -12,6 +12,7 @@ use App\Models\PatientDiagnosis;
 use App\Models\Claim;
 use App\Models\Product;
 use App\Models\Consultation;
+use App\Models\Document;
 use App\Models\ServiceRequest;
 use App\Models\AgeGroups;
 use Illuminate\Http\Request;
@@ -441,11 +442,14 @@ class ConsultationController extends Controller
 
     public function opd_consult($attendance_id)
     {   
+        if(!Auth::check()){
+            return redirect()
+                ->route('login')
+                ->with('message', 'your session has expired, Please login again');
+        }
+
         // GET CONSULTATION ID BEFORE SAVING 
         $consultation_id = intval(Consultation::all()->count()) + 1;
-
-        // CHECK ATTENDANCE TO DISABLE OR ENABLE PATIENT CONSULTATION DETAILS
-        // $attendance_check = PatientAttendance::where('attendance_id', $attendance_id)->first();
         
         // BASE QUERY FOR PATIENT ATTENDANCE 
         $attendance_query = PatientAttendance::where('patient_attendance.archived', 'No')
@@ -468,14 +472,15 @@ class ConsultationController extends Controller
                 )
             ->where('patient_attendance.attendance_id', $attendance_id);
                
-            // Fetch the sponsor check in a single query
+            // Fetch the sponsor check in a single query / Also use the same query to check for attendance
         $sponsor_check = PatientAttendance::where('archived', 'No')
             ->where('attendance_id', $attendance_id)
             ->first();
 
-            if(!$sponsor_check) {
-                // return response()->json('Attendance details not found.');
-            }
+        if(!$sponsor_check) 
+        {
+            // return response()->json('Attendance details not found.');
+        }
 
         // Conditionally join sponsor-related tables to display cash for patient with no sponsor
         if ($sponsor_check->sponsor_type_id == 'P001') 
@@ -493,26 +498,27 @@ class ConsultationController extends Controller
                              ->addSelect('sponsor_type.sponsor_type as sponsor_type', 'sponsors.sponsor_name as sponsor', 
                                         'sponsor_type.sponsor_type_id', 'sponsors.sponsor_id');
         }
-    
+        //  complete attendance query with sponsorship type
         $attendance = $attendance_query->first();
         
-        // INVESTIGATIONS SERVICES TO BE DISPLAYED IN CONSULTATION
+        // fetch investigations type for consultation (Found in the modal form)
         $allowed_service_ids = ['0001', '0002', '0003', '0011'];
         $services = Services::where('archived', 'No')
             ->whereIn('service_id', $allowed_service_ids)
             ->get();
 
-        // Fetch ALL CONSULTING ROOMS FOR SELECTION
+        // Fetch the consulting room available in the system to display in the consultation form
         $consulting_room = ConsultingRoom::where('Archived', 'No')
             ->where('status', 'Active')
             ->get();
     
-        // GET AVAILABLE DOCTORS FOR SELECTION
+        // fetch available doctor on the system and display for the consultation form
         $doctors = User::where('status', 'Active')
             ->where('archived', 'No')
             // ->where('role_id', 'R10')
             ->get();
-        
+
+        // fetch systemic inquiry list for consultation form
         $systemic = DB::table('systemic_areas')
             ->where('archived', 'No')
             ->get();  
@@ -527,9 +533,6 @@ class ConsultationController extends Controller
         $clinical_history_questions = DB::table('clinical_history_question')
             ->where('archived', 'No')
             ->get();
-
-            //FETCH PREVIOUS DIAGNOSIS 
-        // $previous_diagnosis = Diagnosis::where('patient_id', $attendance->patient_id)->get();
 
         // Group questions by clinical_history_id
         $grouped_questions = [];
@@ -555,15 +558,23 @@ class ConsultationController extends Controller
         //         'user_id' => auth()->id()
         //     ]);
         // }
-        // $check_status = 
+
+        
         $diagnosis_history = PatientDiagnosis::where('patient_diagnosis.archived','No')
             ->where('patient_diagnosis.patient_id', $attendance->patient_id)
-            ->join('users', 'users.user_id', '=', 'patient_diagnosis.doctor_id')
+            ->leftJoin('users', 'users.user_id', 'patient_diagnosis.user_id')
             ->join('diagnosis', 'diagnosis.diagnosis_id', 'patient_diagnosis.diagnosis_id')
-            ->select('users.user_fullname as doctor', 'diagnosis.diagnosis', 'patient_diagnosis.icd_10', 'patient_diagnosis.gdrg_code', 'patient_diagnosis.entry_date')
+            // ->select('users.user_fullname as doctor', 'diagnosis.diagnosis', 'patient_diagnosis.icd_10', 'patient_diagnosis.gdrg_code', 'patient_diagnosis.entry_date')
+            ->select('patient_diagnosis.*', 'diagnosis.diagnosis', 'diagnosis.gdrg_code', 'users.user_fullname as doctor')
             ->get();
 
-        return view('consultation.opd_consult', compact('sponsor_check', 'services', 'diagnosis_history', 'consultation_id', 'attendance', 'doctors', 'consulting_room', 'systemic', 'clinical_history', 'grouped_questions'));
+        $documents = Document::where('archived','No')
+            ->where('patient_id',  $attendance->patient_id)
+            ->orderBy('added_date', 'desc')
+            ->get();
+        
+        
+        return view('consultation.opd_consult', compact('documents','sponsor_check', 'services', 'diagnosis_history', 'consultation_id', 'attendance', 'doctors', 'consulting_room', 'systemic', 'clinical_history', 'grouped_questions'));
     }
 
 

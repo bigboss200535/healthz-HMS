@@ -27,7 +27,7 @@ return new class extends Migration
             $table->float('private_amount')->nullable();
             $table->float('company_amount')->nullable();
             $table->float('foreigners_amount')->nullable();
-            $table->string('facility_id')->nullable();
+           
             $table->string('gdrg_code', 100)->nullable();
             $table->string('allow_topup', 100)->nullable();
             $table->decimal('topup_amount', 10,2)->nullable()->default('0');
@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('status_code', 50)->nullable(); //IN, OUT, ALL
             $table->date('attendance_date', 50)->nullable(); 
             $table->string('user_id', 100)->nullable();
+            $table->string('facility_id')->nullable();
             $table->timestamp('added_date')->nullable();
             $table->string('updated_by', 100)->nullable();
             $table->string('status', 100)->default('Active')->index();

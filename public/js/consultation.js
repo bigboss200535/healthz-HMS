@@ -59,7 +59,7 @@
         }
         
         // Prepare data for AJAX request
-        const formData = {
+        const form_data = {
             consultation_id: $('#consultation_id').val(), // This will be overridden by server
             patient_id: $('#con_patient_id').val(),
             opd_number: $('#con_opd_number').val(),
@@ -86,7 +86,7 @@
         $.ajax({
             url: '/consultation/save',
             type: 'POST',
-            data: formData,
+            data: form_data,
             dataType: 'json',
             beforeSend: function() {
                 // Show loading indicator
@@ -303,9 +303,8 @@ function loadInvestigationsTable() {
           tableHtml += `
             <tr>
               <td>${index + 1}</td>
+               <td>${investigation.investigation_name || '-'} <span class="badge bg-label-primary">${investigation.service_type}  </span></td>
               <td>${investigation.attendance_date || '-'}</td>
-              <td>${investigation.investigation_name || '-'}</td>
-              <td>${investigation.service_type || '-'}</td>
               <td>${investigation.requested_by || '-'}</td>
               <td>${status_badge}</td>
               <td>
@@ -436,6 +435,86 @@ $(document).ready(function() {
       loadInvestigationsTable();
   }
 });
+
+
+
+
+
+// DOCUMENT MANAGEMENT FOR CONSULTATION
+
+    // Load all existing documents
+    loadDocuments();
+    
+    // Handle form submission
+    $('#document-upload-form').on('submit', function(e) {
+        e.preventDefault();
+        const patient_id = $('#patient_id').val();
+        let form_data = new FormData(this);
+        let button = $(this).find('button[type="submit"]');
+        let spinner = button.find('.spinner-border');
+        let upload_text = button.find('.upload-text');
+        
+        // Show loading state
+        spinner.removeClass('d-none');
+        upload_text.text('Uploading...');
+        button.prop('disabled', true);
+        
+        $.ajax({
+            url: '/documents/upload/'+ patient_id,
+            type: 'POST',
+            // data: form_data,
+            data: {
+                // _token: $('input[name="_token"]').val(),
+                form_data: form_data,
+                patient_id: patient_id
+            },
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Reset form
+                $('#document-upload-form')[0].reset();
+                
+                // Show success message
+                showAlert('success', 'Document uploaded successfully!');
+                
+                // Reload document list
+                loadDocuments();
+            },
+            error: function(xhr) {
+                let errorMessage = 'Upload failed. Please try again.';
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    errorMessage = Object.values(xhr.responseJSON.errors).join('<br>');
+                }
+                showAlert('danger', errorMessage);
+            },
+            complete: function() {
+                // Reset button state
+                spinner.addClass('d-none');
+                upload_text.text('Upload Document');
+                button.prop('disabled', false);
+            }
+        });
+    });
+    
+    // Function to load documents
+    function loadDocuments() {
+        $.ajax({
+            url: '/documents/list',
+            type: 'GET',
+            success: function(response) {
+                $('#document-list').html(response.html);
+            }
+        });
+    }
+    
+    // Function to show alerts
+    function showAlert(type, message) {
+        let alert = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>`;
+        $('#document-list').prepend(alert);
+    }
 
 
 // });
