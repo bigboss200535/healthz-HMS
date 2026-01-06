@@ -57,9 +57,7 @@
                     </tr>
                     <tr>
                       <td class="text-center">
-                          <img src="{{ $attendance->gender==='FEMALE' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" 
-                          alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px; width:50%" 
-                          align="center">
+                          <img src="{{ $attendance->gender==='FEMALE' ? asset('img/avatars/female.jpg') : asset('img/avatars/male.jpg') }}" alt="Patient Image" class="rounded-pill" style="border:1px;border-color:black; box-shadow:10px; width:50%" align="center">
                       </td>
                     </tr>
                     <tr>
@@ -72,7 +70,7 @@
                          <b>OPD #: </b>{{ $attendance->opd_number}} 
                       </td>
                     </tr>
-                  </table>
+              </table>
           </div>
         </div>
         <div class="col-sm-6 col-lg-4">
@@ -272,7 +270,7 @@ if ($sponsor_check->issue_id == 0) {
                                 </li>
                                 <li class="nav-item">
                                   <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs_document" aria-controls="navs_document" aria-selected="false">
-                                    <span class="d-none d-sm-block"><b>Manage Documents</b></span>
+                                    <span class="d-none d-sm-block"><b>Upload Documents</b></span>
                                   </button>
                                 </li>
                             </ul>
@@ -510,8 +508,6 @@ if ($sponsor_check->issue_id == 0) {
                                                                               <div class="col-md">
                                                                                 <div class="row">
                                                                                   <h6>HISTORY of Patient</h6>
-                                                                                  
-
                                                                                       <div class="col-12" >
                                                                                         <ul class="timeline timeline-outline mb-0">
                                                                                               <li class="timeline-item timeline-item-transparent border-dashed">
@@ -540,12 +536,9 @@ if ($sponsor_check->issue_id == 0) {
                                         </div>
                              
                                 <!------------------------------------------------------------------------------------------------------------------------------->
- 
 
-
-                              
                                 </div>
-  <!----------------------------------------------------------------------------------------------------------------------------- -->
+                                <!----------------------------------------------------------------------------------------------------------------------------- -->
                                 <div class="tab-pane fade" id="navs_systems" role="tabpanel">     <!--------------REVIEW OF SYSTEM -->
                                     <div class="row g-6 mb-12">
                                           <div class="col-md">
@@ -626,9 +619,7 @@ if ($sponsor_check->issue_id == 0) {
                                                                                               <th>Action</th>
                                                                                             </tr>
                                                                                           </thead>
-                                                                                          <tbody>
-                                                                                          
-                                                                                          </tbody>
+                                                                                          <tbody></tbody>
                                                                                         </table>
                                                                                         </div>
                                                                                       </div>                                                                                    
@@ -718,7 +709,6 @@ if ($sponsor_check->issue_id == 0) {
                                                                                     <div class="col-6">
                                                                                         <button type="button" data-bs-toggle='modal' data-bs-target="#add_diagnosis" class="btn btn-sm btn-primary">ADD DIAGNOSIS</button>
                                                                                       </div>
-                                                                                      
                                                                                       <div class="col-12" >
                                                                                       <table class="table table-responsive" id="diagnosis_list">
                                                                                             <thead>
@@ -783,7 +773,6 @@ if ($sponsor_check->issue_id == 0) {
                                                                       </div>
                                                                 <!-- tab content end 1-->
                                                             </div>
-                                                            
                                                       <!-- tab content end -->          
                                                   </div>
                                           </div>
@@ -814,7 +803,10 @@ if ($sponsor_check->issue_id == 0) {
                                                                               <div class="col-md">
                                                                                 <div class="row">                          
                                                                                       <div class="col-12" >
-                                                                                        <button type="button" data-bs-toggle='modal' data-bs-target="#add_prescriptions" class="btn btn-sm btn-primary">ADD PRESCRIPTIONS</button>
+                                                                                        <div>
+                                                                                          <button type="button" data-bs-toggle='modal' data-bs-target="#add_prescriptions" class="btn btn-sm btn-primary">ADD PRESCRIPTIONS</button>
+                                                                                        </div>
+                                                                                        <br>
                                                                                       <table class="table table-responsive" id="prescriptions_list">
                                                                                             <thead>
                                                                                               <tr>
@@ -861,7 +853,6 @@ if ($sponsor_check->issue_id == 0) {
                                                                                               </tr>
                                                                                             </thead>
                                                                                             <tbody>
-
                                                                                             </tbody>
                                                                                             <tfoot>
                                                                                               <tr>
@@ -878,7 +869,6 @@ if ($sponsor_check->issue_id == 0) {
                                                                       </div>
                                                                 <!-- tab content end 1-->
                                                             </div>
-                                                            
                                                       <!-- tab content end -->          
                                                   </div>
                                           </div>
@@ -937,8 +927,8 @@ if ($sponsor_check->issue_id == 0) {
                                            <h5 class="mb-0">Document List</h5>
                                         </div>
                                             <!-- Document List (will be populated via AJAX when uploaded) -->
-                                                <div id="uploaded_document_list"></div>
-                                              <!-- Existing documents will appear here -->
+                                              <div id="uploaded_document_list"></div>
+                                            <!-- Existing documents will appear here -->
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="navs_investigations" role="tabpanel">     <!--------------INVESTIGATIONS  -->
@@ -964,7 +954,6 @@ if ($sponsor_check->issue_id == 0) {
                                                         <th>Action</th> 
                                                       </tr>
                                                     </thead>
-                                                   
                                                     <tfoot>
                                                       <tr>
                                                         <th>SN</th>
@@ -979,7 +968,6 @@ if ($sponsor_check->issue_id == 0) {
                                               </div>
                                             </div>
                                           </div>
-                                          
                                         </div>
                                 </div>
                                  <!-- TABS VIEWS --> 
