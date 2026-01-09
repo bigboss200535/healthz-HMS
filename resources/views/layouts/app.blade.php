@@ -163,7 +163,7 @@
             $('#nurses_notes_patient').DataTable();
             $('#drugs').DataTable();
             $('#users_list').DataTable();
-            $('#register_list').DataTable();
+            $('#register_list').DataTable({ searching: false});
             $('.sponsor_name').select2();
             $('.diagnosis_search').select2();
             $('.select_2_dropbox').select2();

@@ -251,6 +251,9 @@
                                         <a class="dropdown-item" href="{{ url('patients') }}/${patient.patient_id}">
                                             <i class="bx bx-folder-open me-1"></i> View Details
                                         </a>
+                                        <a class="dropdown-item" href="{{ url('patients') }}/${patient.patient_id}">
+                                            <i class="bx bx-user me-1"></i> Book Appointment
+                                        </a>
                                     </div>
                                 </div>
                             </td>

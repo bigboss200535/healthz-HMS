@@ -24,11 +24,12 @@
                           <thead>
                               <tr>
                                   <th>S/N</th>
-                                  <th>Patient Name</th>
                                   <th>Sponsor Type</th>
                                   <th>Sponsor Name</th>
                                   <th>Start Date</th>
                                   <th>End Date</th>
+                                  <th>Priority</th>
+                                  <th>Added By</th>
                                   <th>Sponsor Status</th>
                                   <th></th>
                               </tr>
@@ -39,11 +40,12 @@
                           <tfoot>
                               <tr>
                                   <th>S/N</th>
-                                  <th>Patient Name</th>
                                   <th>Sponsor Type</th>
                                   <th>Sponsor Name</th>
                                   <th>Start Date</th>
                                   <th>End Date</th>
+                                  <th>Priority</th>
+                                  <th>Added By</th>
                                   <th>Sponsor Status</th>
                                   <th></th>
                               </tr>
@@ -81,7 +83,7 @@
               <select class="form-select" id="sponsor_type_id" name="sponsor_type_id" required>
                 <option disabled selected>-Select Sponsor Type-</option>
                   @php
-                    $sponsor_types = DB::table('sponsor_type')->where('archived', 'No')->orderBy('sponsor_type', 'DESC')->get();
+                    $sponsor_types = DB::table('sponsor_type')->where('archived', 'No')->where('sponsor_type_id', '!=', 'P001')->orderBy('sponsor_type', 'DESC')->get();
                   @endphp
                   @foreach($sponsor_types as $type)
                     <option value="{{ $type->sponsor_type_id }}">{{ strtoupper($type->sponsor_type) }}</option>
@@ -184,16 +186,17 @@ function load_sponsors_table() {
       
       if (response.length > 0) {
         response.forEach(function(sponsors, index) {
-          const status_badge = sponsors.status === 'No' ? '<span class="badge bg-label-warning">Inactive</span>' : '<span class="badge bg-success">Active</span>';
+          const status_badge = sponsors.status === 'No' ? '<span class="badge bg-label-danger me-1">Inactive</span>' : '<span class="badge bg-label-success me-1">Active</span>';
         
           tableHtml += `
             <tr>
               <td>${index + 1}</td>
-              <td>${sponsors.patient_name}</td>
               <td>${sponsors.sponsor_type}</td>
               <td>${sponsors.sponsor_name}</td>
               <td>${sponsors.start_date }</td>
               <td>${sponsors.end_date }</td>
+              <td>${sponsors.priority}</td>
+              <td>${sponsors.user}</td>
               <td>${status_badge}</td>
               <td>
                   <div class="btn-group" role="group">
