@@ -63,7 +63,7 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">Today's Attendance</p>
-                            <h4 class="text-primary mb-0">5{{ $out_patient ?? 0 }}</h4>
+                            <h4 class="text-primary mb-0">{{ $out_patient ?? 0 }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">
@@ -76,7 +76,7 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">Active Consultation</p>
-                            <h4 class="text-info mb-0">2{{ $in_patient ?? 0 }}</h4>
+                            <h4 class="text-info mb-0">{{ $in_patient ?? 0 }}</h4>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-4">
@@ -102,7 +102,7 @@
                           </div>
                           <div class="content-right">
                             <p class="mb-0 fw-medium">Appointments </p>
-                            <h4 class="text-warning mb-0">23</h4>
+                            <h4 class="text-warning mb-0">{{ $count_today_appointments  }}</h4>
                           </div>
                         </div>
                         

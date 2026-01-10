@@ -263,7 +263,8 @@ return new class extends Migration
             $table->float('credit_amount',10)->default(0.00);  
             $table->string('gdrg_code',50)->nullable(); 
             $table->string('allow_top_up',10)->default('No');
-            $table->string('consultation_status',20)->default('No');// waiting, hold, completed etc
+            $table->string('consultation_status',20)->default('Waiting');// waiting, hold, completed etc
+            $table->string('consultation_outcome',20)->default('Waiting');// discharged, pending diagnostics, admitted etc
             $table->string('user_id',50)->nullable();    
             $table->string('facility_id', 50)->nullable();    
             $table->string('added_id', 50)->nullable();

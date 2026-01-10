@@ -6,7 +6,9 @@
                   <div class="card mb-4">
                     <div class="card-body">
                       <div class="row">
-                        <input type="text" name="pat_id" id="pat_id" value="{{$patient->patient_id}}" hidden>
+                       
+                          @if(!empty($patient) && !empty($patient->patient_id))
+                        <input type="text" name="pat_id" id="pat_id" value="{{ $patient->patient_id }}" hidden>
                         <div class="col-md-6">
                           <h4 class="mb-0">Patient Sponsors</h4>
                         </div>
@@ -53,6 +55,16 @@
                       </table>
                     </div>
             </div>
+             @else
+             <!-- Show message when patient_id is not available -->
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">No Patient Selected</h4>
+                <p>Please select a patient first to view and manage sponsors.</p>
+                <hr>
+                <p class="mb-0">Go to the patients list and select a patient to continue.</p>
+            </div>
+        @endif
+    </div>
           </div>
 </x-app-layout>
 
@@ -163,10 +175,9 @@
 
 <script>
   $(document).ready(function() {
-    // Load investigations table if attendance_id is available
+    // Load sponsors of patient id is available
   if ($('#pat_id').val()) {
       load_sponsors_table();
-      // loadDocuments();
   }
 });
   // Load sponsors for patients

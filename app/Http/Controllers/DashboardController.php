@@ -44,7 +44,9 @@ class DashboardController extends Controller
             ->orderBy('appointment_date')
             ->take(5)
             ->get();
-
+            
+        #count today's appointments and display on the dashboard
+        $count_today_appointments = $today_appointments->count();
         // recent patient
         $recent_patient = Patient::where('archived', 'No')->take(5)->get();
        
@@ -67,7 +69,7 @@ class DashboardController extends Controller
                 $greeting = 'Hello!';
             }
 
-        return view('dashboard', compact('greeting', 'in_patient', 'out_patient', 'appointments', 'today_appointments'));
+        return view('dashboard', compact('greeting', 'in_patient', 'out_patient', 'appointments', 'today_appointments', 'count_today_appointments'));
     }
 
 
